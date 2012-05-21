@@ -129,16 +129,15 @@ def connect():
 		g.user=user=User(uid)
 		user.load(db)
 	else:
-		g.user=None
+		g.user=user=User(str(uuid4()))
+		user.save(g.db)
 
 
-def requireUser(func):
-	"Redirect the user to the front page if they haven't logged in yet"
-	def inner(*args,**kwargs):
-		if g.user is None:
-			return redirect(url_for('configure'))
-		return func(*args,**kwargs)
-	return inner
+@app.after_request
+def set_cookie(response):
+	if request.cookies.get('uid', None) is None:
+		response.set_cookie('uid',g.user.uid,max_age=365*24*60*60)
+	return response
 
 
 def parseLine(line,id):
@@ -147,7 +146,7 @@ def parseLine(line,id):
 	return {
 		'id':id,
 		'color':parts[0],
-		'line':parts[1]
+		'line':unicode(parts[1], encoding='utf-8')
 	}
 
 
@@ -163,7 +162,6 @@ def announceIfNew(chatid,uid):
 		g.db.sadd(chatkey,g.user.uid)
 		addSystemMessage(g.db,chatid,'%s [%s] joined chat' % (g.user.name,g.user.acronym))
 
-@requireUser
 @app.route('/chat/<chat:chatid>')
 def chat(chatid):
 	announceIfNew(chatid,g.user.uid)
@@ -177,20 +175,17 @@ def markAlive(chatid,uid):
 	g.db.zadd('chats-alive',chatid+'/'+uid,getTime())	
 	g.db.sadd('users-chatting',uid)
 
-@requireUser
 @app.route('/chat/<chat:chatid>/post',methods=['POST'])
 def postMessage(chatid):
 	addMessage(g.db,chatid,g.user.color,g.user.acronym,request.form['line'])
 	markAlive(chatid,g.user.uid)
 	return 'ok'
 
-@requireUser
 @app.route('/chat/<chat:chatid>/ping',methods=['POST'])
 def pingServer(chatid):
 	markAlive(chatid,g.user.uid)
 	return 'ok'
 
-@requireUser
 @app.route('/chat/<chat:chatid>/messages')
 def getMessages(chatid):
 	after=int(request.args['after'])
@@ -205,19 +200,16 @@ def getMessages(chatid):
 			id,rest=msg['data'].split('#',1)
 			return parseMessages([rest],int(id)) # TEST THIS
 
-@requireUser
 @app.route('/bye/searching')
 def quitSearching():
 	g.db.zrem('searchers',g.user.uid)
 	return 'ok'
 
-@requireUser
 @app.route('/bye/chat/<chat:chatid>')
 def quitChatting(chatid):
 	g.db.sadd('quits',chatid+'/'+g.user.uid)
 	return 'ok'
 
-@requireUser
 @app.route('/matches',methods=['POST'])
 def findMatches():
 	g.user.apply(request.form)
@@ -228,7 +220,6 @@ def findMatches():
 	g.db.delete('chat-'+uid)
 	return render_template("searching.html")
 
-@requireUser
 @app.route('/matches/foundYet')
 def foundYet():
 	target=g.db.get('chat-'+g.user.uid)
@@ -244,7 +235,7 @@ def configure():
 		g.user=user=User(str(uuid4()))
 		user.save(g.db)
 		
-	res=make_response(render_template('frontpage.html',
+	return render_template('frontpage.html',
 		user=g.user,
 		groups=CHARACTER_GROUPS,
 		characters=CHARACTERS,
@@ -252,10 +243,7 @@ def configure():
 		quirks=QUIRKS,
 		users_searching=g.db.zcard('searchers'),
 		users_chatting=g.db.scard('users-chatting')
-		)
 	)
-	res.set_cookie('uid',g.user.uid,max_age=365*24*60*60)
-	return res
 
 if __name__ == "__main__":
     app.run(port=8000,debug=True)
