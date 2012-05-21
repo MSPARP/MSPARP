@@ -1,0 +1,8 @@
+<script type="text/javascript">
+	function applyQuirks(text){
+		{% for variable,value  in quirks_args|dictsort %}
+		var {{variable}}={{value|tojson|safe}};
+		{% endfor %}
+		return {{applyQuirks}};
+	}
+</script>

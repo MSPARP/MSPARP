@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block header %}
+<link rel="stylesheet" media="screen" type="text/css" href="/static/colorpicker/css/colorpicker.css" />
+<script type="text/javascript" src="/static/colorpicker/js/colorpicker.js"></script>
+<script src="/static/js/characters.js"></script>
+{% endblock %}
+{% block content %}
+<form method="post" action="{{url_for('findMatches')}}" >
+<noscript>
+	<h1>You completely need javascript for this site. Turn it on or upgrade to a real browser.</h1>
+</noscript>
+
+<div class="online-notice">
+	{{users_searching+users_chatting}} users online ({{users_searching}} searching, {{users_chatting}} chatting)
+</div>
+
+<div class="options">
+	<h1>Roleplay as </h1>
+	<div class="options-contents">
+	<select class="character-select" name="character">
+		{% for group in groups %}
+		<optgroup label="{{group}}">
+			{% for char in characters[group] %}
+			<option value="{{char|lower}}" {% if char|lower==user.character %}selected="selected"{%endif%}>{{char}}</option>
+			{% endfor %} 
+		</optgroup>
+		{% endfor %}
+	</select>
+	</div>
+</div>
+<div class="options">
+	<h1>With settings:</h1>{% if user.fresh%}<button data-target="character-config" class="show-button">...</button>{% endif %}
+	<div class="options-contents {% if user.fresh %}defaults-off{% endif %}" id="character-config">
+		<label>Acronym: <input type="text" size="3" name="acronym" value="{{user.acronym}}" /></label><br />
+		<label>Name: <input type="text" size="50" name="name" value="{{user.name}}" /></label><br />
+		<label>Color: <input type="text" size="7" name="color" value="{{user.color}}" /></label>
+		<span class="pester-line" id="color-preview"><span id="acronym">??: </span><span id="quote">oh god how did this get here I am not good with computer</span></span><br />
+</div></div>
+<div class="options">
+	<h1>Typing quirks</h1><button data-target="typing-quirks" class="show-button">...</button>
+	<div class="options-contents defaults-off" id="typing-quirks">
+		{% for quirk in quirks %}
+		<label class="quirk quirk-{% if quirk.args==0 %}simple{%else%}complex{%endif%}"><input type="checkbox" name="quirk-{{quirk.name}}" 
+				{% if quirk.name in user.quirks %}checked="checked"{%endif%}	
+				>{{quirk.desc}}
+				{% for arg in range(quirk.args) %}
+				<input type="text" name="qarg-{{quirk.name}}-{{arg}}" value="{{user.quirkargs[quirk.name][arg]}}"/>
+				{% endfor %}
+			</label>
+		{% endfor %}
+	</div>
+</div>
+<div class="options">
+	<label><input type="checkbox" name="picky" 
+		{% if user.picky %}checked="checked" {%endif%}	
+	/>Only match me with specific characters</label>
+	<div id="picky-matches">
+	{% for group in groups %}
+		<b class="picky-header">{{group}}:</b>
+		<div class="picky-group">
+		{% for char in characters[group] %}
+		<label><input type="checkbox" name="picky-{{char|lower}}" 
+			{% if char|lower in user.picky_characters %}
+				checked="checked" {% endif %} >{{char}}</label>
+		{% endfor %} 
+	</div>
+	{% endfor %}
+	</div>
+</div>
+
+<input class="bigbutton" type="submit" value="Begin chatting" />
+</form>
+{% endblock %}
