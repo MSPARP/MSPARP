@@ -23,16 +23,10 @@ app.url_map.converters['chat']=ChatIDConverter
 
 class User(object):
 	ATTRIBUTES=['acronym','name','color','character','picky']
-	VALIDATORS={
-			'acronym':re.compile('^[a-zA-Z0-9?*]*$'),
-			'name':re.compile('^[^\0-\x1F]+$'),
-			'color':re.compile('^[0-9a-fA-F]{6}$'),
-			'character':re.compile('^[a-z /]+$'),
-		}
 	def __init__(self,uid):
 		self.uid=uid
-		self.acronym='??'
-		self.name='Anonymous'
+		self.acronym=u'??'
+		self.name=u'Anonymous'
 		self.color='000000'
 		self.character='anonymous/other'
 		self.quirks=set()
@@ -48,8 +42,9 @@ class User(object):
 			v=db.get(prefix+attrib)
 			if v is not None:
 				if attrib in ('picky',):
-					v=(v=='True')
-				setattr(self,attrib,v)
+					setattr(self,attrib,(v=='True'))
+				else:
+					setattr(self,attrib,unicode(v, encoding='utf-8'))
 		if self.picky:
 			self.picky_characters=db.smembers(prefix+'picky-chars')
 		else:
@@ -62,7 +57,7 @@ class User(object):
 	def save(self,db):
 		prefix=self.prefix
 		for attrib in User.ATTRIBUTES:
-			db.set(prefix+attrib,str(getattr(self,attrib)))
+			db.set(prefix+attrib,getattr(self,attrib))
 		db.sadd('all-users',self.uid)
 		ckey=prefix+'picky-chars'
 		if self.picky:
@@ -87,12 +82,24 @@ class User(object):
 		return 'user-%s-'% self.uid
 	
 	def apply(self,form):
-		for key,regex in User.VALIDATORS.items():
-			if key in form:
-				if regex.search(form[key]):
-					setattr(self,key,form[key])
-				else:
-					raise ValueError(key)
+		# Validate acronym
+		setattr(self, 'acronym', form['acronym'])
+		# Validate name
+		print len(form['name'])
+		if len(form['name'])>0:
+			setattr(self, 'name', form['name'])
+		else:
+			raise ValueError("You can't leave name blank.")
+		# Validate colour
+		if re.compile('^[0-9a-fA-F]{6}$').search(form['color']):
+			setattr(self,'color',form['color'])
+		else:
+			raise ValueError("The color has to be a valid hex code.")
+		# Validate character
+		if form['character'] in g.db.smembers('all-chars'):
+			setattr(self, 'character', form['character'])
+		else:
+			raise ValueError("Invalid character.")
 		picky=self.picky='picky' in form
 		if picky:
 			chars=self.picky_characters=set(k[6:] for k in form.keys() if k.startswith('picky-'))
