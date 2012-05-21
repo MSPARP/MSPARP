@@ -14,6 +14,10 @@ CHARACTERS={
 		'Rose',
 		'Dave',
 		'Jade',
+		'Jane',
+		'Roxy',
+		'Dirk',
+		'Jake',
 	],
 	'Trolls':[
 		'Aradia','Tavros','Sollux','Karkat','Nepeta','Kanaya','Terezi','Vriska',

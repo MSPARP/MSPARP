@@ -48,6 +48,34 @@ var characters={
 		'quote':"i am never going to sleep again!",
 		'quirks':['lower']
 	},
+	'jane':{
+		'acronym':'GG',
+		'name':'gutsyGumshoe',
+		'color':'00D5F2',
+		'quote':"If the chats and surplus dinners were truly important, I wouldn't want to interrupt.",
+		'quirks':[]
+	},
+	'dirk':{
+		'acronym':'TT',
+		'name':'timaeusTestified',
+		'color':'F2A400',
+		'quote':"It's not 4 you jackass, it's fucking nothing. There is no end.",
+		'quirks':[]
+	},
+	'roxy':{
+		'acronym':'TG',
+		'name':'tipsyGnostalgic',
+		'color':'FF6FF2',
+		'quote':"it seems 2 me that there is a (MATHS) % chance of you bein a huge tightass",
+		'quirks':[]
+	},
+	'jake':{
+		'acronym':'GT',
+		'name':'golgothasTerror',
+		'color':'1F9400',
+		'quote':"Jesus christofer kringlefucker and here i thought i was rugged!",
+		'quirks':[]
+	},
 	'aradia':{
 		'acronym':'AA',
 		'name':'apocalypseArisen',
@@ -181,12 +209,8 @@ $(document).ready(function(){
 	});
 	config.find('input').change(updatePreview).keyup(updatePreview);
 	updatePreview();
-	var acronym=(config.find('input[name="acronym"]').val());
-	for(var name in characters){
-		if(characters[name]['acronym']==acronym){
-			config.find('#color-preview #quote').text(characters[name]['quote']);
-		}
-	}
+	var name = $("select.character-select").attr('value');
+	config.find('#color-preview #quote').text(characters[name]['quote']);
 	var colorBox=config.find('input[name="color"]')
 
 	colorBox.ColorPicker({
