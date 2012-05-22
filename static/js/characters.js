@@ -13,6 +13,13 @@ var characters={
 		'quote':"I am too awesome for hussie to include in the canon",
 		'quirks':''
 	},
+	'other (canon)':{
+		'acronym':'??',
+		'name':'Other (canon)',
+		'color':'ff83fb',
+		'quote':"NEIGH",
+		'quirks':''
+	},
 	'doc scratch':{
 		'acronym':'',
 		'name':'Doc Scratch',

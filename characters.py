@@ -8,6 +8,7 @@ CHARACTERS={
 		'Anonymous/Other',
 		'Original Character',
 		'Doc Scratch',
+		'Other (canon)',
 	],
 	'Humans':[
 		'John',
