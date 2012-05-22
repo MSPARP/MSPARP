@@ -52,7 +52,7 @@ class User(object):
 		quirks=self.quirks=db.smembers(prefix+'quirks')
 		qa=self.quirkargs=defaultdict(list)
 		for q in quirks:
-			qa[q]=db.lrange(prefix+'quirks-'+q,0,-1)
+			qa[q]=[unicode(_, encoding='utf-8') for _ in db.lrange(prefix+'quirks-'+q,0,-1)]
 	
 	def save(self,db):
 		prefix=self.prefix
