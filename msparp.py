@@ -85,7 +85,6 @@ class User(object):
 		# Validate acronym
 		setattr(self, 'acronym', form['acronym'])
 		# Validate name
-		print len(form['name'])
 		if len(form['name'])>0:
 			setattr(self, 'name', form['name'])
 		else:
