@@ -88,22 +88,22 @@ class User(object):
 		if len(form['name'])>0:
 			setattr(self, 'name', form['name'])
 		else:
-			raise ValueError("You can't leave name blank.")
+			raise ValueError("name")
 		# Validate colour
 		if re.compile('^[0-9a-fA-F]{6}$').search(form['color']):
 			setattr(self,'color',form['color'])
 		else:
-			raise ValueError("The color has to be a valid hex code.")
+			raise ValueError("color")
 		# Validate character
 		if form['character'] in g.db.smembers('all-chars'):
 			setattr(self, 'character', form['character'])
 		else:
-			raise ValueError("Invalid character.")
+			raise ValueError("character")
 		picky=self.picky='picky' in form
 		if picky:
 			chars=self.picky_characters=set(k[6:] for k in form.keys() if k.startswith('picky-'))
 			if not chars:
-				raise ValueError("No selected characters!")
+				raise ValueError("no_characters")
 		quirks=self.quirks=set(k[6:] for k in form.keys() if k.startswith('quirk-'))
 		qa=self.quirkargs=defaultdict(list)
 		for q in quirks:
@@ -218,7 +218,19 @@ def quitChatting(chatid):
 
 @app.route('/matches',methods=['POST'])
 def findMatches():
-	g.user.apply(request.form)
+	try:
+		g.user.apply(request.form)
+	except ValueError as e:
+		return render_template('frontpage.html',
+			error=e.args[0],
+			user=g.user,
+			groups=CHARACTER_GROUPS,
+			characters=CHARACTERS,
+			default_char=g.user.character,
+			quirks=QUIRKS,
+			users_searching=g.db.zcard('searchers'),
+			users_chatting=g.db.scard('users-chatting')
+		)
 	g.user.save(g.db)
 	uid=g.user.uid
 	g.db.zadd('searchers',uid,getTime())
@@ -237,11 +249,8 @@ def foundYet():
 
 @app.route("/")
 def configure():
-	if not g.user:
-		g.user=user=User(str(uuid4()))
-		user.save(g.db)
-		
 	return render_template('frontpage.html',
+		error=None,
 		user=g.user,
 		groups=CHARACTER_GROUPS,
 		characters=CHARACTERS,

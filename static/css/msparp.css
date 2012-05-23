@@ -93,3 +93,6 @@ label.quirk{
 	display: block;
 
 }
+.error{
+	color: #ff0000;
+}
