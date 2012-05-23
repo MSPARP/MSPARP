@@ -221,22 +221,16 @@ def findMatches():
 	try:
 		g.user.apply(request.form)
 	except ValueError as e:
-		return render_template('frontpage.html',
-			error=e.args[0],
-			user=g.user,
-			groups=CHARACTER_GROUPS,
-			characters=CHARACTERS,
-			default_char=g.user.character,
-			quirks=QUIRKS,
-			users_searching=g.db.zcard('searchers'),
-			users_chatting=g.db.scard('users-chatting')
-		)
+		return show_homepage(e.args[0])
 	g.user.save(g.db)
-	uid=g.user.uid
-	g.db.zadd('searchers',uid,getTime())
-	g.db.publish('search-alert',uid)
-	g.db.delete('chat-'+uid)
-	return render_template("searching.html")
+	if 'chat' in request.form:
+		uid=g.user.uid
+		g.db.zadd('searchers',uid,getTime())
+		g.db.publish('search-alert',uid)
+		g.db.delete('chat-'+uid)
+		return render_template("searching.html")
+	else:
+		return redirect(url_for('configure'))
 
 @app.route('/matches/foundYet')
 def foundYet():
@@ -249,8 +243,11 @@ def foundYet():
 
 @app.route("/")
 def configure():
+	return show_homepage(None)
+
+def show_homepage(error):
 	return render_template('frontpage.html',
-		error=None,
+		error=error,
 		user=g.user,
 		groups=CHARACTER_GROUPS,
 		characters=CHARACTERS,
