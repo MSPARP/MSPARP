@@ -55,20 +55,20 @@ $(document).ready(function(){
 		ping_interval=window.setTimeout(pingServer,PING_PERIOD*1000);
 	}
 	function getMessages(){
-		$.getJSON(get_messages_url+'?after='+latestNum,function(data){
+		$.post(get_messages_url,{'after':latestNum},function(data){
 			var messages=data.messages;
 			for(var i=0;i<messages.length;i++){
 				var msg=messages[i];
 				addLine('#'+msg['color'],msg['line']);	
 				latestNum=Math.max(latestNum,msg['id']);
 			}
-		}).complete(function(){
+		}, "json").complete(function(){
 			window.setTimeout(getMessages,50);
 		});
 	}
 	window.setTimeout(getMessages,500);
 	ping_interval=window.setTimeout(pingServer,PING_PERIOD*1000);
 	$(window).unload(function(){
-		$.ajax(quitURL,{'async':false});
+		$.ajax(quitURL,{'type':'POST','async':false});
 	});
 });

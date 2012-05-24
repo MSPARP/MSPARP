@@ -170,8 +170,6 @@ def announceIfNew(chatid,uid):
 
 @app.route('/chat/<chat:chatid>')
 def chat(chatid):
-	announceIfNew(chatid,g.user.uid)
-
 	existing_lines=[parseLine(line,0) for line in g.db.lrange('chat-'+chatid,0,-1)]
 	latestNum=len(existing_lines)-1
 	quirks_func,quirks_args=g.user.buildQuirksFunction()
@@ -192,9 +190,9 @@ def pingServer(chatid):
 	markAlive(chatid,g.user.uid)
 	return 'ok'
 
-@app.route('/chat/<chat:chatid>/messages')
+@app.route('/chat/<chat:chatid>/messages',methods=['POST'])
 def getMessages(chatid):
-	after=int(request.args['after'])
+	after=int(request.form['after'])
 	announceIfNew(chatid,g.user.uid)
 	markAlive(chatid,g.user.uid)
 	messages=g.db.lrange('chat-'+chatid,after+1,-1)
@@ -206,12 +204,12 @@ def getMessages(chatid):
 			id,rest=msg['data'].split('#',1)
 			return parseMessages([rest],int(id)) # TEST THIS
 
-@app.route('/bye/searching')
+@app.route('/bye/searching',methods=['POST'])
 def quitSearching():
 	g.db.zrem('searchers',g.user.uid)
 	return 'ok'
 
-@app.route('/bye/chat/<chat:chatid>')
+@app.route('/bye/chat/<chat:chatid>',methods=['POST'])
 def quitChatting(chatid):
 	g.db.sadd('quits',chatid+'/'+g.user.uid)
 	return 'ok'
@@ -232,7 +230,7 @@ def findMatches():
 	else:
 		return redirect(url_for('configure'))
 
-@app.route('/matches/foundYet')
+@app.route('/matches/foundYet',methods=['POST'])
 def foundYet():
 	target=g.db.get('chat-'+g.user.uid)
 	if target:
