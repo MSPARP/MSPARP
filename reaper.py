@@ -6,7 +6,7 @@ from messages import addSystemMessage
 
 STARTTIME = 1302231346
 PING_PERIOD = 10
-SEARCH_PERIOD = 2
+SEARCH_PERIOD = 1
 
 def getTime():
     return time.time() - STARTTIME
