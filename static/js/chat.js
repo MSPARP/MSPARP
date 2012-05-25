@@ -87,7 +87,10 @@ $(document).ready(function() {
 				latestNum = Math.max(latestNum, msg['id']);
 			}
 			if (typeof hidden!=="undefined" && document[hidden]==true) {
-				document.title = "New message - "+ORIGINAL_TITLE;
+				// You can't change document.title here in Webkit. #googlehatesyou
+				window.setTimeout(function() {
+					document.title = "New message - "+ORIGINAL_TITLE;
+				}, 50);
 			}
 		}, "json").complete(function() {
 			window.setTimeout(getMessages, 50);
