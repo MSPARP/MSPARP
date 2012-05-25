@@ -259,7 +259,11 @@ def getMessages(chatid):
 
 @app.route('/bye/chat/<chat:chatid>', methods=['POST'])
 def quitChatting(chatid):
-    g.db.sadd('quits', chatid+'/'+g.user.uid)
+    # Check if they're actually a member of the chat first?
+    g.db.zrem('chats-alive', chatid+'/'+g.user.uid)
+    g.db.srem(('chat-%s-users' % chatid), g.user.uid)
+    g.db.srem('users-chatting', g.user.uid)
+    addSystemMessage(g.db, chatid, '%s [%s] disconnected.' % (g.user.name, g.user.acronym))
     return 'ok'
 
 # Searching

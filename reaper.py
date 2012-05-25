@@ -23,16 +23,14 @@ if __name__=='__main__':
 
     while True:
 
-        for dead in db.smembers('quits').union(db.zrangebyscore('chats-alive', 0, getTime()-PING_PERIOD*2)):
+        for dead in db.zrangebyscore('chats-alive', 0, getTime()-PING_PERIOD*2):
             chat, uid = dead.split('/') # FIXME: what if a user fucks this up by sticking a / in their uid?
             db.zrem('chats-alive', dead)
             db.srem(('chat-%s-users' % chat), uid)
             db.srem('users-chatting', uid)
-            db.srem('quits', dead)
             name = getD(db, 'user-'+uid+'-name', 'UNKNOWN USER')
-            acronym = getD(db,'user-'+uid+'-acronym','??')
-            print 'dead', dead, name, acronym
-            addSystemMessage(db, chat, '%s [%s] disconnected.' % (name, acronym))
+            print 'dead', dead, name
+            addSystemMessage(db, chat, '%s\'s connection timed out. Please don\'t quit straight away; they could be back.' % (name))
 
         for dead in db.zrangebyscore('searchers', 0, getTime()-SEARCH_PERIOD*2):
             print 'reaping searcher', dead
