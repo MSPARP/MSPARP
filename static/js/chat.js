@@ -8,8 +8,25 @@ function addAcronym(acronym,text) {
 	}
 }
 
+/* Browser compatibility for visibilityChange */
+var hidden, visibilityChange;
+if (typeof document.hidden !== "undefined") {
+	hidden = "hidden";
+	visibilityChange = "visibilitychange";
+} else if (typeof document.mozHidden !== "undefined") {
+	hidden = "mozHidden";
+	visibilityChange = "mozvisibilitychange";
+} else if (typeof document.msHidden !== "undefined") {
+	hidden = "msHidden";
+	visibilityChange = "msvisibilitychange";
+} else if (typeof document.webkitHidden !== "undefined") {
+	hidden = "webkitHidden";
+	visibilityChange = "webkitvisibilitychange";
+}
+
 $(document).ready(function() {
 
+	var ORIGINAL_TITLE = document.title;
 	var unconfirmed = [], ping_interval;
 
 	function addLine(color, text){
@@ -69,9 +86,20 @@ $(document).ready(function() {
 				addLine('#'+msg['color'], msg['line']);
 				latestNum = Math.max(latestNum, msg['id']);
 			}
+			if (typeof hidden!=="undefined" && document[hidden]==true) {
+				document.title = "New message - "+ORIGINAL_TITLE;
+			}
 		}, "json").complete(function() {
 			window.setTimeout(getMessages, 50);
 		});
+	}
+
+	if (typeof document.addEventListener!=="undefined" && typeof hidden!=="undefined") {
+		document.addEventListener(visibilityChange, function() {
+			if (document[hidden]==false) {
+				document.title = ORIGINAL_TITLE;
+			}
+		}, false);
 	}
 
 	window.setTimeout(getMessages, 500);
