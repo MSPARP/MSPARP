@@ -5,14 +5,14 @@ Chat -
 {% block header %}
 <script src="/static/js/quirks.js"></script>
 <script type="text/javascript">
-	var user_color={{("#"+user.color)|upper|tojson|safe}};
-	var user_acronym={{user.acronym|tojson|safe}};
-	var post_url={{url_for('postMessage',chatid=chatid)|tojson|safe}};
-	var ping_url={{url_for('pingServer',chatid=chatid)|tojson|safe}};
-	var get_messages_url={{url_for('getMessages',chatid=chatid)|tojson|safe}};
-	var quitURL={{url_for('quitChatting',chatid=chatid)|tojson|safe}};
+	var user_color = {{("#"+user.color)|upper|tojson|safe}};
+	var user_acronym = {{user.acronym|tojson|safe}};
+	var post_url = {{url_for('postMessage',chatid=chatid)|tojson|safe}};
+	var ping_url = {{url_for('pingServer',chatid=chatid)|tojson|safe}};
+	var get_messages_url = {{url_for('getMessages',chatid=chatid)|tojson|safe}};
+	var quitURL = {{url_for('quitChatting',chatid=chatid)|tojson|safe}};
 
-	var latestNum={{latestNum}};
+	var latestNum = {{latestNum}};
 </script>
 {% include 'apply_quirk_js.html' %}
 <script src="/static/js/chat.js?1"></script>

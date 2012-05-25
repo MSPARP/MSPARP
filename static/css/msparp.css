@@ -1,52 +1,6 @@
-select.character-select{
-	font-size: 12pt;
-}
-div.options{
-	border: 1px solid black;
-	padding: 1em;
-}
-div.options h1{
-	margin: 0;
-	display: inline;
-}
-div.options button{
-	vertical-align: 20%;
-}
-.pester-line{
-	font-family: courier,monospace;
-	font-weight: bold;
-	font-size: 12px;
-	background-color: #EEE;
-}
-#color-preview{
-	padding: 4px;
-}
+/* Chat */
 
-.picky-group{
-	margin: 5px;
-	margin-left: 0.5em;
-}
-b.picky-header{
-	cursor: pointer;
-}
-noscript{
-	color: red;
-}
-#chat-hover{
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	border-top: 1px solid #DDD;
-	
-}
-#chat-hover input#chat-line{
-	width: 100%;
-	margin:0;
-	border-left: 0;
-	border-right: 0;
-
-}
-div.chat-container{
+div.chat-container {
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -54,18 +8,8 @@ div.chat-container{
 	height: 100%;
 	background: #EEE;
 }
-#hide-preview{
-	position: absolute;
-	right: 0;
-	margin: 0;
-	padding: 0;
-	top: 0;
-	text-decoration: none;
-}
-#hide-preview:link ,#hide-preview:visited {	
-	color: grey;
-}
-#chat-log{
+
+#chat-log {
 	left: 0;
 	right: 0;
 	top: 0;
@@ -73,13 +17,49 @@ div.chat-container{
 	overflow: auto;
 	position: absolute;
 }
-#chat-log-inner{
+
+#chat-log-inner {
 	margin: 1em;
 }
-.bigbutton{
-	padding: 1em 3em;
+
+#chat-hover {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	border-top: 1px solid #DDD;	
 }
-div.online-notice{
+
+#chat-hover input#chat-line {
+	width: 100%;
+	margin:0;
+	border-left: 0;
+	border-right: 0;
+}
+
+#hide-preview {
+	position: absolute;
+	right: 0;
+	margin: 0;
+	padding: 0;
+	top: 0;
+	text-decoration: none;
+}
+
+#hide-preview:link ,#hide-preview:visited {	
+	color: grey;
+}
+
+/* Searching */
+
+
+
+/* Homepage */
+
+noscript, error {
+	color: #ff0000;
+}
+
+div.online-notice {
 	position: absolute;
 	right: 0;
 	border: 1px solid black;
@@ -89,10 +69,49 @@ div.online-notice{
 	top: 0;
 }
 
-label.quirk{
+div.options {
+	border: 1px solid black;
+	padding: 1em;
+}
+
+div.options h1 {
+	margin: 0;
+	display: inline;
+}
+
+div.options button {
+	vertical-align: 20%;
+}
+
+select.character-select {
+	font-size: 12pt;
+}
+
+.pester-line {
+	font-family: courier,monospace;
+	font-weight: bold;
+	font-size: 12px;
+	background-color: #EEE;
+}
+
+#color-preview {
+	padding: 4px;
+}
+
+label.quirk {
 	display: block;
 
 }
-.error{
-	color: #ff0000;
+
+.picky-group {
+	margin: 5px;
+	margin-left: 0.5em;
+}
+
+b.picky-header {
+	cursor: pointer;
+}
+
+.bigbutton {
+	padding: 1em 3em;
 }
