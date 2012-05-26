@@ -55,8 +55,17 @@ $(document).ready(function() {
 	$('#chat-line').change(updateChatPreview).keyup(updateChatPreview).change();
 	$('#preview-text').css('color', user_color);
 
+	var previewHidden = false;
 	$('#hide-preview').click(function() {
-		$('#chat-preview').hide();
+		if (previewHidden) {
+			$('#preview-text').show();
+			$(this).text("[hide]");
+		} else {
+			$('#preview-text').hide();
+			$(this).text("[show]");
+		}
+		$('#chat-log').css('bottom',$('#chat-hover').height()+'px');
+		previewHidden = !previewHidden;
 		return false;
 	});
 

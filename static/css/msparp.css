@@ -36,12 +36,16 @@ div.chat-container {
 	border-right: 0;
 }
 
+#preview-text {
+    margin-top: 3px;
+}
+
 #hide-preview {
 	position: absolute;
 	right: 0;
 	margin: 0;
 	padding: 0;
-	top: 0;
+	bottom: 23px;
 	text-decoration: none;
 }
 
