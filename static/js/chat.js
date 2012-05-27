@@ -96,10 +96,7 @@ $(document).ready(function() {
 				latestNum = Math.max(latestNum, msg['id']);
 			}
 			if (typeof hidden!=="undefined" && document[hidden]==true) {
-				// You can't change document.title here in Webkit. #googlehatesyou
-				window.setTimeout(function() {
-					document.title = "New message - "+ORIGINAL_TITLE;
-				}, 50);
+				document.title = "New message - "+ORIGINAL_TITLE;
 			}
 		}, "json").complete(function() {
 			window.setTimeout(getMessages, 50);
@@ -109,7 +106,10 @@ $(document).ready(function() {
 	if (typeof document.addEventListener!=="undefined" && typeof hidden!=="undefined") {
 		document.addEventListener(visibilityChange, function() {
 			if (document[hidden]==false) {
-				document.title = ORIGINAL_TITLE;
+				// You can't change document.title here in Webkit. #googlehatesyou
+				window.setTimeout(function() {
+					document.title = ORIGINAL_TITLE;
+				}, 50);
 			}
 		}, false);
 	}
