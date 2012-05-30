@@ -51,34 +51,33 @@ class User(object):
         self.fresh = False
         prefix = self.prefix
 
-        for attrib in User.ATTRIBUTES:
-            v = db.get(prefix+attrib)
-            if v is not None:
+        stored_data = db.hgetall(prefix)
+        for attrib, value in stored_data.items():
+            if value is not None:
                 if attrib in ('picky',):
-                    setattr(self, attrib, (v=='True'))
+                    setattr(self, attrib, (value=='True'))
                 else:
-                    setattr(self, attrib, unicode(v, encoding='utf-8'))
+                    setattr(self, attrib, unicode(value, encoding='utf-8'))
 
         if self.picky:
-            self.picky_characters = db.smembers(prefix+'picky-chars')
+            self.picky_characters = db.smembers(prefix+'-picky-chars')
         else:
             self.picky_characters = db.smembers('all-chars')
 
-        quirks = self.quirks = db.smembers(prefix+'quirks')
+        quirks = self.quirks = db.smembers(prefix+'-quirks')
         qa = self.quirkargs = defaultdict(list)
         for q in quirks:
-            qa[q] = [unicode(_, encoding='utf-8') for _ in db.lrange(prefix+'quirks-'+q, 0, -1)]
+            qa[q] = [unicode(_, encoding='utf-8') for _ in db.lrange(prefix+'-quirks-'+q, 0, -1)]
     
     def save(self,db):
 
         prefix = self.prefix
 
-        for attrib in User.ATTRIBUTES:
-            db.set(prefix+attrib, getattr(self, attrib))
+        db.hmset(prefix, dict((attrib, getattr(self, attrib)) for attrib in User.ATTRIBUTES))
 
         db.sadd('all-users', self.uid)
 
-        ckey = prefix+'picky-chars'
+        ckey = prefix+'-picky-chars'
         if self.picky:
             db.delete(ckey)
             for char in self.picky_characters:
@@ -86,7 +85,7 @@ class User(object):
         else:
             db.sunionstore(ckey, ('all-chars',))
 
-        quirkey = prefix+'quirks'
+        quirkey = prefix+'-quirks'
         db.delete(quirkey)
         for quirk in self.quirks:
             db.sadd(quirkey, quirk)
@@ -99,7 +98,7 @@ class User(object):
 
     @property
     def prefix(self):
-        return 'user-%s-' % self.uid
+        return 'user-'+self.uid
     
     def apply(self,form):
 

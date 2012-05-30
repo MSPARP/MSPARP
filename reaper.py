@@ -11,8 +11,8 @@ SEARCH_PERIOD = 1
 def getTime():
     return time.time() - STARTTIME
 
-def getD(db, key, defaultValue=''):
-    v = db.get(key)
+def getD(db, user, key, defaultValue=''):
+    v = db.hget("user-"+user, key)
     if v is not None:
         return v
     return defaultValue
@@ -28,7 +28,7 @@ if __name__=='__main__':
             db.zrem('chats-alive', dead)
             db.srem(('chat-%s-users' % chat), uid)
             db.srem('users-chatting', uid)
-            name = getD(db, 'user-'+uid+'-name', 'UNKNOWN USER')
+            name = getD(db, uid, 'name', 'UNKNOWN USER')
             print 'dead', dead, name
             addSystemMessage(db, chat, '%s\'s connection timed out. Please don\'t quit straight away; they could be back.' % (name))
 

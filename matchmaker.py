@@ -8,7 +8,7 @@ def getPickyness(db,searchers):
     picky = {}
     allchars = db.smembers('all-chars')
     for user in searchers:
-        if db.get('user-%s-picky' % user)=='True':
+        if db.hget('user-'+user, 'picky')=='True':
             picky[user] = db.smembers('user-%s-picky-chars' % user)
         else:
             picky[user] = allchars
@@ -52,7 +52,7 @@ if __name__=='__main__':
         print 'searchers: ', searchers
         
         if len(searchers)>=2: # if there aren't at least 2 people, there can't be matches
-            identities = dict((user, db.get('user-%s-character' % user)) for user in searchers)
+            identities = dict((user, db.hget('user-'+user, 'character')) for user in searchers)
             picky = getPickyness(db, searchers)
             for user in shuffled(picky.keys()):
                 matchUser(user, picky, identities)
