@@ -34,8 +34,8 @@ class User(object):
 
     ATTRIBUTES=['acronym', 'name', 'color', 'character', 'picky']
 
-    def __init__(self, uid):
-        self.uid = uid
+    def __init__(self, session):
+        self.session = session
         self.acronym = u'??'
         self.name = u'Anonymous'
         self.color = '000000'
@@ -75,7 +75,7 @@ class User(object):
 
         db.hmset(prefix, dict((attrib, getattr(self, attrib)) for attrib in User.ATTRIBUTES))
 
-        db.sadd('all-users', self.uid)
+        db.sadd('all-sessions', self.session)
 
         ckey = prefix+'-picky-chars'
         if self.picky:
@@ -98,7 +98,7 @@ class User(object):
 
     @property
     def prefix(self):
-        return 'user-'+self.uid
+        return 'session-'+self.session
     
     def apply(self,form):
 
@@ -165,15 +165,15 @@ def parseLine(line, id):
 def parseMessages(seq, offset):
     return jsonify(messages=[parseLine(line, i) for (i, line) in enumerate(seq, offset)])
 
-def announceIfNew(chatid, uid):
-    chatkey = 'chat-%s-users' % chatid
-    if not g.db.sismember(chatkey, g.user.uid):
-        g.db.sadd(chatkey, g.user.uid)
+def announceIfNew(chatid):
+    chatkey = 'chat-%s-sessions' % chatid
+    if not g.db.sismember(chatkey, g.user.session):
+        g.db.sadd(chatkey, g.user.session)
         addSystemMessage(g.db, chatid, '%s [%s] joined chat' % (g.user.name, g.user.acronym))
 
-def markAlive(chatid, uid):
-    g.db.zadd('chats-alive', chatid+'/'+uid, getTime())    
-    g.db.sadd('users-chatting', uid)
+def markAlive(chatid):
+    g.db.zadd('chats-alive', chatid+'/'+g.user.session, getTime())    
+    g.db.sadd('sessions-chatting', g.user.session)
 
 def show_homepage(error):
     return render_template('frontpage.html',
@@ -184,7 +184,7 @@ def show_homepage(error):
         default_char=g.user.character,
         quirks=QUIRKS,
         users_searching=g.db.zcard('searchers'),
-        users_chatting=g.db.scard('users-chatting')
+        users_chatting=g.db.scard('sessions-chatting')
     )
 
 # Cookie management
@@ -195,9 +195,9 @@ def connect():
     db = g.db = Redis(host='localhost')
 
     # if the user has logged in, go ahead and load their user object
-    uid = request.cookies.get('uid',None)
-    if uid is not None:
-        g.user = user = User(uid)
+    session = request.cookies.get('session',None)
+    if session is not None:
+        g.user = user = User(session)
         user.load(db)
     else:
         g.user = user = User(str(uuid4()))
@@ -205,8 +205,8 @@ def connect():
 
 @app.after_request
 def set_cookie(response):
-    if request.cookies.get('uid', None) is None:
-        response.set_cookie('uid', g.user.uid, max_age=365*24*60*60)
+    if request.cookies.get('session', None) is None:
+        response.set_cookie('session', g.user.session, max_age=365*24*60*60)
     return response
 
 # Chat
@@ -231,20 +231,20 @@ def chat(chatid):
 @app.route('/chat/<chat:chatid>/post', methods=['POST'])
 def postMessage(chatid):
     addMessage(g.db, chatid, g.user.color, g.user.acronym, request.form['line'])
-    markAlive(chatid, g.user.uid)
+    markAlive(chatid)
     return 'ok'
 
 @app.route('/chat/<chat:chatid>/ping', methods=['POST'])
 def pingServer(chatid):
-    markAlive(chatid, g.user.uid)
+    markAlive(chatid)
     return 'ok'
 
 @app.route('/chat/<chat:chatid>/messages', methods=['POST'])
 def getMessages(chatid):
 
     after = int(request.form['after'])
-    announceIfNew(chatid, g.user.uid)
-    markAlive(chatid, g.user.uid)
+    announceIfNew(chatid)
+    markAlive(chatid)
     messages = g.db.lrange('chat-'+chatid, after+1, -1)
 
     if messages:
@@ -259,9 +259,9 @@ def getMessages(chatid):
 @app.route('/bye/chat/<chat:chatid>', methods=['POST'])
 def quitChatting(chatid):
     # Check if they're actually a member of the chat first?
-    g.db.zrem('chats-alive', chatid+'/'+g.user.uid)
-    g.db.srem(('chat-%s-users' % chatid), g.user.uid)
-    g.db.srem('users-chatting', g.user.uid)
+    g.db.zrem('chats-alive', chatid+'/'+g.user.session)
+    g.db.srem(('chat-%s-sessions' % chatid), g.user.session)
+    g.db.srem('sessions-chatting', g.user.session)
     addSystemMessage(g.db, chatid, '%s [%s] disconnected.' % (g.user.name, g.user.acronym))
     return 'ok'
 
@@ -277,26 +277,26 @@ def findMatches():
     g.user.save(g.db)
 
     if 'chat' in request.form:
-        uid = g.user.uid
-        g.db.zadd('searchers', uid, getTime())
-        g.db.publish('search-alert', uid)
-        g.db.delete('chat-'+uid)
+        session = g.user.session
+        g.db.zadd('searchers', session, getTime())
+        g.db.publish('search-alert', session)
+        g.db.delete('chat-'+session)
         return render_template("searching.html")
     else:
         return redirect(url_for('configure'))
 
 @app.route('/matches/foundYet', methods=['POST'])
 def foundYet():
-    target=g.db.get('chat-'+g.user.uid)
+    target=g.db.get('chat-'+g.user.session)
     if target:
         return jsonify(target=target)
     else:
-        g.db.zadd('searchers', g.user.uid, getTime())
+        g.db.zadd('searchers', g.user.session, getTime())
         abort(404)
 
 @app.route('/bye/searching', methods=['POST'])
 def quitSearching():
-    g.db.zrem('searchers', g.user.uid)
+    g.db.zrem('searchers', g.user.session)
     return 'ok'
 
 # Home

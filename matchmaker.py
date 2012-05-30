@@ -7,11 +7,11 @@ import time
 def getPickyness(db,searchers):
     picky = {}
     allchars = db.smembers('all-chars')
-    for user in searchers:
-        if db.hget('user-'+user, 'picky')=='True':
-            picky[user] = db.smembers('user-%s-picky-chars' % user)
+    for session in searchers:
+        if db.hget('session-'+session, 'picky')=='True':
+            picky[session] = db.smembers('session-%s-picky-chars' % session)
         else:
-            picky[user] = allchars
+            picky[session] = allchars
     return picky
 
 def shuffled(seq):
@@ -28,20 +28,20 @@ def match(picky, first, second):
     del picky[first]
     del picky[second]
 
-def matchUser(user, picky, identities):
+def matchUser(session, picky, identities):
     acceptable = []
     try:
-        wants = picky[user]
+        wants = picky[session]
     except KeyError:
         return # we've already been matched
-    whoiam = identities[user]
+    whoiam = identities[session]
     for other, their_wants in picky.items():
-        if other!=user and identities[other] in wants and whoiam in picky[other]:
+        if other!=session and identities[other] in wants and whoiam in picky[other]:
             acceptable.append(other)
 
     if acceptable:
         selected = choice(acceptable)
-        match(picky, user, selected)
+        match(picky, session, selected)
 
 if __name__=='__main__': 
 
@@ -52,10 +52,10 @@ if __name__=='__main__':
         print 'searchers: ', searchers
         
         if len(searchers)>=2: # if there aren't at least 2 people, there can't be matches
-            identities = dict((user, db.hget('user-'+user, 'character')) for user in searchers)
+            identities = dict((session, db.hget('session-'+session, 'character')) for session in searchers)
             picky = getPickyness(db, searchers)
-            for user in shuffled(picky.keys()):
-                matchUser(user, picky, identities)
+            for session in shuffled(picky.keys()):
+                matchUser(session, picky, identities)
 
         time.sleep(1)
 
