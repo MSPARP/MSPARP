@@ -32,48 +32,53 @@ app.url_map.converters['chat'] = ChatIDConverter
 
 class User(object):
 
-    ATTRIBUTES=['acronym', 'name', 'color', 'character', 'picky']
+    ATTRIBUTES = ['acronym', 'name', 'color', 'character', 'picky']
+    DEFAULTS = { 'acronym': u'??', 'name': u'Anonymous', 'color': '000000', 'character': 'anonymous/other', 'picky': False }
 
-    def __init__(self, session):
-        self.session = session
-        self.acronym = u'??'
-        self.name = u'Anonymous'
-        self.color = '000000'
-        self.character = 'anonymous/other'
-        self.quirks = set()
-        self.quirkargs = defaultdict(list)
-        self.picky = False
-        self.picky_characters = set()
-        self.fresh = True
+    def __init__(self, db, session=None, chat=None):
 
-    def load(self,db):
+        self.db = db
+        self.session = session or str(uuid4())
+        self.prefix = self.chat_prefix = "session-"+self.session
 
-        self.fresh = False
-        prefix = self.prefix
+        chat_data = User.DEFAULTS
 
-        stored_data = db.hgetall(prefix)
-        for attrib, value in stored_data.items():
-            if value is not None:
-                if attrib in ('picky',):
-                    setattr(self, attrib, (value=='True'))
-                else:
-                    setattr(self, attrib, unicode(value, encoding='utf-8'))
-
-        if self.picky:
-            self.picky_characters = db.smembers(prefix+'-picky-chars')
+        # Load global session data.
+        if db.exists(self.prefix):
+            chat_data = db.hgetall(self.chat_prefix)
         else:
-            self.picky_characters = db.smembers('all-chars')
+            db.hmset(self.prefix, chat_data)
 
-        quirks = self.quirks = db.smembers(prefix+'-quirks')
-        qa = self.quirkargs = defaultdict(list)
-        for q in quirks:
-            qa[q] = [unicode(_, encoding='utf-8') for _ in db.lrange(prefix+'-quirks-'+q, 0, -1)]
-    
-    def save(self,db):
+        # Load chat-specific data.
+        if chat is not None:
+            self.chat_prefix += '-'+chat
+            if db.exists(self.chat_prefix):
+                chat_data = db.hgetall(self.chat_prefix)
+            else:
+                db.hmset(self.chat_prefix, chat_data)
 
+        for attrib, value in chat_data.items():
+            if attrib in ('picky',):
+                setattr(self, attrib, (value=='True'))
+            else:
+                setattr(self, attrib, unicode(value, encoding='utf-8'))
+
+        # XXX lazy loading on these?
+
+        self.picky_characters = db.smembers(self.prefix+'-picky-chars')
+
+        self.quirks = db.smembers(self.prefix+'-quirks')
+        self.quirkargs = defaultdict(list)
+        for quirk in self.quirks:
+            self.quirkargs[quirk] = [unicode(_, encoding='utf-8') for _ in db.lrange(self.prefix+'-quirks-'+quirk, 0, -1)]
+
+
+    def save(self):
+
+        db = self.db
         prefix = self.prefix
 
-        db.hmset(prefix, dict((attrib, getattr(self, attrib)) for attrib in User.ATTRIBUTES))
+        db.hmset(self.chat_prefix, dict((attrib, getattr(self, attrib)) for attrib in User.ATTRIBUTES))
 
         db.sadd('all-sessions', self.session)
 
@@ -95,24 +100,20 @@ class User(object):
                 db.delete(rkey)
                 for v in values:
                     db.rpush(rkey, v)
-
-    @property
-    def prefix(self):
-        return 'session-'+self.session
     
     def apply(self,form):
 
-        setattr(self, 'acronym', form['acronym'])
+        self.acronym = form['acronym']
 
         # Validate name
         if len(form['name'])>0:
-            setattr(self, 'name', form['name'])
+            self.name = form['name']
         else:
             raise ValueError("name")
 
         # Validate colour
         if re.compile('^[0-9a-fA-F]{6}$').search(form['color']):
-            setattr(self, 'color', form['color'])
+            self.color = form['color']
         else:
             raise ValueError("color")
 
@@ -132,6 +133,8 @@ class User(object):
         qa = self.quirkargs = defaultdict(list)
         for q in quirks:
             qa[q] = [value for (key,value) in sorted(form.items()) if key.startswith('qarg-'+q)]
+
+        self.save()
     
     def buildQuirksFunction(self):
 
@@ -197,11 +200,9 @@ def connect():
     # if the user has logged in, go ahead and load their user object
     session = request.cookies.get('session',None)
     if session is not None:
-        g.user = user = User(session)
-        user.load(db)
+        g.user = user = User(db, session)
     else:
-        g.user = user = User(str(uuid4()))
-        user.save(g.db)
+        g.user = user = User(db)
 
 @app.after_request
 def set_cookie(response):
@@ -274,7 +275,6 @@ def findMatches():
         g.user.apply(request.form)
     except ValueError as e:
         return show_homepage(e.args[0])
-    g.user.save(g.db)
 
     if 'chat' in request.form:
         session = g.user.session
