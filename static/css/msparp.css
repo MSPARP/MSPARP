@@ -71,6 +71,15 @@ div.online-notice {
 	color: black;
 	padding: 5px;
 	top: 0;
+	max-width: 400px;
+	max-height: 180px;
+	overflow: auto;
+}
+
+.online-notice h1 {
+	font-size: 12pt;
+	text-decoration: underline;
+	margin-bottom: 0;
 }
 
 div.options {
