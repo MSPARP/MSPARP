@@ -8,6 +8,11 @@ function addAcronym(acronym,text) {
 	}
 }
 
+var postURL = "/post";
+var pingURL = "/ping";
+var messagesURL = "/messages";
+var quitURL = "/bye";
+
 /* Browser compatibility for visibilityChange */
 var hidden, visibilityChange;
 if (typeof document.hidden !== "undefined") {
@@ -27,7 +32,7 @@ if (typeof document.hidden !== "undefined") {
 $(document).ready(function() {
 
 	var ORIGINAL_TITLE = document.title;
-	var unconfirmed = [], ping_interval;
+	var unconfirmed = [], pingInterval;
 
 	function addLine(color, text){
 		$('<div />').css('color', color).text(text).appendTo('#chat-log-inner');
@@ -53,7 +58,7 @@ $(document).ready(function() {
 	}
 	
 	$('#chat-line').change(updateChatPreview).keyup(updateChatPreview).change();
-	$('#preview-text').css('color', user_color);
+	$('#preview-text').css('color', userColor);
 
 	var previewHidden = false;
 	$('#hide-preview').click(function() {
@@ -72,23 +77,23 @@ $(document).ready(function() {
 	$('#chat-form').submit(function() {
 		if (updateChatPreview()) {
 			text = $('#preview-text').text();
-			if (ping_interval) {
-				window.clearTimeout(ping_interval);
+			if (pingInterval) {
+				window.clearTimeout(pingInterval);
 			}
-			$.post(post_url,{'line': text}); // todo: check for for error
-			ping_interval = window.setTimeout(pingServer, PING_PERIOD*1000);
+			$.post(postURL,{'chat': chat, 'line': text}); // todo: check for for error
+			pingInterval = window.setTimeout(pingServer, PING_PERIOD*1000);
 			$('#chat-line').val('');
 		}
 		return false;
 	});
 
 	function pingServer() {
-		$.post(ping_url, {});
-		ping_interval = window.setTimeout(pingServer, PING_PERIOD*1000);
+		$.post(pingURL, {'chat': chat});
+		pingInterval = window.setTimeout(pingServer, PING_PERIOD*1000);
 	}
 
 	function getMessages() {
-		$.post(get_messages_url, {'after': latestNum}, function(data) {
+		$.post(messagesURL, {'chat': chat, 'after': latestNum}, function(data) {
 			var messages = data.messages;
 			for (var i=0; i<messages.length; i++) {
 				var msg = messages[i];
@@ -115,10 +120,10 @@ $(document).ready(function() {
 	}
 
 	window.setTimeout(getMessages, 500);
-	ping_interval=window.setTimeout(pingServer, PING_PERIOD*1000);
+	pingInterval=window.setTimeout(pingServer, PING_PERIOD*1000);
 
 	$(window).unload(function() {
-		$.ajax(quitURL, {'type': 'POST', 'async': false});
+		$.ajax(quitURL, {'type': 'POST', data: {'chat': chat}, 'async': false});
 	});
 
 });

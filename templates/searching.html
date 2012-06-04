@@ -5,7 +5,7 @@ Searching -
 {% block header %}
 <script type="text/javascript">
 	var foundYetURL = {{url_for('foundYet')|tojson|safe}};
-	var chatURL = {{url_for('chat',chatid='-CHATID-')|tojson|safe}};
+	var chatURL = {{url_for('chat', chat='-CHATID-')|tojson|safe}};
 	var quitURL = {{url_for('quitSearching')|tojson|safe}};
 </script>
 <script src="/static/js/search.js?1"></script>

@@ -1,5 +1,6 @@
 import itertools, re, time
 
+from functools import wraps
 from flask import Flask, g, request, render_template, make_response, redirect, url_for, jsonify, abort
 from redis import Redis
 from uuid import uuid4
@@ -33,7 +34,7 @@ app.url_map.converters['chat'] = ChatIDConverter
 class User(object):
 
     ATTRIBUTES = ['acronym', 'name', 'color', 'character', 'picky']
-    DEFAULTS = { 'acronym': u'??', 'name': u'Anonymous', 'color': '000000', 'character': 'anonymous/other', 'picky': False }
+    DEFAULTS = { 'acronym': '??', 'name': 'Anonymous', 'color': '000000', 'character': 'anonymous/other', 'picky': False }
 
     def __init__(self, db, session=None, chat=None):
 
@@ -168,16 +169,6 @@ def parseLine(line, id):
 def parseMessages(seq, offset):
     return jsonify(messages=[parseLine(line, i) for (i, line) in enumerate(seq, offset)])
 
-def announceIfNew(chatid):
-    chatkey = 'chat-%s-sessions' % chatid
-    if not g.db.sismember(chatkey, g.user.session):
-        g.db.sadd(chatkey, g.user.session)
-        addSystemMessage(g.db, chatid, '%s [%s] joined chat' % (g.user.name, g.user.acronym))
-
-def markAlive(chatid):
-    g.db.zadd('chats-alive', chatid+'/'+g.user.session, getTime())    
-    g.db.sadd('sessions-chatting', g.user.session)
-
 def show_homepage(error):
     return render_template('frontpage.html',
         error=error,
@@ -189,6 +180,29 @@ def show_homepage(error):
         users_searching=g.db.zcard('searchers'),
         users_chatting=g.db.scard('sessions-chatting')
     )
+
+# Decorators
+
+def validate_chat(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'chat' in request.form and re.match('^[-a-zA-Z0-9]+$', request.form['chat']):
+            return f(*args, **kwargs)
+        abort(400)
+    return decorated_function
+
+def mark_alive(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        chat = request.form['chat']
+        chatkey = 'chat-%s-sessions' % chat
+        if not g.db.sismember(chatkey, g.user.session):
+            g.db.sadd(chatkey, g.user.session)
+            addSystemMessage(g.db, chat, '%s [%s] joined chat' % (g.user.name, g.user.acronym))
+        g.db.zadd('chats-alive', chat+'/'+g.user.session, getTime())    
+        g.db.sadd('sessions-chatting', g.user.session)
+        return f(*args, **kwargs)
+    return decorated_function
 
 # Cookie management
 
@@ -212,58 +226,61 @@ def set_cookie(response):
 
 # Chat
 
-@app.route('/chat/<chat:chatid>')
-def chat(chatid):
+@app.route('/chat/<chat:chat>')
+def chat(chat):
 
-    existing_lines = [parseLine(line, 0) for line in g.db.lrange('chat-'+chatid, 0, -1)]
+    existing_lines = [parseLine(line, 0) for line in g.db.lrange('chat-'+chat, 0, -1)]
     latestNum = len(existing_lines)-1
     quirks_func, quirks_args=g.user.buildQuirksFunction()
 
     return render_template(
         'chat.html',
         user=g.user,
-        chatid=chatid,
+        chat=chat,
         lines=existing_lines,
         latestNum=latestNum,
         applyQuirks=quirks_func,
         quirks_args=quirks_args
     )
 
-@app.route('/chat/<chat:chatid>/post', methods=['POST'])
-def postMessage(chatid):
-    addMessage(g.db, chatid, g.user.color, g.user.acronym, request.form['line'])
-    markAlive(chatid)
+@app.route('/post', methods=['POST'])
+@validate_chat
+@mark_alive
+def postMessage():
+    addMessage(g.db, request.form['chat'], g.user.color, g.user.acronym, request.form['line'])
     return 'ok'
 
-@app.route('/chat/<chat:chatid>/ping', methods=['POST'])
-def pingServer(chatid):
-    markAlive(chatid)
+@app.route('/ping', methods=['POST'])
+@validate_chat
+@mark_alive
+def pingServer():
     return 'ok'
 
-@app.route('/chat/<chat:chatid>/messages', methods=['POST'])
-def getMessages(chatid):
+@app.route('/messages', methods=['POST'])
+@validate_chat
+@mark_alive
+def getMessages():
 
     after = int(request.form['after'])
-    announceIfNew(chatid)
-    markAlive(chatid)
-    messages = g.db.lrange('chat-'+chatid, after+1, -1)
+    messages = g.db.lrange('chat-'+request.form['chat'], after+1, -1)
 
     if messages:
         return parseMessages(messages, after+1)
-    g.db.subscribe('channel-'+chatid)
+    g.db.subscribe('channel-'+request.form['chat'])
 
     for msg in g.db.listen():
         if msg['type']=='message':
             id, rest = msg['data'].split('#', 1)
             return parseMessages([rest], int(id)) # TEST THIS
 
-@app.route('/bye/chat/<chat:chatid>', methods=['POST'])
-def quitChatting(chatid):
+@app.route('/bye', methods=['POST'])
+@validate_chat
+def quitChatting():
     # Check if they're actually a member of the chat first?
-    g.db.zrem('chats-alive', chatid+'/'+g.user.session)
-    g.db.srem(('chat-%s-sessions' % chatid), g.user.session)
+    g.db.zrem('chats-alive', request.form['chat']+'/'+g.user.session)
+    g.db.srem(('chat-%s-sessions' % request.form['chat']), g.user.session)
     g.db.srem('sessions-chatting', g.user.session)
-    addSystemMessage(g.db, chatid, '%s [%s] disconnected.' % (g.user.name, g.user.acronym))
+    addSystemMessage(g.db, request.form['chat'], '%s [%s] disconnected.' % (g.user.name, g.user.acronym))
     return 'ok'
 
 # Searching
