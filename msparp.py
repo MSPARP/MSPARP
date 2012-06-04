@@ -210,13 +210,11 @@ def mark_alive(f):
 def connect():
     # connect to database 
     db = g.db = Redis(host='localhost')
-
-    # if the user has logged in, go ahead and load their user object
-    session = request.cookies.get('session',None)
-    if session is not None:
-        g.user = user = User(db, session)
-    else:
-        g.user = user = User(db)
+    # Create a user object, using session and chat IDs if present.
+    session = request.cookies.get('session', None)
+    chat = (request.form['chat'] if 'chat' in request.form else
+            request.view_args['chat'] if 'chat' in request.view_args else None)
+    g.user = user = User(db, session, chat)
 
 @app.after_request
 def set_cookie(response):
