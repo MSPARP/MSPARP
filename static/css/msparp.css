@@ -121,8 +121,8 @@ label.quirk {
 	margin-left: 0.5em;
 }
 
-b.picky-header {
-	cursor: pointer;
+.picky-header {
+	font-weight: bold;
 }
 
 .bigbutton {
