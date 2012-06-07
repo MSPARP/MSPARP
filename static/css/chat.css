@@ -1,0 +1,116 @@
+/* General */
+
+body {
+	background-color: #cccccc;
+	background-attachment: fixed;
+}
+
+body, button, input, select, optgroup, option {
+	font-family: "Courier", monospace;
+	font-size: 13px;
+	font-weight: bold;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+h1 {
+	font-size: 14pt;
+	word-wrap: break-word;
+}
+
+h1, p {
+	margin: 5px;
+	clear: both;
+}
+
+button, input, select, #conversation, #settings, #userList, #preview {
+	border: 1px solid #999999;
+	border-radius: 1px;
+	background-color: rgba(255,255,255,0.8);
+}
+
+button {
+	display: inline-block;
+	margin: 5px 0 0 0;
+	padding: 2px 4px;
+	cursor: pointer;
+}
+
+input {
+	padding: 2px;
+}
+
+optgroup {
+	color: #666666;
+	font-style: normal;
+}
+
+optgroup option {
+	color: #000000;
+	padding: 0 10px;
+}
+
+input:focus, input:hover, select:focus, select:hover, button:hover {
+	background-color: #ffffff;
+}
+
+/* Chat layout */
+
+#conversation {
+	position: fixed;
+	top: 5px;
+	right: 5px;
+	bottom: 79px;
+	left: 5px;
+	overflow: auto;
+}
+
+body.settings #conversation, body.userList #conversation {
+	right: 230px;
+}
+
+#settings, #userList {
+	display: none;
+}
+
+body.settings #settings, body.userList #userList {
+	display: block;
+	position: fixed;
+	top: 5px;
+	right: 5px;
+	bottom: 5px;
+	width: 218px;
+	overflow: auto;
+}
+
+#controls {
+	position: fixed;
+	right: 8px;
+	bottom: 5px;
+	left: 8px;
+}
+
+body.settings #controls, body.userList #controls {
+	right: 233px;
+}
+
+#hidePreview {
+	position: absolute;
+    right: 0;
+	padding: 2px;
+}
+
+#preview {
+	margin: 0 -3px -1px -3px;
+	padding: 2px;
+	overflow: hidden;
+}
+
+#textInput {
+	display: block;
+	width: 100%;
+	margin: 0 -3px;
+	padding: 2px;
+}

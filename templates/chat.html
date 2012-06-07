@@ -3,6 +3,7 @@
 Chat - 
 {% endblock %}
 {% block header %}
+<link rel="stylesheet" href="/static/css/chat.css">
 <script src="/static/js/quirks.js"></script>
 <script type="text/javascript">
 	var userColor = {{("#"+user.color)|upper|tojson|safe}};
@@ -10,22 +11,27 @@ Chat -
 	var latestNum = {{latestNum}};
 </script>
 {% include 'apply_quirk_js.html' %}
-<script src="/static/js/chat.js?2"></script>
+<script src="/static/js/chat.js"></script>
 {% endblock %}
 {% block content %}
-<form id="chat-form" >
-<div class="chat-container">
-	<div id="chat-log" class="pester-line">
-		<div id="chat-log-inner">
-			{% for line in lines %}
-				<div style="color: #{{line.color}}">{{line.line}}</div>
-			{% endfor %}
-		</div>
-	</div>
-	<div id="chat-hover">
-		<div id="chat-preview" class="pester-line"><div id="preview-text"> </div><a href="#" id="hide-preview">[hide]</a></div>
-		<div class="inputline"><input type="text" id="chat-line" class="pester-line"></div></div>
-	</div>
+
+<div id="conversation">
+{% for line in lines %}
+	<p style="color: #{{line.color}}">{{line.line}}</p>
+{% endfor %}
 </div>
+
+<form id="settings">
+	<h1>Settings</h1>
 </form>
+
+<form id="controls">
+	<a href="#" id="hidePreview">[hide]</a>
+	<div id="preview"></div>
+	<input type="text" id="textInput" name="textInput">
+<!--	<button type="button" id="settingsButton">Change character settings</button>-->
+<!--	<button type="button" id="awayButton">Mark as Away</button>-->
+<!--	<button type="button" id="disconnectButton">Disconnect</button>-->
+</form>
+
 {% endblock %}

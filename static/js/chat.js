@@ -33,56 +33,55 @@ $(document).ready(function() {
 
 	var ORIGINAL_TITLE = document.title;
 	var unconfirmed = [], pingInterval;
+	var conversation = $('#conversation');
 
 	function addLine(color, text){
-		$('<div />').css('color', color).text(text).appendTo('#chat-log-inner');
-		var chatlog = $('#chat-log');
-		chatlog.scrollTop(chatlog[0].scrollHeight);
+		$('<p />').css('color', color).text(text).appendTo('#conversation');
+		conversation.scrollTop(conversation[0].scrollHeight);
 	}
 
 	function updateChatPreview(){
-		var preview = $('#chat-line').val();
+		var preview = $('#textInput').val();
 		if (preview.substr(0,1)=='/') {
 			preview = jQuery.trim(preview.substr(1));
 		} else {
 			preview = jQuery.trim(applyQuirks(preview));
 		}
-		$('#preview-text').text(preview);
-		if (preview.length==0) {
-			$('#hide-preview').hide();
+		if (preview.length>0) {
+			$('#preview').text(preview);
 		} else {
-			$('#hide-preview').show();
+			$('#preview').html('&nbsp;');
 		}
-		$('#chat-log').css('bottom',$('#chat-hover').height()+'px');
+		$('#conversation').css('bottom',($('#controls').height()+10)+'px');
 		return preview.length!=0;
 	}
 	
-	$('#chat-line').change(updateChatPreview).keyup(updateChatPreview).change();
-	$('#preview-text').css('color', userColor);
+	$('#textInput').change(updateChatPreview).keyup(updateChatPreview).change();
+	$('#preview').css('color', userColor);
 
 	var previewHidden = false;
-	$('#hide-preview').click(function() {
+	$('#hidePreview').click(function() {
 		if (previewHidden) {
-			$('#preview-text').show();
+			$('#preview').show();
 			$(this).text("[hide]");
 		} else {
-			$('#preview-text').hide();
+			$('#preview').hide();
 			$(this).text("[show]");
 		}
-		$('#chat-log').css('bottom',$('#chat-hover').height()+'px');
+		$('#conversation').css('bottom',($('#controls').height()+10)+'px');
 		previewHidden = !previewHidden;
 		return false;
 	});
 
-	$('#chat-form').submit(function() {
+	$('#controls').submit(function() {
 		if (updateChatPreview()) {
-			text = $('#preview-text').text();
+			text = $('#preview').text();
 			if (pingInterval) {
 				window.clearTimeout(pingInterval);
 			}
 			$.post(postURL,{'chat': chat, 'line': text}); // todo: check for for error
 			pingInterval = window.setTimeout(pingServer, PING_PERIOD*1000);
-			$('#chat-line').val('');
+			$('#textInput').val('');
 		}
 		return false;
 	});
