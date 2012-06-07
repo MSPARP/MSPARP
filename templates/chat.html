@@ -4,6 +4,7 @@ Chat -
 {% endblock %}
 {% block header %}
 <link rel="stylesheet" href="/static/css/chat.css">
+<script src="/static/js/characters.js"></script>
 <script src="/static/js/quirks.js"></script>
 <script type="text/javascript">
 	var userColor = {{("#"+user.color)|upper|tojson|safe}};
