@@ -40,6 +40,7 @@ class User(object):
 
         self.db = db
         self.session = session or str(uuid4())
+        self.chat = chat
         self.prefix = self.chat_prefix = "session-"+self.session
 
         chat_data = User.DEFAULTS
@@ -79,6 +80,9 @@ class User(object):
         db = self.db
         prefix = self.prefix
 
+        old_name = self.name
+        old_acronym = self.acronym
+
         self.acronym = form['acronym']
 
         # Validate name
@@ -105,6 +109,10 @@ class User(object):
             qa[q] = [value for (key,value) in sorted(form.items()) if key.startswith('qarg-'+q)]
 
         db.hmset(self.chat_prefix, dict((attrib, getattr(self, attrib)) for attrib in User.ATTRIBUTES))
+
+        if (self.chat is not None and self.session in g.db.smembers('chat-%s-sessions' % self.chat)
+            and (self.name!=old_name or self.acronym!=old_acronym)):
+            addSystemMessage(g.db, request.form['chat'], '%s [%s] is now %s [%s].' % (old_name, old_acronym, self.name, self.acronym))
 
         db.sadd('all-sessions', self.session)
 
@@ -192,7 +200,7 @@ def mark_alive(f):
         chatkey = 'chat-%s-sessions' % chat
         if not g.db.sismember(chatkey, g.user.session):
             g.db.sadd(chatkey, g.user.session)
-            addSystemMessage(g.db, chat, '%s [%s] joined chat' % (g.user.name, g.user.acronym))
+            addSystemMessage(g.db, chat, '%s [%s] joined chat.' % (g.user.name, g.user.acronym))
         g.db.zadd('chats-alive', chat+'/'+g.user.session, getTime())    
         g.db.sadd('sessions-chatting', g.user.session)
         return f(*args, **kwargs)
