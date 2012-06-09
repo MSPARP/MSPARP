@@ -24,13 +24,25 @@ Chat -
 
 <form id="settings">
 	<h1>Settings</h1>
+	<p><select name="character">
+		{% for group in groups %}
+		<optgroup label="{{group}}">
+			{% for char in characters[group] %}
+			<option value="{{char|lower}}"{% if char|lower==user.character %} selected="selected"{%endif%}>{{char}}</option>
+			{% endfor %}
+		</optgroup>
+		{% endfor %}
+	</select></p>
+	<p><input type="text" id="charName" name="name" value="{{user.name}}"></p>
+	<p><input type="text" size="3" id="charAcronym" name="acronym" value="{{user.acronym}}"> <input type="text" size="7" id="charColor" name="color" value="{{user.color}}"></p>
+	<p><button type="submit">Apply</button> <button type="button" id="settingsCancelButton">Cancel</button></p>
 </form>
 
 <form id="controls">
 	<a href="#" id="hidePreview">[hide]</a>
 	<div id="preview"></div>
 	<input type="text" id="textInput" name="textInput">
-<!--	<button type="button" id="settingsButton">Change character settings</button>-->
+	<button type="button" id="settingsButton">Change character settings</button>
 <!--	<button type="button" id="awayButton">Mark as Away</button>-->
 <!--	<button type="button" id="disconnectButton">Disconnect</button>-->
 </form>

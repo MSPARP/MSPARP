@@ -6,7 +6,7 @@
 <script src="/static/js/home.js"></script>
 {% endblock %}
 {% block content %}
-<form method="post" action="{{url_for('findMatches')}}" >
+<form method="post" action="{{url_for('save')}}" >
 <noscript>
 	<h1>You completely need javascript for this site. Turn it on or upgrade to a real browser.</h1>
 </noscript>
@@ -76,7 +76,7 @@
 	</div>
 </div>
 
-<input class="bigbutton" type="submit" name="save" value="Save info" /><input class="bigbutton" type="submit" name="chat" value="Save and begin chatting" /><br />
+<input class="bigbutton" type="submit" name="save" value="Save info" /><input class="bigbutton" type="submit" name="match" value="Save and begin chatting" /><br />
 Saving will change your text colour and acronym, but it won't change your quirk if you're in a chat already. You'll have to refresh for your new quirk to take effect.
 </form>
 {% endblock %}

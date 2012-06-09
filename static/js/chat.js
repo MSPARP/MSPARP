@@ -11,6 +11,7 @@ function addAcronym(acronym,text) {
 var postURL = "/post";
 var pingURL = "/ping";
 var messagesURL = "/messages";
+var saveURL = "/save";
 var quitURL = "/bye";
 
 /* Browser compatibility for visibilityChange */
@@ -120,6 +121,27 @@ $(document).ready(function() {
 
 	window.setTimeout(getMessages, 500);
 	pingInterval=window.setTimeout(pingServer, PING_PERIOD*1000);
+
+	$('#settingsButton').click(function() {
+		$(document.body).addClass('settings');
+	});
+
+	$('#settings').submit(function() {
+		var formData = $(this).serializeArray();
+		formData.push({ name: 'chat', value: chat })
+		$.post(saveURL, formData, function(data) {
+			$('#preview').css('color', '#'+$('#charColor').val());
+			$(document.body).removeClass('settings');
+		}).error(function() {
+			alert("ERROR!");
+		});
+		return false;
+	});
+
+	$('#settingsCancelButton').click(function() {
+		// RESET FORM
+		$(document.body).removeClass('settings');
+	});
 
 	$(window).unload(function() {
 		$.ajax(quitURL, {'type': 'POST', data: {'chat': chat}, 'async': false});

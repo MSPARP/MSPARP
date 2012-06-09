@@ -212,8 +212,12 @@ def connect():
     db = g.db = Redis(host='localhost')
     # Create a user object, using session and chat IDs if present.
     session = request.cookies.get('session', None)
-    chat = (request.form['chat'] if 'chat' in request.form else
-            request.view_args['chat'] if 'chat' in request.view_args else None)
+    if request.form is not None and 'chat' in request.form:
+        chat = request.form['chat']
+    elif request.view_args is not None and 'chat' in request.view_args:
+        chat = request.view_args['chat']
+    else:
+        chat = None
     g.user = user = User(db, session, chat)
 
 @app.after_request
@@ -227,6 +231,10 @@ def set_cookie(response):
 @app.route('/chat/<chat:chat>')
 def chat(chat):
 
+    # Delete value from the matchmaker.
+    if g.db.get('chat-'+g.user.session):
+        g.db.delete('chat-'+g.user.session)
+
     existing_lines = [parseLine(line, 0) for line in g.db.lrange('chat-'+chat, 0, -1)]
     latestNum = len(existing_lines)-1
     quirks_func, quirks_args=g.user.buildQuirksFunction()
@@ -234,6 +242,8 @@ def chat(chat):
     return render_template(
         'chat.html',
         user=g.user,
+        groups=CHARACTER_GROUPS,
+        characters=CHARACTERS,
         chat=chat,
         lines=existing_lines,
         latestNum=latestNum,
@@ -281,24 +291,31 @@ def quitChatting():
     addSystemMessage(g.db, request.form['chat'], '%s [%s] disconnected.' % (g.user.name, g.user.acronym))
     return 'ok'
 
-# Searching
+# Save
 
-@app.route('/matches', methods=['POST'])
-def findMatches():
+@app.route('/save', methods=['POST'])
+def save():
 
     try:
         g.user.apply(request.form)
     except ValueError as e:
-        return show_homepage(e.args[0])
+        if request.is_xhr:
+            abort(400)
+        else:
+            return show_homepage(e.args[0])
 
-    if 'chat' in request.form:
-        session = g.user.session
-        g.db.zadd('searchers', session, getTime())
-        g.db.publish('search-alert', session)
-        g.db.delete('chat-'+session)
-        return render_template("searching.html")
+    if request.is_xhr:
+        return 'ok'
+    elif 'match' in request.form:
+        return redirect(url_for('findMatches'))
     else:
         return redirect(url_for('configure'))
+
+# Searching
+
+@app.route('/matches')
+def findMatches():
+        return render_template("searching.html")
 
 @app.route('/matches/foundYet', methods=['POST'])
 def foundYet():
