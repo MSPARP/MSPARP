@@ -169,3 +169,4 @@ var characters = {
 		'quirks': ''
 	}
 }
+

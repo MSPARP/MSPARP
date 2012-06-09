@@ -64,7 +64,7 @@
 	/>Only match me with specific characters</label>
 	<div id="picky-matches">
 	{% for group in groups %}
-		<b class="picky-header">{{group}}:</b>
+		<label class="picky-header"><input type="checkbox" id="group-{{group|lower}}" name="group-{{group|lower}}"> {{group}}:</label>
 		<div class="picky-group">
 		{% for char in characters[group] %}
 		<label><input type="checkbox" name="picky-{{char|lower}}" 
