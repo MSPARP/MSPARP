@@ -8,9 +8,8 @@ def getPickyness(db,searchers):
     picky = {}
     allchars = db.smembers('all-chars')
     for session in searchers:
-        if db.hget('session-'+session, 'picky')=='True':
-            picky[session] = db.smembers('session-%s-picky-chars' % session)
-        else:
+        picky[session] = db.smembers('session-%s-picky' % session)
+        if len(picky[session])==0:
             picky[session] = allchars
     return picky
 

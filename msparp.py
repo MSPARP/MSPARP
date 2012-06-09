@@ -33,8 +33,8 @@ app.url_map.converters['chat'] = ChatIDConverter
 
 class User(object):
 
-    ATTRIBUTES = ['acronym', 'name', 'color', 'character', 'picky']
-    DEFAULTS = { 'acronym': '??', 'name': 'Anonymous', 'color': '000000', 'character': 'anonymous/other', 'picky': False }
+    ATTRIBUTES = ['acronym', 'name', 'color', 'character']
+    DEFAULTS = { 'acronym': '??', 'name': 'Anonymous', 'color': '000000', 'character': 'anonymous/other' }
 
     def __init__(self, db, session=None, chat=None):
 
@@ -59,50 +59,25 @@ class User(object):
                 db.hmset(self.chat_prefix, chat_data)
 
         for attrib, value in chat_data.items():
-            if attrib in ('picky',):
-                setattr(self, attrib, (value=='True'))
-            else:
-                setattr(self, attrib, unicode(value, encoding='utf-8'))
+            setattr(self, attrib, unicode(value, encoding='utf-8'))
 
         # XXX lazy loading on these?
 
-        self.picky_characters = db.smembers(self.prefix+'-picky-chars')
+        self.picky = db.smembers(self.prefix+'-picky')
 
         self.quirks = db.smembers(self.prefix+'-quirks')
         self.quirkargs = defaultdict(list)
         for quirk in self.quirks:
             self.quirkargs[quirk] = [unicode(_, encoding='utf-8') for _ in db.lrange(self.prefix+'-quirks-'+quirk, 0, -1)]
 
+    def save(self, form):
+        self.save_character(form)
+        self.save_pickiness(form)
 
-    def save(self):
+    def save_character(self, form):
 
         db = self.db
         prefix = self.prefix
-
-        db.hmset(self.chat_prefix, dict((attrib, getattr(self, attrib)) for attrib in User.ATTRIBUTES))
-
-        db.sadd('all-sessions', self.session)
-
-        ckey = prefix+'-picky-chars'
-        if self.picky:
-            db.delete(ckey)
-            for char in self.picky_characters:
-                db.sadd(ckey, char)
-        else:
-            db.sunionstore(ckey, ('all-chars',))
-
-        quirkey = prefix+'-quirks'
-        db.delete(quirkey)
-        for quirk in self.quirks:
-            db.sadd(quirkey, quirk)
-        for key, values in self.quirkargs.items():
-            rkey = quirkey+'-'+key
-            if values:
-                db.delete(rkey)
-                for v in values:
-                    db.rpush(rkey, v)
-    
-    def apply(self,form):
 
         self.acronym = form['acronym']
 
@@ -124,18 +99,37 @@ class User(object):
         else:
             raise ValueError("character")
 
-        picky = self.picky = 'picky' in form
-        if picky:
-            chars = self.picky_characters = set(k[6:] for k in form.keys() if k.startswith('picky-'))
-            if not chars:
-                raise ValueError("no_characters")
-
         quirks = self.quirks = set(k[6:] for k in form.keys() if k.startswith('quirk-'))
         qa = self.quirkargs = defaultdict(list)
         for q in quirks:
             qa[q] = [value for (key,value) in sorted(form.items()) if key.startswith('qarg-'+q)]
 
-        self.save()
+        db.hmset(self.chat_prefix, dict((attrib, getattr(self, attrib)) for attrib in User.ATTRIBUTES))
+
+        db.sadd('all-sessions', self.session)
+
+        quirkey = prefix+'-quirks'
+        db.delete(quirkey)
+        for quirk in self.quirks:
+            db.sadd(quirkey, quirk)
+        for key, values in self.quirkargs.items():
+            rkey = quirkey+'-'+key
+            if values:
+                db.delete(rkey)
+                for v in values:
+                    db.rpush(rkey, v)
+
+    def save_pickiness(self, form):
+
+        ckey = self.prefix+'-picky'
+        self.db.delete(ckey)
+
+        if 'picky' in form:
+            chars = self.picky = set(k[6:] for k in form.keys() if k.startswith('picky-'))
+            if not chars:
+                raise ValueError("no_characters")
+            for char in self.picky:
+                self.db.sadd(ckey, char)
     
     def buildQuirksFunction(self):
 
@@ -297,7 +291,10 @@ def quitChatting():
 def save():
 
     try:
-        g.user.apply(request.form)
+        if 'character' in request.form:
+            g.user.save_character(request.form)
+        if 'save_pickiness' in request.form:
+            g.user.save_pickiness(request.form)
     except ValueError as e:
         if request.is_xhr:
             abort(400)
