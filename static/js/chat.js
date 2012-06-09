@@ -127,14 +127,18 @@ $(document).ready(function() {
 	});
 
 	$('#settings').submit(function() {
-		var formData = $(this).serializeArray();
-		formData.push({ name: 'chat', value: chat })
-		$.post(saveURL, formData, function(data) {
-			$('#preview').css('color', '#'+$('#charColor').val());
-			$(document.body).removeClass('settings');
-		}).error(function() {
-			alert("ERROR!");
-		});
+		if ($('#charName').val()=="") {
+			alert("You can't chat with a blank name!");
+		} else if ($("#charColor").val().match(/^[0-9a-fA-F]{6}$/)==null) {
+			alert("You entered an invalid hex code. Try using the color picker.");
+		} else {
+			var formData = $(this).serializeArray();
+			formData.push({ name: 'chat', value: chat })
+			$.post(saveURL, formData, function(data) {
+				$('#preview').css('color', '#'+$('#charColor').val());
+				$(document.body).removeClass('settings');
+			});
+		}
 		return false;
 	});
 
