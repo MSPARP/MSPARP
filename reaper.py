@@ -30,7 +30,7 @@ if __name__=='__main__':
             db.srem('sessions-chatting', session)
             name = getD(db, session, 'name', 'UNKNOWN USER')
             print 'dead', dead, name
-            addSystemMessage(db, chat, '%s\'s connection timed out. Please don\'t quit straight away; they could be back.' % (name))
+            addSystemMessage(db, chat, '%s\'s connection timed out. Please don\'t quit straight away; they could be back.' % (name), True)
 
         for dead in db.zrangebyscore('searchers', 0, getTime()-SEARCH_PERIOD*2):
             print 'reaping searcher', dead
