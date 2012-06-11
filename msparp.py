@@ -10,7 +10,7 @@ from werkzeug.routing import BaseConverter, ValidationError
 from characters import CHARACTER_GROUPS, CHARACTERS
 from quirks import QUIRKS
 from reaper import getTime
-from messages import addMessage, addSystemMessage
+from messages import addMessage, addSystemMessage, parseLine, parseMessages
 
 
 class ChatIDConverter(BaseConverter):
@@ -158,18 +158,6 @@ class User(object):
 
 
 # Helper functions
-
-def parseLine(line, id):
-    "Parse a chat line like 'FF00FF#Some Text' into a dict"
-    parts = line.split('#', 1)
-    return {
-        'id': id,
-        'color': parts[0],
-        'line': unicode(parts[1], encoding='utf-8')
-    }
-
-def parseMessages(seq, offset):
-    return jsonify(messages=[parseLine(line, i) for (i, line) in enumerate(seq, offset)])
 
 def show_homepage(error):
     return render_template('frontpage.html',
