@@ -268,8 +268,10 @@ def getMessages():
 
     for msg in g.db.listen():
         if msg['type']=='message':
-            id, rest = msg['data'].split('#', 1)
-            return parseMessages([rest], int(id)) # TEST THIS
+            # The pubsub channel sends us a JSON string, so we just return that.
+            resp = make_response(msg['data'])
+            resp.headers['Content-type'] = 'application/json'
+            return resp
 
 @app.route('/bye', methods=['POST'])
 @validate_chat

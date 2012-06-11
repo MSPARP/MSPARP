@@ -1,13 +1,27 @@
+from flask import json, jsonify
+
 def addMessage(db, chatid, color, acronym, text):
 
+    message_content = acronym+': '+text if acronym else text
+
     # generate encoded form
-    message = '%s#%s%s%s' % (color, acronym, (': ' if acronym else ''), text)
+    message = color+'#'+message_content
 
     # Save to the chat- list. This is the permanent log form
     messagesCount = db.rpush('chat-'+chatid, message)
 
+    json_message = {
+        'messages': [
+            {
+                'id': messagesCount - 1,
+                'color': color,
+                'line': message_content
+            }
+        ]
+    }
+
     # Push to the publication channel to wake up longpolling listeners
-    db.publish('channel-'+chatid, '%d#%s' % (messagesCount - 1, message))
+    db.publish('channel-'+chatid, json.dumps(json_message))
 
 def addSystemMessage(db, chatid, text):
     addMessage(db, chatid, '000000', '', text)
