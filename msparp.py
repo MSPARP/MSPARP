@@ -10,7 +10,7 @@ from werkzeug.routing import BaseConverter, ValidationError
 from characters import CHARACTER_GROUPS, CHARACTERS
 from quirks import QUIRKS
 from reaper import getTime
-from messages import addMessage, addSystemMessage, parseLine, parseMessages
+from messages import addMessage, addSystemMessage, get_user_list, parseLine, parseMessages
 
 
 class ChatIDConverter(BaseConverter):
@@ -112,7 +112,7 @@ class User(object):
 
         if (self.chat is not None and self.session in g.db.smembers('chat-%s-sessions' % self.chat)
             and (self.name!=old_name or self.acronym!=old_acronym)):
-            addSystemMessage(g.db, request.form['chat'], '%s [%s] is now %s [%s].' % (old_name, old_acronym, self.name, self.acronym))
+            addSystemMessage(g.db, request.form['chat'], '%s [%s] is now %s [%s].' % (old_name, old_acronym, self.name, self.acronym), True)
 
         db.sadd('all-sessions', self.session)
 
@@ -188,7 +188,7 @@ def mark_alive(f):
         chatkey = 'chat-%s-sessions' % chat
         if not g.db.sismember(chatkey, g.user.session):
             g.db.sadd(chatkey, g.user.session)
-            addSystemMessage(g.db, chat, '%s [%s] joined chat.' % (g.user.name, g.user.acronym))
+            addSystemMessage(g.db, chat, '%s [%s] joined chat.' % (g.user.name, g.user.acronym), True)
         g.db.zadd('chats-alive', chat+'/'+g.user.session, getTime())    
         g.db.sadd('sessions-chatting', g.user.session)
         return f(*args, **kwargs)
@@ -263,9 +263,9 @@ def getMessages():
     messages = g.db.lrange('chat-'+request.form['chat'], after+1, -1)
 
     if messages:
-        return parseMessages(messages, after+1)
-    g.db.subscribe('channel-'+request.form['chat'])
+        return jsonify(messages=parseMessages(messages, after+1), online=get_user_list(g.db, request.form['chat']))
 
+    g.db.subscribe('channel-'+request.form['chat'])
     for msg in g.db.listen():
         if msg['type']=='message':
             # The pubsub channel sends us a JSON string, so we just return that.
@@ -280,7 +280,7 @@ def quitChatting():
     g.db.zrem('chats-alive', request.form['chat']+'/'+g.user.session)
     g.db.srem(('chat-%s-sessions' % request.form['chat']), g.user.session)
     g.db.srem('sessions-chatting', g.user.session)
-    addSystemMessage(g.db, request.form['chat'], '%s [%s] disconnected.' % (g.user.name, g.user.acronym))
+    addSystemMessage(g.db, request.form['chat'], '%s [%s] disconnected.' % (g.user.name, g.user.acronym), True)
     return 'ok'
 
 # Save

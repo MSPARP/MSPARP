@@ -1,6 +1,6 @@
 from flask import json, jsonify
 
-def addMessage(db, chatid, color, acronym, text):
+def addMessage(db, chatid, color, acronym, text, reload_user_list=False):
 
     message_content = acronym+': '+text if acronym else text
 
@@ -20,11 +20,26 @@ def addMessage(db, chatid, color, acronym, text):
         ]
     }
 
+    if reload_user_list==True:
+        json_message['online'] = get_user_list(db, chatid)
+
     # Push to the publication channel to wake up longpolling listeners
     db.publish('channel-'+chatid, json.dumps(json_message))
 
-def addSystemMessage(db, chatid, text):
-    addMessage(db, chatid, '000000', '', text)
+def addSystemMessage(db, chatid, text, reload_user_list=False):
+    addMessage(db, chatid, '000000', '', text, reload_user_list)
+
+def get_user_list(db, chatid):
+    user_list = []
+    for user in db.smembers('chat-'+chatid+'-sessions'):
+        user_info = db.hgetall('session-'+user+'-'+chatid)
+        user_list.append({
+            'name': user_info['name'],
+            'acronym': user_info['acronym'],
+            'color': user_info['color']
+        })
+    user_list.sort(key=lambda _: _['name'])
+    return user_list
 
 def parseLine(line, id):
     "Parse a chat line like 'FF00FF#Some Text' into a dict"
@@ -36,5 +51,5 @@ def parseLine(line, id):
     }
 
 def parseMessages(seq, offset):
-    return jsonify(messages=[parseLine(line, i) for (i, line) in enumerate(seq, offset)])
+    return [parseLine(line, i) for (i, line) in enumerate(seq, offset)]
 
