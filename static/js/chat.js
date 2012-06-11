@@ -14,6 +14,19 @@ var messagesURL = "/messages";
 var saveURL = "/save";
 var quitURL = "/bye";
 
+var currentSidebar;
+
+function setSidebar(sidebar) {
+	if (currentSidebar) {
+		$(document.body).removeClass(currentSidebar);
+	}
+	// Null to remove sidebar.
+	if (sidebar) {
+		$(document.body).addClass(sidebar);
+	}
+	currentSidebar = sidebar;
+}
+
 /* Browser compatibility for visibilityChange */
 var hidden, visibilityChange;
 if (typeof document.hidden !== "undefined") {
@@ -100,6 +113,14 @@ $(document).ready(function() {
 				addLine('#'+msg['color'], msg['line']);
 				latestNum = Math.max(latestNum, msg['id']);
 			}
+			if (typeof data.online!=="undefined") {
+				// Reload online user list.
+				$("#online").empty();
+				for (var i=0; i<data.online.length; i++) {
+					var currentUser = data.online[i];
+					$('<li />').css('color', currentUser.color).text(currentUser.name).appendTo('#online');
+				}
+			}
 			if (typeof hidden!=="undefined" && document[hidden]==true) {
 				document.title = "New message - "+ORIGINAL_TITLE;
 			}
@@ -123,7 +144,7 @@ $(document).ready(function() {
 	pingInterval=window.setTimeout(pingServer, PING_PERIOD*1000);
 
 	$('#settingsButton').click(function() {
-		$(document.body).addClass('settings');
+		setSidebar('settings');
 	});
 
 	$('#settings').submit(function() {
@@ -136,7 +157,7 @@ $(document).ready(function() {
 			formData.push({ name: 'chat', value: chat })
 			$.post(saveURL, formData, function(data) {
 				$('#preview').css('color', '#'+$('#charColor').val());
-				$(document.body).removeClass('settings');
+				setSidebar('userList');
 			});
 		}
 		return false;
@@ -144,8 +165,10 @@ $(document).ready(function() {
 
 	$('#settingsCancelButton').click(function() {
 		// RESET FORM
-		$(document.body).removeClass('settings');
+		setSidebar('userList');
 	});
+
+	setSidebar('userList');
 
 	$(window).unload(function() {
 		$.ajax(quitURL, {'type': 'POST', data: {'chat': chat}, 'async': false});

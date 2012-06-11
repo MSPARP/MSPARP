@@ -38,7 +38,7 @@ def get_user_list(db, chatid):
             'acronym': user_info['acronym'],
             'color': user_info['color']
         })
-    user_list.sort(key=lambda _: _['name'])
+    user_list.sort(key=lambda _: _['name'].lower())
     return user_list
 
 def parseLine(line, id):
