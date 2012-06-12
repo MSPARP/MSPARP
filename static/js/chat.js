@@ -118,7 +118,7 @@ $(document).ready(function() {
 				$("#online").empty();
 				for (var i=0; i<data.online.length; i++) {
 					var currentUser = data.online[i];
-					$('<li />').css('color', currentUser.color).text(currentUser.name).appendTo('#online');
+					$('<li />').css('color', '#'+currentUser.color).text(currentUser.name).appendTo('#online');
 				}
 			}
 			if (typeof hidden!=="undefined" && document[hidden]==true) {
