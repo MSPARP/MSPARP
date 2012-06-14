@@ -89,13 +89,14 @@ $(document).ready(function() {
 
 	$('#controls').submit(function() {
 		if (updateChatPreview()) {
-			text = $('#preview').text();
-			if (pingInterval) {
-				window.clearTimeout(pingInterval);
+			if ($('#textInput').val()!='') {
+			    if (pingInterval) {
+				    window.clearTimeout(pingInterval);
+			    }
+			    $.post(postURL,{'chat': chat, 'line': $('#preview').text()}); // todo: check for for error
+			    pingInterval = window.setTimeout(pingServer, PING_PERIOD*1000);
+			    $('#textInput').val('');
 			}
-			$.post(postURL,{'chat': chat, 'line': text}); // todo: check for for error
-			pingInterval = window.setTimeout(pingServer, PING_PERIOD*1000);
-			$('#textInput').val('');
 		}
 		return false;
 	});
