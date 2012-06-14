@@ -59,7 +59,7 @@ $(document).ready(function() {
 		if (preview.substr(0,1)=='/') {
 			preview = jQuery.trim(preview.substr(1));
 		} else {
-			preview = jQuery.trim(preview);
+			preview = applyQuirks(jQuery.trim(preview));
 		}
 		if (preview.length>0) {
 			$('#preview').text(preview);
@@ -148,15 +148,24 @@ $(document).ready(function() {
 	});
 
 	$('#settings').submit(function() {
-		if ($('#charName').val()=="") {
+		// Trim everything first
+		formInputs = $('#settings').find('input, select');
+		for (i=0; i<formInputs.length; i++) {
+			formInputs[i].value = jQuery.trim(formInputs[i].value)
+		}
+		if ($('input[name="name"]').val()=="") {
 			alert("You can't chat with a blank name!");
-		} else if ($("#charColor").val().match(/^[0-9a-fA-F]{6}$/)==null) {
+		} else if ($('input[name="color"]').val().match(/^[0-9a-fA-F]{6}$/)==null) {
 			alert("You entered an invalid hex code. Try using the color picker.");
 		} else {
 			var formData = $(this).serializeArray();
 			formData.push({ name: 'chat', value: chat })
 			$.post(saveURL, formData, function(data) {
-				$('#preview').css('color', '#'+$('#charColor').val());
+				$('#preview').css('color', '#'+$('input[name="color"]').val());
+				formInputs = $('#settings').find('input, select');
+				for (i=0; i<formInputs.length; i++) {
+					user[formInputs[i].name] = formInputs[i].value
+				}
 				setSidebar('userList');
 			});
 		}

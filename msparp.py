@@ -32,7 +32,13 @@ app.url_map.converters['chat'] = ChatIDConverter
 
 class User(object):
 
-    DEFAULTS = { 'acronym': '??', 'name': 'Anonymous', 'color': '000000', 'character': 'anonymous/other' }
+    DEFAULTS = {
+        'acronym': '??',
+        'name': 'Anonymous',
+        'color': '000000',
+        'character': 'anonymous/other',
+        'quirk_prefix': ''
+    }
 
     def __init__(self, db, session=None, chat=None):
 
@@ -98,6 +104,8 @@ class User(object):
             setattr(self, 'character', form['character'])
         else:
             raise ValueError("character")
+
+        self.quirk_prefix = form['quirk_prefix']
 
         db.hmset(self.chat_prefix, self.character_dict())
 

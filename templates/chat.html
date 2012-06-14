@@ -5,6 +5,7 @@ Chat -
 {% block header %}
 <link rel="stylesheet" href="/static/css/chat.css">
 <script src="/static/js/characters.js"></script>
+<script src="/static/js/quirks.js"></script>
 <script type="text/javascript">
 	var user = {{user.character_dict()|tojson|safe}};
 	var chat = {{(chat)|tojson|safe}};
@@ -37,8 +38,9 @@ Chat -
 		</optgroup>
 		{% endfor %}
 	</select></p>
-	<p><input type="text" id="charName" name="name" value="{{user.name}}"></p>
-	<p><input type="text" size="3" id="charAcronym" name="acronym" value="{{user.acronym}}"> <input type="text" size="7" id="charColor" name="color" value="{{user.color}}"></p>
+	<p><input type="text" name="name" value="{{user.name}}"></p>
+	<p><input type="text" size="3" name="acronym" value="{{user.acronym}}"> <input type="text" size="7" name="color" value="{{user.color}}"></p>
+	<p><label>Prefix: <input type="text" size="8" name="quirk_prefix" value="{{user.quirk_prefix}}" /></label></p>
 	<p><button type="submit">Apply</button> <button type="button" id="settingsCancelButton">Cancel</button></p>
 </form>
 

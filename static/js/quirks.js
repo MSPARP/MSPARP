@@ -1,13 +1,20 @@
+function applyQuirks(text) {
+
+	// Prefix
+	if (user.quirk_prefix!='') {
+		text = user.quirk_prefix+' '+text;
+	}
+
+	return text
+
+}
+
 function upper(txt) {
 	return txt.toUpperCase();
 }
 
 function lower(txt) {
 	return txt.toLowerCase();
-}
-
-function prefix(txt, what) {
-	return what+txt;
 }
 
 function replaceLetter(txt, from, to) {
