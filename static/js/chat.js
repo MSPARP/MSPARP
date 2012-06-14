@@ -59,7 +59,7 @@ $(document).ready(function() {
 		if (preview.substr(0,1)=='/') {
 			preview = jQuery.trim(preview.substr(1));
 		} else {
-			preview = jQuery.trim(applyQuirks(preview));
+			preview = jQuery.trim(preview);
 		}
 		if (preview.length>0) {
 			$('#preview').text(preview);

@@ -8,7 +8,6 @@ from collections import defaultdict
 from werkzeug.routing import BaseConverter, ValidationError
 
 from characters import CHARACTER_GROUPS, CHARACTERS
-from quirks import QUIRKS
 from reaper import getTime
 from messages import addMessage, addSystemMessage, get_user_list, parseLine, parseMessages
 
@@ -66,11 +65,6 @@ class User(object):
 
         self.picky = db.smembers(self.prefix+'-picky')
 
-        self.quirks = db.smembers(self.prefix+'-quirks')
-        self.quirkargs = defaultdict(list)
-        for quirk in self.quirks:
-            self.quirkargs[quirk] = [unicode(_, encoding='utf-8') for _ in db.lrange(self.prefix+'-quirks-'+quirk, 0, -1)]
-
     def save(self, form):
         self.save_character(form)
         self.save_pickiness(form)
@@ -103,11 +97,6 @@ class User(object):
         else:
             raise ValueError("character")
 
-        quirks = self.quirks = set(k[6:] for k in form.keys() if k.startswith('quirk-'))
-        qa = self.quirkargs = defaultdict(list)
-        for q in quirks:
-            qa[q] = [value for (key,value) in sorted(form.items()) if key.startswith('qarg-'+q)]
-
         db.hmset(self.chat_prefix, dict((attrib, getattr(self, attrib)) for attrib in User.ATTRIBUTES))
 
         if (self.chat is not None and self.session in g.db.smembers('chat-%s-sessions' % self.chat)
@@ -115,17 +104,6 @@ class User(object):
             addSystemMessage(g.db, request.form['chat'], '%s [%s] is now %s [%s].' % (old_name, old_acronym, self.name, self.acronym), True)
 
         db.sadd('all-sessions', self.session)
-
-        quirkey = prefix+'-quirks'
-        db.delete(quirkey)
-        for quirk in self.quirks:
-            db.sadd(quirkey, quirk)
-        for key, values in self.quirkargs.items():
-            rkey = quirkey+'-'+key
-            if values:
-                db.delete(rkey)
-                for v in values:
-                    db.rpush(rkey, v)
 
     def save_pickiness(self, form):
 
@@ -138,23 +116,6 @@ class User(object):
                 raise ValueError("no_characters")
             for char in self.picky:
                 self.db.sadd(ckey, char)
-    
-    def buildQuirksFunction(self):
-
-        wrap = 'text'
-        qa = self.quirkargs
-        vcount = itertools.count()
-        args = {}
-
-        for q in self.quirks:
-            values = qa.get(q, [])
-            if values:
-                params = [('qarg'+str(num), value) for (num, value) in itertools.izip(vcount, values)]
-                args.update(dict(params))
-                wrap='%s(%s,%s)' % (q, wrap, ','.join(k for (k,v) in params))
-            else:
-                wrap='%s(%s)' % (q,wrap)
-        return wrap,args
 
 
 # Helper functions
@@ -166,7 +127,6 @@ def show_homepage(error):
         groups=CHARACTER_GROUPS,
         characters=CHARACTERS,
         default_char=g.user.character,
-        quirks=QUIRKS,
         users_searching=g.db.zcard('searchers'),
         users_chatting=g.db.scard('sessions-chatting')
     )
@@ -227,7 +187,6 @@ def chat(chat):
 
     existing_lines = [parseLine(line, 0) for line in g.db.lrange('chat-'+chat, 0, -1)]
     latestNum = len(existing_lines)-1
-    quirks_func, quirks_args=g.user.buildQuirksFunction()
 
     return render_template(
         'chat.html',
@@ -236,9 +195,7 @@ def chat(chat):
         characters=CHARACTERS,
         chat=chat,
         lines=existing_lines,
-        latestNum=latestNum,
-        applyQuirks=quirks_func,
-        quirks_args=quirks_args
+        latestNum=latestNum
     )
 
 @app.route('/post', methods=['POST'])

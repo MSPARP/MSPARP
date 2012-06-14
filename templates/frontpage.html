@@ -46,15 +46,7 @@
 <div class="options">
 	<h1>Typing quirks</h1><button data-target="typing-quirks" class="show-button">...</button>
 	<div class="options-contents defaults-off" id="typing-quirks">
-		{% for quirk in quirks %}
-		<label class="quirk quirk-{% if quirk.args==0 %}simple{%else%}complex{%endif%}"><input type="checkbox" name="quirk-{{quirk.name}}" 
-				{% if quirk.name in user.quirks %}checked="checked"{%endif%}	
-				>{{quirk.desc}}
-				{% for arg in range(quirk.args) %}
-				<input type="text" name="qarg-{{quirk.name}}-{{arg}}" value="{{user.quirkargs[quirk.name][arg]}}"/>
-				{% endfor %}
-			</label>
-		{% endfor %}
+
 	</div>
 </div>
 <div class="options">

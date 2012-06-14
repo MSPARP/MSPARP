@@ -5,13 +5,11 @@ Chat -
 {% block header %}
 <link rel="stylesheet" href="/static/css/chat.css">
 <script src="/static/js/characters.js"></script>
-<script src="/static/js/quirks.js"></script>
 <script type="text/javascript">
 	var userColor = {{("#"+user.color)|upper|tojson|safe}};
 	var chat = {{(chat)|tojson|safe}};
 	var latestNum = {{latestNum}};
 </script>
-{% include 'apply_quirk_js.html' %}
 <script src="/static/js/chat.js"></script>
 {% endblock %}
 {% block content %}

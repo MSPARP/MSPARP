@@ -17,25 +17,6 @@ $(document).ready(function() {
 			for(var i=0; i<keys.length; i++) {
 				config.find('input[name="'+keys[i]+'"]').val(chr[keys[i]]);
 			}
-			var quirksElement = $('#typing-quirks');
-			quirksElement.find('input').val([]);
-			var quirks = chr['quirks'];
-			for(var i=0; i<quirks.length; i++) {
-				var name = quirks[i].split("(")[0];
-				quirksElement.find('input[name="quirk-'+name+'"]').attr('checked','checked');
-				if(quirks[i].indexOf('(')!=-1) {
-					var parameterRE = new RegExp('"([^"]+)"','g');
-					var match, argi = 0;
-					do {
-						var match = parameterRE.exec(quirks[i]);
-						if(match){
-							quirksElement.find('input[name="qarg-'+name+'-'+argi+'"]').val(match[1]);
-							argi++;
-						}
-					} while(match);
-					
-				}
-			}
 			config.find('#color-preview #quote').text(chr['quote']);
 			updatePreview();
 			if(!settingUp) {
