@@ -32,7 +32,6 @@ app.url_map.converters['chat'] = ChatIDConverter
 
 class User(object):
 
-    ATTRIBUTES = ['acronym', 'name', 'color', 'character']
     DEFAULTS = { 'acronym': '??', 'name': 'Anonymous', 'color': '000000', 'character': 'anonymous/other' }
 
     def __init__(self, db, session=None, chat=None):
@@ -64,6 +63,9 @@ class User(object):
         # XXX lazy loading on these?
 
         self.picky = db.smembers(self.prefix+'-picky')
+
+    def character_dict(self):
+        return dict((attrib, getattr(self, attrib)) for attrib in User.DEFAULTS.keys())
 
     def save(self, form):
         self.save_character(form)
@@ -97,7 +99,7 @@ class User(object):
         else:
             raise ValueError("character")
 
-        db.hmset(self.chat_prefix, dict((attrib, getattr(self, attrib)) for attrib in User.ATTRIBUTES))
+        db.hmset(self.chat_prefix, self.character_dict())
 
         if (self.chat is not None and self.session in g.db.smembers('chat-%s-sessions' % self.chat)
             and (self.name!=old_name or self.acronym!=old_acronym)):

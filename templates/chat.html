@@ -6,7 +6,7 @@ Chat -
 <link rel="stylesheet" href="/static/css/chat.css">
 <script src="/static/js/characters.js"></script>
 <script type="text/javascript">
-	var userColor = {{("#"+user.color)|upper|tojson|safe}};
+	var user = {{user.character_dict()|tojson|safe}};
 	var chat = {{(chat)|tojson|safe}};
 	var latestNum = {{latestNum}};
 </script>

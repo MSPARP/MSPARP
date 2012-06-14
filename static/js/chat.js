@@ -71,7 +71,7 @@ $(document).ready(function() {
 	}
 	
 	$('#textInput').change(updateChatPreview).keyup(updateChatPreview).change();
-	$('#preview').css('color', userColor);
+	$('#preview').css('color', '#'+user.color);
 
 	var previewHidden = false;
 	$('#hidePreview').click(function() {
