@@ -41,6 +41,11 @@ Chat -
 	<p><input type="text" name="name" value="{{user.name}}"></p>
 	<p><input type="text" size="3" name="acronym" value="{{user.acronym}}"> <input type="text" size="7" name="color" value="{{user.color}}"></p>
 	<p><label>Prefix: <input type="text" size="8" name="quirk_prefix" value="{{user.quirk_prefix}}" /></label></p>
+	<p><label>Case: <select name="case">
+		{% for case in user.CASE_OPTIONS.items()|sort %}
+		<option value="{{case[0]}}"{% if case[0]==user.case %} selected="selected"{%endif%}>{{case[1]}}</option>
+		{% endfor %}
+	</select></label></p>
 	<p><button type="submit">Apply</button> <button type="button" id="settingsCancelButton">Cancel</button></p>
 </form>
 

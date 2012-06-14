@@ -32,12 +32,22 @@ app.url_map.converters['chat'] = ChatIDConverter
 
 class User(object):
 
+    CASE_OPTIONS = {
+        'normal': 'Normal',
+        'upper': 'UPPER CASE',
+        'lower': 'lower case',
+        'title': 'Title Case',
+        'inverted': 'iNVERTED',
+        'alternating': 'AlTeRnAtInG'
+    }
+
     DEFAULTS = {
         'acronym': '??',
         'name': 'Anonymous',
         'color': '000000',
         'character': 'anonymous/other',
-        'quirk_prefix': ''
+        'quirk_prefix': '',
+        'case': 'normal'
     }
 
     def __init__(self, db, session=None, chat=None):
@@ -106,6 +116,12 @@ class User(object):
             raise ValueError("character")
 
         self.quirk_prefix = form['quirk_prefix']
+
+        # Validate case
+        if form['case'] in self.CASE_OPTIONS.keys():
+            setattr(self, 'case', form['case'])
+        else:
+            raise ValueError("case")
 
         db.hmset(self.chat_prefix, self.character_dict())
 

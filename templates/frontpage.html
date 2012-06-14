@@ -34,8 +34,8 @@
 	</div>
 </div>
 <div class="options">
-	<h1>With settings:</h1>{% if user.fresh%}<button data-target="character-config" class="show-button">...</button>{% endif %}
-	<div class="options-contents {% if user.fresh %}defaults-off{% endif %}" id="character-config">
+	<h1>With settings:</h1>
+	<div class="options-contents" id="character-config">
 		<label>Acronym: <input type="text" size="3" name="acronym" value="{{user.acronym}}" /></label><br />
 		<label>Name: <input type="text" size="50" name="name" value="{{user.name}}" /></label><br />{% if error=="name" %}
 		<span class="error">You can't chat with a blank name!</span><br />{% endif %}
@@ -47,6 +47,14 @@
 	<h1>Typing quirks</h1><button data-target="typing-quirks" class="show-button">...</button>
 	<div class="options-contents defaults-off" id="typing-quirks">
 		<label>Prefix: <input type="text" name="quirk_prefix" value="{{user.quirk_prefix}}" /></label><br />
+		<label>Case:
+			<select name="case">
+				{% for case in user.CASE_OPTIONS.items()|sort %}
+				<option value="{{case[0]}}"{% if case[0]==user.case %} selected="selected"{%endif%}>{{case[1]}}</option>
+				{% endfor %}
+			</select>
+		</label><br />{% if error=="case" %}
+		<span class="error">Congratulations. You've somehow picked a case option which doesn't exist. I'm not sure how you got here, but I guess you'll just have to try again.</span>{% endif %}
 	</div>
 </div>
 <div class="options">
