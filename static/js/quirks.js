@@ -1,5 +1,6 @@
 function applyQuirks(text) {
 
+	// Case
 	switch (user.case) {
 		case "lower":
 			text = text.toLowerCase();
@@ -30,6 +31,15 @@ function applyQuirks(text) {
 			break;
 	}
 
+	// Replacements
+	for (i=0; i<user.replacements.length; i++) {
+		var replacement = user.replacements[i];
+		// Chrome doesn't do global string replacing so we need to loop this.
+		while (text.indexOf(replacement[0])!=-1) {
+			text = text.replace(replacement[0], replacement[1], 'g');
+		}
+	}
+
 	// Prefix
 	if (user.quirk_prefix!='') {
 		text = user.quirk_prefix+' '+text;
@@ -39,23 +49,7 @@ function applyQuirks(text) {
 
 }
 
-function replaceLetter(txt, from, to) {
-	return txt.replace(new RegExp(from, 'g'), to);
-}
-
-function twoQuirk(txt) {
-	return txt.replace(/too/g, 'two');
-}
-
-function l33t(txt) {
-	return txt.replace(/[Aa]/g,'4').replace(/[iI]/g,'1').replace(/[eE]/g,'3');
-}
-
 function depunct(txt) {
 	return txt.replace(/[.,?!']/g, '');
-}
-
-function hornedEmoticons(txt) {
-	return txt.replace(/[;:]-?[()DO]/, function(arg) { return '}'+arg; });
 }
 

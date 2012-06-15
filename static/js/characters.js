@@ -146,3 +146,24 @@ var characters = {
 	}
 }
 
+$(document).ready(function() {
+
+	function deleteReplacement() {
+		$(this.parentNode).remove();
+		return false;
+	}
+	$('.deleteReplacement').click(deleteReplacement);
+
+	$('#addReplacement').click(function() {
+		newItem = $('<li><input type="text" name="quirk_from" size="3"> to <input type="text" name="quirk_to" size="3"> <a href="#" class="deleteReplacement">x</a></li>');
+		$(newItem).find('.deleteReplacement').click(deleteReplacement);
+		$(newItem).appendTo('#replacementList');
+		return false;
+	});
+
+	$('#clearReplacements').click(function() {
+		$('#replacementList').empty();
+		return false;
+	});
+
+});

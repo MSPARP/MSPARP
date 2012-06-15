@@ -7,7 +7,7 @@ Chat -
 <script src="/static/js/characters.js"></script>
 <script src="/static/js/quirks.js"></script>
 <script type="text/javascript">
-	var user = {{user.character_dict()|tojson|safe}};
+	var user = {{character_dict|tojson|safe}};
 	var chat = {{(chat)|tojson|safe}};
 	var latestNum = {{latestNum}};
 </script>
@@ -46,6 +46,17 @@ Chat -
 		<option value="{{case[0]}}"{% if case[0]==user.case %} selected="selected"{%endif%}>{{case[1]}}</option>
 		{% endfor %}
 	</select></label></p>
+	<p>Replacements:</p>
+	<ul id="replacementList">
+		{% if character_dict['replacements']|length!=0 %}
+		{% for replacement in character_dict['replacements'] %}
+		<li><input type="text" name="quirk_from" size="4" value="{{replacement[0]}}"> to <input type="text" name="quirk_to" size="4" value="{{replacement[1]}}"> <a href="#" class="deleteReplacement">x</a></li>
+		{% endfor %}
+		{% else %}
+		<li><input type="text" name="quirk_from" size="4"> to <input type="text" name="quirk_to" size="4"> <a href="#" class="deleteReplacement">x</a></li>
+		{% endif %}
+	</ul>
+	<p><a href="#" id="addReplacement">Add</a> <a href="#" id="clearReplacements">Clear</a></p>
 	<p><button type="submit">Apply</button> <button type="button" id="settingsCancelButton">Cancel</button></p>
 </form>
 

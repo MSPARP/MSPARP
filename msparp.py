@@ -1,4 +1,4 @@
-import itertools, re, time
+import itertools, json, re, time
 
 from functools import wraps
 from flask import Flask, g, request, render_template, make_response, redirect, url_for, jsonify, abort
@@ -47,7 +47,8 @@ class User(object):
         'color': '000000',
         'character': 'anonymous/other',
         'quirk_prefix': '',
-        'case': 'normal'
+        'case': 'normal',
+        'replacements': '[]'
     }
 
     def __init__(self, db, session=None, chat=None):
@@ -80,8 +81,11 @@ class User(object):
 
         self.picky = db.smembers(self.prefix+'-picky')
 
-    def character_dict(self):
-        return dict((attrib, getattr(self, attrib)) for attrib in User.DEFAULTS.keys())
+    def character_dict(self, unpack_replacements=False):
+        character_dict = dict((attrib, getattr(self, attrib)) for attrib in User.DEFAULTS.keys())
+        if unpack_replacements:
+            character_dict['replacements'] = json.loads(character_dict['replacements'])
+        return character_dict
 
     def save(self, form):
         self.save_character(form)
@@ -123,6 +127,12 @@ class User(object):
         else:
             raise ValueError("case")
 
+        self.replacements = zip(form.getlist('quirk_from'), form.getlist('quirk_to'))
+        # Strip out any rows where from is blank or the same as to.
+        self.replacements = [_ for _ in self.replacements if _[0]!='' and _[0]!=_[1]]
+        # And encode as JSON.
+        self.replacements = json.dumps(self.replacements)
+
         db.hmset(self.chat_prefix, self.character_dict())
 
         if (self.chat is not None and self.session in g.db.smembers('chat-%s-sessions' % self.chat)
@@ -150,6 +160,7 @@ def show_homepage(error):
     return render_template('frontpage.html',
         error=error,
         user=g.user,
+        character_dict=g.user.character_dict(True),
         groups=CHARACTER_GROUPS,
         characters=CHARACTERS,
         default_char=g.user.character,
@@ -225,6 +236,7 @@ def chat(chat):
     return render_template(
         'chat.html',
         user=g.user,
+        character_dict=g.user.character_dict(True),
         groups=CHARACTER_GROUPS,
         characters=CHARACTERS,
         chat=chat,

@@ -54,7 +54,18 @@
 				{% endfor %}
 			</select>
 		</label><br />{% if error=="case" %}
-		<span class="error">Congratulations. You've somehow picked a case option which doesn't exist. I'm not sure how you got here, but I guess you'll just have to try again.</span>{% endif %}
+		<span class="error">Congratulations. You've somehow picked a case option which doesn't exist. I'm not sure how you got here, but I guess you'll just have to try again.</span><br />{% endif %}
+		Character replacements:<br />
+		<ul id="replacementList">
+			{% if character_dict['replacements']|length!=0 %}
+			{% for replacement in character_dict['replacements'] %}
+			<li><input type="text" name="quirk_from" size="4" value="{{replacement[0]}}"> to <input type="text" name="quirk_to" size="4" value="{{replacement[1]}}"> <a href="#" class="deleteReplacement">x</a></li>
+			{% endfor %}
+			{% else %}
+			<li><input type="text" name="quirk_from" size="4"> to <input type="text" name="quirk_to" size="4"> <a href="#" class="deleteReplacement">x</a></li>
+			{% endif %}
+		</ul>
+		<a href="#" id="addReplacement">Add</a> <a href="#" id="clearReplacements">Clear</a>
 	</div>
 </div>
 <div class="options">
