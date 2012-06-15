@@ -35,91 +35,103 @@ $(document).ready(function() {
 		chatlog.scrollTop(chatlog[0].scrollHeight);
 	}
 
-	function updateChatPreview(){
-		var preview = $('#chat-line').val();
-		if (preview.substr(0,1)=='/') {
-			preview = jQuery.trim(preview.substr(1));
-		} else {
-			preview = jQuery.trim(applyQuirks(preview));
-		}
-		$('#preview-text').text(preview);
-		if (preview.length==0) {
-			$('#hide-preview').hide();
-		} else {
-			$('#hide-preview').show();
-		}
-		$('#chat-log').css('bottom',$('#chat-hover').height()+'px');
-		return preview.length!=0;
-	}
+	if (document.cookie=="") {
+
+		addLine("#FF0000", "It seems you have cookies disabled. Unfortunately cookies are essential for MSPARP to work, so you'll need to either enable them or add an exception in order to use MSPARP.");
+
+	    $('#chat-form').submit(function() {
+		    return false;
+	    });
+
+	} else {
+
+	    function updateChatPreview(){
+		    var preview = $('#chat-line').val();
+		    if (preview.substr(0,1)=='/') {
+			    preview = jQuery.trim(preview.substr(1));
+		    } else {
+			    preview = jQuery.trim(applyQuirks(preview));
+		    }
+		    $('#preview-text').text(preview);
+		    if (preview.length==0) {
+			    $('#hide-preview').hide();
+		    } else {
+			    $('#hide-preview').show();
+		    }
+		    $('#chat-log').css('bottom',$('#chat-hover').height()+'px');
+		    return preview.length!=0;
+	    }
 	
-	$('#chat-line').change(updateChatPreview).keyup(updateChatPreview).change();
-	$('#preview-text').css('color', user_color);
+	    $('#chat-line').change(updateChatPreview).keyup(updateChatPreview).change();
+	    $('#preview-text').css('color', user_color);
 
-	var previewHidden = false;
-	$('#hide-preview').click(function() {
-		if (previewHidden) {
-			$('#preview-text').show();
-			$(this).text("[hide]");
-		} else {
-			$('#preview-text').hide();
-			$(this).text("[show]");
-		}
-		$('#chat-log').css('bottom',$('#chat-hover').height()+'px');
-		previewHidden = !previewHidden;
-		return false;
-	});
+	    var previewHidden = false;
+	    $('#hide-preview').click(function() {
+		    if (previewHidden) {
+			    $('#preview-text').show();
+			    $(this).text("[hide]");
+		    } else {
+			    $('#preview-text').hide();
+			    $(this).text("[show]");
+		    }
+		    $('#chat-log').css('bottom',$('#chat-hover').height()+'px');
+		    previewHidden = !previewHidden;
+		    return false;
+	    });
 
-	$('#chat-form').submit(function() {
-		if (updateChatPreview()) {
-			text = $('#preview-text').text();
-			if (ping_interval) {
-				window.clearTimeout(ping_interval);
-			}
-			$.post(post_url,{'line': text}); // todo: check for for error
-			ping_interval = window.setTimeout(pingServer, PING_PERIOD*1000);
-			$('#chat-line').val('');
-		}
-		return false;
-	});
+	    $('#chat-form').submit(function() {
+		    if (updateChatPreview()) {
+			    text = $('#preview-text').text();
+			    if (ping_interval) {
+				    window.clearTimeout(ping_interval);
+			    }
+			    $.post(post_url,{'line': text}); // todo: check for for error
+			    ping_interval = window.setTimeout(pingServer, PING_PERIOD*1000);
+			    $('#chat-line').val('');
+		    }
+		    return false;
+	    });
 
-	function pingServer() {
-		$.post(ping_url, {});
-		ping_interval = window.setTimeout(pingServer, PING_PERIOD*1000);
+	    function pingServer() {
+		    $.post(ping_url, {});
+		    ping_interval = window.setTimeout(pingServer, PING_PERIOD*1000);
+	    }
+
+	    function getMessages() {
+		    $.post(get_messages_url, {'after': latestNum}, function(data) {
+			    var messages = data.messages;
+			    for (var i=0; i<messages.length; i++) {
+				    var msg = messages[i];
+				    addLine('#'+msg['color'], msg['line']);
+				    latestNum = Math.max(latestNum, msg['id']);
+			    }
+			    if (typeof hidden!=="undefined" && document[hidden]==true) {
+				    document.title = "New message - "+ORIGINAL_TITLE;
+			    }
+		    }, "json").complete(function() {
+			    window.setTimeout(getMessages, 50);
+		    });
+	    }
+
+	    if (typeof document.addEventListener!=="undefined" && typeof hidden!=="undefined") {
+		    document.addEventListener(visibilityChange, function() {
+			    if (document[hidden]==false) {
+				    // You can't change document.title here in Webkit. #googlehatesyou
+				    window.setTimeout(function() {
+					    document.title = ORIGINAL_TITLE;
+				    }, 50);
+			    }
+		    }, false);
+	    }
+
+	    window.setTimeout(getMessages, 500);
+	    ping_interval=window.setTimeout(pingServer, PING_PERIOD*1000);
+
+	    $(window).unload(function() {
+		    $.ajax(quitURL, {'type': 'POST', 'async': false});
+	    });
+
 	}
-
-	function getMessages() {
-		$.post(get_messages_url, {'after': latestNum}, function(data) {
-			var messages = data.messages;
-			for (var i=0; i<messages.length; i++) {
-				var msg = messages[i];
-				addLine('#'+msg['color'], msg['line']);
-				latestNum = Math.max(latestNum, msg['id']);
-			}
-			if (typeof hidden!=="undefined" && document[hidden]==true) {
-				document.title = "New message - "+ORIGINAL_TITLE;
-			}
-		}, "json").complete(function() {
-			window.setTimeout(getMessages, 50);
-		});
-	}
-
-	if (typeof document.addEventListener!=="undefined" && typeof hidden!=="undefined") {
-		document.addEventListener(visibilityChange, function() {
-			if (document[hidden]==false) {
-				// You can't change document.title here in Webkit. #googlehatesyou
-				window.setTimeout(function() {
-					document.title = ORIGINAL_TITLE;
-				}, 50);
-			}
-		}, false);
-	}
-
-	window.setTimeout(getMessages, 500);
-	ping_interval=window.setTimeout(pingServer, PING_PERIOD*1000);
-
-	$(window).unload(function() {
-		$.ajax(quitURL, {'type': 'POST', 'async': false});
-	});
 
 });
 
