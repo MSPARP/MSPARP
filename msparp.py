@@ -200,6 +200,9 @@ def connect():
     if uid is not None:
         g.user = user = User(uid)
         user.load(db)
+    elif request.url_rule.endpoint not in ("postMessage", "pingServer", "getMessages", "quitChatting"):
+        # Don't accept chat requests if there's no cookie.
+        abort(400)
     else:
         g.user = user = User(str(uuid4()))
         user.save(g.db)
