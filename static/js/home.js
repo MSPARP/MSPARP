@@ -29,24 +29,6 @@ $(document).ready(function() {
 	var name = $("select.character-select").attr('value');
 	config.find('#color-preview #quote').text(characters[name]['quote']);
 
-	var colorBox = config.find('input[name="color"]');
-	colorBox.ColorPicker({
-		onSubmit: function(hsb, hex, rgb, el) {
-			$(el).val(hex);
-			$(el).ColorPickerHide();
-		},
-		onBeforeShow: function () {
-			$(this).ColorPickerSetColor(this.value);
-		},
-		onChange: function (hsb, hex, rgb) {
-			$('#color-preview').css('color', '#' + hex);
-			colorBox.val(hex);
-		}
-
-	}).bind('keyup', function() {
-		$(this).ColorPickerSetColor(this.value);
-	});
-
 	$('input[name="picky"]').change(function() {
 		if($(this).is(':checked')) {
 			$('#picky-matches').show();

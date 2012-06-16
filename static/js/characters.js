@@ -255,14 +255,32 @@ $(document).ready(function() {
 				$('input[name="'+characterKeys[i]+'"], select[name="'+characterKeys[i]+'"]').val(newCharacter[characterKeys[i]]);
 			}
 			clearReplacements(null);
-            if (newCharacter['replacements'].length>0) {
-    			for (i=0; i<newCharacter['replacements'].length; i++) {
-    				addReplacement(null, newCharacter['replacements'][i][0], newCharacter['replacements'][i][1]);
-    			}
-            } else {
-                addReplacement();
-            }
+			if (newCharacter['replacements'].length>0) {
+				for (i=0; i<newCharacter['replacements'].length; i++) {
+					addReplacement(null, newCharacter['replacements'][i][0], newCharacter['replacements'][i][1]);
+				}
+			} else {
+				addReplacement();
+			}
 		}
+	});
+
+	var colorBox = $('input[name="color"]');
+	colorBox.ColorPicker({
+		onSubmit: function(hsb, hex, rgb, el) {
+			$(el).val(hex);
+			$(el).ColorPickerHide();
+		},
+		onBeforeShow: function () {
+			$(this).ColorPickerSetColor(this.value);
+		},
+		onChange: function (hsb, hex, rgb) {
+			colorBox.val(hex);
+			// This doesn't do anything in the chat window.
+			$('#color-preview').css('color', '#' + hex);
+		}
+	}).bind('keyup', function() {
+		$(this).ColorPickerSetColor(this.value);
 	});
 
 });
