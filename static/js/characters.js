@@ -70,7 +70,7 @@ var characters = {
 		'color': '4AC925',
 		'quote': "i am never going to sleep again!",
 		'quirk_prefix': '',
-		'case': 'normal',
+		'case': 'lower',
 		'replacements': []
 	},
 	'jane': {
@@ -115,8 +115,8 @@ var characters = {
 		'color': 'A10000',
 		'quote': "maybe if i say st0p en0ugh s0mething else will happen instead 0f the thing that d0es",
 		'quirk_prefix': '',
-		'case': 'normal',
-		'replacements': []
+		'case': 'lower',
+		'replacements': [['o', '0']]
 	},
 	'tavros': {
 		'acronym': 'AT',
@@ -124,8 +124,8 @@ var characters = {
 		'color': 'A15000',
 		'quote': "i THINK i AM PERFECTLY CAPABLE OF MANUFACTURING THESE ALLEGED \"dope\" HUMAN RHYMES",
 		'quirk_prefix': '',
-		'case': 'normal',
-		'replacements': []
+		'case': 'inverted',
+		'replacements': [['.', ',']]
 	},
 	'sollux':{
 		'acronym': 'TA',
@@ -133,8 +133,8 @@ var characters = {
 		'color': 'A1A100',
 		'quote': "do me a favor and 2pare me your 2pooky conundrum2 twoniight, youre kiind of pii22iing me off.",
 		'quirk_prefix': '',
-		'case': 'normal',
-		'replacements': []
+		'case': 'lower',
+		'replacements': [['i', 'ii'], ['s', '2']]
 	},
 	'karkat':{
 		'acronym': 'CG',
@@ -151,8 +151,8 @@ var characters = {
 		'color': '416600',
 		'quote': ":33 < but do you think you could purrhaps please spare your computer for just the most fl33ting of moments?",
 		'quirk_prefix': ':33 <',
-		'case': 'normal',
-		'replacements': []
+		'case': 'lower',
+		'replacements': [['ee', '33']]
 	},
 	'kanaya':{
 		'acronym':'GA',
@@ -160,7 +160,7 @@ var characters = {
 		'color':'008141',
 		'quote':"So You Are Destined To Edit It No Matter What And What You Submit Will Be What I Once Read Regardless",
 		'quirk_prefix': '',
-		'case': 'normal',
+		'case': 'title',
 		'replacements': []
 	},
 	'terezi': {
@@ -170,7 +170,7 @@ var characters = {
 		'quote': "JOHN W3 AR3 SO MUCH B3TT3R TH4N YOU IN 3V3RY R3SP3CT 1TS R1D1CULOUS",
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': [["A", "4"], ["I", "1"], ["E", "3"]]
+		'replacements': [["A", "4"], ["E", "3"], ["I", "1"]]
 	},
 	'vriska': {
 		'acronym': 'AG',
@@ -179,7 +179,7 @@ var characters = {
 		'quote': "It is 8ight groups of 8ight. I specifically counted them.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [["B", "8"], ["b", "8"]]
 	},
 	'equius': {
 		'acronym': 'CT',
@@ -188,7 +188,7 @@ var characters = {
 		'quote': "D --> How do you know about my perspiration problem",
 		'quirk_prefix': 'D -->',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [["X", "%"], ["x", "%"], ["loo", "100"], ["ool", "001"]]
 		
 	},
 	'gamzee': {
@@ -197,7 +197,7 @@ var characters = {
 		'color': '2B0057',
 		'quote': "ThIs sOuNdS AmAzInG, i cAn't sEe hOw i wOuLdN'T Be aLl kIcKiNg tHe wIcKeD ShIt oUt Of sUcH KiNdS Of oPpOrTuNiTiEs",
 		'quirk_prefix': '',
-		'case': 'normal',
+		'case': 'alternating',
 		'replacements': []
 	},
 	'eridan': {
@@ -206,8 +206,8 @@ var characters = {
 		'color': '6A006A',
 		'quote': "wwho are you tryin to convvince wwith this ludicrous poppycock",
 		'quirk_prefix': '',
-		'case': 'normal',
-		'replacements': []
+		'case': 'lower',
+		'replacements': [["v", "vv"], ["w", "ww"]]
 	},
 	'feferi': {
 		'acronym': 'CC',
@@ -216,7 +216,7 @@ var characters = {
 		'quote': ")(oly mackerel, looks like SOM-EON-E woke up on t)(e wrong side of t)(e absurd )(uman bed!",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [["E", "-E"], ["H", ")("], ["h", ")("]]
 	}
 }
 
