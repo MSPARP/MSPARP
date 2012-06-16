@@ -55,7 +55,7 @@
 			</select>
 		</label><br />{% if error=="case" %}
 		<span class="error">Congratulations. You've somehow picked a case option which doesn't exist. I'm not sure how you got here, but I guess you'll just have to try again.</span><br />{% endif %}
-		Character replacements:<br />
+		Letter replacements:<br />
 		<ul id="replacementList">
 			{% if character_dict['replacements']|length!=0 %}
 			{% for replacement in character_dict['replacements'] %}

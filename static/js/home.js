@@ -9,15 +9,10 @@ $(document).ready(function() {
 		$('#color-preview #acronym').text(acronym+(acronym.length>0?': ':''));
 	}
 
-	$('select.character-select').change(function() {
-		var val = $(this).attr('value');
-		if(characters[val]) {
-			var chr = characters[val];
-			var keys = ['acronym', 'name', 'color'];
-			for(var i=0; i<keys.length; i++) {
-				config.find('input[name="'+keys[i]+'"]').val(chr[keys[i]]);
-			}
-			config.find('#color-preview #quote').text(chr['quote']);
+	$('select[name="character"]').change(function() {
+		if(characters[this.value]) {
+			var newCharacter = characters[this.value];
+			config.find('#color-preview #quote').text(newCharacter['quote']);
 			updatePreview();
 			if(!settingUp) {
 				$('#character-config').show();
