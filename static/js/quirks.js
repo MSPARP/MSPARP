@@ -34,10 +34,10 @@ function applyQuirks(text) {
 	// Replacements
 	for (i=0; i<user.replacements.length; i++) {
 		var replacement = user.replacements[i];
-		// Chrome doesn't do global string replacing so we need to loop this.
-		while (text.indexOf(replacement[0])!=-1) {
-			text = text.replace(replacement[0], replacement[1], 'g');
-		}
+		// We're doing it like this because regular expressions pick up slashes
+		// and stuff as control characters, and string replacement only picks up
+		// the first occurence in Chrome.
+		text = text.split(replacement[0]).join(replacement[1])
 	}
 
 	// Prefix
