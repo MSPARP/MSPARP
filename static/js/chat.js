@@ -125,11 +125,12 @@ $(document).ready(function() {
 					latestNum = Math.max(latestNum, msg['id']);
 				}
 				if (typeof data.online!=="undefined") {
-					// Reload online user list.
-					$("#online").empty();
+					// Reload user lists.
+					$("#online, #away").empty();
 					for (var i=0; i<data.online.length; i++) {
 						var currentUser = data.online[i];
-						$('<li />').css('color', '#'+currentUser.color).text(currentUser.name).appendTo('#online');
+						var listItem = $('<li />').css('color', '#'+currentUser.color).text(currentUser.name);
+						listItem.appendTo('#'+currentUser.state);
 					}
 				}
 				if (typeof hidden!=="undefined" && document[hidden]==true) {

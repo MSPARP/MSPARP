@@ -90,6 +90,12 @@ body.settings #settings, body.userList #userList {
 	padding: 0 0 0 1.5em;
 }
 
+#userList ul:empty:after {
+	content: "(no-one)";
+	color: #999999;
+	font-style: italic;
+}
+
 #settings ul li, #userList ul li {
 	padding: 2px 0;
 }
