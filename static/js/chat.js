@@ -158,6 +158,19 @@ $(document).ready(function() {
 			setSidebar('settings');
 		});
 
+		var userState = 'online';
+		var newState;
+		$('#awayButton').click(function() {
+			if (userState=='away') {
+				newState = 'online';
+			} else {
+				newState = 'away';
+			}
+			$.post(postURL, {'chat': chat, 'state': newState}, function(data) {
+				userState = newState;
+			});
+		});
+
 		$('#settings').submit(function() {
 			// Trim everything first
 			formInputs = $('#settings').find('input, select');

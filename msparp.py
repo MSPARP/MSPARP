@@ -250,6 +250,14 @@ def chat(chat):
 def postMessage():
     if 'line' in request.form:
         addMessage(g.db, request.form['chat'], g.user.color, g.user.acronym, request.form['line'])
+    if 'state' in request.form and request.form['state'] in ['online', 'away']:
+        current_state = g.db.hget('chat-%s-sessions' % request.form['chat'], g.user.session)
+        if request.form['state']!=current_state:
+            g.db.hset('chat-%s-sessions' % request.form['chat'], g.user.session, request.form['state'])
+            if request.form['state']=='away':
+                addSystemMessage(g.db, request.form['chat'], '%s [%s] is now an idle chum.' % (g.user.name, g.user.acronym), True)
+            else:
+                addSystemMessage(g.db, request.form['chat'], '%s [%s] is no longer an idle chum.' % (g.user.name, g.user.acronym), True)
     return 'ok'
 
 @app.route('/ping', methods=['POST'])
