@@ -31,13 +31,17 @@ def addSystemMessage(db, chatid, text, reload_user_list=False):
 
 def get_user_list(db, chatid):
     user_list = []
-    for user in db.smembers('chat-'+chatid+'-sessions'):
-        user_info = db.hgetall('session-'+user+'-'+chatid)
-        user_list.append({
-            'name': user_info['name'],
-            'acronym': user_info['acronym'],
-            'color': user_info['color']
-        })
+    users = db.hgetall('chat-'+chatid+'-sessions')
+    for user in users.items():
+        if user[1] in ['online', 'away']:
+            user_info = db.hgetall('session-'+user[0]+'-'+chatid)
+            user_object = {
+                'name': user_info['name'],
+                'acronym': user_info['acronym'],
+                'color': user_info['color'],
+                'state': user[1]
+            }
+            user_list.append(user_object)
     user_list.sort(key=lambda _: _['name'].lower())
     return user_list
 

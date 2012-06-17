@@ -135,7 +135,7 @@ class User(object):
 
         db.hmset(self.chat_prefix, self.character_dict())
 
-        if (self.chat is not None and self.session in g.db.smembers('chat-%s-sessions' % self.chat)
+        if (self.chat is not None and g.db.hget('chat-%s-sessions' % self.chat, self.session) in ['online', 'away']
             and (self.name!=old_name or self.acronym!=old_acronym)):
             addSystemMessage(g.db, request.form['chat'], '%s [%s] is now %s [%s].' % (old_name, old_acronym, self.name, self.acronym), True)
 
@@ -183,10 +183,10 @@ def mark_alive(f):
     def decorated_function(*args, **kwargs):
         chat = request.form['chat']
         chatkey = 'chat-%s-sessions' % chat
-        if not g.db.sismember(chatkey, g.user.session):
-            g.db.sadd(chatkey, g.user.session)
+        if g.db.hget(chatkey, g.user.session) not in ['online', 'away']:
+            g.db.hset(chatkey, g.user.session, 'online')
             addSystemMessage(g.db, chat, '%s [%s] joined chat.' % (g.user.name, g.user.acronym), True)
-        g.db.zadd('chats-alive', chat+'/'+g.user.session, getTime())    
+        g.db.zadd('chats-alive', chat+'/'+g.user.session, getTime())
         g.db.sadd('sessions-chatting', g.user.session)
         return f(*args, **kwargs)
     return decorated_function
@@ -248,7 +248,8 @@ def chat(chat):
 @validate_chat
 @mark_alive
 def postMessage():
-    addMessage(g.db, request.form['chat'], g.user.color, g.user.acronym, request.form['line'])
+    if 'line' in request.form:
+        addMessage(g.db, request.form['chat'], g.user.color, g.user.acronym, request.form['line'])
     return 'ok'
 
 @app.route('/ping', methods=['POST'])
@@ -280,11 +281,13 @@ def getMessages():
 @validate_chat
 def quitChatting():
     # Check if they're actually a member of the chat first?
-    g.db.zrem('chats-alive', request.form['chat']+'/'+g.user.session)
-    g.db.srem(('chat-%s-sessions' % request.form['chat']), g.user.session)
-    g.db.srem('sessions-chatting', g.user.session)
-    addSystemMessage(g.db, request.form['chat'], '%s [%s] disconnected.' % (g.user.name, g.user.acronym), True)
-    return 'ok'
+    chatkey = 'chat-%s-sessions' % request.form['chat']
+    if g.db.hexists(chatkey, g.user.session):
+        g.db.zrem('chats-alive', request.form['chat']+'/'+g.user.session)
+        g.db.hset(chatkey, g.user.session, 'offline')
+        g.db.srem('sessions-chatting', g.user.session)
+        addSystemMessage(g.db, request.form['chat'], '%s [%s] disconnected.' % (g.user.name, g.user.acronym), True)
+        return 'ok'
 
 # Save
 

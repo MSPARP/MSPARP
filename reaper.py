@@ -26,7 +26,7 @@ if __name__=='__main__':
         for dead in db.zrangebyscore('chats-alive', 0, getTime()-PING_PERIOD*2):
             chat, session = dead.split('/') # FIXME: what if a user fucks this up by sticking a / in their uid?
             db.zrem('chats-alive', dead)
-            db.srem(('chat-%s-sessions' % chat), session)
+            db.hset(('chat-%s-sessions' % chat), session, 'offline')
             db.srem('sessions-chatting', session)
             name = getD(db, session, 'name', 'UNKNOWN USER')
             print 'dead', dead, name
