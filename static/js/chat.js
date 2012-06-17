@@ -127,6 +127,8 @@ $(document).ready(function() {
 	    window.setTimeout(getMessages, 500);
 	    ping_interval=window.setTimeout(pingServer, PING_PERIOD*1000);
 
+		window.onbeforeunload = function (e) { e.preventDefault(); return ""; }
+
 	    $(window).unload(function() {
 		    $.ajax(quitURL, {'type': 'POST', 'async': false});
 	    });
