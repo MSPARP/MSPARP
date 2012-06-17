@@ -214,6 +214,8 @@ $(document).ready(function() {
 
 		setSidebar('userList');
 
+		window.onbeforeunload = function (e) { e.preventDefault(); return ""; }
+
 		$(window).unload(function() {
 			$.ajax(quitURL, {'type': 'POST', data: {'chat': chat}, 'async': false});
 		});
