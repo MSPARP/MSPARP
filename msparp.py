@@ -48,7 +48,8 @@ class User(object):
         'character': 'anonymous/other',
         'quirk_prefix': '',
         'case': 'normal',
-        'replacements': '[]'
+        'replacements': '[]',
+        'group': 'user'
     }
 
     def __init__(self, db, session=None, chat=None):
