@@ -184,6 +184,7 @@ def mark_alive(f):
         chat = request.form['chat']
         chatkey = 'chat-%s-sessions' % chat
         if g.db.hget(chatkey, g.user.session) not in ['online', 'away']:
+            g.db.sadd('user-%s-chats' % g.user.session, chat)
             g.db.hset(chatkey, g.user.session, 'online')
             addSystemMessage(g.db, chat, '%s [%s] joined chat.' % (g.user.name, g.user.acronym), True)
         g.db.zadd('chats-alive', chat+'/'+g.user.session, getTime())
