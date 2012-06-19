@@ -125,6 +125,15 @@ label.quirk {
 	font-weight: bold;
 }
 
-.bigbutton {
-	padding: 1em 3em;
+#saveOptions {
+	margin-left: 0;
+	padding: 0 1.5em;
+}
+
+#saveOptions li {
+	margin: 5px 0;
+}
+
+#saveOptions input {
+	font-size: 14pt;
 }

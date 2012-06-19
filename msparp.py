@@ -154,6 +154,16 @@ class User(object):
             for char in self.picky:
                 self.db.sadd(ckey, char)
 
+    def set_chat(self, chat):
+        if self.chat is None:
+            self.chat = chat
+            self.chat_prefix = self.prefix+'-'+chat
+            self.db.hmset(self.chat_prefix, self.character_dict())
+
+    def set_group(self, group):
+        self.group = group
+        self.db.hset(self.chat_prefix, 'group', group)
+
 
 # Helper functions
 
@@ -309,6 +319,15 @@ def save():
             g.user.save_character(request.form)
         if 'save_pickiness' in request.form:
             g.user.save_pickiness(request.form)
+        if 'create' in request.form:
+            chat = request.form['chat']
+            if g.db.exists('chat-'+chaturl):
+                raise ValueError('chaturl_taken')
+            if not re.match('^[-a-zA-Z0-9]+$', chat):
+                raise ValueError('chaturl_invalid')
+            g.user.set_chat(chat)
+            g.user.set_group('mod')
+            return redirect(url_for('chat', chat=chat))
     except ValueError as e:
         if request.is_xhr:
             abort(400)
@@ -317,7 +336,7 @@ def save():
 
     if request.is_xhr:
         return 'ok'
-    elif 'match' in request.form:
+    elif 'search' in request.form:
         return redirect(url_for('findMatches'))
     else:
         return redirect(url_for('configure'))

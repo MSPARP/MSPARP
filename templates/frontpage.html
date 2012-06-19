@@ -87,8 +87,12 @@
 		<span class="error">No characters were selected. Please either pick some characters or untick the specific characters box.</span>{% endif %}
 	</div>
 </div>
-
-<input class="bigbutton" type="submit" name="save" value="Save info" /><input class="bigbutton" type="submit" name="match" value="Save and begin chatting" /><br />
-Saving will change your text colour and acronym, but it won't change your quirk if you're in a chat already. You'll have to refresh for your new quirk to take effect.
+<ul id="saveOptions">
+	<li><input type="submit" name="save" value="Save info"></li>
+	<li><input type="submit" name="search" value="Chat with a random person"></li>
+	<li><input type="text" name="chaturl" placeholder="Chat URL"> <input type="submit" name="create" value="Create a group chat"></li>
+</ul>{% if error=="chaturl_taken" %}
+<span class="error">The chat URL you specified has already been taken.</span>{% elif error=="chaturl_invalid" %}
+<span class="error">The chat URL you specified is invalid. Chat URLs can only contain letters, numbers, hyphens and underscores.</span>{% endif %}
 </form>
 {% endblock %}
