@@ -84,6 +84,9 @@ class User(object):
 
     def character_dict(self, unpack_replacements=False):
         character_dict = dict((attrib, getattr(self, attrib)) for attrib in User.DEFAULTS.keys())
+        # Don't tell silenced users that they're silenced.
+        if character_dict['group']=='silent':
+            character_dict['group'] = 'user'
         if unpack_replacements:
             character_dict['replacements'] = json.loads(character_dict['replacements'])
         return character_dict

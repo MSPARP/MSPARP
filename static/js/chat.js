@@ -130,6 +130,10 @@ $(document).ready(function() {
 					for (var i=0; i<data.online.length; i++) {
 						var currentUser = data.online[i];
 						var listItem = $('<li />').css('color', '#'+currentUser.color).text(currentUser.name);
+						if (currentUser.group=="mod") {
+							listItem.css('font-style', 'italic');
+							listItem.attr('title', 'Moderator');
+						}
 						listItem.appendTo('#'+currentUser.state);
 					}
 				}

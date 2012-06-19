@@ -39,7 +39,8 @@ def get_user_list(db, chatid):
                 'name': user_info['name'],
                 'acronym': user_info['acronym'],
                 'color': user_info['color'],
-                'state': user[1]
+                'state': user[1],
+                'group': user_info['group'] if user_info['group']!='silent' else 'user'
             }
             user_list.append(user_object)
     user_list.sort(key=lambda _: _['name'].lower())
