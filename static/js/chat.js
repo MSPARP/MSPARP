@@ -18,11 +18,15 @@ var currentSidebar;
 
 function setSidebar(sidebar) {
 	if (currentSidebar) {
-		$(document.body).removeClass(currentSidebar);
+		$('#'+currentSidebar).hide();
+	} else {
+		$(document.body).addClass('withSidebar');
 	}
 	// Null to remove sidebar.
 	if (sidebar) {
-		$(document.body).addClass(sidebar);
+		$('#'+sidebar).show();
+	} else {
+		$(document.body).removeClass('withSidebar');
 	}
 	currentSidebar = sidebar;
 }
@@ -201,18 +205,36 @@ $(document).ready(function() {
 							user.replacements.push([replacementsFrom[i].value, replacementsTo[i].value])
 						}
 					}
-					setSidebar('userList');
+					closeSettings();
 				});
 			}
 			return false;
 		});
 
 		$('#settingsCancelButton').click(function() {
-			// RESET FORM
-			setSidebar('userList');
+			closeSettings();
 		});
 
-		setSidebar('userList');
+		function closeSettings() {
+			if ($(document.body).hasClass('mobile')) {
+				setSidebar(null);
+			} else {
+				setSidebar('userList');
+			}
+		}
+
+		// Activate mobile mode on small screens
+		if (window.innerWidth<500) {
+			$(document.body).addClass('mobile');
+			$('.sidebar .close').click(function() {
+				setSidebar(null);
+			}).show();
+			$('#userListButton').click(function() {
+				setSidebar('userList');
+			}).show();
+		} else {
+			setSidebar('userList');
+		}
 
 		window.onbeforeunload = function (e) { e.preventDefault(); return ""; }
 

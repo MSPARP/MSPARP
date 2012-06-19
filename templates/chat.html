@@ -23,14 +23,16 @@ Chat -
 {% endfor %}
 </div>
 
-<div id="userList">
+<div id="userList" class="sidebar">
+	<a href="#" class="close">[close]</a>
 	<h1>Online</h1>
 	<ul id="online"></ul>
 	<h1>Idle</h1>
 	<ul id="away"></ul>
 </div>
 
-<form id="settings">
+<form id="settings" class="sidebar">
+	<a href="#" class="close">[close]</a>
 	<h1>Settings</h1>
 	<p><select name="character">
 		{% for group in groups %}
@@ -67,6 +69,7 @@ Chat -
 	<a href="#" id="hidePreview">[hide]</a>
 	<div id="preview"></div>
 	<input type="text" id="textInput" name="textInput">
+	<button type="button" id="userListButton">User list</button>
 	<button type="button" id="settingsButton">Character settings</button>
 	<button type="button" id="awayButton">Toggle idleness</button>
 	<a href="/static/user-guide.html" target="_blank">User guide</a>
