@@ -313,15 +313,14 @@ def quitChatting():
 
 @app.route('/save', methods=['POST'])
 def save():
-
     try:
         if 'character' in request.form:
             g.user.save_character(request.form)
         if 'save_pickiness' in request.form:
             g.user.save_pickiness(request.form)
         if 'create' in request.form:
-            chat = request.form['chat']
-            if g.db.exists('chat-'+chaturl):
+            chat = request.form['chaturl']
+            if g.db.exists('chat-'+chat):
                 raise ValueError('chaturl_taken')
             if not re.match('^[-a-zA-Z0-9]+$', chat):
                 raise ValueError('chaturl_invalid')
