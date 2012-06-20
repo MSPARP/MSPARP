@@ -69,21 +69,21 @@ $(document).ready(function() {
 	} else {
 
 		function updateChatPreview(){
-			var preview = $('#textInput').val();
-			if (preview.substr(0,1)=='/') {
-				preview = jQuery.trim(preview.substr(1));
+			var textPreview = $('#textInput').val();
+			if (textPreview.substr(0,1)=='/') { 
+				textPreview = jQuery.trim(textPreview.substr(1)); 
 			} else {
-				preview = applyQuirks(jQuery.trim(preview));
+				textPreview = applyQuirks(jQuery.trim(textPreview));
 			}
-			if (preview.length>0) {
-				$('#preview').text(preview);
+			if (textPreview.length>0) {
+				$('#preview').text(textPreview);
 			} else {
 				$('#preview').html('&nbsp;');
 			}
 			$('#conversation').css('bottom',($('#controls').height()+10)+'px');
-			return preview.length!=0;
+			return textPreview.length!=0;
 		}
-	
+
 		$('#textInput').change(updateChatPreview).keyup(updateChatPreview).change();
 		$('#preview').css('color', '#'+user.color);
 
@@ -224,7 +224,7 @@ $(document).ready(function() {
 		}
 
 		// Activate mobile mode on small screens
-		if (window.innerWidth<500) {
+		if (navigator.userAgent.indexOf('Android')!=-1 || navigator.userAgent.indexOf('iPhone')!=-1 || window.innerWidth<500) {
 			$(document.body).addClass('mobile');
 			$('.sidebar .close').click(function() {
 				setSidebar(null);
@@ -236,7 +236,12 @@ $(document).ready(function() {
 			setSidebar('userList');
 		}
 
-		window.onbeforeunload = function (e) { e.preventDefault(); return ""; }
+		window.onbeforeunload = function (e) {
+			if (typeof e!="undefined") {
+				e.preventDefault();
+			}
+			return "";
+		}
 
 		$(window).unload(function() {
 			$.ajax(quitURL, {'type': 'POST', data: {'chat': chat}, 'async': false});
