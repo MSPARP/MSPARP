@@ -148,10 +148,14 @@ $(document).ready(function() {
 		if (typeof document.addEventListener!=="undefined" && typeof hidden!=="undefined") {
 			document.addEventListener(visibilityChange, function() {
 				if (document[hidden]==false) {
-					// You can't change document.title here in Webkit. #googlehatesyou
-					window.setTimeout(function() {
+					if (navigator.userAgent.indexOf('Chrome')!=-1) {
+						// You can't change document.title here in Chrome. #googlehatesyou
+						window.setTimeout(function() {
+							document.title = ORIGINAL_TITLE;
+						}, 200);
+					} else {
 						document.title = ORIGINAL_TITLE;
-					}, 50);
+					}
 				}
 			}, false);
 		}
