@@ -270,9 +270,9 @@ def postMessage():
         if request.form['state']!=current_state:
             g.db.hset('chat-%s-sessions' % request.form['chat'], g.user.session, request.form['state'])
             if request.form['state']=='away':
-                addSystemMessage(g.db, request.form['chat'], '%s [%s] is now an idle chum.' % (g.user.name, g.user.acronym), True)
+                addSystemMessage(g.db, request.form['chat'], None, True)
             else:
-                addSystemMessage(g.db, request.form['chat'], '%s [%s] is no longer an idle chum.' % (g.user.name, g.user.acronym), True)
+                addSystemMessage(g.db, request.form['chat'], None, True)
     return 'ok'
 
 @app.route('/ping', methods=['POST'])

@@ -2,23 +2,27 @@ from flask import json, jsonify
 
 def addMessage(db, chatid, color, acronym, text, reload_user_list=False):
 
-    message_content = acronym+': '+text if acronym else text
+    if text is None:
+        # Send a blank message. This can be used to reload the userlist without sending anything.
+        json_message = { 'messages': [] }
+    else:
+        message_content = acronym+': '+text if acronym else text
 
-    # generate encoded form
-    message = color+'#'+message_content
+        # generate encoded form
+        message = color+'#'+message_content
 
-    # Save to the chat- list. This is the permanent log form
-    messagesCount = db.rpush('chat-'+chatid, message)
+        # Save to the chat- list. This is the permanent log form
+        messagesCount = db.rpush('chat-'+chatid, message)
 
-    json_message = {
-        'messages': [
-            {
-                'id': messagesCount - 1,
-                'color': color,
-                'line': message_content
-            }
-        ]
-    }
+        json_message = {
+            'messages': [
+                {
+                    'id': messagesCount - 1,
+                    'color': color,
+                    'line': message_content
+                }
+            ]
+        }
 
     if reload_user_list==True:
         json_message['online'] = get_user_list(db, chatid)

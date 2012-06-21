@@ -1,5 +1,11 @@
 $(document).ready(function() {
 
+	if (document.cookie=="") {
+
+		$('<p class="error">').text("It seems you have cookies disabled. Unfortunately cookies are essential for MSPARP to work, so you'll need to either enable them or add an exception in order to use MSPARP.").appendTo(document.body);
+
+	}
+
 	var settingUp = true;
 	var config = $('#character-config');
 

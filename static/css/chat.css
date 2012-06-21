@@ -22,12 +22,18 @@ h1 {
 
 h1, p {
 	margin: 5px;
-	clear: both;
 }
 
 button, input, select, #conversation, #settings, #userList, #preview {
 	border: 1px solid #999999;
 	border-radius: 1px;
+}
+
+#conversation, #settings, #userList, #preview {
+	background-color: #eeeeee;
+}
+
+button, input, select {
 	background-color: rgba(255,255,255,0.8);
 }
 
@@ -67,16 +73,12 @@ input:focus, input:hover, select:focus, select:hover, button:hover {
 	overflow: auto;
 }
 
-body.settings #conversation, body.userList #conversation {
+body.withSidebar #conversation {
 	right: 230px;
 }
 
-#settings, #userList {
+.sidebar {
 	display: none;
-}
-
-body.settings #settings, body.userList #userList {
-	display: block;
 	position: fixed;
 	top: 5px;
 	right: 5px;
@@ -85,7 +87,11 @@ body.settings #settings, body.userList #userList {
 	overflow: auto;
 }
 
-#settings ul, #userList ul {
+.sidebar .close {
+	display: none;
+}
+
+.sidebar ul {
 	margin: 0;
 	padding: 0 0 0 1.5em;
 }
@@ -96,7 +102,7 @@ body.settings #settings, body.userList #userList {
 	font-style: italic;
 }
 
-#settings ul li, #userList ul li {
+.sidebar ul li {
 	padding: 2px 0;
 }
 
@@ -107,7 +113,7 @@ body.settings #settings, body.userList #userList {
 	left: 8px;
 }
 
-body.settings #controls, body.userList #controls {
+body.withSidebar #controls {
 	right: 233px;
 }
 
@@ -128,4 +134,43 @@ body.settings #controls, body.userList #controls {
 	width: 100%;
 	margin: 0 -3px;
 	padding: 2px;
+}
+
+body #userListButton {
+	display: none;
+}
+
+/* Sidebars */
+
+body.settings #settings, body.userList #userList {
+	display: block;
+}
+
+/* Mobile */
+
+body.mobile .sidebar {
+	left: 5px;
+	width: auto;
+}
+
+body.mobile .sidebar .close {
+	display: block;
+	margin: 5px;
+	float: right;
+}
+
+body.mobile #conversation {
+	right: 5px !important;
+}
+
+body.mobile #controls {
+	right: 8px !important;
+}
+
+body.mobile #userListButton {
+	display: inline;
+}
+
+body.mobile.withSidebar #conversation, body.mobile.withSidebar #controls {
+	display: none;
 }

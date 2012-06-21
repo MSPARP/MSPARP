@@ -64,13 +64,11 @@ noscript, error {
 }
 
 div.online-notice {
-	position: absolute;
-	right: 0;
+	float: right;
 	border: 1px solid black;
 	background: white;
 	color: black;
 	padding: 5px;
-	top: 0;
 	max-width: 400px;
 	max-height: 180px;
 	overflow: auto;

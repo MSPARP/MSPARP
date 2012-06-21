@@ -18,11 +18,15 @@ var currentSidebar;
 
 function setSidebar(sidebar) {
 	if (currentSidebar) {
-		$(document.body).removeClass(currentSidebar);
+		$('#'+currentSidebar).hide();
+	} else {
+		$(document.body).addClass('withSidebar');
 	}
 	// Null to remove sidebar.
 	if (sidebar) {
-		$(document.body).addClass(sidebar);
+		$('#'+sidebar).show();
+	} else {
+		$(document.body).removeClass('withSidebar');
 	}
 	currentSidebar = sidebar;
 }
@@ -65,21 +69,21 @@ $(document).ready(function() {
 	} else {
 
 		function updateChatPreview(){
-			var preview = $('#textInput').val();
-			if (preview.substr(0,1)=='/') {
-				preview = jQuery.trim(preview.substr(1));
+			var textPreview = $('#textInput').val();
+			if (textPreview.substr(0,1)=='/') { 
+				textPreview = jQuery.trim(textPreview.substr(1)); 
 			} else {
-				preview = applyQuirks(jQuery.trim(preview));
+				textPreview = applyQuirks(jQuery.trim(textPreview));
 			}
-			if (preview.length>0) {
-				$('#preview').text(preview);
+			if (textPreview.length>0) {
+				$('#preview').text(textPreview);
 			} else {
 				$('#preview').html('&nbsp;');
 			}
 			$('#conversation').css('bottom',($('#controls').height()+10)+'px');
-			return preview.length!=0;
+			return textPreview.length!=0;
 		}
-	
+
 		$('#textInput').change(updateChatPreview).keyup(updateChatPreview).change();
 		$('#preview').css('color', '#'+user.color);
 
@@ -148,10 +152,14 @@ $(document).ready(function() {
 		if (typeof document.addEventListener!=="undefined" && typeof hidden!=="undefined") {
 			document.addEventListener(visibilityChange, function() {
 				if (document[hidden]==false) {
-					// You can't change document.title here in Webkit. #googlehatesyou
-					window.setTimeout(function() {
+					if (navigator.userAgent.indexOf('Chrome')!=-1) {
+						// You can't change document.title here in Chrome. #googlehatesyou
+						window.setTimeout(function() {
+							document.title = ORIGINAL_TITLE;
+						}, 200);
+					} else {
 						document.title = ORIGINAL_TITLE;
-					}, 50);
+					}
 				}
 			}, false);
 		}
@@ -205,20 +213,43 @@ $(document).ready(function() {
 							user.replacements.push([replacementsFrom[i].value, replacementsTo[i].value])
 						}
 					}
-					setSidebar('userList');
+					closeSettings();
 				});
 			}
 			return false;
 		});
 
 		$('#settingsCancelButton').click(function() {
-			// RESET FORM
-			setSidebar('userList');
+			closeSettings();
 		});
 
-		setSidebar('userList');
+		function closeSettings() {
+			if ($(document.body).hasClass('mobile')) {
+				setSidebar(null);
+			} else {
+				setSidebar('userList');
+			}
+		}
 
-		window.onbeforeunload = function (e) { e.preventDefault(); return ""; }
+		// Activate mobile mode on small screens
+		if (navigator.userAgent.indexOf('Android')!=-1 || navigator.userAgent.indexOf('iPhone')!=-1 || window.innerWidth<500) {
+			$(document.body).addClass('mobile');
+			$('.sidebar .close').click(function() {
+				setSidebar(null);
+			}).show();
+			$('#userListButton').click(function() {
+				setSidebar('userList');
+			}).show();
+		} else {
+			setSidebar('userList');
+		}
+
+		window.onbeforeunload = function (e) {
+			if (typeof e!="undefined") {
+				e.preventDefault();
+			}
+			return "";
+		}
 
 		$(window).unload(function() {
 			$.ajax(quitURL, {'type': 'POST', data: {'chat': chat}, 'async': false});

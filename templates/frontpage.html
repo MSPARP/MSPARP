@@ -19,6 +19,7 @@
 </div>
 
 <div class="options">
+	Welcome to MSPARP. If you're not sure what to do, please read the <a href="/static/user-guide.html">user guide</a>.<br>
 	<h1>Roleplay as </h1>
 	<div class="options-contents">
 	<select class="character-select" name="character">
@@ -87,6 +88,7 @@
 		<span class="error">No characters were selected. Please either pick some characters or untick the specific characters box.</span>{% endif %}
 	</div>
 </div>
+
 <ul id="saveOptions">
 	<li><input type="submit" name="save" value="Save info"></li>
 	<li><input type="submit" name="search" value="Chat with a random person"></li>
@@ -94,5 +96,6 @@
 </ul>{% if error=="chaturl_taken" %}
 <span class="error">The chat URL you specified has already been taken.</span>{% elif error=="chaturl_invalid" %}
 <span class="error">The chat URL you specified is invalid. Chat URLs can only contain letters, numbers, hyphens and underscores.</span>{% endif %}
+
 </form>
 {% endblock %}
