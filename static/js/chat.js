@@ -14,6 +14,8 @@ var messagesURL = "/messages";
 var saveURL = "/save";
 var quitURL = "/bye";
 
+var userCounter;
+
 var currentSidebar;
 
 function setSidebar(sidebar) {
@@ -121,12 +123,19 @@ $(document).ready(function() {
 		}
 
 		function getMessages() {
-			$.post(messagesURL, {'chat': chat, 'after': latestNum}, function(data) {
+			var messageData = {'chat': chat, 'after': latestNum};
+			if (typeof userCounter=="undefined") {
+				messageData.fetchCounter = true;
+			}
+			$.post(messagesURL, messageData, function(data) {
 				var messages = data.messages;
 				for (var i=0; i<messages.length; i++) {
 					var msg = messages[i];
 					addLine('#'+msg['color'], msg['line']);
 					latestNum = Math.max(latestNum, msg['id']);
+				}
+				if (typeof data.counter!=="undefined") {
+					userCounter = data.counter;
 				}
 				if (typeof data.online!=="undefined") {
 					// Reload user lists.
@@ -134,9 +143,9 @@ $(document).ready(function() {
 					for (var i=0; i<data.online.length; i++) {
 						var currentUser = data.online[i];
 						var listItem = $('<li />').css('color', '#'+currentUser.color).text(currentUser.name);
-						if (currentUser.group=="mod") {
-							listItem.css('font-style', 'italic');
-							listItem.attr('title', 'Moderator');
+						if (currentUser.counter==userCounter) {
+							listItem.addClass('self');
+							listItem.append(' (you)');
 						}
 						listItem.appendTo('#'+currentUser.state);
 					}

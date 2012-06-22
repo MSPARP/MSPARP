@@ -182,6 +182,9 @@ def show_homepage(error):
         users_chatting=g.db.scard('sessions-chatting')
     )
 
+def get_counter(chat, session):
+    return g.db.lrange('chat-'+chat+'-counter', 0, -1).index(session)
+
 # Decorators
 
 def validate_chat(f):
@@ -196,13 +199,17 @@ def mark_alive(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         chat = request.form['chat']
-        chatkey = 'chat-%s-sessions' % chat
-        if g.db.hget(chatkey, g.user.session) not in ['online', 'away']:
+        state_key = 'chat-%s-sessions' % chat
+        session_state = g.db.hget(state_key, g.user.session)
+        if session_state is None:
+            # This session has never been in this chat before; we need to add them to the counter.
+            g.db.rpush('chat-%s-counter' % chat, g.user.session)
             g.db.sadd('user-%s-chats' % g.user.session, chat)
-            g.db.hset(chatkey, g.user.session, 'online')
+        if session_state not in ['online', 'away']:
+            g.db.hset(state_key, g.user.session, 'online')
             addSystemMessage(g.db, chat, '%s [%s] joined chat.' % (g.user.name, g.user.acronym), True)
+            g.db.sadd('sessions-chatting', g.user.session)
         g.db.zadd('chats-alive', chat+'/'+g.user.session, getTime())
-        g.db.sadd('sessions-chatting', g.user.session)
         return f(*args, **kwargs)
     return decorated_function
 
@@ -286,16 +293,24 @@ def pingServer():
 @mark_alive
 def getMessages():
 
+    chat = request.form['chat']
+
     after = int(request.form['after'])
-    messages = g.db.lrange('chat-'+request.form['chat'], after+1, -1)
+    messages = g.db.lrange('chat-'+chat, after+1, -1)
 
     if messages:
-        return jsonify(messages=parseMessages(messages, after+1), online=get_user_list(g.db, request.form['chat']))
+        message_dict = {
+            'messages': parseMessages(messages, after+1),
+            'online': get_user_list(g.db, chat)
+        }
+        if 'fetchCounter' in request.form:
+            message_dict['counter'] = get_counter(chat, g.user.session)
+        return jsonify(message_dict)
 
-    g.db.subscribe('channel-'+request.form['chat'])
+    g.db.subscribe('channel-'+chat)
     for msg in g.db.listen():
         if msg['type']=='message':
-            # The pubsub channel sends us a JSON string, so we just return that.
+            # The pubsub channel sends us a JSON string, so we return that instead of using jsonify.
             resp = make_response(msg['data'])
             resp.headers['Content-type'] = 'application/json'
             return resp
