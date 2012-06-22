@@ -143,6 +143,13 @@ $(document).ready(function() {
 					for (var i=0; i<data.online.length; i++) {
 						var currentUser = data.online[i];
 						var listItem = $('<li />').css('color', '#'+currentUser.color).text(currentUser.name);
+						if (currentUser.group=="mod") {
+							listItem.addClass('mod');
+							listItem.attr('title', 'Moderator');
+						} else if (currentUser.group=="silent") {
+							listItem.addClass('silent');
+							listItem.attr('title', 'Silent');
+						}
 						if (currentUser.counter==userCounter) {
 							listItem.addClass('self');
 							listItem.append(' (you)');

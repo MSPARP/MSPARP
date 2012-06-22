@@ -146,6 +146,15 @@ body.settings #settings, body.userList #userList {
 	display: block;
 }
 
+/* User groups */
+.mod {
+	font-style: italic;
+}
+
+.silent {
+	text-decoration: line-through;
+}
+
 /* Mobile */
 
 body.mobile .sidebar {
