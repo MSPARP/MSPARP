@@ -18,6 +18,9 @@ var userCounter;
 
 var currentSidebar;
 
+// Holding space for the userlist.
+var holdingList = $("<ul />");
+
 function setSidebar(sidebar) {
 	if (currentSidebar) {
 		$('#'+currentSidebar).hide();
@@ -31,6 +34,38 @@ function setSidebar(sidebar) {
 		$(document.body).removeClass('withSidebar');
 	}
 	currentSidebar = sidebar;
+}
+
+// User action list.
+var actionListUser = null;
+
+function showActionList() {
+	$('#actionList').remove();
+	// Don't show if we're not a mod, and hide if already shown.
+	if (user.group=='mod' && this!=actionListUser) {
+		var actionList = $('<ul />').attr('id', 'actionList');
+		var userData = $(this).data();
+		if (userData.group=='mod') {
+			$('<li />').text('Unmod').appendTo(actionList).click(function() { setUserGroup('user', userData.counter); });
+		} else {
+			$('<li />').text('Mod').appendTo(actionList).click(function() { setUserGroup('mod', userData.counter); });
+		}
+		if (userData.group=='silent') {
+			$('<li />').text('Unsilence').appendTo(actionList).click(function() { setUserGroup('user', userData.counter); });
+		} else {
+			$('<li />').text('Silence').appendTo(actionList).click(function() { setUserGroup('silent', userData.counter); });
+		}
+		$(actionList).appendTo(this);
+		actionListUser = this;
+	} else {
+		actionListUser = null;
+	}
+}
+
+function setUserGroup(group, counter) {
+	if (counter!=userCounter || confirm('You are about to unmod yourself. Are you sure you want to do this?')) {
+		$.post(postURL,{'chat': chat, 'set_group': group, 'counter': counter});
+	}
 }
 
 /* Browser compatibility for visibilityChange */
@@ -139,26 +174,42 @@ $(document).ready(function() {
 				}
 				if (typeof data.online!=="undefined") {
 					// Reload user lists.
-					$("#online, #away").empty();
+					$("#online > li, #away > li").appendTo(holdingList);
 					for (var i=0; i<data.online.length; i++) {
 						var currentUser = data.online[i];
 						if (currentUser.counter==userCounter) {
 							// Set self-related things here.
+							user.group = currentUser.group;
+							if (user.group=='mod') {
+								$('#userList').addClass('hasActions');
+							} else {
+								$('#userList').removeClass('hasActions');
+							}
 						}
-						var listItem = $('<li />').css('color', '#'+currentUser.color).text(currentUser.name);
-						if (currentUser.group=="mod") {
-							listItem.addClass('mod');
-							listItem.attr('title', 'Moderator');
-						} else if (currentUser.group=="silent") {
-							listItem.addClass('silent');
-							listItem.attr('title', 'Silent');
+						// Get or create a list item.
+						var listItem = $(holdingList).find('#user'+currentUser.counter);
+						if (listItem.length==0) {
+							var listItem = $('<li />').attr('id', 'user'+currentUser.counter);
+							listItem.click(showActionList);
+						}
+						listItem.css('color', '#'+currentUser.color).text(currentUser.name);
+						if (listItem.data().group!=currentUser.group) {
+							listItem.removeClass('mod').removeClass('silent');
+							if (currentUser.group=='mod') {
+								listItem.addClass('mod').attr('title', 'Moderator');
+							} else if (currentUser.group=='silent') {
+								listItem.addClass('silent').attr('title', 'Silent');
+							}
 						}
 						if (currentUser.counter==userCounter) {
-							listItem.addClass('self');
-							listItem.append(' (you)');
+							listItem.addClass('self').append(' (you)');
 						}
-						listItem.appendTo('#'+currentUser.state);
+						listItem.removeData().data(currentUser).appendTo('#'+currentUser.state);
+						if (actionListUser==listItem) {
+							listItem.click();
+						}
 					}
+					$(holdingList).empty();
 				}
 				if (typeof hidden!=="undefined" && document[hidden]==true) {
 					document.title = "New message - "+ORIGINAL_TITLE;

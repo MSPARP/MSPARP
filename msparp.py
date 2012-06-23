@@ -364,7 +364,7 @@ def getMessages():
                 if refresh_user==g.user.session:
                     # Our group has changed. Alter wanted channels accordingly.
                     g.user.group = refresh_group
-                    wanted_channels = get_wanted_channels(channel_main)
+                    wanted_channels = get_wanted_channels(channel_main, channel_mod, channel_self)
             elif msg['channel'] in wanted_channels:
                 # The pubsub channel sends us a JSON string, so we return that instead of using jsonify.
                 resp = make_response(msg['data'])
