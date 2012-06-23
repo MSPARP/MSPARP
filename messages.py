@@ -1,58 +1,99 @@
 from flask import json, jsonify
 
-def addMessage(db, chatid, color, acronym, text, reload_user_list=False):
+def send_message(db, chat, msg_type, text=None, color='000000', acronym='', audience=None):
 
-    if text is None:
-        # Send a blank message. This can be used to reload the userlist without sending anything.
-        json_message = { 'messages': [] }
-    else:
+    # The JavaScript always expects the messages list, so if we don't have any then we need an empty list.
+    json_message = { 'messages': [] }
+
+    if text is not None:
         message_content = acronym+': '+text if acronym else text
 
-        # generate encoded form
-        message = color+'#'+message_content
+        # Store the message if it's not private.
+        if msg_type!='private':
+            message = color+'#'+message_content
+            message_count = db.rpush('chat-'+chat, message)
+        else:
+            # ...or just get message count if it is.
+            message_count = db.llen('chat-'+chat)
 
-        # Save to the chat- list. This is the permanent log form
-        messagesCount = db.rpush('chat-'+chatid, message)
+        # And add it to the pubsub data.
+        json_message['messages'].append({
+            'id': message_count - 1,
+            'color': color,
+            'line': message_content
+        })
 
-        json_message = {
-            'messages': [
-                {
-                    'id': messagesCount - 1,
-                    'color': color,
-                    'line': message_content
-                }
-            ]
-        }
+    if msg_type=='user_change':
 
-    if reload_user_list==True:
-        json_message['online'] = get_user_list(db, chatid)
+        # Generate user list.
+        user_list, mod_user_list = get_user_list(db, chat, 'both')
+
+        # Send to mods first if they have their own list.
+        if mod_user_list is not user_list:
+            json_message['online'] = mod_user_list
+            db.publish('channel-'+chat+'.mod', json.dumps(json_message))
+
+        json_message['online'] = user_list
+
+    elif msg_type=='private':
+        # Just send it to the specified person.
+        db.publish('channel-'+chat+'.'+audience, json.dumps(json_message))
+        return None
+
+    print "SENDING"
+    print json_message
 
     # Push to the publication channel to wake up longpolling listeners
-    db.publish('channel-'+chatid, json.dumps(json_message))
+    db.publish('channel-'+chat, json.dumps(json_message))
 
-def addSystemMessage(db, chatid, text, reload_user_list=False):
-    addMessage(db, chatid, '000000', '', text, reload_user_list)
+def get_user_list(db, chat, audience):
 
-def get_user_list(db, chatid):
+        # Audience can be mod, user or all.
+        # If it's mod, we return the full userlist.
+        # If it's user, we return the userlist with silent users covered up.
+        # If it's all, we return the both lists (or two copies of the same
+        # list if they're the same).
 
-    user_list = []
-    users = db.hgetall('chat-'+chatid+'-sessions')
-    user_counter = db.lrange('chat-'+chatid+'-counter', 0, -1)
+        user_list = []
+        user_states = db.hgetall('chat-'+chat+'-sessions')
+        user_counter = db.lrange('chat-'+chat+'-counter', 0, -1)
 
-    for user in users.items():
-        if user[1] in ['online', 'away']:
-            user_info = db.hgetall('session-'+user[0]+'-'+chatid)
-            user_object = {
-                'name': user_info['name'],
-                'acronym': user_info['acronym'],
-                'color': user_info['color'],
-                'state': user[1],
-                'group': user_info['group'] if user_info['group']!='silent' else 'user',
-                'counter': user_counter.index(user[0])
-            }
-            user_list.append(user_object)
-    user_list.sort(key=lambda _: _['name'].lower())
-    return user_list
+        silent_users = False
+
+        for counter, user in enumerate(user_counter):
+            if user_states[user] in ['online', 'away']:
+                user_info = db.hgetall('session-'+user+'-'+chat)
+                user_object = {
+                    'name': user_info['name'],
+                    'acronym': user_info['acronym'],
+                    'color': user_info['color'],
+                    'state': user_states[user],
+                    # If the audience is user, we cover up the silent users here so we don't have to do a second iteration.
+                    'group': user_info['group'] if audience!='user' or user_info['group']!='silent' else 'user',
+                    'counter': counter
+                }
+                # If there's a silent user in the list, remember to do a second iteration covering them up.
+                if audience=='both' and user_info['group']=='silent':
+                    silent_users = True
+                user_list.append(user_object)
+        user_list.sort(key=lambda _: _['name'].lower())
+
+        if audience=='both':
+            if silent_users:
+                covered_user_list = []
+                # Iterate through the userlist changing all the silent users to user.
+                for user in user_list:
+                    if user['group']=='silent':
+                        covered_user = dict(user)
+                        covered_user['group'] = 'user'
+                        covered_user_list.append(covered_user)
+                    else:
+                        covered_user_list.append(user)
+            else:
+                covered_user_list = user_list
+            return covered_user_list, user_list
+
+        return user_list
 
 def parseLine(line, id):
     "Parse a chat line like 'FF00FF#Some Text' into a dict"

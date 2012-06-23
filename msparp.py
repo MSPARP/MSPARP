@@ -9,7 +9,7 @@ from werkzeug.routing import BaseConverter, ValidationError
 
 from characters import CHARACTER_GROUPS, CHARACTERS
 from reaper import getTime
-from messages import addMessage, addSystemMessage, get_user_list, parseLine, parseMessages
+from messages import send_message, get_user_list, parseLine, parseMessages
 
 
 class ChatIDConverter(BaseConverter):
@@ -141,7 +141,7 @@ class User(object):
 
         if (self.chat is not None and g.db.hget('chat-%s-sessions' % self.chat, self.session) in ['online', 'away']
             and (self.name!=old_name or self.acronym!=old_acronym)):
-            addSystemMessage(g.db, request.form['chat'], '%s [%s] is now %s [%s].' % (old_name, old_acronym, self.name, self.acronym), True)
+            send_message(g.db, request.form['chat'], 'user_change', '%s [%s] is now %s [%s].' % (old_name, old_acronym, self.name, self.acronym))
 
         db.sadd('all-sessions', self.session)
 
@@ -185,6 +185,17 @@ def show_homepage(error):
 def get_counter(chat, session):
     return g.db.lrange('chat-'+chat+'-counter', 0, -1).index(session)
 
+def get_wanted_channels(channel_main, channel_mod, channel_self):
+    wanted_channels = set()
+    wanted_channels.add(channel_main)
+    if g.user.group=='mod':
+        # Moderator messages.
+        wanted_channels.add(channel_mod)
+    if g.user.group=='silent':
+        # Channel for self messages if silent.
+        wanted_channels.add(channel_self)
+    return wanted_channels
+
 # Decorators
 
 def validate_chat(f):
@@ -207,7 +218,7 @@ def mark_alive(f):
             g.db.sadd('user-%s-chats' % g.user.session, chat)
         if session_state not in ['online', 'away']:
             g.db.hset(state_key, g.user.session, 'online')
-            addSystemMessage(g.db, chat, '%s [%s] joined chat.' % (g.user.name, g.user.acronym), True)
+            send_message(g.db, chat, 'user_change', '%s [%s] joined chat.' % (g.user.name, g.user.acronym))
             g.db.sadd('sessions-chatting', g.user.session)
         g.db.zadd('chats-alive', chat+'/'+g.user.session, getTime())
         return f(*args, **kwargs)
@@ -270,29 +281,36 @@ def chat(chat):
 @validate_chat
 @mark_alive
 def postMessage():
+    chat = request.form['chat']
     if 'line' in request.form:
-        addMessage(g.db, request.form['chat'], g.user.color, g.user.acronym, request.form['line'])
+        if g.user.group=='silent':
+            send_message(g.db, chat, 'private', request.form['line'], g.user.color, g.user.acronym, g.user.session)
+        else:
+            send_message(g.db, chat, 'message', request.form['line'], g.user.color, g.user.acronym)
     if 'state' in request.form and request.form['state'] in ['online', 'away']:
-        current_state = g.db.hget('chat-%s-sessions' % request.form['chat'], g.user.session)
+        current_state = g.db.hget('chat-%s-sessions' % chat, g.user.session)
         if request.form['state']!=current_state:
-            g.db.hset('chat-%s-sessions' % request.form['chat'], g.user.session, request.form['state'])
+            g.db.hset('chat-%s-sessions' % chat, g.user.session, request.form['state'])
             if request.form['state']=='away':
-                addSystemMessage(g.db, request.form['chat'], None, True)
+                send_message(g.db, chat, 'user_change')
             else:
-                addSystemMessage(g.db, request.form['chat'], None, True)
+                send_message(g.db, chat, 'user_change')
     if 'set_group' in request.form and 'counter' in request.form:
         if g.user.group=='mod':
-            set_session_id = g.db.lindex('chat-%s-counter' % request.form['chat'], request.form['counter']) or abort(400)
-            set_session_key = 'session-%s-%s' % (set_session_id, request.form['chat'])
+            set_group = request.form['set_group']
+            set_session_id = g.db.lindex('chat-%s-counter' % chat, request.form['counter']) or abort(400)
+            set_session_key = 'session-%s-%s' % (set_session_id, chat)
             set_session = g.db.hgetall(set_session_key)
-            if set_session['group']!=request.form['set_group'] and request.form['set_group'] in ['user', 'mod', 'silent']:
-                g.db.hset(set_session_key, 'group', request.form['set_group'])
+            if set_session['group']!=set_group and set_group in ['user', 'mod', 'silent']:
+                g.db.hset(set_session_key, 'group', set_group)
                 set_message = None
-                if set_session['group']!='mod' and request.form['set_group']=='mod':
+                if set_session['group']!='mod' and set_group=='mod':
                     set_message = '%s [%s] gave moderator status to %s [%s].' % (g.user.name, g.user.acronym, set_session['name'], set_session['acronym'])
-                elif set_session['group']=='mod' and request.form['set_group']!='mod':
+                elif set_session['group']=='mod' and set_group!='mod':
                     set_message = '%s [%s] removed moderator status from %s [%s].' % (g.user.name, g.user.acronym, set_session['name'], set_session['acronym'])
-                addSystemMessage(g.db, request.form['chat'], set_message, True)
+                # Refresh the user's subscriptions.
+                g.db.publish('channel-'+chat+'.refresh', set_session_id+'#'+set_group)
+                send_message(g.db, chat, 'user_change', set_message)
         else:
             abort(403)
     return 'ok'
@@ -316,19 +334,42 @@ def getMessages():
     if messages:
         message_dict = {
             'messages': parseMessages(messages, after+1),
-            'online': get_user_list(g.db, chat)
+            'online': get_user_list(g.db, chat, 'mod' if g.user.group=='mod' else 'user')
         }
         if 'fetchCounter' in request.form:
             message_dict['counter'] = get_counter(chat, g.user.session)
         return jsonify(message_dict)
 
-    g.db.subscribe('channel-'+chat)
+    # Channel names.
+    channel_main = 'channel-'+chat
+    channel_mod = channel_main+'.mod'
+    channel_self = channel_main+'.'+g.user.session
+    channel_refresh = channel_main+'.refresh'
+
+    # We subscribe to all four channels then ignore what we don't want because
+    # changing subscriptions doesn't happen quickly enough and we end up missing
+    # messages.
+    g.db.subscribe(channel_main)
+    g.db.subscribe(channel_mod)
+    g.db.subscribe(channel_self)
+    g.db.subscribe(channel_refresh)
+
+    # This gives us a list of all the channels we want to listen to.
+    wanted_channels = get_wanted_channels(channel_main, channel_mod, channel_self)
+
     for msg in g.db.listen():
         if msg['type']=='message':
-            # The pubsub channel sends us a JSON string, so we return that instead of using jsonify.
-            resp = make_response(msg['data'])
-            resp.headers['Content-type'] = 'application/json'
-            return resp
+            if msg['channel']==channel_refresh:
+                refresh_user, refresh_group = msg['data'].split('#', 1)
+                if refresh_user==g.user.session:
+                    # Our group has changed. Alter wanted channels accordingly.
+                    g.user.group = refresh_group
+                    wanted_channels = get_wanted_channels(channel_main)
+            elif msg['channel'] in wanted_channels:
+                # The pubsub channel sends us a JSON string, so we return that instead of using jsonify.
+                resp = make_response(msg['data'])
+                resp.headers['Content-type'] = 'application/json'
+                return resp
 
 @app.route('/bye', methods=['POST'])
 @validate_chat
@@ -339,7 +380,7 @@ def quitChatting():
         g.db.zrem('chats-alive', request.form['chat']+'/'+g.user.session)
         g.db.hset(chatkey, g.user.session, 'offline')
         g.db.srem('sessions-chatting', g.user.session)
-        addSystemMessage(g.db, request.form['chat'], '%s [%s] disconnected.' % (g.user.name, g.user.acronym), True)
+        send_message(g.db, request.form['chat'], 'user_change', '%s [%s] disconnected.' % (g.user.name, g.user.acronym))
         return 'ok'
 
 # Save

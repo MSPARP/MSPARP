@@ -2,7 +2,7 @@
 
 from redis import Redis
 import time
-from messages import addSystemMessage
+from messages import send_message
 
 STARTTIME = 1302231346
 PING_PERIOD = 10
@@ -30,7 +30,7 @@ if __name__=='__main__':
             db.srem('sessions-chatting', session)
             name = getD(db, session, chat, 'name', 'UNKNOWN USER')
             print 'dead', dead, name
-            addSystemMessage(db, chat, '%s\'s connection timed out. Please don\'t quit straight away; they could be back.' % (name), True)
+            send_message(db, chat, 'user_change', '%s\'s connection timed out. Please don\'t quit straight away; they could be back.' % (name))
 
         for dead in db.zrangebyscore('searchers', 0, getTime()-SEARCH_PERIOD*2):
             print 'reaping searcher', dead
