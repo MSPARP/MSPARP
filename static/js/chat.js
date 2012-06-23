@@ -142,6 +142,9 @@ $(document).ready(function() {
 					$("#online, #away").empty();
 					for (var i=0; i<data.online.length; i++) {
 						var currentUser = data.online[i];
+						if (currentUser.counter==userCounter) {
+							// Set self-related things here.
+						}
 						var listItem = $('<li />').css('color', '#'+currentUser.color).text(currentUser.name);
 						if (currentUser.group=="mod") {
 							listItem.addClass('mod');

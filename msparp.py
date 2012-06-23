@@ -280,6 +280,21 @@ def postMessage():
                 addSystemMessage(g.db, request.form['chat'], None, True)
             else:
                 addSystemMessage(g.db, request.form['chat'], None, True)
+    if 'set_group' in request.form and 'counter' in request.form:
+        if g.user.group=='mod':
+            set_session_id = g.db.lindex('chat-%s-counter' % request.form['chat'], request.form['counter']) or abort(400)
+            set_session_key = 'session-%s-%s' % (set_session_id, request.form['chat'])
+            set_session = g.db.hgetall(set_session_key)
+            if set_session['group']!=request.form['set_group'] and request.form['set_group'] in ['user', 'mod', 'silent']:
+                g.db.hset(set_session_key, 'group', request.form['set_group'])
+                set_message = None
+                if set_session['group']!='mod' and request.form['set_group']=='mod':
+                    set_message = '%s [%s] gave moderator status to %s [%s].' % (g.user.name, g.user.acronym, set_session['name'], set_session['acronym'])
+                elif set_session['group']=='mod' and request.form['set_group']!='mod':
+                    set_message = '%s [%s] removed moderator status from %s [%s].' % (g.user.name, g.user.acronym, set_session['name'], set_session['acronym'])
+                addSystemMessage(g.db, request.form['chat'], set_message, True)
+        else:
+            abort(403)
     return 'ok'
 
 @app.route('/ping', methods=['POST'])
