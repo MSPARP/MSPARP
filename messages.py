@@ -40,9 +40,6 @@ def send_message(db, chat, msg_type, text=None, color='000000', acronym='', audi
         db.publish('channel-'+chat+'.'+audience, json.dumps(json_message))
         return None
 
-    print "SENDING"
-    print json_message
-
     # Push to the publication channel to wake up longpolling listeners
     db.publish('channel-'+chat, json.dumps(json_message))
 
