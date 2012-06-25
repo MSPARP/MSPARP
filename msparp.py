@@ -160,7 +160,7 @@ class User(object):
     def set_chat(self, chat):
         if self.chat is None:
             self.chat = chat
-            self.chat_prefix = self.prefix+'-'+chat
+            self.chat_prefix = self.prefix+'.chat.'+chat
             self.db.hmset(self.chat_prefix, self.character_dict())
 
     def set_group(self, group):
@@ -298,7 +298,7 @@ def postMessage():
     if 'set_group' in request.form and 'counter' in request.form:
         if g.user.group=='mod':
             set_group = request.form['set_group']
-            set_session_id = g.db.lindex('chat-%s-counter' % chat, request.form['counter']) or abort(400)
+            set_session_id = g.db.lindex('chat.%s.counter' % chat, request.form['counter']) or abort(400)
             set_session_key = 'session.%s.chat.%s' % (set_session_id, chat)
             set_session = g.db.hgetall(set_session_key)
             if set_session['group']!=set_group and set_group in ['user', 'mod', 'silent']:
