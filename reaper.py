@@ -12,7 +12,7 @@ def getTime():
     return time.time() - STARTTIME
 
 def getD(db, session, chat, key, defaultValue=''):
-    v = db.hget("session-"+session+"-"+chat, key)
+    v = db.hget("session."+session+".chat."+chat, key)
     if v is not None:
         return v
     return defaultValue
@@ -26,7 +26,7 @@ if __name__=='__main__':
         for dead in db.zrangebyscore('chats-alive', 0, getTime()-PING_PERIOD*2):
             chat, session = dead.split('/') # FIXME: what if a user fucks this up by sticking a / in their uid?
             db.zrem('chats-alive', dead)
-            db.hset(('chat-%s-sessions' % chat), session, 'offline')
+            db.hset(('chat.%s.sessions' % chat), session, 'offline')
             db.srem('sessions-chatting', session)
             name = getD(db, session, chat, 'name', 'UNKNOWN USER')
             print 'dead', dead, name
