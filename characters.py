@@ -9,6 +9,8 @@ CHARACTERS = {
         'Anonymous/Other',
         'Original Character',
         'Doc Scratch',
+        'Calliope',
+        'undyingUmbrage',
         'Other (canon)'
     ],
     'Humans': [
@@ -33,7 +35,9 @@ CHARACTERS = {
         'Equius',
         'Gamzee',
         'Eridan',
-        'Feferi'
+        'Feferi',
+        'Aranea',
+        'Meenah'
     ]       
 }
 

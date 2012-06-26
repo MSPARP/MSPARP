@@ -28,6 +28,24 @@ var characters = {
 		'case': 'normal',
 		'replacements': []
 	},
+	'calliope': {
+		'acronym': 'UU',
+		'name': 'uranianUmbra',
+		'color': '929292',
+		'quote': "i am jUst astonished. not at the gUile of yoUr little ploy, bUt by the fact that yoU actUally seem to think this was a clever rUse.",
+		'quirk_prefix': '',
+		'case': 'lower',
+		'replacements': [['u', 'U']]
+	},
+	'undyingUmbrage': {
+		'acronym': 'uu',
+		'name': 'undyingUmbrage',
+		'color': '323232',
+		'quote': "YOu CAN'T. ESCAPE. THE MIIIIIIIIIIILES.",
+		'quirk_prefix': '',
+		'case': 'upper',
+		'replacements': [['U', 'u']]
+	},
 	'other (canon)': {
 		'acronym': '??',
 		'name': 'Other (canon)',
@@ -217,6 +235,24 @@ var characters = {
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': [["E", "-E"], ["H", ")("], ["h", ")("]]
+	},
+	'aranea': {
+		'acronym': 'ARANEA',
+		'name': 'Aranea',
+		'color': '005682',
+		'quote': "You couldn't even wait a few minutes while I retrieved one last guest? I have to come 8ack to THIS????????",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': [["B", "8"], ["b", "8"]]
+	},
+	'meenah': {
+		'acronym': 'MEENAH',
+		'name': 'Meenah',
+		'color': '77003C',
+		'quote': "sayin fish puns is obviously kind of this thing i do stupid G-ET WIT)( T)(-E PROGRAM",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': [["E", "-E"], ["H", ")("]]
 	}
 }
 
