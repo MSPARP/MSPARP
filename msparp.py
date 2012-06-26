@@ -400,6 +400,7 @@ def save():
                 raise ValueError('chaturl_invalid')
             g.user.set_chat(chat)
             g.user.set_group('mod')
+            g.db.set('chat.'+chat+'.type', 'group')
             return redirect(url_for('chat', chat=chat))
     except ValueError as e:
         if request.is_xhr:
