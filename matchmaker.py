@@ -8,7 +8,7 @@ def getPickyness(db,searchers):
     picky = {}
     allchars = db.smembers('all-chars')
     for session in searchers:
-        picky[session] = db.smembers('session-%s-picky' % session)
+        picky[session] = db.smembers('session.%s.picky' % session)
         if len(picky[session])==0:
             picky[session] = allchars
     return picky
@@ -20,8 +20,8 @@ def shuffled(seq):
 
 def match(picky, first, second):
     chat=str(uuid.uuid4()).replace('-','')
-    db.set('chat-'+first, chat)
-    db.set('chat-'+second, chat)
+    db.set('session.'+first+'.match', chat)
+    db.set('session.'+second+'.match', chat)
     db.zrem('searchers', first)
     db.zrem('searchers', second)
     del picky[first]
@@ -51,7 +51,7 @@ if __name__=='__main__':
         print 'searchers: ', searchers
         
         if len(searchers)>=2: # if there aren't at least 2 people, there can't be matches
-            identities = dict((session, db.hget('session-'+session, 'character')) for session in searchers)
+            identities = dict((session, db.hget('session.'+session, 'character')) for session in searchers)
             picky = getPickyness(db, searchers)
             for session in shuffled(picky.keys()):
                 matchUser(session, picky, identities)

@@ -89,6 +89,13 @@
 	</div>
 </div>
 
-<input class="bigbutton" type="submit" name="save" value="Save info" /><input class="bigbutton" type="submit" name="match" value="Save and begin chatting" />
+<ul id="saveOptions">
+	<li><input type="submit" name="save" value="Save info"></li>
+	<li><input type="submit" name="search" value="Chat with a random person"></li>
+	<li><input type="text" name="chaturl" placeholder="Chat URL"> <input type="submit" name="create" value="Create a group chat"></li>
+</ul>{% if error=="chaturl_taken" %}
+<span class="error">The chat URL you specified has already been taken.</span>{% elif error=="chaturl_invalid" %}
+<span class="error">The chat URL you specified is invalid. Chat URLs can only contain letters, numbers, hyphens and underscores.</span>{% endif %}
+
 </form>
 {% endblock %}

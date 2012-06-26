@@ -14,7 +14,12 @@ var messagesURL = "/messages";
 var saveURL = "/save";
 var quitURL = "/bye";
 
+var userCounter;
+
 var currentSidebar;
+
+// Holding space for the userlist.
+var holdingList = $("<ul />");
 
 function setSidebar(sidebar) {
 	if (currentSidebar) {
@@ -29,6 +34,38 @@ function setSidebar(sidebar) {
 		$(document.body).removeClass('withSidebar');
 	}
 	currentSidebar = sidebar;
+}
+
+// User action list.
+var actionListUser = null;
+
+function showActionList() {
+	$('#actionList').remove();
+	// Don't show if we're not a mod, and hide if already shown.
+	if (user.group=='mod' && this!=actionListUser) {
+		var actionList = $('<ul />').attr('id', 'actionList');
+		var userData = $(this).data();
+		if (userData.group=='mod') {
+			$('<li />').text('Unmod').appendTo(actionList).click(function() { setUserGroup('user', userData.counter); });
+		} else {
+			$('<li />').text('Mod').appendTo(actionList).click(function() { setUserGroup('mod', userData.counter); });
+		}
+		if (userData.group=='silent') {
+			$('<li />').text('Unsilence').appendTo(actionList).click(function() { setUserGroup('user', userData.counter); });
+		} else {
+			$('<li />').text('Silence').appendTo(actionList).click(function() { setUserGroup('silent', userData.counter); });
+		}
+		$(actionList).appendTo(this);
+		actionListUser = this;
+	} else {
+		actionListUser = null;
+	}
+}
+
+function setUserGroup(group, counter) {
+	if (counter!=userCounter || confirm('You are about to unmod yourself. Are you sure you want to do this?')) {
+		$.post(postURL,{'chat': chat, 'set_group': group, 'counter': counter});
+	}
 }
 
 /* Browser compatibility for visibilityChange */
@@ -121,21 +158,58 @@ $(document).ready(function() {
 		}
 
 		function getMessages() {
-			$.post(messagesURL, {'chat': chat, 'after': latestNum}, function(data) {
+			var messageData = {'chat': chat, 'after': latestNum};
+			if (typeof userCounter=="undefined") {
+				messageData.fetchCounter = true;
+			}
+			$.post(messagesURL, messageData, function(data) {
 				var messages = data.messages;
 				for (var i=0; i<messages.length; i++) {
 					var msg = messages[i];
 					addLine('#'+msg['color'], msg['line']);
 					latestNum = Math.max(latestNum, msg['id']);
 				}
+				if (typeof data.counter!=="undefined") {
+					userCounter = data.counter;
+				}
 				if (typeof data.online!=="undefined") {
 					// Reload user lists.
-					$("#online, #away").empty();
+					$("#online > li, #away > li").appendTo(holdingList);
 					for (var i=0; i<data.online.length; i++) {
 						var currentUser = data.online[i];
-						var listItem = $('<li />').css('color', '#'+currentUser.color).text(currentUser.name);
-						listItem.appendTo('#'+currentUser.state);
+						if (currentUser.counter==userCounter) {
+							// Set self-related things here.
+							user.group = currentUser.group;
+							if (user.group=='mod') {
+								$('#userList').addClass('hasActions');
+							} else {
+								$('#userList').removeClass('hasActions');
+							}
+						}
+						// Get or create a list item.
+						var listItem = $(holdingList).find('#user'+currentUser.counter);
+						if (listItem.length==0) {
+							var listItem = $('<li />').attr('id', 'user'+currentUser.counter);
+							listItem.click(showActionList);
+						}
+						listItem.css('color', '#'+currentUser.color).text(currentUser.name);
+						if (listItem.data().group!=currentUser.group) {
+							listItem.removeClass('mod').removeClass('silent');
+							if (currentUser.group=='mod') {
+								listItem.addClass('mod').attr('title', 'Moderator');
+							} else if (currentUser.group=='silent') {
+								listItem.addClass('silent').attr('title', 'Silent');
+							}
+						}
+						if (currentUser.counter==userCounter) {
+							listItem.addClass('self').append(' (you)');
+						}
+						listItem.removeData().data(currentUser).appendTo('#'+currentUser.state);
+						if (actionListUser==listItem) {
+							listItem.click();
+						}
 					}
+					$(holdingList).empty();
 				}
 				if (typeof hidden!=="undefined" && document[hidden]==true) {
 					document.title = "New message - "+ORIGINAL_TITLE;

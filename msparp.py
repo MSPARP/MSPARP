@@ -9,7 +9,7 @@ from werkzeug.routing import BaseConverter, ValidationError
 
 from characters import CHARACTER_GROUPS, CHARACTERS
 from reaper import getTime
-from messages import addMessage, addSystemMessage, get_user_list, parseLine, parseMessages
+from messages import send_message, get_user_list, parseLine, parseMessages
 
 
 class ChatIDConverter(BaseConverter):
@@ -57,7 +57,7 @@ class User(object):
         self.db = db
         self.session = session or str(uuid4())
         self.chat = chat
-        self.prefix = self.chat_prefix = "session-"+self.session
+        self.prefix = self.chat_prefix = "session."+self.session
 
         chat_data = User.DEFAULTS
 
@@ -69,7 +69,7 @@ class User(object):
 
         # Load chat-specific data.
         if chat is not None:
-            self.chat_prefix += '-'+chat
+            self.chat_prefix += '.chat.'+chat
             if db.exists(self.chat_prefix):
                 chat_data = db.hgetall(self.chat_prefix)
             else:
@@ -80,10 +80,13 @@ class User(object):
 
         # XXX lazy loading on these?
 
-        self.picky = db.smembers(self.prefix+'-picky')
+        self.picky = db.smembers(self.prefix+'.picky')
 
     def character_dict(self, unpack_replacements=False):
         character_dict = dict((attrib, getattr(self, attrib)) for attrib in User.DEFAULTS.keys())
+        # Don't tell silenced users that they're silenced.
+        if character_dict['group']=='silent':
+            character_dict['group'] = 'user'
         if unpack_replacements:
             character_dict['replacements'] = json.loads(character_dict['replacements'])
         return character_dict
@@ -136,15 +139,15 @@ class User(object):
 
         db.hmset(self.chat_prefix, self.character_dict())
 
-        if (self.chat is not None and g.db.hget('chat-%s-sessions' % self.chat, self.session) in ['online', 'away']
+        if (self.chat is not None and g.db.hget('chat.%s.sessions' % self.chat, self.session) in ['online', 'away']
             and (self.name!=old_name or self.acronym!=old_acronym)):
-            addSystemMessage(g.db, request.form['chat'], '%s [%s] is now %s [%s].' % (old_name, old_acronym, self.name, self.acronym), True)
+            send_message(g.db, request.form['chat'], 'user_change', '%s [%s] is now %s [%s].' % (old_name, old_acronym, self.name, self.acronym))
 
         db.sadd('all-sessions', self.session)
 
     def save_pickiness(self, form):
 
-        ckey = self.prefix+'-picky'
+        ckey = self.prefix+'.picky'
         self.db.delete(ckey)
 
         if 'picky' in form:
@@ -153,6 +156,16 @@ class User(object):
                 raise ValueError("no_characters")
             for char in self.picky:
                 self.db.sadd(ckey, char)
+
+    def set_chat(self, chat):
+        if self.chat is None:
+            self.chat = chat
+            self.chat_prefix = self.prefix+'.chat.'+chat
+            self.db.hmset(self.chat_prefix, self.character_dict())
+
+    def set_group(self, group):
+        self.group = group
+        self.db.hset(self.chat_prefix, 'group', group)
 
 
 # Helper functions
@@ -169,6 +182,20 @@ def show_homepage(error):
         users_chatting=g.db.scard('sessions-chatting')
     )
 
+def get_counter(chat, session):
+    return g.db.lrange('chat.'+chat+'.counter', 0, -1).index(session)
+
+def get_wanted_channels(channel_main, channel_mod, channel_self):
+    wanted_channels = set()
+    wanted_channels.add(channel_main)
+    if g.user.group=='mod':
+        # Moderator messages.
+        wanted_channels.add(channel_mod)
+    if g.user.group=='silent':
+        # Channel for self messages if silent.
+        wanted_channels.add(channel_self)
+    return wanted_channels
+
 # Decorators
 
 def validate_chat(f):
@@ -183,13 +210,17 @@ def mark_alive(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         chat = request.form['chat']
-        chatkey = 'chat-%s-sessions' % chat
-        if g.db.hget(chatkey, g.user.session) not in ['online', 'away']:
-            g.db.sadd('user-%s-chats' % g.user.session, chat)
-            g.db.hset(chatkey, g.user.session, 'online')
-            addSystemMessage(g.db, chat, '%s [%s] joined chat.' % (g.user.name, g.user.acronym), True)
+        state_key = 'chat.%s.sessions' % chat
+        session_state = g.db.hget(state_key, g.user.session)
+        if session_state is None:
+            # This session has never been in this chat before; we need to add them to the counter.
+            g.db.rpush('chat.%s.counter' % chat, g.user.session)
+            g.db.sadd('session.%s.chats' % g.user.session, chat)
+        if session_state not in ['online', 'away']:
+            g.db.hset(state_key, g.user.session, 'online')
+            send_message(g.db, chat, 'user_change', '%s [%s] joined chat.' % (g.user.name, g.user.acronym))
+            g.db.sadd('sessions-chatting', g.user.session)
         g.db.zadd('chats-alive', chat+'/'+g.user.session, getTime())
-        g.db.sadd('sessions-chatting', g.user.session)
         return f(*args, **kwargs)
     return decorated_function
 
@@ -229,10 +260,10 @@ def set_cookie(response):
 def chat(chat):
 
     # Delete value from the matchmaker.
-    if g.db.get('chat-'+g.user.session):
-        g.db.delete('chat-'+g.user.session)
+    if g.db.get('session.'+g.user.session+'.match'):
+        g.db.delete('session.'+g.user.session+'.match')
 
-    existing_lines = [parseLine(line, 0) for line in g.db.lrange('chat-'+chat, 0, -1)]
+    existing_lines = [parseLine(line, 0) for line in g.db.lrange('chat.'+chat, 0, -1)]
     latestNum = len(existing_lines)-1
 
     return render_template(
@@ -250,16 +281,38 @@ def chat(chat):
 @validate_chat
 @mark_alive
 def postMessage():
+    chat = request.form['chat']
     if 'line' in request.form:
-        addMessage(g.db, request.form['chat'], g.user.color, g.user.acronym, request.form['line'])
+        if g.user.group=='silent':
+            send_message(g.db, chat, 'private', request.form['line'], g.user.color, g.user.acronym, g.user.session)
+        else:
+            send_message(g.db, chat, 'message', request.form['line'], g.user.color, g.user.acronym)
     if 'state' in request.form and request.form['state'] in ['online', 'away']:
-        current_state = g.db.hget('chat-%s-sessions' % request.form['chat'], g.user.session)
+        current_state = g.db.hget('chat.%s.sessions' % chat, g.user.session)
         if request.form['state']!=current_state:
-            g.db.hset('chat-%s-sessions' % request.form['chat'], g.user.session, request.form['state'])
+            g.db.hset('chat.%s.sessions' % chat, g.user.session, request.form['state'])
             if request.form['state']=='away':
-                addSystemMessage(g.db, request.form['chat'], None, True)
+                send_message(g.db, chat, 'user_change')
             else:
-                addSystemMessage(g.db, request.form['chat'], None, True)
+                send_message(g.db, chat, 'user_change')
+    if 'set_group' in request.form and 'counter' in request.form:
+        if g.user.group=='mod':
+            set_group = request.form['set_group']
+            set_session_id = g.db.lindex('chat.%s.counter' % chat, request.form['counter']) or abort(400)
+            set_session_key = 'session.%s.chat.%s' % (set_session_id, chat)
+            set_session = g.db.hgetall(set_session_key)
+            if set_session['group']!=set_group and set_group in ['user', 'mod', 'silent']:
+                g.db.hset(set_session_key, 'group', set_group)
+                set_message = None
+                if set_session['group']!='mod' and set_group=='mod':
+                    set_message = '%s [%s] gave moderator status to %s [%s].' % (g.user.name, g.user.acronym, set_session['name'], set_session['acronym'])
+                elif set_session['group']=='mod' and set_group!='mod':
+                    set_message = '%s [%s] removed moderator status from %s [%s].' % (g.user.name, g.user.acronym, set_session['name'], set_session['acronym'])
+                # Refresh the user's subscriptions.
+                g.db.publish('channel.'+chat+'.refresh', set_session_id+'#'+set_group)
+                send_message(g.db, chat, 'user_change', set_message)
+        else:
+            abort(403)
     return 'ok'
 
 @app.route('/ping', methods=['POST'])
@@ -273,42 +326,82 @@ def pingServer():
 @mark_alive
 def getMessages():
 
+    chat = request.form['chat']
+
     after = int(request.form['after'])
-    messages = g.db.lrange('chat-'+request.form['chat'], after+1, -1)
+    messages = g.db.lrange('chat.'+chat, after+1, -1)
 
     if messages:
-        return jsonify(messages=parseMessages(messages, after+1), online=get_user_list(g.db, request.form['chat']))
+        message_dict = {
+            'messages': parseMessages(messages, after+1),
+            'online': get_user_list(g.db, chat, 'mod' if g.user.group=='mod' else 'user')
+        }
+        if 'fetchCounter' in request.form:
+            message_dict['counter'] = get_counter(chat, g.user.session)
+        return jsonify(message_dict)
 
-    g.db.subscribe('channel-'+request.form['chat'])
+    # Channel names.
+    channel_main = 'channel.'+chat
+    channel_mod = channel_main+'.mod'
+    channel_self = channel_main+'.'+g.user.session
+    channel_refresh = channel_main+'.refresh'
+
+    # We subscribe to all four channels then ignore what we don't want because
+    # changing subscriptions doesn't happen quickly enough and we end up missing
+    # messages.
+    g.db.subscribe(channel_main)
+    g.db.subscribe(channel_mod)
+    g.db.subscribe(channel_self)
+    g.db.subscribe(channel_refresh)
+
+    # This gives us a list of all the channels we want to listen to.
+    wanted_channels = get_wanted_channels(channel_main, channel_mod, channel_self)
+
     for msg in g.db.listen():
         if msg['type']=='message':
-            # The pubsub channel sends us a JSON string, so we just return that.
-            resp = make_response(msg['data'])
-            resp.headers['Content-type'] = 'application/json'
-            return resp
+            if msg['channel']==channel_refresh:
+                refresh_user, refresh_group = msg['data'].split('#', 1)
+                if refresh_user==g.user.session:
+                    # Our group has changed. Alter wanted channels accordingly.
+                    g.user.group = refresh_group
+                    wanted_channels = get_wanted_channels(channel_main, channel_mod, channel_self)
+            elif msg['channel'] in wanted_channels:
+                # The pubsub channel sends us a JSON string, so we return that instead of using jsonify.
+                resp = make_response(msg['data'])
+                resp.headers['Content-type'] = 'application/json'
+                return resp
 
 @app.route('/bye', methods=['POST'])
 @validate_chat
 def quitChatting():
     # Check if they're actually a member of the chat first?
-    chatkey = 'chat-%s-sessions' % request.form['chat']
+    chatkey = 'chat.%s.sessions' % request.form['chat']
     if g.db.hexists(chatkey, g.user.session):
         g.db.zrem('chats-alive', request.form['chat']+'/'+g.user.session)
         g.db.hset(chatkey, g.user.session, 'offline')
         g.db.srem('sessions-chatting', g.user.session)
-        addSystemMessage(g.db, request.form['chat'], '%s [%s] disconnected.' % (g.user.name, g.user.acronym), True)
+        send_message(g.db, request.form['chat'], 'user_change', '%s [%s] disconnected.' % (g.user.name, g.user.acronym))
         return 'ok'
 
 # Save
 
 @app.route('/save', methods=['POST'])
 def save():
-
     try:
         if 'character' in request.form:
             g.user.save_character(request.form)
         if 'save_pickiness' in request.form:
             g.user.save_pickiness(request.form)
+        if 'create' in request.form:
+            chat = request.form['chaturl']
+            if g.db.exists('chat.'+chat):
+                raise ValueError('chaturl_taken')
+            if not re.match('^[-a-zA-Z0-9]+$', chat):
+                raise ValueError('chaturl_invalid')
+            g.user.set_chat(chat)
+            g.user.set_group('mod')
+            g.db.set('chat.'+chat+'.type', 'group')
+            return redirect(url_for('chat', chat=chat))
     except ValueError as e:
         if request.is_xhr:
             abort(400)
@@ -317,7 +410,7 @@ def save():
 
     if request.is_xhr:
         return 'ok'
-    elif 'match' in request.form:
+    elif 'search' in request.form:
         return redirect(url_for('findMatches'))
     else:
         return redirect(url_for('configure'))
@@ -330,7 +423,7 @@ def findMatches():
 
 @app.route('/matches/foundYet', methods=['POST'])
 def foundYet():
-    target=g.db.get('chat-'+g.user.session)
+    target=g.db.get('session.'+g.user.session+'.match')
     if target:
         return jsonify(target=target)
     else:
