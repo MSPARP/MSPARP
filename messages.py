@@ -52,8 +52,8 @@ def get_user_list(db, chat, audience):
         # list if they're the same).
 
         user_list = []
-        user_states = db.hgetall('chat.'+chat+'.sessions')
         user_counter = db.lrange('chat.'+chat+'.counter', 0, -1)
+        user_states = db.hgetall('chat.'+chat+'.sessions')
 
         silent_users = False
 

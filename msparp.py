@@ -306,6 +306,9 @@ def postMessage():
             if set_session['group']!=set_group and set_group in ['user', 'mod', 'silent']:
                 g.db.hset(set_session_key, 'group', set_group)
                 set_message = None
+                # Convert the name and acronym to unicode.
+                set_session['name'] = unicode(set_session['name'], encoding='utf8')
+                set_session['acronym'] = unicode(set_session['acronym'], encoding='utf8')
                 if set_session['group']!='mod' and set_group=='mod':
                     set_message = '%s [%s] gave moderator status to %s [%s].' % (g.user.name, g.user.acronym, set_session['name'], set_session['acronym'])
                 elif set_session['group']=='mod' and set_group!='mod':
