@@ -37,8 +37,8 @@
 <div class="options">
 	<h1>With settings:</h1>
 	<div class="options-contents" id="character-config">
-		<label>Acronym: <input type="text" size="3" name="acronym" value="{{user.acronym}}" /></label><br />
-		<label>Name: <input type="text" size="50" name="name" value="{{user.name}}" /></label><br />{% if error=="name" %}
+		<label>Acronym: <input type="text" size="3" name="acronym" value="{{user.acronym}}" maxlength="10" /></label><br />
+		<label>Name: <input type="text" size="50" name="name" value="{{user.name}}" maxlength="50" /></label><br />{% if error=="name" %}
 		<span class="error">You can't chat with a blank name!</span><br />{% endif %}
 		<label>Color: <input type="text" size="7" name="color" value="{{user.color}}" /></label>
 		<span class="pester-line" id="color-preview"><span id="acronym">??: </span><span id="quote">oh god how did this get here I am not good with computer</span></span><br />{% if error=="color" %}

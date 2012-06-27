@@ -103,11 +103,13 @@ class User(object):
         old_name = self.name
         old_acronym = self.acronym
 
-        self.acronym = form['acronym']
+        # Truncate acronym to 10 characters.
+        self.acronym = form['acronym'][:10]
 
         # Validate name
         if len(form['name'])>0:
-            self.name = form['name']
+            # Truncate name to 50 characters.
+            self.name = form['name'][:50]
         else:
             raise ValueError("name")
 
