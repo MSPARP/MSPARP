@@ -28,9 +28,12 @@ if __name__=='__main__':
             db.zrem('chats-alive', dead)
             db.hset(('chat.%s.sessions' % chat), session, 'offline')
             db.srem('sessions-chatting', session)
-            name = getD(db, session, chat, 'name', 'UNKNOWN USER')
+            disconnect_message = None
+            if getD(db, session, chat, 'group', None)!='silent':
+                name = getD(db, session, chat, 'name', 'UNKNOWN USER')
+                disconnect_message = '%s\'s connection timed out. Please don\'t quit straight away; they could be back.' % (name)
+            send_message(db, chat, 'user_change', disconnect_message)
             print 'dead', dead, name
-            send_message(db, chat, 'user_change', '%s\'s connection timed out. Please don\'t quit straight away; they could be back.' % (name))
 
         for dead in db.zrangebyscore('searchers', 0, getTime()-SEARCH_PERIOD*2):
             print 'reaping searcher', dead

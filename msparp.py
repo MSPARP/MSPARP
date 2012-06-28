@@ -220,7 +220,12 @@ def mark_alive(f):
             g.db.sadd('session.%s.chats' % g.user.session, chat)
         if session_state not in ['online', 'away']:
             g.db.hset(state_key, g.user.session, 'online')
-            send_message(g.db, chat, 'user_change', '%s [%s] joined chat.' % (g.user.name, g.user.acronym))
+            if g.user.group=='silent':
+                join_message = None
+                g.fake_join_message = True
+            else:
+                join_message = '%s [%s] joined chat.' % (g.user.name, g.user.acronym)
+            send_message(g.db, chat, 'user_change', join_message)
             g.db.sadd('sessions-chatting', g.user.session)
         g.db.zadd('chats-alive', chat+'/'+g.user.session, getTime())
         return f(*args, **kwargs)
@@ -332,18 +337,31 @@ def pingServer():
 def getMessages():
 
     chat = request.form['chat']
-
     after = int(request.form['after'])
-    messages = g.db.lrange('chat.'+chat, after+1, -1)
 
-    if messages:
-        message_dict = {
-            'messages': parseMessages(messages, after+1),
-            'online': get_user_list(g.db, chat, 'mod' if g.user.group=='mod' else 'user')
-        }
+    message_dict = None
+
+    if hasattr(g, 'fake_join_message'):
+        message_dict = { 'messages': [ {
+            'id': after,
+            'color': '000000',
+            'line': '%s [%s] joined chat.' % (g.user.name, g.user.acronym)
+        } ] }
+    else:
+        # Check for stored messages.
+        messages = g.db.lrange('chat.'+chat, after+1, -1)
+        if messages:
+            message_dict = {
+                'messages': parseMessages(messages, after+1)
+            }
+
+    if message_dict:
+        message_dict['online'] = get_user_list(g.db, chat, 'mod' if g.user.group=='mod' else 'user')
         if 'fetchCounter' in request.form:
             message_dict['counter'] = get_counter(chat, g.user.session)
         return jsonify(message_dict)
+
+    # Otherwise, listen for a message.
 
     # Channel names.
     channel_main = 'channel.'+chat
@@ -385,7 +403,8 @@ def quitChatting():
         g.db.zrem('chats-alive', request.form['chat']+'/'+g.user.session)
         g.db.hset(chatkey, g.user.session, 'offline')
         g.db.srem('sessions-chatting', g.user.session)
-        send_message(g.db, request.form['chat'], 'user_change', '%s [%s] disconnected.' % (g.user.name, g.user.acronym))
+        disconnect_message = '%s [%s] disconnected.' % (g.user.name, g.user.acronym) if g.user.group!='silent' else None
+        send_message(g.db, request.form['chat'], 'user_change', disconnect_message)
         return 'ok'
 
 # Save
