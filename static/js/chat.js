@@ -66,7 +66,7 @@ $(document).ready(function() {
 			conversation.removeClass('search');
 			$('input, select, button').removeAttr('disabled');
 			$('#preview').css('color', '#'+user.color);
-			setSidebar('userList');
+			closeSettings();
 			getMessages();
 			pingInterval = window.setTimeout(pingServer, PING_PERIOD*1000);
 		}
@@ -130,13 +130,29 @@ $(document).ready(function() {
 					document.title = "New message - "+ORIGINAL_TITLE;
 				}
 			}, "json").complete(function() {
+				if (chatState=='chat') {
 					window.setTimeout(getMessages, 50);
+				}
 			});
 		}
 
 		function pingServer() {
 			$.post(PING_URL, {'chat': chat});
 			pingInterval = window.setTimeout(pingServer, PING_PERIOD*1000);
+		}
+
+		function disconnect() {
+			if (confirm('Are you sure you want to disconnect?')) {
+				chatState = 'inactive';
+				if (pingInterval) {
+					window.clearTimeout(pingInterval);
+				}
+				$.ajax(QUIT_URL, {'type': 'POST', data: {'chat': chat}});
+				$('input, select, button').attr('disabled', 'disabled');
+				$('#userList > ul').empty();
+				setSidebar(null);
+				document.title = ORIGINAL_TITLE;
+			}
 		}
 
 		// Sidebars
@@ -340,8 +356,6 @@ $(document).ready(function() {
 			$('#userListButton').click(function() {
 				setSidebar('userList');
 			}).show();
-		} else {
-			setSidebar('userList');
 		}
 
 		window.onbeforeunload = function (e) {
