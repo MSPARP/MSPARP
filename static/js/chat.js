@@ -1,94 +1,28 @@
-var PING_PERIOD=10;
-
-function addAcronym(acronym,text) {
-	if (acronym.length>0) {
-		return acronym+": "+text;
-	} else {
-		return text;
-	}
-}
-
-var postURL = "/post";
-var pingURL = "/ping";
-var messagesURL = "/messages";
-var saveURL = "/save";
-var quitURL = "/bye";
-
-var userCounter;
-
-var currentSidebar;
-
-// Holding space for the userlist.
-var holdingList = $("<ul />");
-
-function setSidebar(sidebar) {
-	if (currentSidebar) {
-		$('#'+currentSidebar).hide();
-	} else {
-		$(document.body).addClass('withSidebar');
-	}
-	// Null to remove sidebar.
-	if (sidebar) {
-		$('#'+sidebar).show();
-	} else {
-		$(document.body).removeClass('withSidebar');
-	}
-	currentSidebar = sidebar;
-}
-
-// User action list.
-var actionListUser = null;
-
-function showActionList() {
-	$('#actionList').remove();
-	// Don't show if we're not a mod, and hide if already shown.
-	if (user.group=='mod' && this!=actionListUser) {
-		var actionList = $('<ul />').attr('id', 'actionList');
-		var userData = $(this).data();
-		if (userData.group=='mod') {
-			$('<li />').text('Unmod').appendTo(actionList).click(function() { setUserGroup('user', userData.counter); });
-		} else {
-			$('<li />').text('Mod').appendTo(actionList).click(function() { setUserGroup('mod', userData.counter); });
-		}
-		if (userData.group=='silent') {
-			$('<li />').text('Unsilence').appendTo(actionList).click(function() { setUserGroup('user', userData.counter); });
-		} else {
-			$('<li />').text('Silence').appendTo(actionList).click(function() { setUserGroup('silent', userData.counter); });
-		}
-		$(actionList).appendTo(this);
-		actionListUser = this;
-	} else {
-		actionListUser = null;
-	}
-}
-
-function setUserGroup(group, counter) {
-	if (counter!=userCounter || confirm('You are about to unmod yourself. Are you sure you want to do this?')) {
-		$.post(postURL,{'chat': chat, 'set_group': group, 'counter': counter});
-	}
-}
-
-/* Browser compatibility for visibilityChange */
-var hidden, visibilityChange;
-if (typeof document.hidden !== "undefined") {
-	hidden = "hidden";
-	visibilityChange = "visibilitychange";
-} else if (typeof document.mozHidden !== "undefined") {
-	hidden = "mozHidden";
-	visibilityChange = "mozvisibilitychange";
-} else if (typeof document.msHidden !== "undefined") {
-	hidden = "msHidden";
-	visibilityChange = "msvisibilitychange";
-} else if (typeof document.webkitHidden !== "undefined") {
-	hidden = "webkitHidden";
-	visibilityChange = "webkitvisibilitychange";
-}
-
 $(document).ready(function() {
 
+	var SEARCH_PERIOD = 1;
+	var PING_PERIOD = 10;
+
+	var SEARCH_URL = "/search";
+	var SEARCH_QUIT_URL = "/stop_search";
+	var POST_URL = "/post";
+	var PING_URL = "/ping";
+	var MESSAGES_URL = "/messages";
+	var SAVE_URL = "/save";
+	var QUIT_URL = "/bye";
+
+	var pingInterval;
+	var chatState;
+	var userState;
+	var userCounter;
+	var newState;
+	var currentSidebar;
+	var previewHidden = false;
+
 	var ORIGINAL_TITLE = document.title;
-	var unconfirmed = [], pingInterval;
 	var conversation = $('#conversation');
+
+	$('input, select, button').attr('disabled', 'disabled');
 
 	function addLine(color, text){
 		$('<p />').css('color', color).text(text).appendTo('#conversation');
@@ -105,55 +39,35 @@ $(document).ready(function() {
 
 	} else {
 
-		function updateChatPreview(){
-			var textPreview = $('#textInput').val();
-			if (textPreview.substr(0,1)=='/') { 
-				textPreview = jQuery.trim(textPreview.substr(1)); 
-			} else {
-				textPreview = applyQuirks(jQuery.trim(textPreview));
-			}
-			if (textPreview.length>0) {
-				$('#preview').text(textPreview);
-			} else {
-				$('#preview').html('&nbsp;');
-			}
-			$('#conversation').css('bottom',($('#controls').height()+10)+'px');
-			return textPreview.length!=0;
+		// Search
+
+		function runSearch() {
+			$.post(SEARCH_URL, {}, function(data) {
+				chat = data['target'];
+				startChat();
+			}).complete(function() {
+				if (chatState=='search') {
+					window.setTimeout(runSearch, 1000);
+				}
+			});
 		}
 
-		$('#textInput').change(updateChatPreview).keyup(updateChatPreview).change();
-		$('#preview').css('color', '#'+user.color);
+		// Chatting
 
-		var previewHidden = false;
-		$('#hidePreview').click(function() {
-			if (previewHidden) {
-				$('#preview').show();
-				$(this).text("[hide]");
-			} else {
-				$('#preview').hide();
-				$(this).text("[show]");
-			}
-			$('#conversation').css('bottom',($('#controls').height()+10)+'px');
-			previewHidden = !previewHidden;
-			return false;
-		});
+		function addLine(color, text) {
+			$('<p />').css('color', color).text(text).appendTo('#conversation');
+			conversation.scrollTop(conversation[0].scrollHeight);
+		}
 
-		$('#controls').submit(function() {
-			if (updateChatPreview()) {
-				if ($('#textInput').val()!='') {
-					if (pingInterval) {
-						window.clearTimeout(pingInterval);
-					}
-					$.post(postURL,{'chat': chat, 'line': $('#preview').text()}); // todo: check for for error
-					pingInterval = window.setTimeout(pingServer, PING_PERIOD*1000);
-					$('#textInput').val('');
-				}
-			}
-			return false;
-		});
-
-		function pingServer() {
-			$.post(pingURL, {'chat': chat});
+		function startChat() {
+			chatState = 'chat';
+			userState = 'online';
+			document.title = 'Chat - '+ORIGINAL_TITLE;
+			conversation.removeClass('search');
+			$('input, select, button').removeAttr('disabled');
+			$('#preview').css('color', '#'+user.color);
+			setSidebar('userList');
+			getMessages();
 			pingInterval = window.setTimeout(pingServer, PING_PERIOD*1000);
 		}
 
@@ -162,7 +76,7 @@ $(document).ready(function() {
 			if (typeof userCounter=="undefined") {
 				messageData.fetchCounter = true;
 			}
-			$.post(messagesURL, messageData, function(data) {
+			$.post(MESSAGES_URL, messageData, function(data) {
 				var messages = data.messages;
 				for (var i=0; i<messages.length; i++) {
 					var msg = messages[i];
@@ -202,6 +116,7 @@ $(document).ready(function() {
 							}
 						}
 						if (currentUser.counter==userCounter) {
+
 							listItem.addClass('self').append(' (you)');
 						}
 						listItem.removeData().data(currentUser).appendTo('#'+currentUser.state);
@@ -215,9 +130,120 @@ $(document).ready(function() {
 					document.title = "New message - "+ORIGINAL_TITLE;
 				}
 			}, "json").complete(function() {
-				window.setTimeout(getMessages, 50);
+					window.setTimeout(getMessages, 50);
 			});
 		}
+
+		function pingServer() {
+			$.post(PING_URL, {'chat': chat});
+			pingInterval = window.setTimeout(pingServer, PING_PERIOD*1000);
+		}
+
+		// Sidebars
+
+		function setSidebar(sidebar) {
+			if (currentSidebar) {
+				$('#'+currentSidebar).hide();
+			} else {
+				$(document.body).addClass('withSidebar');
+			}
+			// Null to remove sidebar.
+			if (sidebar) {
+				$('#'+sidebar).show();
+			} else {
+				$(document.body).removeClass('withSidebar');
+			}
+			currentSidebar = sidebar;
+		}
+
+		function closeSettings() {
+			if ($(document.body).hasClass('mobile')) {
+				setSidebar(null);
+			} else {
+				setSidebar('userList');
+			}
+		}
+
+		// User list
+		var holdingList = $("<ul />");
+		var actionListUser = null;
+
+		function showActionList() {
+			$('#actionList').remove();
+			// Don't show if we're not a mod, and hide if already shown.
+			if (user.group=='mod' && this!=actionListUser) {
+				var actionList = $('<ul />').attr('id', 'actionList');
+				var userData = $(this).data();
+				if (userData.group=='mod') {
+					$('<li />').text('Unmod').appendTo(actionList).click(function() { setUserGroup('user', userData.counter); });
+				} else {
+					$('<li />').text('Mod').appendTo(actionList).click(function() { setUserGroup('mod', userData.counter); });
+				}
+				if (userData.group=='silent') {
+					$('<li />').text('Unsilence').appendTo(actionList).click(function() { setUserGroup('user', userData.counter); });
+				} else {
+					$('<li />').text('Silence').appendTo(actionList).click(function() { setUserGroup('silent', userData.counter); });
+				}
+				$(actionList).appendTo(this);
+				actionListUser = this;
+			} else {
+				actionListUser = null;
+			}
+		}
+
+		function setUserGroup(group, counter) {
+			if (counter!=userCounter || confirm('You are about to unmod yourself. Are you sure you want to do this?')) {
+				$.post(POST_URL,{'chat': chat, 'set_group': group, 'counter': counter});
+			}
+		}
+
+		/* Browser compatibility for visibilityChange */
+		var hidden, visibilityChange;
+		if (typeof document.hidden !== "undefined") {
+			hidden = "hidden";
+			visibilityChange = "visibilitychange";
+		} else if (typeof document.mozHidden !== "undefined") {
+			hidden = "mozHidden";
+			visibilityChange = "mozvisibilitychange";
+		} else if (typeof document.msHidden !== "undefined") {
+			hidden = "msHidden";
+			visibilityChange = "msvisibilitychange";
+		} else if (typeof document.webkitHidden !== "undefined") {
+			hidden = "webkitHidden";
+			visibilityChange = "webkitvisibilitychange";
+		}
+
+		// Event listeners
+
+		function updateChatPreview(){
+			var textPreview = $('#textInput').val();
+			if (textPreview.substr(0,1)=='/') {
+				textPreview = jQuery.trim(textPreview.substr(1));
+			} else {
+				textPreview = applyQuirks(jQuery.trim(textPreview));
+			}
+			if (textPreview.length>0) {
+				$('#preview').text(textPreview);
+			} else {
+				$('#preview').html('&nbsp;');
+			}
+			$('#conversation').css('bottom',($('#controls').height()+10)+'px');
+			return textPreview.length!=0;
+		}
+		$('#textInput').change(updateChatPreview).keyup(updateChatPreview).change();
+
+		$('#hidePreview').click(function() {
+			if (previewHidden) {
+				$('#preview').show();
+				$(this).text("[hide]");
+			} else {
+				$('#preview').hide();
+				$(this).text("[show]");
+			}
+			$('#conversation').css('bottom',($('#controls').height()+10)+'px');
+			previewHidden = !previewHidden;
+			return false;
+		});
 
 		if (typeof document.addEventListener!=="undefined" && typeof hidden!=="undefined") {
 			document.addEventListener(visibilityChange, function() {
@@ -234,24 +260,36 @@ $(document).ready(function() {
 			}, false);
 		}
 
-		window.setTimeout(getMessages, 500);
-		pingInterval=window.setTimeout(pingServer, PING_PERIOD*1000);
+		$('#controls').submit(function() {
+			if (updateChatPreview()) {
+				if ($('#textInput').val()!='') {
+					if (pingInterval) {
+						window.clearTimeout(pingInterval);
 
-		$('#settingsButton').click(function() {
-			setSidebar('settings');
+					}
+					$.post(POST_URL,{'chat': chat, 'line': $('#preview').text()}); // todo: check for for error
+					pingInterval = window.setTimeout(pingServer, PING_PERIOD*1000);
+					$('#textInput').val('');
+				}
+			}
+			return false;
 		});
 
-		var userState = 'online';
-		var newState;
+		$('#disconnectButton').click(disconnect);
+
 		$('#awayButton').click(function() {
 			if (userState=='away') {
 				newState = 'online';
 			} else {
 				newState = 'away';
 			}
-			$.post(postURL, {'chat': chat, 'state': newState}, function(data) {
+			$.post(POST_URL, {'chat': chat, 'state': newState}, function(data) {
 				userState = newState;
 			});
+		});
+
+		$('#settingsButton').click(function() {
+			setSidebar('settings');
 		});
 
 		$('#settings').submit(function() {
@@ -267,7 +305,7 @@ $(document).ready(function() {
 			} else {
 				var formData = $(this).serializeArray();
 				formData.push({ name: 'chat', value: chat })
-				$.post(saveURL, formData, function(data) {
+				$.post(SAVE_URL, formData, function(data) {
 					$('#preview').css('color', '#'+$('input[name="color"]').val());
 					var formInputs = $('#settings').find('input, select');
 					for (i=0; i<formInputs.length; i++) {
@@ -293,16 +331,8 @@ $(document).ready(function() {
 			closeSettings();
 		});
 
-		function closeSettings() {
-			if ($(document.body).hasClass('mobile')) {
-				setSidebar(null);
-			} else {
-				setSidebar('userList');
-			}
-		}
-
 		// Activate mobile mode on small screens
-		if (navigator.userAgent.indexOf('Android')!=-1 || navigator.userAgent.indexOf('iPhone')!=-1 || window.innerWidth<500) {
+		if (navigator.userAgent.indexOf('Android')!=-1 || navigator.userAgent.indexOf('iPhone')!=-1 || window.innerWidth<=500) {
 			$(document.body).addClass('mobile');
 			$('.sidebar .close').click(function() {
 				setSidebar(null);
@@ -315,15 +345,32 @@ $(document).ready(function() {
 		}
 
 		window.onbeforeunload = function (e) {
-			if (typeof e!="undefined") {
-				e.preventDefault();
+			if (chatState=='chat') {
+				if (typeof e!="undefined") {
+					e.preventDefault();
+				}
+				return "";
 			}
-			return "";
 		}
 
 		$(window).unload(function() {
-			$.ajax(quitURL, {'type': 'POST', data: {'chat': chat}, 'async': false});
+			if (chatState=='chat') {
+				$.ajax(QUIT_URL, {'type': 'POST', data: {'chat': chat}, 'async': false});
+			} else if (chatState=='search') {
+				$.ajax(SEARCH_QUIT_URL, {'type': 'POST', 'async': false});
+			}
 		});
+
+		// Initialisation
+
+		if (chat==null) {
+			chatState = 'search';
+			document.title = 'Searching - '+ORIGINAL_TITLE;
+			conversation.addClass('search');
+			runSearch();
+		} else {
+			startChat();
+		}
 
 	}
 

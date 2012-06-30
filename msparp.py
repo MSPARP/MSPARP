@@ -263,15 +263,20 @@ def set_cookie(response):
 
 # Chat
 
+@app.route('/chat')
 @app.route('/chat/<chat:chat>')
-def chat(chat):
+def chat(chat=None):
 
     # Delete value from the matchmaker.
     if g.db.get('session.'+g.user.session+'.match'):
         g.db.delete('session.'+g.user.session+'.match')
 
-    existing_lines = [parseLine(line, 0) for line in g.db.lrange('chat.'+chat, 0, -1)]
-    latestNum = len(existing_lines)-1
+    if chat is None:
+        existing_lines = []
+        latest_num = -1
+    else:
+        existing_lines = [parseLine(line, 0) for line in g.db.lrange('chat.'+chat, 0, -1)]
+        latest_num = len(existing_lines)-1
 
     return render_template(
         'chat.html',
@@ -281,7 +286,7 @@ def chat(chat):
         characters=CHARACTERS,
         chat=chat,
         lines=existing_lines,
-        latestNum=latestNum
+        latest_num=latest_num
     )
 
 @app.route('/post', methods=['POST'])
@@ -435,17 +440,13 @@ def save():
     if request.is_xhr:
         return 'ok'
     elif 'search' in request.form:
-        return redirect(url_for('findMatches'))
+        return redirect(url_for('chat'))
     else:
         return redirect(url_for('configure'))
 
 # Searching
 
-@app.route('/matches')
-def findMatches():
-        return render_template("searching.html")
-
-@app.route('/matches/foundYet', methods=['POST'])
+@app.route('/search', methods=['POST'])
 def foundYet():
     target=g.db.get('session.'+g.user.session+'.match')
     if target:
@@ -454,7 +455,7 @@ def foundYet():
         g.db.zadd('searchers', g.user.session, getTime())
         abort(404)
 
-@app.route('/bye/searching', methods=['POST'])
+@app.route('/stop_search', methods=['POST'])
 def quitSearching():
     g.db.zrem('searchers', g.user.session)
     return 'ok'

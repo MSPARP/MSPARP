@@ -73,6 +73,12 @@ input:focus, input:hover, select:focus, select:hover, button:hover {
 	overflow: auto;
 }
 
+#conversation.search {
+	background-image: url('/static/img/throbber-big.gif');
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
 body.withSidebar #conversation {
 	right: 230px;
 }
