@@ -83,15 +83,12 @@ class User(object):
         self.picky = db.smembers(self.prefix+'.picky')
 
     def character_dict(self, unpack_replacements=False, hide_silence=True):
-        print hide_silence
         character_dict = dict((attrib, getattr(self, attrib)) for attrib in User.DEFAULTS.keys())
-        print character_dict
         # Don't tell silenced users that they're silenced.
         if hide_silence and character_dict['group']=='silent':
             character_dict['group'] = 'user'
         if unpack_replacements:
             character_dict['replacements'] = json.loads(character_dict['replacements'])
-        print character_dict
         return character_dict
 
     def save(self, form):
