@@ -1,15 +1,16 @@
-import itertools, json, re, time
+import itertools, re, time
 
 from functools import wraps
 from flask import Flask, g, request, render_template, make_response, redirect, url_for, jsonify, abort
-from redis import Redis
 from uuid import uuid4
 from collections import defaultdict
 from werkzeug.routing import BaseConverter, ValidationError
 
-from characters import CHARACTER_GROUPS, CHARACTERS
-from reaper import getTime
-from messages import send_message, get_user_list, parseLine, parseMessages
+from lib import get_time, validate_chat_url
+from lib.characters import CHARACTER_GROUPS, CHARACTERS
+from lib.messages import send_message, get_user_list, parse_line, parse_messages
+from lib.requests import connect, set_cookie
+from lib.sessions import get_counter
 
 
 class ChatIDConverter(BaseConverter):
@@ -29,146 +30,9 @@ class ChatIDConverter(BaseConverter):
 app = Flask(__name__)
 app.url_map.converters['chat'] = ChatIDConverter
 
-
-class User(object):
-
-    CASE_OPTIONS = {
-        'normal': 'Normal',
-        'upper': 'UPPER CASE',
-        'lower': 'lower case',
-        'title': 'Title Case',
-        'inverted': 'iNVERTED',
-        'alternating': 'AlTeRnAtInG'
-    }
-
-    DEFAULTS = {
-        'acronym': '??',
-        'name': 'Anonymous',
-        'color': '000000',
-        'character': 'anonymous/other',
-        'quirk_prefix': '',
-        'case': 'normal',
-        'replacements': '[]',
-        'group': 'user'
-    }
-
-    def __init__(self, db, session=None, chat=None):
-
-        self.db = db
-        self.session = session or str(uuid4())
-        self.chat = chat
-        self.prefix = self.chat_prefix = "session."+self.session
-
-        chat_data = User.DEFAULTS
-
-        # Load global session data.
-        if db.exists(self.prefix):
-            chat_data = db.hgetall(self.chat_prefix)
-        else:
-            db.hmset(self.prefix, chat_data)
-
-        # Load chat-specific data.
-        if chat is not None:
-            self.chat_prefix += '.chat.'+chat
-            if db.exists(self.chat_prefix):
-                chat_data = db.hgetall(self.chat_prefix)
-            else:
-                db.hmset(self.chat_prefix, chat_data)
-
-        for attrib, value in chat_data.items():
-            setattr(self, attrib, unicode(value, encoding='utf-8'))
-
-        # XXX lazy loading on these?
-
-        self.picky = db.smembers(self.prefix+'.picky')
-
-    def character_dict(self, unpack_replacements=False, hide_silence=True):
-        character_dict = dict((attrib, getattr(self, attrib)) for attrib in User.DEFAULTS.keys())
-        # Don't tell silenced users that they're silenced.
-        if hide_silence and character_dict['group']=='silent':
-            character_dict['group'] = 'user'
-        if unpack_replacements:
-            character_dict['replacements'] = json.loads(character_dict['replacements'])
-        return character_dict
-
-    def save(self, form):
-        self.save_character(form)
-        self.save_pickiness(form)
-
-    def save_character(self, form):
-
-        db = self.db
-        prefix = self.prefix
-
-        old_name = self.name
-        old_acronym = self.acronym
-
-        # Truncate acronym to 10 characters.
-        self.acronym = form['acronym'][:10]
-
-        # Validate name
-        if len(form['name'])>0:
-            # Truncate name to 50 characters.
-            self.name = form['name'][:50]
-        else:
-            raise ValueError("name")
-
-        # Validate colour
-        if re.compile('^[0-9a-fA-F]{6}$').search(form['color']):
-            self.color = form['color']
-        else:
-            raise ValueError("color")
-
-        # Validate character
-        if form['character'] in g.db.smembers('all-chars'):
-            setattr(self, 'character', form['character'])
-        else:
-            raise ValueError("character")
-
-        self.quirk_prefix = form['quirk_prefix']
-
-        # Validate case
-        if form['case'] in self.CASE_OPTIONS.keys():
-            setattr(self, 'case', form['case'])
-        else:
-            raise ValueError("case")
-
-        self.replacements = zip(form.getlist('quirk_from'), form.getlist('quirk_to'))
-        # Strip out any rows where from is blank or the same as to.
-        self.replacements = [_ for _ in self.replacements if _[0]!='' and _[0]!=_[1]]
-        # And encode as JSON.
-        self.replacements = json.dumps(self.replacements)
-
-        db.hmset(self.chat_prefix, self.character_dict(hide_silence=False))
-
-        if (self.chat is not None and g.db.hget('chat.%s.sessions' % self.chat, self.session) in ['online', 'away']
-            and (self.name!=old_name or self.acronym!=old_acronym)):
-            send_message(g.db, request.form['chat'], 'user_change', '%s [%s] is now %s [%s].' % (old_name, old_acronym, self.name, self.acronym))
-
-        db.sadd('all-sessions', self.session)
-
-    def save_pickiness(self, form):
-
-        ckey = self.prefix+'.picky'
-        self.db.delete(ckey)
-
-        if 'picky' in form:
-            chars = self.picky = set(k[6:] for k in form.keys() if k.startswith('picky-'))
-            if not chars:
-                raise ValueError("no_characters")
-            for char in self.picky:
-                self.db.sadd(ckey, char)
-
-    def set_chat(self, chat):
-        if self.chat is None:
-            self.chat = chat
-            self.chat_prefix = self.prefix+'.chat.'+chat
-            self.db.hmset(self.chat_prefix, self.character_dict(hide_silence=False))
-
-    def set_group(self, group):
-        self.group = group
-        self.db.hset(self.chat_prefix, 'group', group)
-
+# Pre and post request stuff.
+app.before_request(connect)
+app.after_request(set_cookie)
 
 # Helper functions
 
@@ -183,9 +47,6 @@ def show_homepage(error):
         users_searching=g.db.zcard('searchers'),
         users_chatting=g.db.scard('sessions-chatting')
     )
-
-def get_counter(chat, session):
-    return g.db.lrange('chat.'+chat+'.counter', 0, -1).index(session)
 
 def get_wanted_channels(channel_main, channel_mod, channel_self):
     wanted_channels = set()
@@ -203,7 +64,7 @@ def get_wanted_channels(channel_main, channel_mod, channel_self):
 def validate_chat(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if 'chat' in request.form and re.match('^[-a-zA-Z0-9]+$', request.form['chat']):
+        if 'chat' in request.form and validate_chat_url(request.form['chat']):
             return f(*args, **kwargs)
         abort(400)
     return decorated_function
@@ -227,39 +88,9 @@ def mark_alive(f):
                 join_message = '%s [%s] joined chat.' % (g.user.name, g.user.acronym)
             send_message(g.db, chat, 'user_change', join_message)
             g.db.sadd('sessions-chatting', g.user.session)
-        g.db.zadd('chats-alive', chat+'/'+g.user.session, getTime())
+        g.db.zadd('chats-alive', chat+'/'+g.user.session, get_time())
         return f(*args, **kwargs)
     return decorated_function
-
-# Cookie management
-
-@app.before_request
-def connect():
-    # connect to database 
-    db = g.db = Redis(host='localhost')
-    # Create a user object, using session and chat IDs if present.
-    session = request.cookies.get('session', None)
-    if (session is None and request.url_rule is not None
-        and request.url_rule.endpoint in ("postMessage", "pingServer", "getMessages", "quitChatting")):
-        # Don't accept chat requests if there's no cookie.
-        abort(400)
-    if request.form is not None and 'chat' in request.form:
-        chat = request.form['chat']
-    elif request.view_args is not None and 'chat' in request.view_args:
-        chat = request.view_args['chat']
-    else:
-        chat = None
-    g.user = user = User(db, session, chat)
-
-@app.after_request
-def set_cookie(response):
-    if request.cookies.get('session', None) is None:
-        try:
-            response.set_cookie('session', g.user.session, max_age=365*24*60*60)
-        except AttributeError:
-            # That isn't gonna work if we don't have a user object, just ignore it.
-            pass
-    return response
 
 # Chat
 
@@ -275,8 +106,10 @@ def chat(chat=None):
         existing_lines = []
         latest_num = -1
     else:
-        existing_lines = [parseLine(line, 0) for line in g.db.lrange('chat.'+chat, 0, -1)]
+        existing_lines = [parse_line(line, 0) for line in g.db.lrange('chat.'+chat, 0, -1)]
         latest_num = len(existing_lines)-1
+    print "LATEST_NUM"
+    print latest_num
 
     return render_template(
         'chat.html',
@@ -357,7 +190,7 @@ def getMessages():
         messages = g.db.lrange('chat.'+chat, after+1, -1)
         if messages:
             message_dict = {
-                'messages': parseMessages(messages, after+1)
+                'messages': parse_messages(messages, after+1)
             }
 
     if message_dict:
@@ -452,7 +285,7 @@ def foundYet():
     if target:
         return jsonify(target=target)
     else:
-        g.db.zadd('searchers', g.user.session, getTime())
+        g.db.zadd('searchers', g.user.session, get_time())
         abort(404)
 
 @app.route('/stop_search', methods=['POST'])

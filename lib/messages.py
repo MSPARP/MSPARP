@@ -92,7 +92,7 @@ def get_user_list(db, chat, audience):
 
         return user_list
 
-def parseLine(line, id):
+def parse_line(line, id):
     "Parse a chat line like 'FF00FF#Some Text' into a dict"
     parts = line.split('#', 1)
     return {
@@ -101,6 +101,6 @@ def parseLine(line, id):
         'line': unicode(parts[1], encoding='utf-8')
     }
 
-def parseMessages(seq, offset):
-    return [parseLine(line, i) for (i, line) in enumerate(seq, offset)]
+def parse_messages(seq, offset):
+    return [parse_line(line, i) for (i, line) in enumerate(seq, offset)]
 
