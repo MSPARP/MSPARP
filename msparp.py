@@ -82,10 +82,10 @@ class User(object):
 
         self.picky = db.smembers(self.prefix+'.picky')
 
-    def character_dict(self, unpack_replacements=False):
+    def character_dict(self, unpack_replacements=False, hide_silence=True):
         character_dict = dict((attrib, getattr(self, attrib)) for attrib in User.DEFAULTS.keys())
         # Don't tell silenced users that they're silenced.
-        if character_dict['group']=='silent':
+        if hide_silence and character_dict['group']=='silent':
             character_dict['group'] = 'user'
         if unpack_replacements:
             character_dict['replacements'] = json.loads(character_dict['replacements'])
@@ -139,7 +139,7 @@ class User(object):
         # And encode as JSON.
         self.replacements = json.dumps(self.replacements)
 
-        db.hmset(self.chat_prefix, self.character_dict())
+        db.hmset(self.chat_prefix, self.character_dict(hide_silence=False))
 
         if (self.chat is not None and g.db.hget('chat.%s.sessions' % self.chat, self.session) in ['online', 'away']
             and (self.name!=old_name or self.acronym!=old_acronym)):
@@ -163,7 +163,7 @@ class User(object):
         if self.chat is None:
             self.chat = chat
             self.chat_prefix = self.prefix+'.chat.'+chat
-            self.db.hmset(self.chat_prefix, self.character_dict())
+            self.db.hmset(self.chat_prefix, self.character_dict(hide_silence=False))
 
     def set_group(self, group):
         self.group = group
@@ -176,7 +176,7 @@ def show_homepage(error):
     return render_template('frontpage.html',
         error=error,
         user=g.user,
-        character_dict=g.user.character_dict(True),
+        character_dict=g.user.character_dict(unpack_replacements=True),
         groups=CHARACTER_GROUPS,
         characters=CHARACTERS,
         default_char=g.user.character,
@@ -281,7 +281,7 @@ def chat(chat=None):
     return render_template(
         'chat.html',
         user=g.user,
-        character_dict=g.user.character_dict(True),
+        character_dict=g.user.character_dict(unpack_replacements=True),
         groups=CHARACTER_GROUPS,
         characters=CHARACTERS,
         chat=chat,
