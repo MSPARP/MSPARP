@@ -24,9 +24,9 @@ class Session(object):
         'group': 'user'
     }
 
-    def __init__(self, db, session=None, chat=None):
+    def __init__(self, redis, session=None, chat=None):
 
-        self.db = db
+        self.redis = redis
         self.session = session or str(uuid4())
         self.chat = chat
         self.prefix = self.chat_prefix = "session."+self.session
@@ -34,25 +34,25 @@ class Session(object):
         chat_data = Session.DEFAULTS
 
         # Load global session data.
-        if db.exists(self.prefix):
-            chat_data = db.hgetall(self.chat_prefix)
+        if redis.exists(self.prefix):
+            chat_data = redis.hgetall(self.chat_prefix)
         else:
-            db.hmset(self.prefix, chat_data)
+            redis.hmset(self.prefix, chat_data)
 
         # Load chat-specific data.
         if chat is not None:
             self.chat_prefix += '.chat.'+chat
-            if db.exists(self.chat_prefix):
-                chat_data = db.hgetall(self.chat_prefix)
+            if redis.exists(self.chat_prefix):
+                chat_data = redis.hgetall(self.chat_prefix)
             else:
-                db.hmset(self.chat_prefix, chat_data)
+                redis.hmset(self.chat_prefix, chat_data)
 
         for attrib, value in chat_data.items():
             setattr(self, attrib, unicode(value, encoding='utf-8'))
 
         # XXX lazy loading on these?
 
-        self.picky = db.smembers(self.prefix+'.picky')
+        self.picky = redis.smembers(self.prefix+'.picky')
 
     def character_dict(self, unpack_replacements=False, hide_silence=True):
         character_dict = dict((attrib, getattr(self, attrib)) for attrib in Session.DEFAULTS.keys())
@@ -69,7 +69,7 @@ class Session(object):
 
     def save_character(self, form):
 
-        db = self.db
+        redis = self.redis
         prefix = self.prefix
 
         old_name = self.name
@@ -92,7 +92,7 @@ class Session(object):
             raise ValueError("color")
 
         # Validate character
-        if form['character'] in g.db.smembers('all-chars'):
+        if form['character'] in g.redis.smembers('all-chars'):
             setattr(self, 'character', form['character'])
         else:
             raise ValueError("character")
@@ -111,36 +111,36 @@ class Session(object):
         # And encode as JSON.
         self.replacements = json.dumps(self.replacements)
 
-        db.hmset(self.chat_prefix, self.character_dict(hide_silence=False))
+        redis.hmset(self.chat_prefix, self.character_dict(hide_silence=False))
 
-        if (self.chat is not None and g.db.hget('chat.%s.sessions' % self.chat, self.session) in ['online', 'away']
+        if (self.chat is not None and g.redis.hget('chat.%s.sessions' % self.chat, self.session) in ['online', 'away']
             and (self.name!=old_name or self.acronym!=old_acronym)):
-            send_message(g.db, request.form['chat'], 'user_change', '%s [%s] is now %s [%s].' % (old_name, old_acronym, self.name, self.acronym))
+            send_message(g.redis, request.form['chat'], 'user_change', '%s [%s] is now %s [%s].' % (old_name, old_acronym, self.name, self.acronym))
 
-        db.sadd('all-sessions', self.session)
+        redis.sadd('all-sessions', self.session)
 
     def save_pickiness(self, form):
 
         ckey = self.prefix+'.picky'
-        self.db.delete(ckey)
+        self.redis.delete(ckey)
 
         if 'picky' in form:
             chars = self.picky = set(k[6:] for k in form.keys() if k.startswith('picky-'))
             if not chars:
                 raise ValueError("no_characters")
             for char in self.picky:
-                self.db.sadd(ckey, char)
+                self.redis.sadd(ckey, char)
 
     def set_chat(self, chat):
         if self.chat is None:
             self.chat = chat
             self.chat_prefix = self.prefix+'.chat.'+chat
-            self.db.hmset(self.chat_prefix, self.character_dict(hide_silence=False))
+            self.redis.hmset(self.chat_prefix, self.character_dict(hide_silence=False))
 
     def set_group(self, group):
         self.group = group
-        self.db.hset(self.chat_prefix, 'group', group)
+        self.redis.hset(self.chat_prefix, 'group', group)
 
 def get_counter(chat, session):
-    return g.db.lrange('chat.'+chat+'.counter', 0, -1).index(session)
+    return g.redis.lrange('chat.'+chat+'.counter', 0, -1).index(session)
 

@@ -5,7 +5,7 @@ from sessions import Session
 
 def connect():
     # connect to database 
-    db = g.db = Redis(host='localhost')
+    g.redis = Redis(host='localhost')
     # Create a user object, using session and chat IDs if present.
     session = request.cookies.get('session', None)
     if (session is None and request.url_rule is not None
@@ -18,7 +18,7 @@ def connect():
         chat = request.view_args['chat']
     else:
         chat = None
-    g.user = user = Session(db, session, chat)
+    g.user = user = Session(g.redis, session, chat)
 
 def set_cookie(response):
     if request.cookies.get('session', None) is None:

@@ -4,11 +4,11 @@ from random import shuffle, choice
 import uuid
 import time
 
-def getPickyness(db,searchers):
+def getPickyness(redis,searchers):
     picky = {}
-    allchars = db.smembers('all-chars')
+    allchars = redis.smembers('all-chars')
     for session in searchers:
-        picky[session] = db.smembers('session.%s.picky' % session)
+        picky[session] = redis.smembers('session.%s.picky' % session)
         if len(picky[session])==0:
             picky[session] = allchars
     return picky
@@ -20,10 +20,10 @@ def shuffled(seq):
 
 def match(picky, first, second):
     chat=str(uuid.uuid4()).replace('-','')
-    db.set('session.'+first+'.match', chat)
-    db.set('session.'+second+'.match', chat)
-    db.zrem('searchers', first)
-    db.zrem('searchers', second)
+    redis.set('session.'+first+'.match', chat)
+    redis.set('session.'+second+'.match', chat)
+    redis.zrem('searchers', first)
+    redis.zrem('searchers', second)
     del picky[first]
     del picky[second]
 
@@ -44,15 +44,15 @@ def matchUser(session, picky, identities):
 
 if __name__=='__main__': 
 
-    db = Redis(host='localhost')
+    redis = Redis(host='localhost')
 
     while True:
-        searchers = db.zrange('searchers', 0, -1)
+        searchers = redis.zrange('searchers', 0, -1)
         print 'searchers: ', searchers
         
         if len(searchers)>=2: # if there aren't at least 2 people, there can't be matches
-            identities = dict((session, db.hget('session.'+session, 'character')) for session in searchers)
-            picky = getPickyness(db, searchers)
+            identities = dict((session, redis.hget('session.'+session, 'character')) for session in searchers)
+            picky = getPickyness(redis, searchers)
             for session in shuffled(picky.keys()):
                 matchUser(session, picky, identities)
 
