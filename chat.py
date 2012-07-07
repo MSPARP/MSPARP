@@ -1,52 +1,19 @@
-import itertools, re, time
-
 from functools import wraps
-from flask import Flask, g, request, render_template, make_response, redirect, url_for, jsonify, abort
-from uuid import uuid4
-from collections import defaultdict
-from werkzeug.routing import BaseConverter, ValidationError
+from flask import Flask, g, request, render_template, make_response, jsonify, abort
 
-from lib import get_time, validate_chat_url
-from lib.characters import CHARACTER_GROUPS, CHARACTERS
-from lib.messages import send_message, get_user_list, parse_line, parse_messages
-from lib.requests import connect, set_cookie
+from lib import get_time
+from lib.messages import send_message, get_user_list, parse_messages
+from lib.requests import connect_redis, create_chat_session, set_cookie
 from lib.sessions import get_counter
 
-
-class ChatIDConverter(BaseConverter):
-
-    def __init__(self, url_map):
-        super(ChatIDConverter, self).__init__(url_map)
-
-    def to_python(self, value):
-        if re.match('^[-a-zA-Z0-9]+$',value):
-            return value
-        else:
-            raise ValidationError()
-
-    def to_url(self, value):
-        return value
-
 app = Flask(__name__)
-app.url_map.converters['chat'] = ChatIDConverter
 
-# Pre and post request stuff.
-app.before_request(connect)
+# Pre and post request stuff
+app.before_request(connect_redis)
+app.before_request(create_chat_session)
 app.after_request(set_cookie)
 
 # Helper functions
-
-def show_homepage(error):
-    return render_template('frontpage.html',
-        error=error,
-        user=g.user,
-        character_dict=g.user.character_dict(unpack_replacements=True),
-        groups=CHARACTER_GROUPS,
-        characters=CHARACTERS,
-        default_char=g.user.character,
-        users_searching=g.redis.zcard('searchers'),
-        users_chatting=g.redis.scard('sessions-chatting')
-    )
 
 def get_wanted_channels(channel_main, channel_mod, channel_self):
     wanted_channels = set()
@@ -60,14 +27,6 @@ def get_wanted_channels(channel_main, channel_mod, channel_self):
     return wanted_channels
 
 # Decorators
-
-def validate_chat(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if 'chat' in request.form and validate_chat_url(request.form['chat']):
-            return f(*args, **kwargs)
-        abort(400)
-    return decorated_function
 
 def mark_alive(f):
     @wraps(f)
@@ -92,38 +51,9 @@ def mark_alive(f):
         return f(*args, **kwargs)
     return decorated_function
 
-# Chat
-
-@app.route('/chat')
-@app.route('/chat/<chat:chat>')
-def chat(chat=None):
-
-    # Delete value from the matchmaker.
-    if g.redis.get('session.'+g.user.session+'.match'):
-        g.redis.delete('session.'+g.user.session+'.match')
-
-    if chat is None:
-        existing_lines = []
-        latest_num = -1
-    else:
-        existing_lines = [parse_line(line, 0) for line in g.redis.lrange('chat.'+chat, 0, -1)]
-        latest_num = len(existing_lines)-1
-    print "LATEST_NUM"
-    print latest_num
-
-    return render_template(
-        'chat.html',
-        user=g.user,
-        character_dict=g.user.character_dict(unpack_replacements=True),
-        groups=CHARACTER_GROUPS,
-        characters=CHARACTERS,
-        chat=chat,
-        lines=existing_lines,
-        latest_num=latest_num
-    )
+# Views
 
 @app.route('/post', methods=['POST'])
-@validate_chat
 @mark_alive
 def postMessage():
     chat = request.form['chat']
@@ -164,13 +94,11 @@ def postMessage():
     return 'ok'
 
 @app.route('/ping', methods=['POST'])
-@validate_chat
 @mark_alive
 def pingServer():
     return 'ok'
 
 @app.route('/messages', methods=['POST'])
-@validate_chat
 @mark_alive
 def getMessages():
 
@@ -232,8 +160,7 @@ def getMessages():
                 resp.headers['Content-type'] = 'application/json'
                 return resp
 
-@app.route('/bye', methods=['POST'])
-@validate_chat
+@app.route('/quit', methods=['POST'])
 def quitChatting():
     # Check if they're actually a member of the chat first?
     chatkey = 'chat.%s.sessions' % request.form['chat']
@@ -245,60 +172,14 @@ def quitChatting():
         send_message(g.redis, request.form['chat'], 'user_change', disconnect_message)
         return 'ok'
 
-# Save
-
 @app.route('/save', methods=['POST'])
 def save():
     try:
-        if 'character' in request.form:
-            g.user.save_character(request.form)
-        if 'save_pickiness' in request.form:
-            g.user.save_pickiness(request.form)
-        if 'create' in request.form:
-            chat = request.form['chaturl']
-            if g.redis.exists('chat.'+chat):
-                raise ValueError('chaturl_taken')
-            if not re.match('^[-a-zA-Z0-9]+$', chat):
-                raise ValueError('chaturl_invalid')
-            g.user.set_chat(chat)
-            g.user.set_group('mod')
-            g.redis.set('chat.'+chat+'.type', 'group')
-            return redirect(url_for('chat', chat=chat))
+        g.user.save_character(request.form)
     except ValueError as e:
-        if request.is_xhr:
-            abort(400)
-        else:
-            return show_homepage(e.args[0])
-
-    if request.is_xhr:
-        return 'ok'
-    elif 'search' in request.form:
-        return redirect(url_for('chat'))
-    else:
-        return redirect(url_for('configure'))
-
-# Searching
-
-@app.route('/search', methods=['POST'])
-def foundYet():
-    target=g.redis.get('session.'+g.user.session+'.match')
-    if target:
-        return jsonify(target=target)
-    else:
-        g.redis.zadd('searchers', g.user.session, get_time())
-        abort(404)
-
-@app.route('/stop_search', methods=['POST'])
-def quitSearching():
-    g.redis.zrem('searchers', g.user.session)
+        abort(400)
     return 'ok'
 
-# Home
-
-@app.route("/")
-def configure():
-    return show_homepage(None)
-
 if __name__ == "__main__":
-    app.run(port=8000, debug=True)
+    app.run(port=9000, debug=True)
 

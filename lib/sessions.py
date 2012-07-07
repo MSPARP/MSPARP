@@ -1,6 +1,8 @@
-import json
+import json, re
 
-from flask import g
+from flask import g, request
+
+from messages import send_message
 
 class Session(object):
 
@@ -135,7 +137,12 @@ class Session(object):
         if self.chat is None:
             self.chat = chat
             self.chat_prefix = self.prefix+'.chat.'+chat
-            self.redis.hmset(self.chat_prefix, self.character_dict(hide_silence=False))
+            if self.redis.exists(self.chat_prefix):
+                chat_data = self.redis.hgetall(self.chat_prefix)
+                for attrib, value in chat_data.items():
+                    setattr(self, attrib, unicode(value, encoding='utf-8'))
+            else:
+                self.redis.hmset(self.chat_prefix, self.character_dict(hide_silence=False))
 
     def set_group(self, group):
         self.group = group

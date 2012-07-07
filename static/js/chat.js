@@ -5,11 +5,11 @@ $(document).ready(function() {
 
 	var SEARCH_URL = "/search";
 	var SEARCH_QUIT_URL = "/stop_search";
-	var POST_URL = "/post";
-	var PING_URL = "/ping";
-	var MESSAGES_URL = "/messages";
-	var SAVE_URL = "/save";
-	var QUIT_URL = "/bye";
+	var POST_URL = "/chat_ajax/post";
+	var PING_URL = "/chat_ajax/ping";
+	var MESSAGES_URL = "/chat_ajax/messages";
+	var SAVE_URL = "/chat_ajax/save";
+	var QUIT_URL = "/chat_ajax/quit";
 
 	var pingInterval;
 	var chatState;
