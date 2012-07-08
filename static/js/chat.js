@@ -19,6 +19,9 @@ $(document).ready(function() {
 	var currentSidebar;
 	var previewHidden = false;
 
+	var actionListUser = null;
+	var highlightUser = null;
+
 	var ORIGINAL_TITLE = document.title;
 	var conversation = $('#conversation');
 
@@ -93,11 +96,6 @@ $(document).ready(function() {
 						if (currentUser.counter==userCounter) {
 							// Set self-related things here.
 							user.group = currentUser.group;
-							if (user.group=='mod') {
-								$('#userList').addClass('hasActions');
-							} else {
-								$('#userList').removeClass('hasActions');
-							}
 						}
 						// Get or create a list item.
 						var listItem = $(holdingList).find('#user'+currentUser.counter);
@@ -181,23 +179,29 @@ $(document).ready(function() {
 
 		// User list
 		var holdingList = $("<ul />");
-		var actionListUser = null;
 
 		function showActionList() {
 			$('#actionList').remove();
-			// Don't show if we're not a mod, and hide if already shown.
-			if (user.group=='mod' && this!=actionListUser) {
+			// Hide if already shown.
+			if (this!=actionListUser) {
 				var actionList = $('<ul />').attr('id', 'actionList');
 				var userData = $(this).data();
-				if (userData.group=='mod') {
-					$('<li />').text('Unmod').appendTo(actionList).click(function() { setUserGroup('user', userData.counter); });
+				if (userData.counter==highlightUser) {
+					$('<li />').text('Clear highlight').appendTo(actionList).click(function() { highlightPosts(null); });
 				} else {
-					$('<li />').text('Mod').appendTo(actionList).click(function() { setUserGroup('mod', userData.counter); });
+					$('<li />').text('Highlight posts').appendTo(actionList).click(function() { highlightPosts(userData.counter); });
 				}
-				if (userData.group=='silent') {
-					$('<li />').text('Unsilence').appendTo(actionList).click(function() { setUserGroup('user', userData.counter); });
-				} else {
-					$('<li />').text('Silence').appendTo(actionList).click(function() { setUserGroup('silent', userData.counter); });
+				if (user.group=='mod') {
+					if (userData.group=='mod') {
+						$('<li />').text('Unmod').appendTo(actionList).click(function() { setUserGroup('user', userData.counter); });
+					} else {
+						$('<li />').text('Mod').appendTo(actionList).click(function() { setUserGroup('mod', userData.counter); });
+					}
+					if (userData.group=='silent') {
+						$('<li />').text('Unsilence').appendTo(actionList).click(function() { setUserGroup('user', userData.counter); });
+					} else {
+						$('<li />').text('Silence').appendTo(actionList).click(function() { setUserGroup('silent', userData.counter); });
+					}
 				}
 				$(actionList).appendTo(this);
 				actionListUser = this;
@@ -210,6 +214,14 @@ $(document).ready(function() {
 			if (counter!=userCounter || confirm('You are about to unmod yourself. Are you sure you want to do this?')) {
 				$.post(POST_URL,{'chat': chat, 'set_group': group, 'counter': counter});
 			}
+		}
+
+		function highlightPosts(counter) {
+			$('.highlight').removeClass('highlight');
+			if (counter!=null) {
+				$('.user'+counter).addClass('highlight');
+			}
+			highlightUser = counter;
 		}
 
 		/* Browser compatibility for visibilityChange */

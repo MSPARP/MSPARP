@@ -20,8 +20,13 @@ h1 {
 	word-wrap: break-word;
 }
 
-h1, p {
+h1 {
 	margin: 5px;
+}
+
+p {
+	margin: 0;
+	padding: 2px 5px;
 }
 
 button, input, select, #conversation, #settings, #userList, #preview {
@@ -71,6 +76,7 @@ input:focus, input:hover, select:focus, select:hover, button:hover {
 	bottom: 79px;
 	left: 5px;
 	overflow: auto;
+	padding: 2px 0;
 }
 
 #conversation.search {
@@ -110,6 +116,7 @@ body.withSidebar #conversation {
 
 .sidebar ul li {
 	padding: 2px 0;
+	cursor: pointer;
 }
 
 #controls {
@@ -125,7 +132,7 @@ body.withSidebar #controls {
 
 #hidePreview {
 	position: absolute;
-    right: 0;
+	right: 0;
 	padding: 2px;
 }
 
@@ -146,6 +153,10 @@ body #userListButton {
 	display: none;
 }
 
+.highlight {
+	background-color: #ffffff;
+}
+
 /* Sidebars */
 
 body.settings #settings, body.userList #userList {
@@ -153,18 +164,13 @@ body.settings #settings, body.userList #userList {
 }
 
 /* User groups */
+
 .mod {
 	font-style: italic;
 }
 
 .silent {
 	text-decoration: line-through;
-}
-
-/* Action lists */
-
-#userList.hasActions ul li {
-    cursor: pointer;
 }
 
 /* Mobile */
