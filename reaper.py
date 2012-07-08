@@ -18,7 +18,7 @@ if __name__=='__main__':
 
     while True:
 
-        for dead in redis.zrangebyscore('chats-alive', 0, get_time()-PING_PERIOD*2):
+        for dead in redis.zrangebyscore('chats-alive', 0, get_time()):
             chat, session = dead.split('/') # FIXME: what if a user fucks this up by sticking a / in their uid?
             redis.zrem('chats-alive', dead)
             redis.hset(('chat.%s.sessions' % chat), session, 'offline')
@@ -30,7 +30,7 @@ if __name__=='__main__':
             send_message(redis, chat, 'user_change', disconnect_message)
             print 'dead', dead, name
 
-        for dead in redis.zrangebyscore('searchers', 0, get_time()-SEARCH_PERIOD*2):
+        for dead in redis.zrangebyscore('searchers', 0, get_time()):
             print 'reaping searcher', dead
             redis.zrem('searchers', dead)
 

@@ -1,5 +1,7 @@
 from flask import json, jsonify
 
+from lib import DELETE_MATCH_PERIOD, get_time
+
 def send_message(redis, chat, msg_type, text=None, color='000000', acronym='', audience=None):
 
     # The JavaScript always expects the messages list, so if we don't have any then we need an empty list.
@@ -32,6 +34,10 @@ def send_message(redis, chat, msg_type, text=None, color='000000', acronym='', a
         if mod_user_list is not user_list:
             json_message['online'] = mod_user_list
             redis.publish('channel.'+chat+'.mod', json.dumps(json_message))
+
+        # If the last person just left, mark the chat for archiving.
+        if g.chat_type=='match' and len(user_list)==0:
+            g.redis.zadd('delete-queue', chat, get_time(DELETE_MATCH_PERIOD))
 
         json_message['online'] = user_list
 

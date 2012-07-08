@@ -1,6 +1,6 @@
 from flask import Flask, g, request, render_template, redirect, url_for, jsonify, abort
 
-from lib import get_time, validate_chat_url
+from lib import SEARCH_PERIOD, get_time, validate_chat_url
 from lib.characters import CHARACTER_GROUPS, CHARACTERS
 from lib.messages import parse_line
 from lib.requests import connect_redis, create_normal_session, set_cookie
@@ -70,7 +70,7 @@ def foundYet():
     if target:
         return jsonify(target=target)
     else:
-        g.redis.zadd('searchers', g.user.session, get_time())
+        g.redis.zadd('searchers', g.user.session, get_time(SEARCH_PERIOD*2))
         abort(404)
 
 @app.route('/stop_search', methods=['POST'])
