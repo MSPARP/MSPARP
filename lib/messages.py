@@ -1,4 +1,4 @@
-from flask import json, jsonify
+from flask import g, json, jsonify
 
 from lib import DELETE_MATCH_PERIOD, get_time
 
@@ -35,9 +35,15 @@ def send_message(redis, chat, msg_type, text=None, color='000000', acronym='', a
             json_message['online'] = mod_user_list
             redis.publish('channel.'+chat+'.mod', json.dumps(json_message))
 
+        # g doesn't work in the reaper.
+        try:
+            chat_type = g.chat_type
+        except RuntimeError:
+            chat_type = redis.get('chat.'+chat+'.type')
+
         # If the last person just left, mark the chat for archiving.
-        if g.chat_type=='match' and len(user_list)==0:
-            g.redis.zadd('delete-queue', chat, get_time(DELETE_MATCH_PERIOD))
+        if chat_type=='match' and len(user_list)==0:
+            redis.zadd('delete-queue', chat, get_time(DELETE_MATCH_PERIOD))
 
         json_message['online'] = user_list
 

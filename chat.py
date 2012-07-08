@@ -1,7 +1,7 @@
 from functools import wraps
 from flask import Flask, g, request, render_template, make_response, jsonify, abort
 
-from lib import ARCHIVE_PERIOD, get_time
+from lib import PING_PERIOD, ARCHIVE_PERIOD, get_time
 from lib.messages import send_message, get_user_list, parse_messages
 from lib.requests import connect_redis, create_chat_session, set_cookie
 from lib.sessions import get_counter
@@ -42,7 +42,7 @@ def mark_alive(f):
             # Remove the chat from the delete queue.
             g.redis.zrem('delete-queue', chat)
             # If it's a group chat, make sure it's in the archive queue.
-            if g.chat_type=='group' and g.redis.zscore('archive-queue') is None:
+            if g.chat_type=='group' and g.redis.zscore('archive-queue', chat) is None:
                 g.redis.zadd('archive-queue', chat, get_time(ARCHIVE_PERIOD))
             # Set user state.
             g.redis.hset(state_key, g.user.session, 'online')
@@ -53,7 +53,7 @@ def mark_alive(f):
                 join_message = '%s [%s] joined chat.' % (g.user.name, g.user.acronym)
             send_message(g.redis, chat, 'user_change', join_message)
             g.redis.sadd('sessions-chatting', g.user.session)
-        g.redis.zadd('chats-alive', chat+'/'+g.user.session, get_time())
+        g.redis.zadd('chats-alive', chat+'/'+g.user.session, get_time(PING_PERIOD*2))
         return f(*args, **kwargs)
     return decorated_function
 
