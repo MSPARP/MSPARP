@@ -79,6 +79,7 @@ class Session(object):
 
         old_name = self.name
         old_acronym = self.acronym
+        old_color = self.color
 
         # Truncate acronym to 10 characters.
         self.acronym = form['acronym'][:10]
@@ -118,9 +119,13 @@ class Session(object):
 
         redis.hmset(self.chat_prefix, self.character_dict(hide_silence=False))
 
-        if (self.chat is not None and g.redis.hget('chat.%s.sessions' % self.chat, self.session) in ['online', 'away']
-            and (self.name!=old_name or self.acronym!=old_acronym)):
-            send_message(g.redis, request.form['chat'], 'user_change', '%s [%s] is now %s [%s].' % (old_name, old_acronym, self.name, self.acronym))
+        # Chat-related things.
+        if self.chat is not None:
+            g.redis.sadd('chat.'+self.chat+'.characters', g.user.character)
+            if self.name!=old_name or self.acronym!=old_acronym:
+                send_message(g.redis, request.form['chat'], 'user_change', '%s [%s] is now %s [%s].' % (old_name, old_acronym, self.name, self.acronym))
+            elif self.color!=old_color:
+                send_message(g.redis, request.form['chat'], 'user_change', None)
 
     def save_pickiness(self, form):
 

@@ -53,6 +53,8 @@ def mark_alive(f):
                 join_message = '%s [%s] joined chat.' % (g.user.name, g.user.acronym)
             send_message(g.redis, chat, 'user_change', join_message)
             g.redis.sadd('sessions-chatting', g.user.session)
+            # Add character to chat character list.
+            g.redis.sadd('chat.'+chat+'.characters', g.user.character)
         g.redis.zadd('chats-alive', chat+'/'+g.user.session, get_time(PING_PERIOD*2))
         return f(*args, **kwargs)
     return decorated_function
