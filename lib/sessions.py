@@ -2,6 +2,7 @@ import json, re
 
 from flask import g, request
 
+from lib import DELETE_SESSION_PERIOD, get_time
 from messages import send_message
 
 class Session(object):
@@ -55,6 +56,8 @@ class Session(object):
         # XXX lazy loading on these?
 
         self.picky = redis.smembers(self.prefix+'.picky')
+
+        redis.zadd('all-sessions', self.session, get_time(DELETE_SESSION_PERIOD))
 
     def character_dict(self, unpack_replacements=False, hide_silence=True):
         character_dict = dict((attrib, getattr(self, attrib)) for attrib in Session.DEFAULTS.keys())
@@ -118,8 +121,6 @@ class Session(object):
         if (self.chat is not None and g.redis.hget('chat.%s.sessions' % self.chat, self.session) in ['online', 'away']
             and (self.name!=old_name or self.acronym!=old_acronym)):
             send_message(g.redis, request.form['chat'], 'user_change', '%s [%s] is now %s [%s].' % (old_name, old_acronym, self.name, self.acronym))
-
-        redis.sadd('all-sessions', self.session)
 
     def save_pickiness(self, form):
 

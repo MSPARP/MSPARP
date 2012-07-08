@@ -9,7 +9,7 @@ try:
     elif sys.argv[1]=='chat':
         from chat import app
         port = 9000
-except:
+except ImportError:
     sys.exit("Usage: python run_server.py (main|chat) (port) [--debug]")
 
 try:

@@ -5,6 +5,7 @@ PING_PERIOD = 10
 DELETE_MATCH_PERIOD = 1800
 DELETE_GROUP_PERIOD = 2592000
 ARCHIVE_PERIOD = 1800
+DELETE_SESSION_PERIOD = 2592000
 
 def get_time(offset=0):
     return int(time.time())+offset
