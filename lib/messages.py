@@ -2,7 +2,7 @@ from flask import g, json, jsonify
 
 from lib import DELETE_MATCH_PERIOD, get_time
 
-def send_message(redis, chat, msg_type, text=None, color='000000', acronym='', audience=None):
+def send_message(redis, chat, counter, msg_type, text=None, color='000000', acronym='', audience=None):
 
     # The JavaScript always expects the messages list, so if we don't have any then we need an empty list.
     json_message = { 'messages': [] }
@@ -12,7 +12,7 @@ def send_message(redis, chat, msg_type, text=None, color='000000', acronym='', a
 
         # Store the message if it's not private.
         if msg_type!='private':
-            message = color+'#'+message_content
+            message = ','.join([str(get_time()), str(counter), msg_type, color, message_content])
             message_count = redis.rpush('chat.'+chat, message)
         else:
             # ...or just get message count if it is.
@@ -21,6 +21,9 @@ def send_message(redis, chat, msg_type, text=None, color='000000', acronym='', a
         # And add it to the pubsub data.
         json_message['messages'].append({
             'id': message_count - 1,
+            'timestamp': get_time(),
+            'counter': counter,
+            'type': msg_type,
             'color': color,
             'line': message_content
         })
@@ -105,12 +108,15 @@ def get_user_list(redis, chat, audience):
         return user_list
 
 def parse_line(line, id):
-    "Parse a chat line like 'FF00FF#Some Text' into a dict"
-    parts = line.split('#', 1)
+    # Lines consist of comma separated fields.
+    parts = line.split(',', 4)
     return {
         'id': id,
-        'color': parts[0],
-        'line': unicode(parts[1], encoding='utf-8')
+        'timestamp': int(parts[0]),
+        'counter': int(parts[1]),
+        'type': parts[2],
+        'color': parts[3],
+        'line': unicode(parts[4], encoding='utf-8')
     }
 
 def parse_messages(seq, offset):

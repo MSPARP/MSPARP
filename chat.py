@@ -51,7 +51,7 @@ def mark_alive(f):
                 g.fake_join_message = True
             else:
                 join_message = '%s [%s] joined chat.' % (g.user.name, g.user.acronym)
-            send_message(g.redis, chat, 'user_change', join_message)
+            send_message(g.redis, chat, -1, 'user_change', join_message)
             g.redis.sadd('sessions-chatting', g.user.session)
             # Add character to chat character list.
             g.redis.sadd('chat.'+chat+'.characters', g.user.character)
@@ -66,18 +66,19 @@ def mark_alive(f):
 def postMessage():
     chat = request.form['chat']
     if 'line' in request.form:
+        counter = get_counter(chat, g.user.session)
         if g.user.group=='silent':
-            send_message(g.redis, chat, 'private', request.form['line'], g.user.color, g.user.acronym, g.user.session)
+            send_message(g.redis, chat, counter, 'private', request.form['line'], g.user.color, g.user.acronym, g.user.session)
         else:
-            send_message(g.redis, chat, 'message', request.form['line'], g.user.color, g.user.acronym)
+            send_message(g.redis, chat, counter, 'message', request.form['line'], g.user.color, g.user.acronym)
     if 'state' in request.form and request.form['state'] in ['online', 'away']:
         current_state = g.redis.hget('chat.%s.sessions' % chat, g.user.session)
         if request.form['state']!=current_state:
             g.redis.hset('chat.%s.sessions' % chat, g.user.session, request.form['state'])
             if request.form['state']=='away':
-                send_message(g.redis, chat, 'user_change')
+                send_message(g.redis, chat, -1, 'user_change')
             else:
-                send_message(g.redis, chat, 'user_change')
+                send_message(g.redis, chat, -1, 'user_change')
     if 'set_group' in request.form and 'counter' in request.form:
         if g.user.group=='mod':
             set_group = request.form['set_group']
@@ -96,7 +97,7 @@ def postMessage():
                     set_message = '%s [%s] removed moderator status from %s [%s].' % (g.user.name, g.user.acronym, set_session['name'], set_session['acronym'])
                 # Refresh the user's subscriptions.
                 g.redis.publish('channel.'+chat+'.refresh', set_session_id+'#'+set_group)
-                send_message(g.redis, chat, 'user_change', set_message)
+                send_message(g.redis, chat, -1, 'user_change', set_message)
         else:
             abort(403)
     return 'ok'
@@ -177,7 +178,7 @@ def quitChatting():
         g.redis.hset(chatkey, g.user.session, 'offline')
         g.redis.srem('sessions-chatting', g.user.session)
         disconnect_message = '%s [%s] disconnected.' % (g.user.name, g.user.acronym) if g.user.group!='silent' else None
-        send_message(g.redis, request.form['chat'], 'user_change', disconnect_message)
+        send_message(g.redis, request.form['chat'], -1, 'user_change', disconnect_message)
         return 'ok'
 
 @app.route('/save', methods=['POST'])

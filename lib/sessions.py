@@ -1,6 +1,7 @@
 import json, re
 
 from flask import g, request
+from uuid import uuid4
 
 from lib import DELETE_SESSION_PERIOD, get_time
 from messages import send_message
@@ -123,9 +124,9 @@ class Session(object):
         if self.chat is not None:
             g.redis.sadd('chat.'+self.chat+'.characters', g.user.character)
             if self.name!=old_name or self.acronym!=old_acronym:
-                send_message(g.redis, request.form['chat'], 'user_change', '%s [%s] is now %s [%s].' % (old_name, old_acronym, self.name, self.acronym))
+                send_message(g.redis, request.form['chat'], -1, 'user_change', '%s [%s] is now %s [%s].' % (old_name, old_acronym, self.name, self.acronym))
             elif self.color!=old_color:
-                send_message(g.redis, request.form['chat'], 'user_change', None)
+                send_message(g.redis, request.form['chat'], -1, 'user_change', None)
 
     def save_pickiness(self, form):
 

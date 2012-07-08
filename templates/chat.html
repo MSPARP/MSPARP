@@ -18,7 +18,7 @@
 
 <div id="conversation">
 {% for line in lines %}
-	<p style="color: #{{line.color}}">{{line.line}}</p>
+	<p style="color: #{{line.color}}" class="{% if line.counter==-1 %}system{% else %}user{{line.counter}}{% endif %}">{{line.line}}</p>
 {% endfor %}
 </div>
 

@@ -24,14 +24,9 @@ $(document).ready(function() {
 
 	$('input, select, button').attr('disabled', 'disabled');
 
-	function addLine(color, text){
-		$('<p />').css('color', color).text(text).appendTo('#conversation');
-		conversation.scrollTop(conversation[0].scrollHeight);
-	}
-
 	if (document.cookie=="") {
 
-		addLine("#FF0000", "It seems you have cookies disabled. Unfortunately cookies are essential for MSPARP to work, so you'll need to either enable them or add an exception in order to use MSPARP.");
+		$('<p>').css('color', '#FF0000').text('It seems you have cookies disabled. Unfortunately cookies are essential for MSPARP to work, so you\'ll need to either enable them or add an exception in order to use MSPARP.').appendTo(conversation);
 
 		$('#controls').submit(function() {
 			return false;
@@ -54,8 +49,13 @@ $(document).ready(function() {
 
 		// Chatting
 
-		function addLine(color, text) {
-			$('<p />').css('color', color).text(text).appendTo('#conversation');
+		function addLine(msg){
+			if (msg.counter==-1) {
+				msgClass = 'system';
+			} else {
+				msgClass = 'user'+msg.counter;
+			}
+			var mp = $('<p>').addClass(msgClass).css('color', '#'+msg.color).text(msg.line).appendTo('#conversation');
 			conversation.scrollTop(conversation[0].scrollHeight);
 		}
 
@@ -79,9 +79,8 @@ $(document).ready(function() {
 			$.post(MESSAGES_URL, messageData, function(data) {
 				var messages = data.messages;
 				for (var i=0; i<messages.length; i++) {
-					var msg = messages[i];
-					addLine('#'+msg['color'], msg['line']);
-					latestNum = Math.max(latestNum, msg['id']);
+					addLine(messages[i]);
+					latestNum = Math.max(latestNum, messages[i]['id']);
 				}
 				if (typeof data.counter!=="undefined") {
 					userCounter = data.counter;
