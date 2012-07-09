@@ -140,6 +140,10 @@ body #userListButton {
 	display: none;
 }
 
+#controls button[type="submit"] {
+	float: right;
+}
+
 /* Sidebars */
 
 body.settings #settings, body.userList #userList {
