@@ -1,8 +1,10 @@
 from flask import Flask, g, request, render_template, redirect, url_for, jsonify, abort
 
 from lib import SEARCH_PERIOD, get_time, validate_chat_url
+from lib.archive import archive_chat
 from lib.characters import CHARACTER_GROUPS, CHARACTERS
 from lib.messages import parse_line
+from lib.model import db_session as mysql
 from lib.requests import connect_redis, create_normal_session, set_cookie
 
 app = Flask(__name__)
@@ -11,6 +13,9 @@ app = Flask(__name__)
 app.before_request(connect_redis)
 app.before_request(create_normal_session)
 app.after_request(set_cookie)
+@app.teardown_request
+def shutdown_session(exception=None):
+    mysql.remove()
 
 # Helper functions
 
@@ -105,6 +110,23 @@ def save():
         return redirect(url_for('chat'))
     else:
         return redirect(url_for('configure'))
+
+# Logs
+
+@app.route('/logs/save', methods=['POST'])
+def save_log():
+    if not validate_chat_url(request.form['chat']):
+        abort(400)
+    chat_type = g.redis.get('chat.'+request.form['chat']+'.type')
+    if chat_type!='match':
+        abort(400)
+    log_id = archive_chat(g.redis, mysql, request.form['chat'])
+    return redirect(url_for('view_log', log=log_id))
+
+@app.route('/logs/<log>')
+@app.route('/logs/group/<group>')
+def view_log(log=None, group=None):
+    raise NotImplementedError
 
 # Home
 

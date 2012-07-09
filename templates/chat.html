@@ -75,4 +75,12 @@
 	<a href="/static/user-guide.html" target="_blank">User guide</a>
 </form>
 
+<div id="save">
+	<p>Did you enjoy that chat? If so, remember to save the log!</p>
+	<form action="/logs/save" method="post" target="_blank"><p>
+		<input type="hidden" name="chat" value="">
+		<input type="submit" name="save" value="Save log">
+	</p></form>
+</div>
+
 {% endblock %}

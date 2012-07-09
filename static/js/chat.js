@@ -129,6 +129,10 @@ $(document).ready(function() {
 			}, "json").complete(function() {
 				if (chatState=='chat') {
 					window.setTimeout(getMessages, 50);
+				} else if (chatType=='match') {
+					$('#save').appendTo(conversation);
+					$('input[name="chat"]').val(chat);
+					$('#save input').removeAttr('disabled');
 				}
 			});
 		}
@@ -140,6 +144,7 @@ $(document).ready(function() {
 
 		function disconnect() {
 			if (confirm('Are you sure you want to disconnect?')) {
+				chat = null;
 				chatState = 'inactive';
 				if (pingInterval) {
 					window.clearTimeout(pingInterval);
