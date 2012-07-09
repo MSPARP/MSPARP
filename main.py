@@ -37,10 +37,6 @@ def show_homepage(error):
 @app.route('/chat/<chat>')
 def chat(chat=None):
 
-    # Delete value from the matchmaker.
-    if g.redis.get('session.'+g.user.session+'.match'):
-        g.redis.delete('session.'+g.user.session+'.match')
-
     if chat is None:
         chat_type = 'match'
         existing_lines = []
@@ -73,6 +69,7 @@ def chat(chat=None):
 def foundYet():
     target=g.redis.get('session.'+g.user.session+'.match')
     if target:
+        g.redis.delete('session.'+g.user.session+'.match')
         return jsonify(target=target)
     else:
         g.redis.zadd('searchers', g.user.session, get_time(SEARCH_PERIOD*2))
