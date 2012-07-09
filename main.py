@@ -4,7 +4,7 @@ from lib import SEARCH_PERIOD, get_time, validate_chat_url
 from lib.archive import archive_chat
 from lib.characters import CHARACTER_GROUPS, CHARACTERS
 from lib.messages import parse_line
-from lib.model import db_session as mysql
+from lib.model import db_session as mysql, Log, LogPage
 from lib.requests import connect_redis, create_normal_session, set_cookie
 
 app = Flask(__name__)
@@ -118,12 +118,33 @@ def save_log():
     if chat_type!='match':
         abort(400)
     log_id = archive_chat(g.redis, mysql, request.form['chat'])
-    return redirect(url_for('view_log', log=log_id))
+    return redirect(url_for('view_log', log_id=log_id))
 
-@app.route('/logs/<log>')
+@app.route('/logs/<log_id>')
 @app.route('/logs/group/<group>')
-def view_log(log=None, group=None):
-    raise NotImplementedError
+def view_log(log_id=None, group=None):
+
+    try:
+        if log_id is not None:
+            log = mysql.query(Log).filter(Log.id==log_id).one()
+        else:
+            log = mysql.query(Log).filter(Log.url==group).one()
+    except:
+        abort(404)
+
+    log_pages = mysql.query(LogPage).filter(LogPage.log_id==log.id)
+
+    # Don't do paging for now.
+    lines = []
+    for page in log_pages:
+        # Pages end with a line break, so the last line is blank.
+        lines += page.content.split('\n')[0:-1]
+
+    lines = map(lambda _: parse_line(_, 0), lines)
+
+    return render_template('log.html',
+        lines=lines
+    )
 
 # Home
 

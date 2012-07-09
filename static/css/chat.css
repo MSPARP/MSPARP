@@ -1,6 +1,7 @@
 /* General */
 
 body {
+	margin: 5px;
 	background-color: #cccccc;
 	background-attachment: fixed;
 }
@@ -29,12 +30,12 @@ p {
 	padding: 2px 5px;
 }
 
-button, input, select, #conversation, #settings, #userList, #preview {
+button, input, select, #conversation, #settings, #userList, #preview, #archiveConversation {
 	border: 1px solid #999999;
 	border-radius: 1px;
 }
 
-#conversation, #settings, #userList, #preview {
+#conversation, #settings, #userList, #preview, #archiveConversation {
 	background-color: #eeeeee;
 }
 

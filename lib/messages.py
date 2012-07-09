@@ -109,14 +109,18 @@ def get_user_list(redis, chat, audience):
 
 def parse_line(line, id):
     # Lines consist of comma separated fields.
+    print line
     parts = line.split(',', 4)
+    print parts
+    if not isinstance(parts[4], unicode):
+        parts[4] = unicode(parts[4], encoding='utf-8')
     return {
         'id': id,
         'timestamp': int(parts[0]),
         'counter': int(parts[1]),
         'type': parts[2],
         'color': parts[3],
-        'line': unicode(parts[4], encoding='utf-8')
+        'line': parts[4]
     }
 
 def parse_messages(seq, offset):

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title%}{% endblock %}
+{% block header %}
+<link rel="stylesheet" href="/static/css/chat.css">
+{% endblock %}
+{% block content %}
+
+<div id="archiveConversation">
+{% for line in lines %}
+	<p style="color: #{{line.color}}" class="{% if line.counter==-1 %}system{% else %}user{{line.counter}}{% endif %}">{{line.line}}</p>
+{% endfor %}
+</div>
+
+{% endblock %}
