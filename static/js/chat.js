@@ -131,7 +131,6 @@ $(document).ready(function() {
 					window.setTimeout(getMessages, 50);
 				} else if (chatType=='match') {
 					$('#save').appendTo(conversation);
-					$('input[name="chat"]').val(chat);
 					$('#save input').removeAttr('disabled');
 				}
 			});
@@ -144,12 +143,13 @@ $(document).ready(function() {
 
 		function disconnect() {
 			if (confirm('Are you sure you want to disconnect?')) {
-				chat = null;
 				chatState = 'inactive';
 				if (pingInterval) {
 					window.clearTimeout(pingInterval);
 				}
 				$.ajax(QUIT_URL, {'type': 'POST', data: {'chat': chat}});
+				$('input[name="chat"]').val(chat);
+				chat = null;
 				$('input, select, button').attr('disabled', 'disabled');
 				$('#userList > ul').empty();
 				setSidebar(null);
