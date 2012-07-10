@@ -21,7 +21,7 @@ def get_or_create_log(redis, mysql, chat, chat_type):
             print log
         else:
             print "chat type is not match"
-            log = log.filter(Log.url==log_id)
+            log = log.filter(Log.url==chat)
             print log
         print log
         print "getting log"
@@ -93,4 +93,20 @@ def archive_chat(redis, mysql, chat, chat_type=None, backlog=0):
     redis.ltrim('chat.'+chat, archive_length, -1)
 
     return log.id
+
+def delete_chat(redis, chat):
+
+    # Delete type first because it's used to check whether a chat exists.
+    redis.delete('chat.'+chat+'.type')
+
+    sessions = redis.lrange('chat.'+chat+'.counter', 0, -1)
+    for session in sessions:
+        redis.srem('session.'+session+'.chats', chat)
+        redis.delete('session.'+session+'.chat.'+chat)
+
+    redis.delete('chat.'+chat+'.counter')
+    redis.delete('chat.'+chat+'.characters')
+    redis.delete('chat.'+chat+'.log')
+    redis.delete('chat.'+chat+'.sessions')
+    redis.delete('chat.'+chat)
 

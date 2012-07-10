@@ -117,7 +117,7 @@ def save_log():
     chat_type = g.redis.get('chat.'+request.form['chat']+'.type')
     if chat_type!='match':
         abort(400)
-    log_id = archive_chat(g.redis, mysql, request.form['chat'])
+    log_id = archive_chat(g.redis, mysql, request.form['chat'], chat_type)
     return redirect(url_for('view_log', log_id=log_id))
 
 @app.route('/logs/<log_id>')
@@ -127,6 +127,8 @@ def view_log(log_id=None, group=None):
     try:
         if log_id is not None:
             log = mysql.query(Log).filter(Log.id==log_id).one()
+            if log.url is not None:
+                return redirect(url_for('view_log', group=log.url))
         else:
             log = mysql.query(Log).filter(Log.url==group).one()
     except:
