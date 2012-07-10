@@ -109,7 +109,7 @@ def get_user_list(redis, chat, audience):
 
 def parse_line(line, id):
     # Lines consist of comma separated fields.
-    print line
+    #print line
     parts = line.split(',', 4)
     print parts
     if not isinstance(parts[4], unicode):
