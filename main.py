@@ -1,3 +1,4 @@
+import urllib
 from flask import Flask, g, request, render_template, redirect, url_for, jsonify, abort
 
 from lib import SEARCH_PERIOD, get_time, validate_chat_url
@@ -120,6 +121,12 @@ def save_log():
     if chat_type!='match':
         abort(400)
     log_id = archive_chat(g.redis, mysql, request.form['chat'], chat_type)
+    if 'tumblr' in request.form:
+        # Set the character list as tags.
+        tags = g.redis.smembers('chat.'+request.form['chat']+'.characters')
+        tags.add('msparp')
+        url_tags = urllib.quote_plus(','.join(tags))
+        return redirect('http://www.tumblr.com/new/link?post[one]=Check+out+this+chat+I+just+had+on+MSPARP!&post[two]=http%3A%2F%2Fmsparp.com%2Flogs%2F'+str(log_id)+'&post[source_url]=http%3A%2F%2Fmsparp.com%2F&tags='+url_tags)
     return redirect(url_for('view_log', log_id=log_id))
 
 @app.route('/logs/<log_id>')
