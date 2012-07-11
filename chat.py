@@ -66,11 +66,13 @@ def mark_alive(f):
 def postMessage():
     chat = request.form['chat']
     if 'line' in request.form:
+        # Remove linebreaks and truncate to 1500 characters.
+        line = request.form['line'].replace('\n', ' ')[:1500]
         counter = get_counter(chat, g.user.session)
         if g.user.group=='silent':
-            send_message(g.redis, chat, counter, 'private', request.form['line'], g.user.color, g.user.acronym, g.user.session)
+            send_message(g.redis, chat, counter, 'private', line, g.user.color, g.user.acronym, g.user.session)
         else:
-            send_message(g.redis, chat, counter, 'message', request.form['line'], g.user.color, g.user.acronym)
+            send_message(g.redis, chat, counter, 'message', line, g.user.color, g.user.acronym)
     if 'state' in request.form and request.form['state'] in ['online', 'away']:
         current_state = g.redis.hget('chat.%s.sessions' % chat, g.user.session)
         if request.form['state']!=current_state:
