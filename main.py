@@ -99,6 +99,8 @@ def save():
             g.user.set_chat(chat)
             g.user.set_group('mod')
             g.redis.set('chat.'+chat+'.type', 'group')
+            mysql.add(Log(url=url))
+            mysql.commit()
             return redirect(url_for('chat', chat=chat))
     except ValueError as e:
         return show_homepage(e.args[0])
