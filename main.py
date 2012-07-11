@@ -147,6 +147,7 @@ def view_log(log_id=None, group=None):
     lines = map(lambda _: parse_line(_, 0), lines)
 
     return render_template('log.html',
+        group=group,
         lines=lines
     )
 
