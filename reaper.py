@@ -61,7 +61,7 @@ if __name__=='__main__':
                 print "deleting chat "+chat
                 if redis.get('chat.'+chat+'.type') in ['match', None]:
                     # If it's been saved before, save it again.
-                    if redis.get('chat.'+chat+'.log') is not None:
+                    if redis.get('chat.'+chat+'.log') is not None and redis.llen('chat.'+chat)!=0:
                         print "saving before deletion"
                         archive_chat(redis, mysql, chat, chat_type='match', backlog=0)
                     delete_chat(redis, chat)
