@@ -83,6 +83,9 @@ $(document).ready(function() {
 				var messages = data.messages;
 				for (var i=0; i<messages.length; i++) {
 					addLine(messages[i]);
+					if (highlightUser==messages[i].counter) {
+						highlightPosts(messages[i].counter);
+					}
 					latestNum = Math.max(latestNum, messages[i]['id']);
 				}
 				if (typeof data.counter!=="undefined") {
