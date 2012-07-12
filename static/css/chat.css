@@ -1,6 +1,7 @@
 /* General */
 
 body {
+	margin: 5px;
 	background-color: #cccccc;
 	background-attachment: fixed;
 }
@@ -20,16 +21,21 @@ h1 {
 	word-wrap: break-word;
 }
 
-h1, p {
+h1 {
 	margin: 5px;
 }
 
-button, input, select, #conversation, #settings, #userList, #preview {
+p {
+	margin: 0;
+	padding: 2px 5px;
+}
+
+button, input, select, #conversation, #settings, #userList, #preview, #archiveConversation {
 	border: 1px solid #999999;
 	border-radius: 1px;
 }
 
-#conversation, #settings, #userList, #preview {
+#conversation, #settings, #userList, #preview, #archiveConversation {
 	background-color: #eeeeee;
 }
 
@@ -37,7 +43,7 @@ button, input, select {
 	background-color: rgba(255,255,255,0.8);
 }
 
-button {
+input[type="submit"], button {
 	display: inline-block;
 	margin: 5px 0 0 0;
 	padding: 2px 4px;
@@ -71,6 +77,13 @@ input:focus, input:hover, select:focus, select:hover, button:hover {
 	bottom: 79px;
 	left: 5px;
 	overflow: auto;
+	padding: 2px 0;
+}
+
+#conversation.search {
+	background-image: url('/static/img/throbber-big.gif');
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
 body.withSidebar #conversation {
@@ -104,6 +117,7 @@ body.withSidebar #conversation {
 
 .sidebar ul li {
 	padding: 2px 0;
+	cursor: pointer;
 }
 
 #controls {
@@ -119,7 +133,7 @@ body.withSidebar #controls {
 
 #hidePreview {
 	position: absolute;
-    right: 0;
+	right: 0;
 	padding: 2px;
 }
 
@@ -144,6 +158,14 @@ body #userListButton {
 	float: right;
 }
 
+.highlight {
+	background-color: #ffffff;
+}
+
+body > #save {
+	display: none;
+}
+
 /* Sidebars */
 
 body.settings #settings, body.userList #userList {
@@ -151,18 +173,13 @@ body.settings #settings, body.userList #userList {
 }
 
 /* User groups */
+
 .mod {
 	font-style: italic;
 }
 
 .silent {
 	text-decoration: line-through;
-}
-
-/* Action lists */
-
-#userList.hasActions ul li {
-    cursor: pointer;
 }
 
 /* Mobile */

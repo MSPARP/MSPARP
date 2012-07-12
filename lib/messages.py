@@ -1,6 +1,8 @@
-from flask import json, jsonify
+from flask import g, json, jsonify
 
-def send_message(db, chat, msg_type, text=None, color='000000', acronym='', audience=None):
+from lib import DELETE_MATCH_PERIOD, get_time
+
+def send_message(redis, chat, counter, msg_type, text=None, color='000000', acronym='', audience=None):
 
     # The JavaScript always expects the messages list, so if we don't have any then we need an empty list.
     json_message = { 'messages': [] }
@@ -10,15 +12,18 @@ def send_message(db, chat, msg_type, text=None, color='000000', acronym='', audi
 
         # Store the message if it's not private.
         if msg_type!='private':
-            message = color+'#'+message_content
-            message_count = db.rpush('chat.'+chat, message)
+            message = ','.join([str(get_time()), str(counter), msg_type, color, message_content])
+            message_count = redis.rpush('chat.'+chat, message)
         else:
             # ...or just get message count if it is.
-            message_count = db.llen('chat.'+chat)
+            message_count = redis.llen('chat.'+chat)
 
         # And add it to the pubsub data.
         json_message['messages'].append({
             'id': message_count - 1,
+            'timestamp': get_time(),
+            'counter': counter,
+            'type': msg_type,
             'color': color,
             'line': message_content
         })
@@ -26,24 +31,34 @@ def send_message(db, chat, msg_type, text=None, color='000000', acronym='', audi
     if msg_type=='user_change':
 
         # Generate user list.
-        user_list, mod_user_list = get_user_list(db, chat, 'both')
+        user_list, mod_user_list = get_user_list(redis, chat, 'both')
 
         # Send to mods first if they have their own list.
         if mod_user_list is not user_list:
             json_message['online'] = mod_user_list
-            db.publish('channel.'+chat+'.mod', json.dumps(json_message))
+            redis.publish('channel.'+chat+'.mod', json.dumps(json_message))
+
+        # g doesn't work in the reaper.
+        try:
+            chat_type = g.chat_type
+        except RuntimeError:
+            chat_type = redis.get('chat.'+chat+'.type')
+
+        # If the last person just left, mark the chat for archiving.
+        if chat_type=='match' and len(user_list)==0:
+            redis.zadd('delete-queue', chat, get_time(DELETE_MATCH_PERIOD))
 
         json_message['online'] = user_list
 
     elif msg_type=='private':
         # Just send it to the specified person.
-        db.publish('channel.'+chat+'.'+audience, json.dumps(json_message))
+        redis.publish('channel.'+chat+'.'+audience, json.dumps(json_message))
         return None
 
     # Push to the publication channel to wake up longpolling listeners
-    db.publish('channel.'+chat, json.dumps(json_message))
+    redis.publish('channel.'+chat, json.dumps(json_message))
 
-def get_user_list(db, chat, audience):
+def get_user_list(redis, chat, audience):
 
         # Audience can be mod, user or all.
         # If it's mod, we return the full userlist.
@@ -52,14 +67,14 @@ def get_user_list(db, chat, audience):
         # list if they're the same).
 
         user_list = []
-        user_counter = db.lrange('chat.'+chat+'.counter', 0, -1)
-        user_states = db.hgetall('chat.'+chat+'.sessions')
+        user_counter = redis.lrange('chat.'+chat+'.counter', 0, -1)
+        user_states = redis.hgetall('chat.'+chat+'.sessions')
 
         silent_users = False
 
         for counter, user in enumerate(user_counter):
             if user_states[user] in ['online', 'away']:
-                user_info = db.hgetall('session.'+user+'.chat.'+chat)
+                user_info = redis.hgetall('session.'+user+'.chat.'+chat)
                 user_object = {
                     'name': user_info['name'],
                     'acronym': user_info['acronym'],
@@ -92,15 +107,22 @@ def get_user_list(db, chat, audience):
 
         return user_list
 
-def parseLine(line, id):
-    "Parse a chat line like 'FF00FF#Some Text' into a dict"
-    parts = line.split('#', 1)
+def parse_line(line, id):
+    # Lines consist of comma separated fields.
+    #print line
+    parts = line.split(',', 4)
+    print parts
+    if not isinstance(parts[4], unicode):
+        parts[4] = unicode(parts[4], encoding='utf-8')
     return {
         'id': id,
-        'color': parts[0],
-        'line': unicode(parts[1], encoding='utf-8')
+        'timestamp': int(parts[0]),
+        'counter': int(parts[1]),
+        'type': parts[2],
+        'color': parts[3],
+        'line': parts[4]
     }
 
-def parseMessages(seq, offset):
-    return [parseLine(line, i) for (i, line) in enumerate(seq, offset)]
+def parse_messages(seq, offset):
+    return [parse_line(line, i) for (i, line) in enumerate(seq, offset)]
 

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title%}{% endblock %}
+{% block header %}
+<link rel="stylesheet" href="/static/css/chat.css">
+{% endblock %}
+{% block content %}
+
+<div id="archiveConversation">
+{% if lines|length!=0 %}
+{% for line in lines %}
+	<p style="color: #{{line.color}}" class="{% if line.counter==-1 %}system{% else %}user{{line.counter}}{% endif %}">{{line.line}}</p>
+{% endfor %}
+{% else %}
+	<p>This chat hasn't been archived yet - group chats are saved every half hour.</p>
+{% endif %}
+{% if group!=None %}
+	<p>Join this chat at <a href="/chat/{{group}}">this link</a>.</p>
+{% endif %}
+</div>
+
+{% endblock %}
