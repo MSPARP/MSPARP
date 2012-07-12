@@ -59,6 +59,9 @@ $(document).ready(function() {
 				msgClass = 'user'+msg.counter;
 			}
 			var mp = $('<p>').addClass(msgClass).css('color', '#'+msg.color).text(msg.line).appendTo('#conversation');
+			if (highlightUser==msg.counter) {
+				mp.addClass('highlight');
+			}
 			conversation.scrollTop(conversation[0].scrollHeight);
 		}
 
@@ -83,9 +86,6 @@ $(document).ready(function() {
 				var messages = data.messages;
 				for (var i=0; i<messages.length; i++) {
 					addLine(messages[i]);
-					if (highlightUser==messages[i].counter) {
-						highlightPosts(messages[i].counter);
-					}
 					latestNum = Math.max(latestNum, messages[i]['id']);
 				}
 				if (typeof data.counter!=="undefined") {
@@ -305,6 +305,7 @@ $(document).ready(function() {
 					$.post(POST_URL,{'chat': chat, 'line': $('#preview').text()}); // todo: check for for error
 					pingInterval = window.setTimeout(pingServer, PING_PERIOD*1000);
 					$('#textInput').val('');
+					updateChatPreview();
 				}
 			}
 			return false;
