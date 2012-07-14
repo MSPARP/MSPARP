@@ -5,7 +5,7 @@ from lib import SEARCH_PERIOD, get_time, validate_chat_url
 from lib.archive import archive_chat
 from lib.characters import CHARACTER_GROUPS, CHARACTERS
 from lib.messages import parse_line
-from lib.model import db_session as mysql, Log, LogPage
+from lib.model import sm, Log, LogPage
 from lib.requests import connect_redis, create_normal_session, set_cookie
 
 app = Flask(__name__)
@@ -14,9 +14,9 @@ app = Flask(__name__)
 app.before_request(connect_redis)
 app.before_request(create_normal_session)
 app.after_request(set_cookie)
-@app.teardown_request
-def shutdown_session(exception=None):
-    mysql.remove()
+@app.before_request
+def setup_mysql():
+    g.mysql = sm()
 
 # Helper functions
 
@@ -100,8 +100,8 @@ def save():
             g.user.set_chat(chat)
             g.user.set_group('mod')
             g.redis.set('chat.'+chat+'.type', 'group')
-            mysql.add(Log(url=chat))
-            mysql.commit()
+            g.mysql.add(Log(url=chat))
+            g.mysql.commit()
             return redirect(url_for('chat', chat=chat))
     except ValueError as e:
         return show_homepage(e.args[0])
@@ -120,7 +120,7 @@ def save_log():
     chat_type = g.redis.get('chat.'+request.form['chat']+'.type')
     if chat_type!='match':
         abort(400)
-    log_id = archive_chat(g.redis, mysql, request.form['chat'], chat_type)
+    log_id = archive_chat(g.redis, g.mysql, request.form['chat'], chat_type)
     if 'tumblr' in request.form:
         # Set the character list as tags.
         tags = g.redis.smembers('chat.'+request.form['chat']+'.characters')
@@ -132,18 +132,17 @@ def save_log():
 @app.route('/logs/<log_id>')
 @app.route('/logs/group/<group>')
 def view_log(log_id=None, group=None):
-
     try:
         if log_id is not None:
-            log = mysql.query(Log).filter(Log.id==log_id).one()
+            log = g.mysql.query(Log).filter(Log.id==log_id).one()
             if log.url is not None:
                 return redirect(url_for('view_log', group=log.url))
         else:
-            log = mysql.query(Log).filter(Log.url==group).one()
+            log = g.mysql.query(Log).filter(Log.url==group).one()
     except:
         abort(404)
 
-    log_pages = mysql.query(LogPage).filter(LogPage.log_id==log.id)
+    log_pages = g.mysql.query(LogPage).filter(LogPage.log_id==log.id)
 
     # Don't do paging for now.
     lines = []

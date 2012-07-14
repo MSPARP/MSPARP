@@ -1,4 +1,5 @@
 import datetime
+from sqlalchemy.orm.exc import NoResultFound
 
 from model import Log, LogPage
 
@@ -38,7 +39,7 @@ def get_or_create_log(redis, mysql, chat, chat_type):
         except:
             print "no latest page"
             latest_page = new_page(mysql, log)
-    except:
+    except NoResultFound:
         print "not got log"
         url = chat if chat_type!='match' else None
         print url
@@ -87,7 +88,9 @@ def archive_chat(redis, mysql, chat, chat_type=None, backlog=0):
 
     log.time_saved = datetime.datetime.now()
 
+    print "PRE-COMMIT"
     mysql.commit()
+    print "POST-COMMIT"
 
     # Don't delete from redis until we've successfully committed.
     redis.ltrim('chat.'+chat, archive_length, -1)

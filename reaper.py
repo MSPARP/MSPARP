@@ -7,7 +7,7 @@ import datetime
 from lib import PING_PERIOD, SEARCH_PERIOD, ARCHIVE_PERIOD, get_time
 from lib.archive import archive_chat, delete_chat
 from lib.messages import send_message
-from lib.model import db_session as mysql
+from lib.model import sm
 
 def get_default(redis, session, chat, key, defaultValue=''):
     v = redis.hget("session."+session+".chat."+chat, key)
@@ -18,6 +18,7 @@ def get_default(redis, session, chat, key, defaultValue=''):
 if __name__=='__main__':
 
     redis = Redis(host='localhost')
+    mysql = sm()
 
     current_time = datetime.datetime.now()
 
