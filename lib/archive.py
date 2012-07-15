@@ -3,6 +3,9 @@ from sqlalchemy.orm.exc import NoResultFound
 
 from model import Log, LogPage
 
+class NoLogId(Exception):
+    pass
+
 def get_or_create_log(redis, mysql, chat, chat_type):
 
     # Find existing log or create a new one.
@@ -16,7 +19,7 @@ def get_or_create_log(redis, mysql, chat, chat_type):
             print log_id
             if log_id is None:
                 print "no log id"
-                raise Exception
+                raise NoLogId
             print "log id"
             log = log.filter(Log.id==log_id)
             print log
@@ -39,7 +42,7 @@ def get_or_create_log(redis, mysql, chat, chat_type):
         except:
             print "no latest page"
             latest_page = new_page(mysql, log)
-    except NoResultFound:
+    except (NoResultFound, NoLogId):
         print "not got log"
         url = chat if chat_type!='match' else None
         print url
