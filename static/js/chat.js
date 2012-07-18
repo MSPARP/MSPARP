@@ -42,7 +42,13 @@ $(document).ready(function() {
 		function runSearch() {
 			$.post(SEARCH_URL, {}, function(data) {
 				chat = data['target'];
-				startChat();
+				chaturl = '/chat/'+chat;
+				if (typeof window.history.replaceState!="undefined") {
+					window.history.replaceState('', '', chaturl);
+					startChat();
+				} else {
+					window.location.replace(chaturl);
+				}
 			}).complete(function() {
 				if (chatState=='search') {
 					window.setTimeout(runSearch, 1000);
@@ -286,10 +292,10 @@ $(document).ready(function() {
 					if (navigator.userAgent.indexOf('Chrome')!=-1) {
 						// You can't change document.title here in Chrome. #googlehatesyou
 						window.setTimeout(function() {
-							document.title = ORIGINAL_TITLE;
+							document.title = 'Chat - '+ORIGINAL_TITLE;
 						}, 200);
 					} else {
-						document.title = ORIGINAL_TITLE;
+						document.title = 'Chat - '+ORIGINAL_TITLE;
 					}
 				}
 			}, false);
