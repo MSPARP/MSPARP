@@ -13,8 +13,10 @@ sm = sessionmaker(autocommit=False,
                   autoflush=False,
                   bind=engine)
 
+base_session = scoped_session(sm)
+
 Base = declarative_base()
-Base.query = db_session.query_property()
+Base.query = base_session.query_property()
 
 def init_db():
     Base.metadata.create_all(bind=engine)

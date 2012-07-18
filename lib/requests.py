@@ -28,6 +28,7 @@ def create_chat_session():
         abort(400)
     g.chat_type = g.redis.get('chat.'+chat+'.type')
     if g.chat_type is None:
+        del g.redis
         abort(404)
     g.user = user = Session(g.redis, session, chat)
 
