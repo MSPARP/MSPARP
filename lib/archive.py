@@ -11,27 +11,8 @@ def get_or_create_log(redis, mysql, chat, chat_type):
     # Find existing log or create a new one.
 
     try:
-        log = mysql.query(Log)
-        print log
-        if chat_type=='match':
-            print "chat type is match"
-            log_id = redis.get('chat.'+chat+'.log')
-            print log_id
-            if log_id is None:
-                print "no log id"
-                raise NoLogId
-            print "log id"
-            log = log.filter(Log.id==log_id)
-            print log
-        else:
-            print "chat type is not match"
-            log = log.filter(Log.url==chat)
-            print log
-        print log
         print "getting log"
-        log = log.one()
-        print "got log"
-        print log
+        log = mysql.query(Log).filter(Log.url==chat).one()
         try:
             print "getting latest page"
             latest_page_query = mysql.query(LogPage).filter(LogPage.log_id==log.id)

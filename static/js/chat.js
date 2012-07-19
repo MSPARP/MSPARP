@@ -78,6 +78,7 @@ $(document).ready(function() {
 			conversation.removeClass('search');
 			$('input, select, button').removeAttr('disabled');
 			$('#preview').css('color', '#'+user.color);
+			$('#logLink').attr('href', '/chat/'+chat+'/log');
 			closeSettings();
 			getMessages();
 			pingInterval = window.setTimeout(pingServer, PING_PERIOD*1000);

@@ -127,18 +127,19 @@ def save_log():
         tags.add('msparp')
         url_tags = urllib.quote_plus(','.join(tags))
         return redirect('http://www.tumblr.com/new/link?post[one]=Check+out+this+chat+I+just+had+on+MSPARP!&post[two]=http%3A%2F%2Fmsparp.com%2Flogs%2F'+str(log_id)+'&post[source_url]=http%3A%2F%2Fmsparp.com%2F&tags='+url_tags)
-    return redirect(url_for('view_log', log_id=log_id))
+    return redirect(url_for('view_log', chat_url=request.form['chat']))
 
 @app.route('/logs/<log_id>')
-@app.route('/logs/group/<group>')
-def view_log(log_id=None, group=None):
+@app.route('/chat/<chat>/log')
+@app.route('/logs/group/<chat>')
+def view_log(log_id=None, chat=None):
     try:
         if log_id is not None:
             log = g.mysql.query(Log).filter(Log.id==log_id).one()
             if log.url is not None:
-                return redirect(url_for('view_log', group=log.url))
+                return redirect(url_for('view_log', chat=log.url))
         else:
-            log = g.mysql.query(Log).filter(Log.url==group).one()
+            log = g.mysql.query(Log).filter(Log.url==chat).one()
     except:
         abort(404)
 
@@ -153,7 +154,7 @@ def view_log(log_id=None, group=None):
     lines = map(lambda _: parse_line(_, 0), lines)
 
     return render_template('log.html',
-        group=group,
+        chat=chat,
         lines=lines
     )
 

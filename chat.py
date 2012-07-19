@@ -39,10 +39,9 @@ def mark_alive(f):
             g.redis.rpush('chat.%s.counter' % chat, g.user.session)
             g.redis.sadd('session.%s.chats' % g.user.session, chat)
         if session_state not in ['online', 'away']:
-            # Remove the chat from the delete queue.
+            # Remove from the delete queue and add to the archive queue.
             g.redis.zrem('delete-queue', chat)
-            # If it's a group chat, make sure it's in the archive queue.
-            if g.chat_type=='group' and g.redis.zscore('archive-queue', chat) is None:
+            if g.redis.zscore('archive-queue', chat) is None:
                 g.redis.zadd('archive-queue', chat, get_time(ARCHIVE_PERIOD))
             # Set user state.
             g.redis.hset(state_key, g.user.session, 'online')
