@@ -25,9 +25,7 @@ def get_or_create_log(redis, mysql, chat, chat_type):
             latest_page = new_page(mysql, log)
     except (NoResultFound, NoLogId):
         print "not got log"
-        url = chat if chat_type!='match' else None
-        print url
-        log = Log(url=url)
+        log = Log(url=chat)
         print log
         mysql.add(log)
         print log

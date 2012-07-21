@@ -127,7 +127,7 @@ def save_log():
         tags.add('msparp')
         url_tags = urllib.quote_plus(','.join(tags))
         return redirect('http://www.tumblr.com/new/link?post[one]=Check+out+this+chat+I+just+had+on+MSPARP!&post[two]=http%3A%2F%2Fmsparp.com%2Flogs%2F'+str(log_id)+'&post[source_url]=http%3A%2F%2Fmsparp.com%2F&tags='+url_tags)
-    return redirect(url_for('view_log', chat_url=request.form['chat']))
+    return redirect(url_for('view_log', chat=request.form['chat']))
 
 @app.route('/logs/<log_id>')
 @app.route('/chat/<chat>/log')
