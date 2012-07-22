@@ -129,9 +129,12 @@ def save_log():
         return redirect('http://www.tumblr.com/new/link?post[one]=Check+out+this+chat+I+just+had+on+MSPARP!&post[two]=http%3A%2F%2Fmsparp.com%2Flogs%2F'+str(log_id)+'&post[source_url]=http%3A%2F%2Fmsparp.com%2F&tags='+url_tags)
     return redirect(url_for('view_log', chat=request.form['chat']))
 
+@app.route('/logs/group/<chat>')
+def old_view_log(chat):
+    return redirect(url_for('view_log', chat=chat))
+
 @app.route('/logs/<log_id>')
 @app.route('/chat/<chat>/log')
-@app.route('/logs/group/<chat>')
 def view_log(log_id=None, chat=None):
     try:
         if log_id is not None:
