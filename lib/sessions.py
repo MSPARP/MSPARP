@@ -124,11 +124,12 @@ class Session(object):
         if self.chat is not None:
             g.redis.sadd('chat.'+self.chat+'.characters', g.user.character)
             if self.name!=old_name or self.acronym!=old_acronym:
+                user_change_message = '%s [%s] is now %s [%s].' % (old_name, old_acronym, self.name, self.acronym)
                 if self.group=='silent':
-                    user_change_message = None
+                    send_message(g.redis, request.form['chat'], -1, 'private', user_change_message, audience=self.session)
+                    send_message(g.redis, request.form['chat'], -1, 'user_change', None)
                 else:
-                    user_change_message = '%s [%s] is now %s [%s].' % (old_name, old_acronym, self.name, self.acronym)
-                send_message(g.redis, request.form['chat'], -1, 'user_change', user_change_message)
+                    send_message(g.redis, request.form['chat'], -1, 'user_change', user_change_message)
             elif self.color!=old_color:
                 send_message(g.redis, request.form['chat'], -1, 'user_change', None)
 
