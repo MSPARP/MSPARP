@@ -120,6 +120,8 @@ def getMessages():
     if hasattr(g, 'fake_join_message'):
         message_dict = { 'messages': [ {
             'id': after,
+            'timestamp': get_time(),
+            'counter': -1,
             'color': '000000',
             'line': '%s [%s] joined chat.' % (g.user.name, g.user.acronym)
         } ] }
