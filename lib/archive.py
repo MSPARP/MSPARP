@@ -39,9 +39,11 @@ def get_or_create_log(redis, mysql, chat, chat_type):
     return log, latest_page
 
 def new_page(mysql, log, last=0):
-    latest_page = LogPage(log_id=log.id, number=last+1, content=u'')
+    new_page_number = last+1
+    latest_page = LogPage(log_id=log.id, number=new_page_number, content=u'')
     print latest_page
     mysql.add(latest_page)
+    log.page_count = new_page_number
     return latest_page
 
 def archive_chat(redis, mysql, chat, chat_type=None, backlog=0):
