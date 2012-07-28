@@ -10,7 +10,7 @@ CHARACTERS = {
         'Original Character',
         'Doc Scratch',
         'Calliope',
-        'undyingUmbrage',
+        'Caliborn',
         'Other (canon)'
     ],
     'Humans': [

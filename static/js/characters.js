@@ -37,7 +37,7 @@ var characters = {
 		'case': 'lower',
 		'replacements': [['u', 'U']]
 	},
-	'undyingumbrage': {
+	'caliborn': {
 		'acronym': 'uu',
 		'name': 'undyingUmbrage',
 		'color': '323232',
