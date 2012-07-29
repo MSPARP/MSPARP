@@ -3,7 +3,14 @@
 {% block header %}
 <link rel="stylesheet" href="/static/css/chat.css">
 {% endblock %}
+{% block pager %}
+<div class="pager">
+{{paginator.pager(format='~20~')}}
+</div>
+{% endblock %}
 {% block content %}
+
+{{ self.pager() }}
 
 <div id="archiveConversation">
 {% if lines|length!=0 %}
@@ -17,5 +24,7 @@
 	<p>Join this chat at <a href="/chat/{{chat}}">this link</a>.</p>
 {% endif %}
 </div>
+
+{{ self.pager() }}
 
 {% endblock %}

@@ -30,12 +30,12 @@ p {
 	padding: 2px 5px;
 }
 
-button, input, select, #conversation, #settings, #userList, #preview, #archiveConversation {
+button, input, select, #conversation, #settings, #userList, #preview, .pager, #archiveConversation {
 	border: 1px solid #999999;
 	border-radius: 1px;
 }
 
-#conversation, #settings, #userList, #preview, #archiveConversation {
+#conversation, #settings, #userList, #preview, .pager, #archiveConversation {
 	background-color: #eeeeee;
 }
 
@@ -209,4 +209,14 @@ body.mobile #userListButton {
 
 body.mobile.withSidebar #conversation, body.mobile.withSidebar #controls {
 	display: none;
+}
+
+/* Archive */
+
+.pager {
+	padding: 2px 5px;
+}
+
+#archiveConversation {
+	margin: 5px 0;
 }

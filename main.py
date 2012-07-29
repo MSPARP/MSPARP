@@ -1,5 +1,8 @@
 import urllib
 from flask import Flask, g, request, render_template, redirect, url_for, jsonify, abort
+from sqlalchemy import and_
+from sqlalchemy.orm.exc import NoResultFound
+from webhelpers import paginate
 
 from lib import SEARCH_PERIOD, get_time, validate_chat_url
 from lib.archive import archive_chat
@@ -134,31 +137,48 @@ def old_view_log(chat):
     return redirect(url_for('view_log', chat=chat))
 
 @app.route('/logs/<log_id>')
+def view_log_by_id(log_id=None):
+    log = g.mysql.query(Log).filter(Log.id==log_id).one()
+    if log.url is not None:
+        return redirect(url_for('view_log', chat=log.url))
+    abort(404)
+
 @app.route('/chat/<chat>/log')
-def view_log(log_id=None, chat=None):
+def view_log(chat=None):
+
     try:
-        if log_id is not None:
-            log = g.mysql.query(Log).filter(Log.id==log_id).one()
-            if log.url is not None:
-                return redirect(url_for('view_log', chat=log.url))
-        else:
-            log = g.mysql.query(Log).filter(Log.url==chat).one()
+        log = g.mysql.query(Log).filter(Log.url==chat).one()
     except:
         abort(404)
 
-    log_pages = g.mysql.query(LogPage).filter(LogPage.log_id==log.id)
+    current_page = request.args.get('page') or log.page_count
 
-    # Don't do paging for now.
-    lines = []
-    for page in log_pages:
-        # Pages end with a line break, so the last line is blank.
-        lines += page.content.split('\n')[0:-1]
+    try:
+        log_page = g.mysql.query(LogPage).filter(and_(LogPage.log_id==log.id, LogPage.number==current_page)).one()
+    except NoResultFound:
+        abort(404)
 
+    #return log_page.content
+
+    url_generator = paginate.PageURL(url_for('view_log', chat=chat), {'page': current_page})
+
+    # It's only one row per page and we want to fetch them via both log id and
+    # page number rather than slicing, so we'll just give it an empty list and
+    # override the count.
+    paginator = paginate.Page([], page=current_page, items_per_page=1, item_count=log.page_count, url=url_generator)
+
+    #return str(log.page_count)
+
+    #log_pages = g.mysql.query(LogPage).filter(LogPage.log_id==log.id)
+
+    # Pages end with a line break, so the last line is blank.
+    lines = log_page.content.split('\n')[0:-1]
     lines = map(lambda _: parse_line(_, 0), lines)
 
     return render_template('log.html',
         chat=chat,
-        lines=lines
+        lines=lines,
+        paginator=paginator
     )
 
 # Home
