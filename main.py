@@ -28,7 +28,7 @@ def show_homepage(error):
         error=error,
         user=g.user,
         character_dict=g.user.character_dict(unpack_replacements=True),
-        picky=redis.smembers(g.user.prefix+'.picky') or set(),
+        picky=g.redis.smembers(g.user.prefix+'.picky') or set(),
         groups=CHARACTER_GROUPS,
         characters=CHARACTERS,
         default_char=g.user.character,
