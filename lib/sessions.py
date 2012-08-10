@@ -54,10 +54,6 @@ class Session(object):
         for attrib, value in chat_data.items():
             setattr(self, attrib, unicode(value, encoding='utf-8'))
 
-        # XXX lazy loading on these?
-
-        self.picky = redis.smembers(self.prefix+'.picky')
-
         redis.zadd('all-sessions', self.session, get_time(DELETE_SESSION_PERIOD))
 
     def character_dict(self, unpack_replacements=False, hide_silence=True):

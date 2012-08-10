@@ -72,7 +72,7 @@
 <div class="options">
 	<input type="hidden" name="save_pickiness" value="true">
 	<label><input type="checkbox" name="picky" 
-		{% if user.picky|length!=0 %}checked="checked" {%endif%}	
+		{% if picky|length!=0 %}checked="checked" {%endif%}	
 	/>Only match me with specific characters</label>
 	<div id="picky-matches">
 	{% for group in groups %}
@@ -80,7 +80,7 @@
 		<div class="picky-group">
 		{% for char in characters[group] %}
 		<label><input type="checkbox" name="picky-{{char|lower}}" 
-			{% if char|lower in user.picky %}
+			{% if char|lower in picky %}
 				checked="checked" {% endif %} >{{char}}</label>
 		{% endfor %} 
 		</div>
