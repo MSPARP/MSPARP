@@ -74,21 +74,27 @@ def get_user_list(redis, chat, audience):
         silent_users = False
 
         for counter, user in enumerate(user_counter):
-            if user_states[user] in ['online', 'away']:
-                user_info = redis.hgetall('session.'+user+'.chat.'+chat)
-                user_object = {
-                    'name': user_info['name'],
-                    'acronym': user_info['acronym'],
-                    'color': user_info['color'],
-                    'state': user_states[user],
-                    # If the audience is user, we cover up the silent users here so we don't have to do a second iteration.
-                    'group': user_info['group'] if audience!='user' or user_info['group']!='silent' else 'user',
-                    'counter': counter
-                }
-                # If there's a silent user in the list, remember to do a second iteration covering them up.
-                if audience=='both' and user_info['group']=='silent':
-                    silent_users = True
-                user_list.append(user_object)
+            # Don't die when the user doesn't have a state value.
+            # This can happen if the queries above end up sandwiched between
+            # the queries in chat.py's mark_alive function.
+            try:
+                if user_states[user] in ['online', 'away']:
+                    user_info = redis.hgetall('session.'+user+'.chat.'+chat)
+                    user_object = {
+                        'name': user_info['name'],
+                        'acronym': user_info['acronym'],
+                        'color': user_info['color'],
+                        'state': user_states[user],
+                        # If the audience is user, we cover up the silent users here so we don't have to do a second iteration.
+                        'group': user_info['group'] if audience!='user' or user_info['group']!='silent' else 'user',
+                        'counter': counter
+                    }
+                    # If there's a silent user in the list, remember to do a second iteration covering them up.
+                    if audience=='both' and user_info['group']=='silent':
+                        silent_users = True
+                    user_list.append(user_object)
+            except KeyError:
+                pass
         user_list.sort(key=lambda _: _['name'].lower())
 
         if audience=='both':
