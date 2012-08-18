@@ -28,7 +28,6 @@ def create_chat_session():
         abort(400)
     g.chat_type = g.redis.get('chat.'+chat+'.type')
     if g.chat_type is None:
-        del g.redis
         abort(404)
     g.user = user = Session(g.redis, session, chat)
 
@@ -41,4 +40,8 @@ def set_cookie(response):
         except AttributeError:
             # That isn't gonna work if we don't have a user object, just ignore it.
             pass
+    return response
+
+def disconnect_redis(response):
+    del g.redis
     return response

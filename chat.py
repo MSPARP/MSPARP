@@ -3,7 +3,7 @@ from flask import Flask, g, request, render_template, make_response, jsonify, ab
 
 from lib import PING_PERIOD, ARCHIVE_PERIOD, get_time
 from lib.messages import send_message, get_user_list, parse_messages
-from lib.requests import connect_redis, create_chat_session, set_cookie
+from lib.requests import connect_redis, create_chat_session, set_cookie, disconnect_redis
 from lib.sessions import get_counter
 
 app = Flask(__name__)
@@ -12,6 +12,7 @@ app = Flask(__name__)
 app.before_request(connect_redis)
 app.before_request(create_chat_session)
 app.after_request(set_cookie)
+app.after_request(disconnect_redis)
 
 # Helper functions
 
