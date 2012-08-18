@@ -148,18 +148,20 @@ def getMessages():
     channel_self = channel_main+'.'+g.user.session
     channel_refresh = channel_main+'.refresh'
 
+    pubsub = g.redis.pubsub()
+
     # We subscribe to all four channels then ignore what we don't want because
     # changing subscriptions doesn't happen quickly enough and we end up missing
     # messages.
-    g.redis.subscribe(channel_main)
-    g.redis.subscribe(channel_mod)
-    g.redis.subscribe(channel_self)
-    g.redis.subscribe(channel_refresh)
+    pubsub.subscribe(channel_main)
+    pubsub.subscribe(channel_mod)
+    pubsub.subscribe(channel_self)
+    pubsub.subscribe(channel_refresh)
 
     # This gives us a list of all the channels we want to listen to.
     wanted_channels = get_wanted_channels(channel_main, channel_mod, channel_self)
 
-    for msg in g.redis.listen():
+    for msg in pubsub.listen():
         if msg['type']=='message':
             if msg['channel']==channel_refresh:
                 refresh_user, refresh_group = msg['data'].split('#', 1)
