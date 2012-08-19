@@ -45,7 +45,7 @@ def matchUser(session, picky, identities):
 
 if __name__=='__main__': 
 
-    redis = Redis(host='localhost')
+    redis = Redis(unix_socket_path='/tmp/redis.sock')
 
     while True:
         searchers = redis.zrange('searchers', 0, -1)

@@ -17,7 +17,7 @@ def get_default(redis, session, chat, key, defaultValue=''):
 
 if __name__=='__main__':
 
-    redis = Redis(host='localhost')
+    redis = Redis(unix_socket_path='/tmp/redis.sock')
     mysql = sm()
 
     current_time = datetime.datetime.now()

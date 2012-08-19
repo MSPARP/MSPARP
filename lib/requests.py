@@ -8,7 +8,7 @@ from sessions import Session
 
 def connect_redis():
     # Connect to database 
-    g.redis = Redis(host='localhost')
+    g.redis = Redis(unix_socket_path='/tmp/redis.sock')
 
 def create_normal_session():
     # Create a user object, using session ID.
