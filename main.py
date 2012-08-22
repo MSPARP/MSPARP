@@ -8,19 +8,18 @@ from lib import SEARCH_PERIOD, get_time, validate_chat_url
 from lib.archive import archive_chat
 from lib.characters import CHARACTER_GROUPS, CHARACTERS
 from lib.messages import parse_line
-from lib.model import sm, Log, LogPage
-from lib.requests import connect_redis, create_normal_session, set_cookie, disconnect_redis
+from lib.model import Log, LogPage
+from lib.requests import connect_redis, connect_mysql, create_normal_session, set_cookie, disconnect_redis, disconnect_mysql
 
 app = Flask(__name__)
 
 # Pre and post request stuff
 app.before_request(connect_redis)
+app.before_request(connect_mysql)
 app.before_request(create_normal_session)
 app.after_request(set_cookie)
 app.after_request(disconnect_redis)
-@app.before_request
-def setup_mysql():
-    g.mysql = sm()
+app.after_request(disconnect_mysql)
 
 # Helper functions
 

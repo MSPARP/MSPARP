@@ -2,6 +2,7 @@ from flask import g, request, abort
 from redis import Redis
 
 from lib import validate_chat_url
+from model import sm
 from sessions import Session
 
 # Before request
@@ -9,6 +10,9 @@ from sessions import Session
 def connect_redis():
     # Connect to database 
     g.redis = Redis(unix_socket_path='/tmp/redis.sock')
+
+def connect_mysql():
+    g.mysql = sm()
 
 def create_normal_session():
     # Create a user object, using session ID.
@@ -44,4 +48,9 @@ def set_cookie(response):
 
 def disconnect_redis(response):
     del g.redis
+    return response
+
+def disconnect_mysql(response):
+    g.mysql.close()
+    del g.mysql
     return response
