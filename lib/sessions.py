@@ -3,6 +3,7 @@ import json, re
 from flask import g, request
 from uuid import uuid4
 
+from characters import CHARACTER_DETAILS
 from lib import DELETE_SESSION_PERIOD, get_time
 from messages import send_message
 
@@ -30,31 +31,50 @@ class Session(object):
 
     def __init__(self, redis, session=None, chat=None):
 
+        print session
+        print chat
+
         self.redis = redis
         self.session = session or str(uuid4())
         self.chat = chat
-        self.prefix = self.chat_prefix = "session."+self.session
+        self.prefix = self.chat_prefix = 'session.'+self.session
 
-        chat_data = Session.DEFAULTS
-
-        # Load global session data.
-        if redis.exists(self.prefix):
-            chat_data = redis.hgetall(self.chat_prefix)
-        else:
-            redis.hmset(self.prefix, chat_data)
-
-        # Load chat-specific data.
+        # Load character data.
         if chat is not None:
             self.chat_prefix += '.chat.'+chat
-            if redis.exists(self.chat_prefix):
-                chat_data = redis.hgetall(self.chat_prefix)
-            else:
-                redis.hmset(self.chat_prefix, chat_data)
+            character_data = self.get_or_create(
+                self.chat_prefix,
+                lambda: self.get_or_create(
+                    self.prefix,
+                    lambda: self.DEFAULTS
+                )
+            )
+        else:
+            character_data = self.get_or_create(self.prefix, lambda: self.DEFAULTS)
+        print self.DEFAULTS
+        print character_data
+        # Fill in missing fields from the characters dict.
+        character_data = self.fill_in_data(character_data)
+        print character_data
 
-        for attrib, value in chat_data.items():
+        for attrib, value in character_data.items():
             setattr(self, attrib, unicode(value, encoding='utf-8'))
 
         redis.zadd('all-sessions', self.session, get_time(DELETE_SESSION_PERIOD))
+
+    def get_or_create(self, key, default):
+        data = self.redis.hgetall(key)
+        if data is None:
+            data = default()
+            self.redis.hmset(key, data)
+        return data
+
+    def fill_in_data(self, character_data):
+        if len(character_data)<len(self.DEFAULTS):
+            new_character_data = dict(CHARACTER_DETAILS[character_data['character']])
+            print new_character_data
+            new_character_data.update(character_data)
+            return new_character_data
 
     def character_dict(self, unpack_replacements=False, hide_silence=True):
         character_dict = dict((attrib, getattr(self, attrib)) for attrib in Session.DEFAULTS.keys())
@@ -114,7 +134,14 @@ class Session(object):
         # And encode as JSON.
         self.replacements = json.dumps(self.replacements)
 
-        redis.hmset(self.chat_prefix, self.character_dict(hide_silence=False))
+        character_dict = self.character_dict(hide_silence=False)
+        for key, value in CHARACTER_DETAILS[self.character].items():
+            if character_dict[key]==value:
+                del character_dict[key]
+        pipe = redis.pipeline()
+        pipe.delete(self.chat_prefix)
+        pipe.hmset(self.chat_prefix, character_dict)
+        pipe.execute()
 
         # Chat-related things.
         if self.chat is not None:
@@ -142,15 +169,22 @@ class Session(object):
                 self.redis.sadd(ckey, char)
 
     def set_chat(self, chat):
+        print "SETTING CHAT"
         if self.chat is None:
             self.chat = chat
-            self.chat_prefix = self.prefix+'.chat.'+chat
-            if self.redis.exists(self.chat_prefix):
-                chat_data = self.redis.hgetall(self.chat_prefix)
-                for attrib, value in chat_data.items():
-                    setattr(self, attrib, unicode(value, encoding='utf-8'))
-            else:
-                self.redis.hmset(self.chat_prefix, self.character_dict(hide_silence=False))
+            print chat
+            self.chat_prefix += '.chat.'+chat
+            character_data = self.get_or_create(
+                self.chat_prefix,
+                lambda: self.get_or_create(
+                    self.prefix,
+                    lambda: self.DEFAULTS
+                )
+            )
+            character_data = self.fill_in_data(character_data)
+            print character_data
+            for attrib, value in character_data.items():
+                setattr(self, attrib, unicode(value, encoding='utf-8'))
 
     def set_group(self, group):
         self.group = group
