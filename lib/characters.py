@@ -1,7 +1,8 @@
 CHARACTER_GROUPS = [
     'Special/Other',
     'Humans',
-    'Trolls'
+    'Post-scratch Trolls',
+    'Pre-scratch Trolls',
 ]
 
 CHARACTERS = {
@@ -11,7 +12,7 @@ CHARACTERS = {
         'Doc Scratch',
         'Calliope',
         'Caliborn',
-        'Other (canon)'
+        'Other (canon)',
     ],
     'Humans': [
         'John',
@@ -21,9 +22,9 @@ CHARACTERS = {
         'Jane',
         'Roxy',
         'Dirk',
-        'Jake'
+        'Jake',
     ],
-    'Trolls': [
+    'Post-scratch Trolls': [
         'Aradia',
         'Tavros',
         'Sollux',
@@ -36,8 +37,13 @@ CHARACTERS = {
         'Gamzee',
         'Eridan',
         'Feferi',
+    ],
+    'Pre-scratch Trolls': [
+        'Kankri',
+        'Porrim',
+        'Latula',
         'Aranea',
-        'Meenah'
-    ]       
+        'Meenah',
+    ],
 }
 
