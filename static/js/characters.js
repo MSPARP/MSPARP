@@ -252,7 +252,7 @@ var characters = {
 		'quote':" No+ o+ne quite prepares yo+u fo+r the fact that o+n the o+ther side o+f death is an infinite echo+ chamber o+f teen drama.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["O", "O+"], ["o", "o+"], ["0", "0+"]]
+		'replacements': [["o", "o+"]]
 	},
 	'latula': {
 		'acronym': 'LATULA',
@@ -261,7 +261,7 @@ var characters = {
 		'quote': "do you 3v3n know how l4m3 of 4 sc3n3 1t 1s b31ng th3 only l3g1t 1n your f4c3 pow3rg4m1ng grl 1n 4 bunch of bubbl3s full of brut4l pos3rz???",
 		'quirk_prefix': '',
 		'case': 'lower',
-		'replacements': [["a", "4"], ["e", "3"], ["i", "1"]]
+		'replacements': [["A", "4"], ["a", "4"], ["E", "3"], ["e", "3"], ["I", "1"], ["i", "1"]]
 	},
 	'aranea': {
 		'acronym': 'ARANEA',
