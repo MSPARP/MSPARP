@@ -260,7 +260,7 @@ var characters = {
 		'color': '008282',
 		'quote': "do you 3v3n know how l4m3 of 4 sc3n3 1t 1s b31ng th3 only l3g1t 1n your f4c3 pow3rg4m1ng grl 1n 4 bunch of bubbl3s full of brut4l pos3rz???",
 		'quirk_prefix': '',
-		'case': 'lower',
+		'case': 'normal',
 		'replacements': [["A", "4"], ["a", "4"], ["E", "3"], ["e", "3"], ["I", "1"], ["i", "1"]]
 	},
 	'aranea': {
@@ -282,6 +282,7 @@ var characters = {
 		'replacements': [["E", "-E"], ["H", ")("]]
 	}
 }
+
 
 function deleteReplacement(e) {
 	$(this.parentNode).remove();
