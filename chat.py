@@ -2,6 +2,7 @@ from functools import wraps
 from flask import Flask, g, request, render_template, make_response, jsonify, abort
 
 from lib import PING_PERIOD, ARCHIVE_PERIOD, get_time
+from lib.characters import CHARACTER_DETAILS
 from lib.messages import send_message, get_user_list, parse_messages
 from lib.requests import connect_redis, create_chat_session, set_cookie, disconnect_redis
 from lib.sessions import get_counter
@@ -91,12 +92,12 @@ def postMessage():
                 g.redis.hset(set_session_key, 'group', set_group)
                 set_message = None
                 # Convert the name and acronym to unicode.
-                set_session['name'] = unicode(set_session['name'], encoding='utf8')
-                set_session['acronym'] = unicode(set_session['acronym'], encoding='utf8')
+                set_session_name = unicode(set_session.get('name') or CHARACTER_DETAILS[set_session['character']]['name'], encoding='utf8')
+                set_session_acronym = unicode(set_session.get('acronym') or CHARACTER_DETAILS[set_session['character']]['acronym'], encoding='utf8')
                 if set_session['group']!='mod' and set_group=='mod':
-                    set_message = '%s [%s] gave moderator status to %s [%s].' % (g.user.name, g.user.acronym, set_session['name'], set_session['acronym'])
+                    set_message = '%s [%s] gave moderator status to %s [%s].' % (g.user.name, g.user.acronym, set_session_name, set_session_acronym)
                 elif set_session['group']=='mod' and set_group!='mod':
-                    set_message = '%s [%s] removed moderator status from %s [%s].' % (g.user.name, g.user.acronym, set_session['name'], set_session['acronym'])
+                    set_message = '%s [%s] removed moderator status from %s [%s].' % (g.user.name, g.user.acronym, set_session_name, set_session_acronym)
                 # Refresh the user's subscriptions.
                 g.redis.publish('channel.'+chat+'.refresh', set_session_id+'#'+set_group)
                 send_message(g.redis, chat, -1, 'user_change', set_message)

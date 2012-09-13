@@ -8,6 +8,7 @@ from lib import PING_PERIOD, SEARCH_PERIOD, ARCHIVE_PERIOD, get_time
 from lib.archive import archive_chat, delete_chat
 from lib.messages import send_message
 from lib.model import sm
+from lib.sessions import PartialSession
 
 def get_default(redis, session, chat, key, defaultValue=''):
     v = redis.hget("session."+session+".chat."+chat, key)
@@ -29,9 +30,10 @@ if __name__=='__main__':
             redis.zrem('chats-alive', dead)
             redis.hset(('chat.%s.sessions' % chat), session, 'offline')
             redis.srem('sessions-chatting', session)
+            dead_session = PartialSession(redis, session, chat)
+            name = dead_session.name
             disconnect_message = None
-            if get_default(redis, session, chat, 'group', None)!='silent':
-                name = get_default(redis, session, chat, 'name', 'UNKNOWN USER')
+            if dead_session.group!='silent':
                 disconnect_message = '%s\'s connection timed out. Please don\'t quit straight away; they could be back.' % (name)
             send_message(redis, chat, -1, 'user_change', disconnect_message)
             print 'dead', dead, name

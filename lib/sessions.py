@@ -3,8 +3,8 @@ import json, re
 from flask import g, request
 from uuid import uuid4
 
-from characters import CHARACTER_DETAILS
 from lib import DELETE_SESSION_PERIOD, get_time
+from characters import CHARACTER_DETAILS
 from messages import send_message
 
 class Session(object):
@@ -31,7 +31,9 @@ class Session(object):
 
     def __init__(self, redis, session=None, chat=None):
 
+        print "session"
         print session
+        print "chat"
         print chat
 
         self.redis = redis
@@ -51,10 +53,13 @@ class Session(object):
             )
         else:
             character_data = self.get_or_create(self.prefix, lambda: self.DEFAULTS)
+        print "DEFAULTS"
         print self.DEFAULTS
+        print "character_data pre"
         print character_data
         # Fill in missing fields from the characters dict.
         character_data = self.fill_in_data(character_data)
+        print "character_data post"
         print character_data
 
         for attrib, value in character_data.items():
@@ -63,9 +68,13 @@ class Session(object):
         redis.zadd('all-sessions', self.session, get_time(DELETE_SESSION_PERIOD))
 
     def get_or_create(self, key, default):
+        print "get_or_create"
         data = self.redis.hgetall(key)
-        if data is None:
+        print data
+        if data is None or len(data)==0:
+            print "data is none"
             data = default()
+            print data
             self.redis.hmset(key, data)
         return data
 
@@ -75,6 +84,7 @@ class Session(object):
             print new_character_data
             new_character_data.update(character_data)
             return new_character_data
+        return character_data
 
     def character_dict(self, unpack_replacements=False, hide_silence=True):
         character_dict = dict((attrib, getattr(self, attrib)) for attrib in Session.DEFAULTS.keys())
@@ -189,6 +199,25 @@ class Session(object):
     def set_group(self, group):
         self.group = group
         self.redis.hset(self.chat_prefix, 'group', group)
+
+
+class PartialSession(object):
+
+    def __init__(self, redis, session, chat):
+        self.redis = redis
+        self.session = session
+        self.chat = chat
+        self.character = None
+
+    def __getattr__(self, attr):
+        value = self.redis.hget('session.'+self.session+'.chat.'+self.chat, attr)
+        if value is None:
+            if self.character is None:
+                self.character = self.redis.hget('session.'+self.session+'.chat.'+self.chat, 'character')
+            value = CHARACTER_DETAILS[self.character][attr]
+        setattr(self, attr, value)
+        return value
+
 
 def get_counter(chat, session):
     return g.redis.lrange('chat.'+chat+'.counter', 0, -1).index(session)
