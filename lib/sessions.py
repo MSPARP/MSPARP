@@ -31,11 +31,6 @@ class Session(object):
 
     def __init__(self, redis, session=None, chat=None):
 
-        print "session"
-        print session
-        print "chat"
-        print chat
-
         self.redis = redis
         self.session = session or str(uuid4())
         self.chat = chat
@@ -53,14 +48,9 @@ class Session(object):
             )
         else:
             character_data = self.get_or_create(self.prefix, lambda: self.DEFAULTS)
-        print "DEFAULTS"
-        print self.DEFAULTS
-        print "character_data pre"
-        print character_data
+
         # Fill in missing fields from the characters dict.
         character_data = self.fill_in_data(character_data)
-        print "character_data post"
-        print character_data
 
         for attrib, value in character_data.items():
             setattr(self, attrib, unicode(value, encoding='utf-8'))
@@ -68,20 +58,15 @@ class Session(object):
         redis.zadd('all-sessions', self.session, get_time(DELETE_SESSION_PERIOD))
 
     def get_or_create(self, key, default):
-        print "get_or_create"
         data = self.redis.hgetall(key)
-        print data
         if data is None or len(data)==0:
-            print "data is none"
             data = default()
-            print data
             self.redis.hmset(key, data)
         return data
 
     def fill_in_data(self, character_data):
         if len(character_data)<len(self.DEFAULTS):
             new_character_data = dict(CHARACTER_DETAILS[character_data['character']])
-            print new_character_data
             new_character_data.update(character_data)
             return new_character_data
         return character_data
@@ -179,10 +164,8 @@ class Session(object):
                 self.redis.sadd(ckey, char)
 
     def set_chat(self, chat):
-        print "SETTING CHAT"
         if self.chat is None:
             self.chat = chat
-            print chat
             self.chat_prefix += '.chat.'+chat
             character_data = self.get_or_create(
                 self.chat_prefix,
@@ -192,7 +175,6 @@ class Session(object):
                 )
             )
             character_data = self.fill_in_data(character_data)
-            print character_data
             for attrib, value in character_data.items():
                 setattr(self, attrib, unicode(value, encoding='utf-8'))
 
