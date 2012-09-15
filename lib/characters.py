@@ -259,6 +259,30 @@ CHARACTER_DETAILS = {
 		'case': 'normal',
 		'replacements': '[["E", "-E"], ["H", ")("], ["h", ")("]]'
 	},
+	'kankri':{
+		'acronym': 'KANKRI',
+		'name': 'Kankri',
+		'color': 'FF0000',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[["B", "6"], ["b", "6"], ["O", "9"], ["o", "9"]]'
+	},
+	'porrim':{
+		'acronym':'PORRIM',
+		'name':'Porrim',
+		'color':'008141',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[["o", "o+"]]'
+	},
+	'latula': {
+		'acronym': 'LATULA',
+		'name': 'Latula',
+		'color': '008282',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[["A", "4"], ["a", "4"], ["E", "3"], ["e", "3"], ["I", "1"], ["i", "1"]]'
+	},
 	'aranea': {
 		'acronym': 'ARANEA',
 		'name': 'Aranea',
