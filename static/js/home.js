@@ -19,6 +19,11 @@ $(document).ready(function() {
 		if(characters[this.value]) {
 			var newCharacter = characters[this.value];
 			config.find('#color-preview #quote').text(newCharacter['quote']);
+			if (this.value=="kankri") {
+				$.get('/static/txt/seri9usly_this_is_fucking_ridicul9us.txt', function(reply) {
+					config.find('#color-preview #quote').text(reply);
+				});
+			}
 			updatePreview();
 			if(!settingUp) {
 				$('#character-config').show();
@@ -34,6 +39,11 @@ $(document).ready(function() {
 
 	var name = $("select.character-select").attr('value');
 	config.find('#color-preview #quote').text(characters[name]['quote']);
+	if (name=="kankri") {
+		$.get('/static/txt/seri9usly_this_is_fucking_ridicul9us.txt', function(reply) {
+			config.find('#color-preview #quote').text(reply);
+		});
+	}
 
 	$('input[name="picky"]').change(function() {
 		if($(this).is(':checked')) {

@@ -236,6 +236,33 @@ var characters = {
 		'case': 'normal',
 		'replacements': [["E", "-E"], ["H", ")("], ["h", ")("]]
 	},
+	'kankri':{
+		'acronym': 'KANKRI',
+		'name': 'Kankri',
+		'color': 'FF0000',
+		'quote': "",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': [["B", "6"], ["b", "6"], ["O", "9"], ["o", "9"]]
+	},
+	'porrim':{
+		'acronym':'PORRIM',
+		'name':'Porrim',
+		'color':'008141',
+		'quote':" No+ o+ne quite prepares yo+u fo+r the fact that o+n the o+ther side o+f death is an infinite echo+ chamber o+f teen drama.",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': [["o", "o+"]]
+	},
+	'latula': {
+		'acronym': 'LATULA',
+		'name': 'Latula',
+		'color': '008282',
+		'quote': "do you 3v3n know how l4m3 of 4 sc3n3 1t 1s b31ng th3 only l3g1t 1n your f4c3 pow3rg4m1ng grl 1n 4 bunch of bubbl3s full of brut4l pos3rz???",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': [["A", "4"], ["a", "4"], ["E", "3"], ["e", "3"], ["I", "1"], ["i", "1"]]
+	},
 	'aranea': {
 		'acronym': 'ARANEA',
 		'name': 'Aranea',
@@ -255,6 +282,7 @@ var characters = {
 		'replacements': [["E", "-E"], ["H", ")("]]
 	}
 }
+
 
 function deleteReplacement(e) {
 	$(this.parentNode).remove();
