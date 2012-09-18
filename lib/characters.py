@@ -56,7 +56,7 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': '[]'
 	},
 	'original character': {
 		'acronym': '**',
@@ -64,7 +64,7 @@ CHARACTER_DETAILS = {
 		'color': 'FF00FF',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': '[]'
 	},
 	'doc scratch': {
 		'acronym': '',
@@ -72,7 +72,7 @@ CHARACTER_DETAILS = {
 		'color': 'FFFFFF',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': '[]'
 	},
 	'calliope': {
 		'acronym': 'UU',
