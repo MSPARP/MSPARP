@@ -58,6 +58,11 @@ def archive_chat(redis, mysql, chat, chat_type=None, backlog=0):
 
     archive_length = redis.llen('chat.'+chat)-backlog
 
+    if archive_length<1:
+        # Nothing to archive; just commit and return.
+        mysql.commit()
+        return log.id
+
     for n in range(archive_length):
         line = redis.lindex('chat.'+chat, n)
         print len(latest_page.content.encode('utf8'))
