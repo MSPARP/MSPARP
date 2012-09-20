@@ -9,6 +9,10 @@ CHARACTERS = {
     'Special/Other': [
         'Anonymous/Other',
         'Original Character',
+        'Ancestor',
+        'Guardian',
+        'Midnight Crew',
+        'Trickster',
         'Doc Scratch',
         'Calliope',
         'Caliborn',
@@ -62,6 +66,38 @@ CHARACTER_DETAILS = {
 		'acronym': '**',
 		'name': 'Original Character',
 		'color': 'FF00FF',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
+	'ancestor': {
+		'acronym': '??',
+		'name': 'Ancestor',
+		'color': '000000',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
+	'guardian': {
+		'acronym': '??',
+		'name': 'Guardian',
+		'color': '000000',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
+	'midnight crew': {
+		'acronym': '??',
+		'name': 'Guardian',
+		'color': '000000',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
+	'trickster': {
+		'acronym': '??',
+		'name': 'Trickster',
+		'color': 'FFAC9F',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'

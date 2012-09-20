@@ -19,6 +19,42 @@ var characters = {
 		'case': 'normal',
 		'replacements': []
 	},
+	'ancestor': {
+		'acronym': '??',
+		'name': 'Ancestor',
+		'color': '000000',
+		'quote': "I saw the look he gave. He's so secure in knowing I can't feel what's in his mind he forgets the tr8torous ways of his own face.",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'guardian': {
+		'acronym': '??',
+		'name': 'Guardian',
+		'color': '000000',
+		'quote': "NOW BE A GOOD GIRL, PUT THE FRIDGE DOWN, AND STAY INSIDE.",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'midnight crew': {
+		'acronym': '??',
+		'name': 'Guardian',
+		'color': '000000',
+		'quote': "Farmin' all these goddamn horses. Fuckin' pain in the ass.",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'trickster': {
+		'acronym': '??',
+		'name': 'Trickster',
+		'color': 'FFAC9F',
+		'quote': "Are you serious?",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
 	'doc scratch': {
 		'acronym': '',
 		'name': 'Doc Scratch',
