@@ -93,8 +93,8 @@ class Session(object):
         old_acronym = self.acronym
         old_color = self.color
 
-        # Truncate acronym to 10 characters.
-        self.acronym = form['acronym'][:10]
+        # Truncate acronym to 15 characters.
+        self.acronym = form['acronym'][:15]
 
         # Validate name
         if len(form['name'])>0:
