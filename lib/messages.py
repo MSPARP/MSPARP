@@ -46,8 +46,7 @@ def send_message(redis, chat, counter, msg_type, text=None, color='000000', acro
             chat_type = redis.get('chat.'+chat+'.type')
 
         # If the last person just left, mark the chat for archiving.
-        if chat_type=='match' and len(user_list)==0:
-            redis.zrem('archive-queue', chat)
+        if len(user_list)==0:
             redis.zadd('delete-queue', chat, get_time(DELETE_MATCH_PERIOD))
 
         json_message['online'] = user_list
