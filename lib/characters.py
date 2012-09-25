@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 CHARACTER_GROUPS = [
     'Special/Other',
     'Humans',
@@ -43,10 +45,14 @@ CHARACTERS = {
         'Feferi',
     ],
     'Pre-scratch Trolls': [
+        'Mituna',
         'Kankri',
+        'Meulin',
         'Porrim',
         'Latula',
         'Aranea',
+        'Kurloz',
+        'Cronus',
         'Meenah',
     ],
 }
@@ -295,6 +301,14 @@ CHARACTER_DETAILS = {
 		'case': 'normal',
 		'replacements': '[["E", "-E"], ["H", ")("], ["h", ")("]]'
 	},
+	'mituna':{
+		'acronym': 'MITUNA',
+		'name': 'Mituna',
+		'color': 'A1A100',
+		'quirk_prefix': '',
+		'case': 'upper',
+		'replacements': '[["A", "4"], ["B", "8"], ["E", "3"], ["I", "1"], ["O", "0"], ["S", "5"], ["T", "7"]]'
+	},
 	'kankri':{
 		'acronym': 'KANKRI',
 		'name': 'Kankri',
@@ -302,6 +316,14 @@ CHARACTER_DETAILS = {
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[["B", "6"], ["b", "6"], ["O", "9"], ["o", "9"]]'
+	},
+	'meulin': {
+		'acronym': 'MEULIN',
+		'name': 'Meulin',
+		'color': '416600',
+		'quirk_prefix': '(=｀ω´=) <',
+		'case': 'upper',
+		'replacements': '[["EE", "33"]]'
 	},
 	'porrim':{
 		'acronym':'PORRIM',
@@ -326,6 +348,22 @@ CHARACTER_DETAILS = {
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[["B", "8"], ["b", "8"]]'
+	},
+	'kurloz': {
+		'acronym': 'KURLOZ',
+		'name': 'Kurloz',
+		'color': '2B0057',
+		'quirk_prefix': '',
+		'case': 'upper',
+		'replacements': '[]'
+	},
+	'cronus': {
+		'acronym': 'CRONUS',
+		'name': 'Cronus',
+		'color': '6A006A',
+		'quirk_prefix': '',
+		'case': 'lower',
+		'replacements': '[["v", "vw"], ["w", "wv"]]'
 	},
 	'meenah': {
 		'acronym': 'MEENAH',

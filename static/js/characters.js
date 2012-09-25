@@ -272,6 +272,15 @@ var characters = {
 		'case': 'normal',
 		'replacements': [["E", "-E"], ["H", ")("], ["h", ")("]]
 	},
+	'mituna':{
+		'acronym': 'MITUNA',
+		'name': 'Mituna',
+		'color': 'A1A100',
+		'quote': "K17H5 MY CH4GR1N 7UNK3L Y0U 5N4NK 4ZZ CHUM8UCK357",
+		'quirk_prefix': '',
+		'case': 'upper',
+		'replacements': [["A", "4"], ["B", "8"], ["E", "3"], ["I", "1"], ["O", "0"], ["S", "5"], ["T", "7"]]
+	},
 	'kankri':{
 		'acronym': 'KANKRI',
 		'name': 'Kankri',
@@ -280,6 +289,15 @@ var characters = {
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': [["B", "6"], ["b", "6"], ["O", "9"], ["o", "9"]]
+	},
+	'meulin': {
+		'acronym': 'MEULIN',
+		'name': 'Meulin',
+		'color': '416600',
+		'quote': "(=；ェ；=)  < YOU DON'T UNDERSTAND, M33NAH. THE F33LS. THE F333333333LS!!!!!!!!!",
+		'quirk_prefix': '(=｀ω´=) <',
+		'case': 'upper',
+		'replacements': [["EE", "33"]]
 	},
 	'porrim':{
 		'acronym':'PORRIM',
@@ -291,6 +309,7 @@ var characters = {
 		'replacements': [["o", "o+"]]
 	},
 	'latula': {
+
 		'acronym': 'LATULA',
 		'name': 'Latula',
 		'color': '008282',
@@ -307,6 +326,24 @@ var characters = {
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': [["B", "8"], ["b", "8"]]
+	},
+	'kurloz': {
+		'acronym': 'KURLOZ',
+		'name': 'Kurloz',
+		'color': '2B0057',
+		'quote': "",
+		'quirk_prefix': '',
+		'case': 'upper',
+		'replacements': []
+	},
+	'cronus': {
+		'acronym': 'CRONUS',
+		'name': 'Cronus',
+		'color': '6A006A',
+		'quote': "i just sawv you strutting in my direction, vwith all of your impressivwe moxy and confidence, for the first time in, howv long?",
+		'quirk_prefix': '',
+		'case': 'lower',
+		'replacements': [["v", "vw"], ["w", "wv"]]
 	},
 	'meenah': {
 		'acronym': 'MEENAH',
