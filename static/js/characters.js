@@ -291,6 +291,7 @@ var characters = {
 		'replacements': [["B", "6"], ["b", "6"], ["O", "9"], ["o", "9"]]
 	},
 	'meulin': {
+
 		'acronym': 'MEULIN',
 		'name': 'Meulin',
 		'color': '416600',
@@ -343,7 +344,7 @@ var characters = {
 		'quote': "i just sawv you strutting in my direction, vwith all of your impressivwe moxy and confidence, for the first time in, howv long?",
 		'quirk_prefix': '',
 		'case': 'lower',
-		'replacements': [["v", "vw"], ["w", "wv"]]
+		'replacements': [["B", "8"], ["v", ""], ["w", "wv"], ["", "vw"]]
 	},
 	'meenah': {
 		'acronym': 'MEENAH',
