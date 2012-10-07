@@ -2,8 +2,20 @@ from flask import g, request, abort
 from redis import Redis
 
 from lib import validate_chat_url
+from characters import CHARACTER_DETAILS
 from model import sm
 from sessions import Session
+
+# Application start
+
+def populate_all_chars():
+    redis = Redis(unix_socket_path='/tmp/redis.sock')
+    pipe = redis.pipeline()
+    pipe.delete('all-chars')
+    pipe.sadd('all-chars', *CHARACTER_DETAILS.keys())
+    pipe.execute()
+    del pipe
+    del redis
 
 # Before request
 

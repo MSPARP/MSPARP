@@ -9,11 +9,12 @@ from lib.archive import archive_chat
 from lib.characters import CHARACTER_GROUPS, CHARACTERS
 from lib.messages import parse_line
 from lib.model import Log, LogPage
-from lib.requests import connect_redis, connect_mysql, create_normal_session, set_cookie, disconnect_redis, disconnect_mysql
+from lib.requests import populate_all_chars, connect_redis, connect_mysql, create_normal_session, set_cookie, disconnect_redis, disconnect_mysql
 
 app = Flask(__name__)
 
 # Pre and post request stuff
+app.before_first_request(populate_all_chars)
 app.before_request(connect_redis)
 app.before_request(connect_mysql)
 app.before_request(create_normal_session)
