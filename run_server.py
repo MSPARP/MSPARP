@@ -1,26 +1,37 @@
+import os
 import sys
+from gevent.socket import getfqdn, socket, AF_UNIX
 from gevent.wsgi import WSGIServer
 from gevent import monkey; monkey.patch_socket()
 
 try:
     if sys.argv[1]=='main':
         from main import app
-        port = 8000
     elif sys.argv[1]=='chat':
         from chat import app
-        port = 9000
 except ImportError:
-    sys.exit("Usage: python run_server.py (main|chat) (port) [--debug]")
-
-try:
-    # If we can get a port from the arguments, override the default.
-    port = int(sys.argv[2])
-except:
-    pass
+    sys.exit("Usage: python run_server.py (main|chat) [--debug]")
 
 if '--debug' in sys.argv:
     app.debug = True
 
-http_server = WSGIServer(('', port), app)
+socket_path = '/tmp/'+sys.argv[1]+'.sock'
+
+# Delete the socket file if it already exists.
+try:
+    os.remove(socket_path)
+except OSError:
+    pass
+
+sock = socket(AF_UNIX)
+sock.bind(socket_path)
+sock.setblocking(0)
+sock.listen(256)
+
+os.chmod(socket_path, 0777)
+
+http_server = WSGIServer(sock, app)
+# yeah this is a hack.
+http_server.environ['SERVER_NAME'] = getfqdn()
 http_server.serve_forever()
 
