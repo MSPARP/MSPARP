@@ -363,7 +363,7 @@ CHARACTER_DETAILS = {
 		'color': '6A006A',
 		'quirk_prefix': '',
 		'case': 'lower',
-		'replacements': '[["v", "vw"], ["w", "wv"]]'
+		'replacements': '[["B", "8"], ["v", ""], ["w", "wv"], ["", "vw"]]'
 	},
 	'meenah': {
 		'acronym': 'MEENAH',
