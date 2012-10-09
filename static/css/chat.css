@@ -2,8 +2,8 @@
 
 body {
 	margin: 5px;
-	background-color: #cccccc;
-	background-attachment: fixed;
+	background: url("http://static.tumblr.com/6cj8813/1bXmaf994/countdown.gif") repeat fixed 0 0 #F7F7F7;
+	color: #838383;
 }
 
 body, button, input, select, optgroup, option {
@@ -31,16 +31,13 @@ p {
 }
 
 button, input, select, #conversation, #settings, #userList, #preview, .pager, #archiveConversation {
-	border: 1px solid #999999;
-	border-radius: 1px;
-}
-
-#conversation, #settings, #userList, #preview, .pager, #archiveConversation {
-	background-color: #eeeeee;
+	border: 1px solid transparent;
+	border-radius: 5px;
+	background-color: rgba(255, 255, 255, 0.15);
 }
 
 button, input, select {
-	background-color: rgba(255,255,255,0.8);
+	color: #a3a3a3;
 }
 
 input[type="submit"], button {
@@ -65,7 +62,7 @@ optgroup option {
 }
 
 input:focus, input:hover, select:focus, select:hover, button:hover {
-	background-color: #ffffff;
+	background-color: rgba(255, 255, 255, 0.2);
 }
 
 /* Chat layout */
@@ -138,7 +135,7 @@ body.withSidebar #controls {
 }
 
 #preview {
-	margin: 0 -3px -1px -3px;
+	margin: 0 -3px 1px -3px;
 	padding: 2px;
 	overflow: hidden;
 }
@@ -159,7 +156,7 @@ body #userListButton {
 }
 
 .highlight {
-	background-color: #ffffff;
+	background-color: rgba(255, 255, 255, 0.15);
 }
 
 body > #save {

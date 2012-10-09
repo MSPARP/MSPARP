@@ -21,7 +21,7 @@ class Session(object):
     DEFAULTS = {
         'acronym': '??',
         'name': 'Anonymous',
-        'color': '000000',
+        'color': '838383',
         'character': 'anonymous/other',
         'quirk_prefix': '',
         'case': 'normal',

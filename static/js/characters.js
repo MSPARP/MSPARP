@@ -4,7 +4,7 @@ var characters = {
 	'anonymous/other': {
 		'acronym': '??',
 		'name': 'anonymous',
-		'color': '000000',
+		'color': '838383',
 		'quote': "some random text for previewing purposes",
 		'quirk_prefix': '',
 		'case': 'normal',
@@ -22,7 +22,7 @@ var characters = {
 	'ancestor': {
 		'acronym': '??',
 		'name': 'Ancestor',
-		'color': '000000',
+		'color': '838383',
 		'quote': "I saw the look he gave. He's so secure in knowing I can't feel what's in his mind he forgets the tr8torous ways of his own face.",
 		'quirk_prefix': '',
 		'case': 'normal',
@@ -31,7 +31,7 @@ var characters = {
 	'guardian': {
 		'acronym': '??',
 		'name': 'Guardian',
-		'color': '000000',
+		'color': '838383',
 		'quote': "NOW BE A GOOD GIRL, PUT THE FRIDGE DOWN, AND STAY INSIDE.",
 		'quirk_prefix': '',
 		'case': 'normal',
@@ -40,7 +40,7 @@ var characters = {
 	'midnight crew': {
 		'acronym': '??',
 		'name': 'Guardian',
-		'color': '000000',
+		'color': '838383',
 		'quote': "Farmin' all these goddamn horses. Fuckin' pain in the ass.",
 		'quirk_prefix': '',
 		'case': 'normal',

@@ -59,19 +59,28 @@ div.chat-container {
 
 /* Homepage */
 
+body {
+	background: url("http://static.tumblr.com/6cj8813/1bXmaf994/countdown.gif") repeat fixed 0 0 #F7F7F7;
+	margin: 20px;
+	color: #838383;
+}
+
+a {
+	color: #838383;
+}
+
 noscript, error {
 	color: #ff0000;
 }
 
 div.online-notice {
 	float: right;
-	border: 1px solid black;
-	background: white;
-	color: black;
-	padding: 5px;
+	background-color: rgba(255, 255, 255, 0.15);
+	border-radius: 50px;
+	margin: 20px;
+	padding: 15px 20px;
 	max-width: 400px;
 	max-height: 180px;
-	overflow: auto;
 }
 
 .online-notice h1 {
@@ -81,8 +90,10 @@ div.online-notice {
 }
 
 div.options {
-	border: 1px solid black;
-	padding: 1em;
+	background-color: rgba(255, 255, 255, 0.15);
+	border-radius: 50px;
+	margin-bottom: 20px;
+	padding: 2em;
 }
 
 div.options h1 {
@@ -102,7 +113,6 @@ select.character-select {
 	font-family: courier,monospace;
 	font-weight: bold;
 	font-size: 12px;
-	background-color: #EEE;
 }
 
 #color-preview {

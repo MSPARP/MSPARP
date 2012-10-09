@@ -63,7 +63,7 @@ CHARACTER_DETAILS = {
 	'anonymous/other': {
 		'acronym': '??',
 		'name': 'anonymous',
-		'color': '000000',
+		'color': '838383',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -79,7 +79,7 @@ CHARACTER_DETAILS = {
 	'ancestor': {
 		'acronym': '??',
 		'name': 'Ancestor',
-		'color': '000000',
+		'color': '838383',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -87,7 +87,7 @@ CHARACTER_DETAILS = {
 	'guardian': {
 		'acronym': '??',
 		'name': 'Guardian',
-		'color': '000000',
+		'color': '838383',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -95,7 +95,7 @@ CHARACTER_DETAILS = {
 	'midnight crew': {
 		'acronym': '??',
 		'name': 'Guardian',
-		'color': '000000',
+		'color': '838383',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
