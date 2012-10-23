@@ -301,6 +301,22 @@ CHARACTER_DETAILS = {
 		'case': 'normal',
 		'replacements': '[["E", "-E"], ["H", ")("], ["h", ")("]]'
 	},
+	'damara': {
+		'acronym': 'DAMARA',
+		'name': 'Damara',
+		'color': 'A10000',
+		'quirk_prefix': '',
+		'case': 'upper',
+		'replacements': '[]'
+	},
+	'rufioh': {
+		'acronym': 'RUFIOH',
+		'name': 'Rufioh',
+		'color': 'A15000',
+		'quirk_prefix': '',
+		'case': 'lower',
+		'replacements': '[["i", "1"]]'
+	},
 	'mituna':{
 		'acronym': 'MITUNA',
 		'name': 'Mituna',
@@ -348,6 +364,14 @@ CHARACTER_DETAILS = {
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[["B", "8"], ["b", "8"]]'
+	},
+	'horuss': {
+		'acronym': 'HORUSS',
+		'name': 'Horuss',
+		'color': '000056',
+		'quirk_prefix': '8=D <',
+		'case': 'normal',
+		'replacements': '[["X", "%"], ["x", "%"], ["loo", "100"], ["ool", "001"]]'
 	},
 	'kurloz': {
 		'acronym': 'KURLOZ',

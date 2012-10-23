@@ -243,7 +243,6 @@ var characters = {
 		'quirk_prefix': 'D -->',
 		'case': 'normal',
 		'replacements': [["X", "%"], ["x", "%"], ["loo", "100"], ["ool", "001"]]
-		
 	},
 	'gamzee': {
 		'acronym': 'TC',
@@ -272,6 +271,24 @@ var characters = {
 		'case': 'normal',
 		'replacements': [["E", "-E"], ["H", ")("], ["h", ")("]]
 	},
+	'damara': {
+		'acronym': 'DAMARA',
+		'name': 'Damara',
+		'color': 'A10000',
+		'quote': "私が覚えている。 時々私は、そのメモリに自慰行為。",
+		'quirk_prefix': '',
+		'case': 'upper',
+		'replacements': []
+	},
+	'rufioh': {
+		'acronym': 'RUFIOH',
+		'name': 'Rufioh',
+		'color': 'A15000',
+		'quote': "really, 1 thought 1t would be alr1ght, just flapp1ng w1ngs around... 1 could st1ll fly and just hang there l1mp... m1ght have been a dope look!",
+		'quirk_prefix': '',
+		'case': 'lower',
+		'replacements': [["i", "1"]]
+	},
 	'mituna':{
 		'acronym': 'MITUNA',
 		'name': 'Mituna',
@@ -291,7 +308,6 @@ var characters = {
 		'replacements': [["B", "6"], ["b", "6"], ["O", "9"], ["o", "9"]]
 	},
 	'meulin': {
-
 		'acronym': 'MEULIN',
 		'name': 'Meulin',
 		'color': '416600',
@@ -310,7 +326,6 @@ var characters = {
 		'replacements': [["o", "o+"]]
 	},
 	'latula': {
-
 		'acronym': 'LATULA',
 		'name': 'Latula',
 		'color': '008282',
@@ -327,6 +342,15 @@ var characters = {
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': [["B", "8"], ["b", "8"]]
+	},
+	'horuss': {
+		'acronym': 'HORUSS',
+		'name': 'Horuss',
+		'color': '000056',
+		'quote': "8=========D < Why the long face?",
+		'quirk_prefix': '8=D <',
+		'case': 'normal',
+		'replacements': [["X", "%"], ["x", "%"], ["loo", "100"], ["ool", "001"]]
 	},
 	'kurloz': {
 		'acronym': 'KURLOZ',
