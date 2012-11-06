@@ -2,6 +2,7 @@ from functools import wraps
 from flask import Flask, g, request, render_template, make_response, jsonify, abort
 
 from lib import PING_PERIOD, ARCHIVE_PERIOD, get_time
+from lib.api import disconnect, get_online_state
 from lib.characters import CHARACTER_DETAILS
 from lib.messages import send_message, get_user_list, parse_messages
 from lib.requests import populate_all_chars, connect_redis, create_chat_session, set_cookie, disconnect_redis
@@ -35,20 +36,17 @@ def mark_alive(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         chat = request.form['chat']
-        state_key = 'chat.%s.sessions' % chat
-        session_state = g.redis.hget(state_key, g.user.session)
-        if session_state is None:
-            # This session has never been in this chat before; we need to add them to the counter.
-            g.redis.rpush('chat.%s.counter' % chat, g.user.session)
-            g.redis.sadd('session.%s.chats' % g.user.session, chat)
-        if session_state not in ['online', 'away']:
-            # Remove from the delete queue and add to the archive queue.
+        online_state = get_online_state(g.redis, chat, g.user.session)
+        if online_state=='offline':
+            # The user isn't online already. Add them to the chat.
+            # Remove the chat from the delete queue and add to the archive queue.
             g.redis.zrem('delete-queue', chat)
             if g.redis.zscore('archive-queue', chat) is None:
                 g.redis.zadd('archive-queue', chat, get_time(ARCHIVE_PERIOD))
             # Set user state.
-            g.redis.hset(state_key, g.user.session, 'online')
+            g.redis.sadd('chat.'+chat+'.online', g.user.session)
             if g.user.group=='silent':
+                # Tell getMessages() to fake a join message for this user.
                 join_message = None
                 g.fake_join_message = True
             else:
@@ -179,15 +177,9 @@ def getMessages():
 
 @app.route('/quit', methods=['POST'])
 def quitChatting():
-    # Check if they're actually a member of the chat first?
-    chatkey = 'chat.%s.sessions' % request.form['chat']
-    if g.redis.hexists(chatkey, g.user.session):
-        g.redis.zrem('chats-alive', request.form['chat']+'/'+g.user.session)
-        g.redis.hset(chatkey, g.user.session, 'offline')
-        g.redis.srem('sessions-chatting', g.user.session)
-        disconnect_message = '%s [%s] disconnected.' % (g.user.name, g.user.acronym) if g.user.group!='silent' else None
-        send_message(g.redis, request.form['chat'], -1, 'user_change', disconnect_message)
-        return 'ok'
+    disconnect_message = '%s [%s] disconnected.' % (g.user.name, g.user.acronym) if g.user.group!='silent' else None
+    disconnect(g.redis, request.form['chat'], g.user.session, disconnect_message)
+    return 'ok'
 
 @app.route('/save', methods=['POST'])
 def save():

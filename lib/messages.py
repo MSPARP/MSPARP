@@ -61,6 +61,11 @@ def send_message(redis, chat, counter, msg_type, text=None, color='000000', acro
 
 def get_user_list(redis, chat, audience):
 
+        user_list = []
+        if audience=='both':
+            return user_list, user_list
+        return user_list
+
         # Audience can be mod, user or all.
         # If it's mod, we return the full userlist.
         # If it's user, we return the userlist with silent users covered up.

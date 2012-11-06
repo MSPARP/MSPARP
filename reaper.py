@@ -5,6 +5,7 @@ import time
 import datetime
 
 from lib import PING_PERIOD, SEARCH_PERIOD, ARCHIVE_PERIOD, get_time
+from lib.api import disconnect
 from lib.archive import archive_chat, delete_chat
 from lib.messages import send_message
 from lib.model import sm
@@ -26,15 +27,13 @@ if __name__=='__main__':
     while True:
 
         for dead in redis.zrangebyscore('chats-alive', 0, get_time()):
-            chat, session = dead.split('/') # FIXME: what if a user fucks this up by sticking a / in their uid?
-            redis.zrem('chats-alive', dead)
-            redis.hset(('chat.%s.sessions' % chat), session, 'offline')
-            redis.srem('sessions-chatting', session)
+            chat, session = dead.split('/')
             dead_session = PartialSession(redis, session, chat)
             name = dead_session.name
             disconnect_message = None
             if dead_session.group!='silent':
                 disconnect_message = '%s\'s connection timed out. Please don\'t quit straight away; they could be back.' % (name)
+            disconnect(redis, chat, session, disconnect_message)
             send_message(redis, chat, -1, 'user_change', disconnect_message)
             print 'dead', dead, name
 

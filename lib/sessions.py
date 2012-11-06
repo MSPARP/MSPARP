@@ -202,5 +202,5 @@ class PartialSession(object):
 
 
 def get_counter(chat, session):
-    return g.redis.lrange('chat.'+chat+'.counter', 0, -1).index(session)
+    return -2
 
