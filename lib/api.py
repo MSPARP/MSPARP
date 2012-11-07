@@ -25,6 +25,13 @@ def ping(redis, chat, session):
     # Return True if the calling function needs to fake a join message.
     return fake_join_message
 
+def change_state(redis, chat, session_id, state):
+    current_state = get_online_state(redis, chat, session_id)
+    if state!=current_state:
+        redis.smove('chat.'+chat+'.'+current_state, 'chat.'+chat+'.'+state, session_id)
+        # Update userlist.
+        send_message(redis, chat, -1, 'user_change')
+
 def disconnect(redis, chat, session_id, disconnect_message=None):
     online_state = get_online_state(redis, chat, session_id)
     if online_state!='offline':

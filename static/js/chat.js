@@ -100,7 +100,7 @@ $(document).ready(function() {
 				}
 				if (typeof data.online!=="undefined") {
 					// Reload user lists.
-					$("#online > li, #away > li").appendTo(holdingList);
+					$("#online > li, #idle > li").appendTo(holdingList);
 					for (var i=0; i<data.online.length; i++) {
 						var currentUser = data.online[i];
 						if (currentUser.counter==userCounter) {
@@ -320,11 +320,11 @@ $(document).ready(function() {
 
 		$('#disconnectButton').click(disconnect);
 
-		$('#awayButton').click(function() {
-			if (userState=='away') {
+		$('#idleButton').click(function() {
+			if (userState=='idle') {
 				newState = 'online';
 			} else {
-				newState = 'away';
+				newState = 'idle';
 			}
 			$.post(POST_URL, {'chat': chat, 'state': newState}, function(data) {
 				userState = newState;

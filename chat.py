@@ -2,7 +2,7 @@ from functools import wraps
 from flask import Flask, g, request, render_template, make_response, jsonify, abort
 
 from lib import PING_PERIOD, ARCHIVE_PERIOD, get_time
-from lib.api import ping, disconnect, get_online_state
+from lib.api import ping, change_state, disconnect, get_online_state
 from lib.characters import CHARACTER_DETAILS
 from lib.messages import send_message, get_user_list, parse_messages
 from lib.requests import populate_all_chars, connect_redis, create_chat_session, set_cookie, disconnect_redis
@@ -54,14 +54,8 @@ def postMessage():
             send_message(g.redis, chat, counter, 'private', line, g.user.color, g.user.acronym, g.user.session)
         else:
             send_message(g.redis, chat, counter, 'message', line, g.user.color, g.user.acronym)
-    if 'state' in request.form and request.form['state'] in ['online', 'away']:
-        current_state = g.redis.hget('chat.%s.sessions' % chat, g.user.session)
-        if request.form['state']!=current_state:
-            g.redis.hset('chat.%s.sessions' % chat, g.user.session, request.form['state'])
-            if request.form['state']=='away':
-                send_message(g.redis, chat, -1, 'user_change')
-            else:
-                send_message(g.redis, chat, -1, 'user_change')
+    if 'state' in request.form and request.form['state'] in ['online', 'idle']:
+        change_state(g.redis, chat, g.user.session, request.form['state'])
     if 'set_group' in request.form and 'counter' in request.form:
         if g.user.group=='mod':
             set_group = request.form['set_group']
