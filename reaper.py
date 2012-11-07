@@ -34,7 +34,6 @@ if __name__=='__main__':
             if dead_session.group!='silent':
                 disconnect_message = '%s\'s connection timed out. Please don\'t quit straight away; they could be back.' % (name)
             disconnect(redis, chat, session, disconnect_message)
-            send_message(redis, chat, -1, 'user_change', disconnect_message)
             print 'dead', dead, name
 
         for dead in redis.zrangebyscore('searchers', 0, get_time()):

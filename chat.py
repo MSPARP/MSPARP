@@ -2,7 +2,7 @@ from functools import wraps
 from flask import Flask, g, request, render_template, make_response, jsonify, abort
 
 from lib import PING_PERIOD, ARCHIVE_PERIOD, get_time
-from lib.api import disconnect, get_online_state
+from lib.api import ping, disconnect, get_online_state
 from lib.characters import CHARACTER_DETAILS
 from lib.messages import send_message, get_user_list, parse_messages
 from lib.requests import populate_all_chars, connect_redis, create_chat_session, set_cookie, disconnect_redis
@@ -35,27 +35,8 @@ def get_wanted_channels(channel_main, channel_mod, channel_self):
 def mark_alive(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        chat = request.form['chat']
-        online_state = get_online_state(g.redis, chat, g.user.session)
-        if online_state=='offline':
-            # The user isn't online already. Add them to the chat.
-            # Remove the chat from the delete queue and add to the archive queue.
-            g.redis.zrem('delete-queue', chat)
-            if g.redis.zscore('archive-queue', chat) is None:
-                g.redis.zadd('archive-queue', chat, get_time(ARCHIVE_PERIOD))
-            # Set user state.
-            g.redis.sadd('chat.'+chat+'.online', g.user.session)
-            if g.user.group=='silent':
-                # Tell getMessages() to fake a join message for this user.
-                join_message = None
-                g.fake_join_message = True
-            else:
-                join_message = '%s [%s] joined chat.' % (g.user.name, g.user.acronym)
-            send_message(g.redis, chat, -1, 'user_change', join_message)
-            g.redis.sadd('sessions-chatting', g.user.session)
-            # Add character to chat character list.
-            g.redis.sadd('chat.'+chat+'.characters', g.user.character)
-        g.redis.zadd('chats-alive', chat+'/'+g.user.session, get_time(PING_PERIOD*2))
+        if ping(g.redis, request.form['chat'], g.user):
+            g.fake_join_message = True
         return f(*args, **kwargs)
     return decorated_function
 
