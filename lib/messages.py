@@ -43,7 +43,7 @@ def send_message(redis, chat, counter, msg_type, text=None, color='000000', acro
         try:
             chat_type = g.chat_type
         except RuntimeError:
-            chat_type = redis.get('chat.'+chat+'.type')
+            chat_type = redis.hget('chat.'+chat+'.meta', 'type')
 
         # If the last person just left, mark the chat for archiving.
         if len(user_list)==0:

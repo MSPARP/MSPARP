@@ -60,7 +60,7 @@ if __name__=='__main__':
             for chat in redis.zrangebyscore('delete-queue', 0, get_time()):
                 # Check type, don't delete group chats for now.
                 print "deleting chat "+chat
-                if redis.get('chat.'+chat+'.type') in ['match', None]:
+                if redis.hget('chat.'+chat+'.meta','type') in ['match', None]:
                     # If it's been saved before, save it again.
                     if redis.llen('chat.'+chat)!=0:
                         print "saving before deletion"

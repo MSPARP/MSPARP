@@ -49,7 +49,7 @@ def new_page(mysql, log, last=0):
 def archive_chat(redis, mysql, chat, chat_type=None, backlog=0):
 
     if chat_type is None:
-        chat_type = redis.get('chat.'+chat+'.type')
+        chat_type = redis.hget('chat.'+chat+'.meta', 'type')
 
     log, latest_page = get_or_create_log(redis, mysql, chat, chat_type)
 
@@ -88,8 +88,10 @@ def archive_chat(redis, mysql, chat, chat_type=None, backlog=0):
 
 def delete_chat(redis, chat):
 
+    # XXX PIPELINE THIS???
+
     # Delete type first because it's used to check whether a chat exists.
-    redis.delete('chat.'+chat+'.type')
+    redis.delete('chat.'+chat+'.meta')
 
     sessions = redis.lrange('chat.'+chat+'.counter', 0, -1)
     for session in sessions:

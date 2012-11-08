@@ -20,7 +20,7 @@ def shuffled(seq):
 
 def match(picky, first, second):
     chat=str(uuid.uuid4()).replace('-','')
-    redis.set('chat.'+chat+'.type', 'match')
+    redis.hset('chat.'+chat+'.meta', 'type', 'match')
     redis.set('session.'+first+'.match', chat)
     redis.set('session.'+second+'.match', chat)
     redis.zrem('searchers', first)

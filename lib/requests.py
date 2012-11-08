@@ -42,7 +42,7 @@ def create_chat_session():
         chat = request.form['chat']
     else:
         abort(400)
-    g.chat_type = g.redis.get('chat.'+chat+'.type')
+    g.chat_type = g.redis.hget('chat.'+chat+'.meta', 'type')
     if g.chat_type is None:
         abort(404)
     g.user = user = Session(g.redis, session, chat)

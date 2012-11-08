@@ -49,7 +49,7 @@ def chat(chat=None):
         latest_num = -1
     else:
         # Check if chat exists
-        chat_type = g.redis.get('chat.'+chat+'.type')
+        chat_type = g.redis.hget('chat.'+chat+'.meta', 'type')
         if chat_type is None:
             abort(404)
         # Load chat-based session data.
@@ -104,7 +104,7 @@ def save():
                 raise ValueError('chaturl_invalid')
             g.user.set_chat(chat)
             g.user.set_group('mod')
-            g.redis.set('chat.'+chat+'.type', 'group')
+            g.redis.hset('chat.'+chat+'.meta', 'type', 'group')
             g.mysql.add(Log(url=chat))
             g.mysql.commit()
             return redirect(url_for('chat', chat=chat))
@@ -122,7 +122,7 @@ def save():
 def save_log():
     if not validate_chat_url(request.form['chat']):
         abort(400)
-    chat_type = g.redis.get('chat.'+request.form['chat']+'.type')
+    chat_type = g.redis.hget('chat.'+request.form['chat']+'.meta', 'type')
     if chat_type!='match':
         abort(400)
     log_id = archive_chat(g.redis, g.mysql, request.form['chat'], chat_type)
