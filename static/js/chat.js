@@ -77,7 +77,7 @@ $(document).ready(function() {
 			document.title = 'Chat - '+ORIGINAL_TITLE;
 			conversation.removeClass('search');
 			$('input, select, button').removeAttr('disabled');
-			$('#preview').css('color', '#'+user.color);
+			$('#preview').css('color', '#'+user.character.color);
 			$('#logLink').attr('href', '/chat/'+chat+'/log');
 			closeSettings();
 			getMessages();
@@ -105,7 +105,7 @@ $(document).ready(function() {
 						var currentUser = data.online[i];
 						if (currentUser.counter==userCounter) {
 							// Set self-related things here.
-							user.group = currentUser.group;
+							user.meta.group = currentUser.group;
 						}
 						// Get or create a list item.
 						var listItem = $(holdingList).find('#user'+currentUser.counter);
@@ -206,7 +206,7 @@ $(document).ready(function() {
 				} else {
 					$('<li />').text('Highlight posts').appendTo(actionList).click(function() { highlightPosts(userData.counter); });
 				}
-				if (user.group=='mod') {
+				if (user.meta.group=='mod') {
 					if (userData.group=='mod') {
 						$('<li />').text('Unmod').appendTo(actionList).click(function() { setUserGroup('user', userData.counter); });
 					} else {
@@ -353,15 +353,15 @@ $(document).ready(function() {
 					var formInputs = $('#settings').find('input, select');
 					for (i=0; i<formInputs.length; i++) {
 						if (formInputs[i].name!="quirk_from" && formInputs[i].name!="quirk_to") {
-							user[formInputs[i].name] = formInputs[i].value;
+							user.character[formInputs[i].name] = formInputs[i].value;
 						}
 					}
-					user.replacements = [];
+					user.character.replacements = [];
 					var replacementsFrom = $('#settings').find('input[name="quirk_from"]');
 					var replacementsTo = $('#settings').find('input[name="quirk_to"]');
 					for (i=0; i<replacementsFrom.length; i++) {
 						if (replacementsFrom[i].value!="" && replacementsFrom[i].value!=replacementsTo[i].value) {
-							user.replacements.push([replacementsFrom[i].value, replacementsTo[i].value])
+							user.character.replacements.push([replacementsFrom[i].value, replacementsTo[i].value])
 						}
 					}
 					closeSettings();

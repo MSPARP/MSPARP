@@ -1,4 +1,4 @@
-import urllib
+import json, urllib
 from flask import Flask, g, request, render_template, redirect, url_for, jsonify, abort
 from sqlalchemy import and_
 from sqlalchemy.orm.exc import NoResultFound
@@ -10,6 +10,7 @@ from lib.characters import CHARACTER_GROUPS, CHARACTERS
 from lib.messages import parse_line
 from lib.model import Log, LogPage
 from lib.requests import populate_all_chars, connect_redis, connect_mysql, create_normal_session, set_cookie, disconnect_redis, disconnect_mysql
+from lib.sessions import CASE_OPTIONS
 
 app = Flask(__name__)
 
@@ -28,11 +29,12 @@ def show_homepage(error):
     return render_template('frontpage.html',
         error=error,
         user=g.user,
-        character_dict=g.user.character_dict(unpack_replacements=True),
+        replacements=json.loads(g.user.character['replacements']),
         picky=g.redis.smembers(g.user.prefix+'.picky') or set(),
+        case_options=CASE_OPTIONS,
         groups=CHARACTER_GROUPS,
         characters=CHARACTERS,
-        default_char=g.user.character,
+        default_char=g.user.character['character'],
         users_searching=g.redis.zcard('searchers'),
         users_chatting=g.redis.scard('sessions-chatting')
     )
@@ -60,7 +62,8 @@ def chat(chat=None):
     return render_template(
         'chat.html',
         user=g.user,
-        character_dict=g.user.character_dict(unpack_replacements=True),
+        character_dict=g.user.json_info(),
+        case_options=CASE_OPTIONS,
         groups=CHARACTER_GROUPS,
         characters=CHARACTERS,
         chat=chat,
@@ -73,17 +76,17 @@ def chat(chat=None):
 
 @app.route('/search', methods=['POST'])
 def foundYet():
-    target=g.redis.get('session.'+g.user.session+'.match')
+    target=g.redis.get('session.'+g.user.session_id+'.match')
     if target:
-        g.redis.delete('session.'+g.user.session+'.match')
+        g.redis.delete('session.'+g.user.session_id+'.match')
         return jsonify(target=target)
     else:
-        g.redis.zadd('searchers', g.user.session, get_time(SEARCH_PERIOD*2))
+        g.redis.zadd('searchers', g.user.session_id, get_time(SEARCH_PERIOD*2))
         abort(404)
 
 @app.route('/stop_search', methods=['POST'])
 def quitSearching():
-    g.redis.zrem('searchers', g.user.session)
+    g.redis.zrem('searchers', g.user.session_id)
     return 'ok'
 
 # Save

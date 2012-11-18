@@ -1,7 +1,7 @@
 function applyQuirks(text) {
 
 	// Case
-	switch (user['case']) {
+	switch (user.character['case']) {
 		case "lower":
 			text = text.toLowerCase();
 			break;
@@ -32,8 +32,8 @@ function applyQuirks(text) {
 	}
 
 	// Replacements
-	for (i=0; i<user.replacements.length; i++) {
-		var replacement = user.replacements[i];
+	for (i=0; i<user.character.replacements.length; i++) {
+		var replacement = user.character.replacements[i];
 		// We're doing it like this because regular expressions pick up slashes
 		// and stuff as control characters, and string replacement only picks up
 		// the first occurence in Chrome.
@@ -41,8 +41,8 @@ function applyQuirks(text) {
 	}
 
 	// Prefix
-	if (user.quirk_prefix!='') {
-		text = user.quirk_prefix+' '+text;
+	if (user.character.quirk_prefix!='') {
+		text = user.character.quirk_prefix+' '+text;
 	}
 
 	return text

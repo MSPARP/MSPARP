@@ -94,9 +94,10 @@ def delete_chat(redis, chat):
     redis.delete('chat.'+chat+'.meta')
 
     sessions = redis.lrange('chat.'+chat+'.counter', 0, -1)
-    for session in sessions:
-        redis.srem('session.'+session+'.chats', chat)
-        redis.delete('session.'+session+'.chat.'+chat)
+    for session_id in sessions:
+        redis.srem('session.'+session_id+'.chats', chat)
+        redis.delete('session.'+session_id+'.chat.'+chat)
+        redis.delete('session.'+session_id+'.meta.'+chat)
 
     redis.delete('chat.'+chat+'.counter')
     redis.delete('chat.'+chat+'.characters')
