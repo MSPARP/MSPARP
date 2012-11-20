@@ -4,7 +4,7 @@ from flask import Flask, g, request, render_template, make_response, jsonify, ab
 from lib import PING_PERIOD, ARCHIVE_PERIOD, get_time
 from lib.api import ping, change_state, disconnect, get_online_state
 from lib.characters import CHARACTER_DETAILS
-from lib.messages import send_message, get_user_list, parse_messages
+from lib.messages import send_message, get_userlists, hide_silence, parse_messages
 from lib.requests import populate_all_chars, connect_redis, create_chat_session, set_cookie, disconnect_redis
 from lib.sessions import get_counter
 
@@ -128,7 +128,9 @@ def getMessages():
             }
 
     if message_dict:
-        message_dict['online'] = get_user_list(g.redis, chat, 'mod' if g.user.meta['group']=='mod' else 'user')
+        message_dict['online'], message_dict['idle'], silent_users = get_userlists(g.redis, chat)
+        if silent_users is True and g.user.meta['group']!='mod':
+            hide_silence(message_dict['online'], message_dict['idle'])
         if 'fetchCounter' in request.form:
             message_dict['counter'] = get_counter(chat, g.user.session_id)
         return jsonify(message_dict)

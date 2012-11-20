@@ -99,39 +99,41 @@ $(document).ready(function() {
 					userCounter = data.counter;
 				}
 				if (typeof data.online!=="undefined") {
-					// Reload user lists.
-					$("#online > li, #idle > li").appendTo(holdingList);
-					for (var i=0; i<data.online.length; i++) {
-						var currentUser = data.online[i];
-						if (currentUser.counter==userCounter) {
-							// Set self-related things here.
-							user.meta.group = currentUser.group;
-						}
-						// Get or create a list item.
-						var listItem = $(holdingList).find('#user'+currentUser.counter);
-						if (listItem.length==0) {
-							var listItem = $('<li />').attr('id', 'user'+currentUser.counter);
-							listItem.click(showActionList);
-						}
-						listItem.css('color', '#'+currentUser.color).text(currentUser.name);
-						if (listItem.data().group!=currentUser.group) {
-							listItem.removeClass('mod').removeClass('silent');
-							if (currentUser.group=='mod') {
-								listItem.addClass('mod').attr('title', 'Moderator');
-							} else if (currentUser.group=='silent') {
-								listItem.addClass('silent').attr('title', 'Silent');
-							}
-						}
-						if (currentUser.counter==userCounter) {
-
-							listItem.addClass('self').append(' (you)');
-						}
-						listItem.removeData().data(currentUser).appendTo('#'+currentUser.state);
-						if (actionListUser==listItem) {
-							listItem.click();
-						}
-					}
-					$(holdingList).empty();
+					$('#online, #idle').empty();
+					generateUserlist(data.online, $('#online')[0]);
+					generateUserlist(data.idle, $('#idle')[0]);
+//					// Reload user lists.
+//					$("#online > li, #idle > li").appendTo(holdingList);
+//					for (var i=0; i<data.online.length; i++) {
+//						var currentUser = data.online[i];
+//						if (currentUser.counter==userCounter) {
+//							// Set self-related things here.
+//							user.meta.group = currentUser.group;
+//						}
+//						// Get or create a list item.
+//						var listItem = $(holdingList).find('#user'+currentUser.counter);
+//						if (listItem.length==0) {
+//							var listItem = $('<li />').attr('id', 'user'+currentUser.counter);
+//							listItem.click(showActionList);
+//						}
+//						listItem.css('color', '#'+currentUser.color).text(currentUser.name);
+//						if (listItem.data().group!=currentUser.group) {
+//							listItem.removeClass('mod').removeClass('silent');
+//							if (currentUser.group=='mod') {
+//								listItem.addClass('mod').attr('title', 'Moderator');
+//							} else if (currentUser.group=='silent') {
+//								listItem.addClass('silent').attr('title', 'Silent');
+//							}
+//						}
+//						if (currentUser.counter==userCounter) {
+//							listItem.addClass('self').append(' (you)');
+//						}
+//						listItem.removeData().data(currentUser).appendTo('#'+currentUser.state);
+//						if (actionListUser==listItem) {
+//							listItem.click();
+//						}
+//					}
+//					$(holdingList).empty();
 				}
 				if (typeof hidden!=="undefined" && document[hidden]==true) {
 					document.title = "New message - "+ORIGINAL_TITLE;
@@ -194,6 +196,21 @@ $(document).ready(function() {
 
 		// User list
 		var holdingList = $("<ul />");
+
+		function generateUserlist(users, listElement) {
+			for (var i=0; i<users.length; i++) {
+				var currentUser = users[i];
+				var listItem = $('<li />') //.attr('id', 'user'+currentUser.counter);
+				// Name is a reserved word; this may or may not break stuff but whatever.
+				listItem.css('color', '#'+currentUser.character.color).text(currentUser.character['name']);
+				if (currentUser.meta.group=='mod') {
+					listItem.addClass('mod').attr('title', 'Moderator');
+				} else if (currentUser.meta.group=='silent') {
+					listItem.addClass('silent').attr('title', 'Silent');
+				}
+				listItem.data(currentUser).appendTo(listElement);
+			}
+		}
 
 		function showActionList() {
 			$('#actionList').remove();
