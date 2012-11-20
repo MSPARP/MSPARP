@@ -6,7 +6,6 @@ from lib.api import ping, change_state, disconnect, get_online_state
 from lib.characters import CHARACTER_DETAILS
 from lib.messages import send_message, get_userlists, hide_silence, parse_messages
 from lib.requests import populate_all_chars, connect_redis, create_chat_session, set_cookie, disconnect_redis
-from lib.sessions import get_counter
 
 app = Flask(__name__)
 
@@ -49,22 +48,21 @@ def postMessage():
     if 'line' in request.form:
         # Remove linebreaks and truncate to 1500 characters.
         line = request.form['line'].replace('\n', ' ')[:1500]
-        counter = get_counter(chat, g.user.session_id)
         if g.user.meta['group']=='silent':
-            send_message(g.redis, chat, counter, 'private', line, g.user.character['color'], g.user.character['acronym'], g.user.session_id)
+            send_message(g.redis, chat, g.user.meta['counter'], 'private', line, g.user.character['color'], g.user.character['acronym'], g.user.session_id)
         else:
-            send_message(g.redis, chat, counter, 'message', line, g.user.character['color'], g.user.character['acronym'])
+            send_message(g.redis, chat, g.user.meta['counter'], 'message', line, g.user.character['color'], g.user.character['acronym'])
     if 'state' in request.form and request.form['state'] in ['online', 'idle']:
         change_state(g.redis, chat, g.user.session_id, request.form['state'])
     if 'set_group' in request.form and 'counter' in request.form:
         if g.user.meta['group']=='mod':
             set_group = request.form['set_group']
-            set_session_id = g.redis.lindex('chat.%s.counter' % chat, request.form['counter']) or abort(400)
+            set_session_id = g.redis.hget('chat.'+chat+'.counters', request.form['counter']) or abort(400)
             ss_key = 'session.'+set_session_id+'.chat.'+chat
             ss_meta_key = 'session.'+set_session_id+'.meta.'+chat
             current_group = g.redis.hget(ss_meta_key, 'group')
             if current_group!=set_group and set_group in ['user', 'mod', 'silent']:
-                g.redis.hset(group_key, 'group', set_group)
+                g.redis.hset(ss_meta_key, 'group', set_group)
                 set_message = None
                 # Convert the name and acronym to unicode.
                 ss_character = g.redis.hget(ss_key, 'character')
@@ -76,14 +74,14 @@ def postMessage():
                     g.redis.hget(ss_key, 'acronym') or CHARACTER_DETAILS[ss_character]['acronym'],
                     encoding='utf8'
                 )
-                if set_session['group']!='mod' and set_group=='mod':
+                if current_group!='mod' and set_group=='mod':
                     set_message = '%s [%s] gave moderator status to %s [%s].' % (
                         g.user.character['name'],
                         g.user.character['acronym'],
                         set_session_name,
                         set_session_acronym
                     )
-                elif set_session['group']=='mod' and set_group!='mod':
+                elif current_group=='mod' and set_group!='mod':
                     set_message = '%s [%s] removed moderator status from %s [%s].' % (
                         g.user.character['name'],
                         g.user.character['acronym'],
@@ -131,8 +129,6 @@ def getMessages():
         message_dict['online'], message_dict['idle'], silent_users = get_userlists(g.redis, chat)
         if silent_users is True and g.user.meta['group']!='mod':
             hide_silence(message_dict['online'], message_dict['idle'])
-        if 'fetchCounter' in request.form:
-            message_dict['counter'] = get_counter(chat, g.user.session_id)
         return jsonify(message_dict)
 
     # Otherwise, listen for a message.

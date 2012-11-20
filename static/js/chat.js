@@ -14,7 +14,6 @@ $(document).ready(function() {
 	var pingInterval;
 	var chatState;
 	var userState;
-	var userCounter;
 	var newState;
 	var currentSidebar;
 	var previewHidden = false;
@@ -86,54 +85,18 @@ $(document).ready(function() {
 
 		function getMessages() {
 			var messageData = {'chat': chat, 'after': latestNum};
-			if (typeof userCounter=="undefined") {
-				messageData.fetchCounter = true;
-			}
 			$.post(MESSAGES_URL, messageData, function(data) {
 				var messages = data.messages;
 				for (var i=0; i<messages.length; i++) {
 					addLine(messages[i]);
 					latestNum = Math.max(latestNum, messages[i]['id']);
 				}
-				if (typeof data.counter!=="undefined") {
-					userCounter = data.counter;
-				}
 				if (typeof data.online!=="undefined") {
-					$('#online, #idle').empty();
+					// Reload user lists.
+					actionListUser = null;
+					$("#online > li, #idle > li").appendTo(holdingList);
 					generateUserlist(data.online, $('#online')[0]);
 					generateUserlist(data.idle, $('#idle')[0]);
-//					// Reload user lists.
-//					$("#online > li, #idle > li").appendTo(holdingList);
-//					for (var i=0; i<data.online.length; i++) {
-//						var currentUser = data.online[i];
-//						if (currentUser.counter==userCounter) {
-//							// Set self-related things here.
-//							user.meta.group = currentUser.group;
-//						}
-//						// Get or create a list item.
-//						var listItem = $(holdingList).find('#user'+currentUser.counter);
-//						if (listItem.length==0) {
-//							var listItem = $('<li />').attr('id', 'user'+currentUser.counter);
-//							listItem.click(showActionList);
-//						}
-//						listItem.css('color', '#'+currentUser.color).text(currentUser.name);
-//						if (listItem.data().group!=currentUser.group) {
-//							listItem.removeClass('mod').removeClass('silent');
-//							if (currentUser.group=='mod') {
-//								listItem.addClass('mod').attr('title', 'Moderator');
-//							} else if (currentUser.group=='silent') {
-//								listItem.addClass('silent').attr('title', 'Silent');
-//							}
-//						}
-//						if (currentUser.counter==userCounter) {
-//							listItem.addClass('self').append(' (you)');
-//						}
-//						listItem.removeData().data(currentUser).appendTo('#'+currentUser.state);
-//						if (actionListUser==listItem) {
-//							listItem.click();
-//						}
-//					}
-//					$(holdingList).empty();
 				}
 				if (typeof hidden!=="undefined" && document[hidden]==true) {
 					document.title = "New message - "+ORIGINAL_TITLE;
@@ -200,15 +163,28 @@ $(document).ready(function() {
 		function generateUserlist(users, listElement) {
 			for (var i=0; i<users.length; i++) {
 				var currentUser = users[i];
-				var listItem = $('<li />') //.attr('id', 'user'+currentUser.counter);
+				if (currentUser.meta.counter==user.meta.counter) {
+					// Set self-related things here.
+					user.meta.group = currentUser.meta.group;
+				}
+				// Get or create a list item.
+				var listItem = $(holdingList).find('#user'+currentUser.meta.counter);
+				if (listItem.length==0) {
+					var listItem = $('<li />').attr('id', 'user'+currentUser.meta.counter);
+					listItem.click(showActionList);
+				}
 				// Name is a reserved word; this may or may not break stuff but whatever.
 				listItem.css('color', '#'+currentUser.character.color).text(currentUser.character['name']);
+				listItem.removeClass('mod').removeClass('silent');
 				if (currentUser.meta.group=='mod') {
 					listItem.addClass('mod').attr('title', 'Moderator');
 				} else if (currentUser.meta.group=='silent') {
 					listItem.addClass('silent').attr('title', 'Silent');
 				}
-				listItem.data(currentUser).appendTo(listElement);
+				if (currentUser.meta.counter==user.meta.counter) {
+					listItem.addClass('self').append(' (you)');
+				}
+				listItem.removeData().data(currentUser).appendTo(listElement);
 			}
 		}
 
@@ -218,21 +194,21 @@ $(document).ready(function() {
 			if (this!=actionListUser) {
 				var actionList = $('<ul />').attr('id', 'actionList');
 				var userData = $(this).data();
-				if (userData.counter==highlightUser) {
+				if (userData.meta.counter==highlightUser) {
 					$('<li />').text('Clear highlight').appendTo(actionList).click(function() { highlightPosts(null); });
 				} else {
-					$('<li />').text('Highlight posts').appendTo(actionList).click(function() { highlightPosts(userData.counter); });
+					$('<li />').text('Highlight posts').appendTo(actionList).click(function() { highlightPosts(userData.meta.counter); });
 				}
 				if (user.meta.group=='mod') {
-					if (userData.group=='mod') {
-						$('<li />').text('Unmod').appendTo(actionList).click(function() { setUserGroup('user', userData.counter); });
+					if (userData.meta.group=='mod') {
+						$('<li />').text('Unmod').appendTo(actionList).click(function() { setUserGroup('user', userData.meta.counter); });
 					} else {
-						$('<li />').text('Mod').appendTo(actionList).click(function() { setUserGroup('mod', userData.counter); });
+						$('<li />').text('Mod').appendTo(actionList).click(function() { setUserGroup('mod', userData.meta.counter); });
 					}
-					if (userData.group=='silent') {
-						$('<li />').text('Unsilence').appendTo(actionList).click(function() { setUserGroup('user', userData.counter); });
+					if (userData.meta.group=='silent') {
+						$('<li />').text('Unsilence').appendTo(actionList).click(function() { setUserGroup('user', userData.meta.counter); });
 					} else {
-						$('<li />').text('Silence').appendTo(actionList).click(function() { setUserGroup('silent', userData.counter); });
+						$('<li />').text('Silence').appendTo(actionList).click(function() { setUserGroup('silent', userData.meta.counter); });
 					}
 				}
 				$(actionList).appendTo(this);
@@ -243,7 +219,7 @@ $(document).ready(function() {
 		}
 
 		function setUserGroup(group, counter) {
-			if (counter!=userCounter || confirm('You are about to unmod yourself. Are you sure you want to do this?')) {
+			if (counter!=user.meta.counter || confirm('You are about to unmod yourself. Are you sure you want to do this?')) {
 				$.post(POST_URL,{'chat': chat, 'set_group': group, 'counter': counter});
 			}
 		}

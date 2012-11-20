@@ -82,8 +82,6 @@ def get_sublist(redis, chat, sessions, silent_users=False):
         session_meta = redis.hgetall('session.'+session+'.meta.'+chat)
         if session_meta['group']=='silent':
             silent_users = True
-        # XXX DO COUNERS FOR REAL
-        session_meta['counter'] = -2
         sublist.append({
             'character': session_character,
             'meta': session_meta,
@@ -98,7 +96,6 @@ def hide_silence(*args):
 
 def parse_line(line, id):
     # Lines consist of comma separated fields.
-    #print line
     parts = line.split(',', 4)
     if not isinstance(parts[4], unicode):
         parts[4] = unicode(parts[4], encoding='utf-8')

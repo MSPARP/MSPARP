@@ -39,11 +39,15 @@ class Session(object):
             self.meta = get_or_create(
                 redis,
                 self.meta_prefix,
-                lambda: get_or_create(
+                lambda: dict([('counter', generate_counter(
+                    redis,
+                    chat,
+                    session_id
+                ))]+get_or_create(
                     redis,
                     original_meta_prefix,
                     lambda: META_DEFAULTS
-                )
+                ).items())
             )
             character = get_or_create(
                 redis,
@@ -189,7 +193,11 @@ class Session(object):
             self.meta = get_or_create(
                 self.redis,
                 self.meta_prefix,
-                lambda: self.meta
+                lambda: dict([('counter', generate_counter(
+                    self.redis,
+                    chat,
+                    self.session_id
+                ))]+self.meta.items())
             )
             character = get_or_create(
                 self.redis,
@@ -210,6 +218,11 @@ def get_or_create(redis, key, default):
         data = default()
         redis.hmset(key, data)
     return data
+
+def generate_counter(redis, chat, session_id):
+    counter = redis.hincrby('chat.'+chat+'.meta', 'counter', 1)
+    redis.hset('chat.'+chat+'.counters', counter, session_id)
+    return counter
 
 def fill_in_data(character_data):
     if len(character_data)<len(CHARACTER_DETAILS[character_data['character']])+1:
@@ -234,8 +247,4 @@ class PartialSession(object):
             value = CHARACTER_DETAILS[self.character][attr]
         setattr(self, attr, value)
         return value
-
-
-def get_counter(chat, session):
-    return -2
 
