@@ -46,13 +46,14 @@ def show_homepage(error):
 def chat(chat=None):
 
     if chat is None:
-        chat_type = 'match'
+        chat_meta = { 'type': 'unsaved' }
         existing_lines = []
         latest_num = -1
     else:
         # Check if chat exists
-        chat_type = g.redis.hget('chat.'+chat+'.meta', 'type')
-        if chat_type is None:
+        chat_meta = g.redis.hgetall('chat.'+chat+'.meta')
+        if len(chat_meta)==0:
+            # XXX CREATE
             abort(404)
         # Load chat-based session data.
         g.user.set_chat(chat)
@@ -67,7 +68,7 @@ def chat(chat=None):
         groups=CHARACTER_GROUPS,
         characters=CHARACTERS,
         chat=chat,
-        chat_type=chat_type,
+        chat_meta=chat_meta,
         lines=existing_lines,
         latest_num=latest_num
     )
@@ -126,9 +127,10 @@ def save_log():
     if not validate_chat_url(request.form['chat']):
         abort(400)
     chat_type = g.redis.hget('chat.'+request.form['chat']+'.meta', 'type')
-    if chat_type!='match':
+    if chat_type not in ['unsaved', 'saved']:
         abort(400)
     log_id = archive_chat(g.redis, g.mysql, request.form['chat'], chat_type)
+    g.redis.hset('chat.'+request.form['chat']+'.meta', 'type', 'saved')
     if 'tumblr' in request.form:
         # Set the character list as tags.
         tags = g.redis.smembers('chat.'+request.form['chat']+'.characters')

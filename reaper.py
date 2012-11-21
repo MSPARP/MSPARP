@@ -46,30 +46,15 @@ if __name__=='__main__':
 
         # Every minute
         if new_time.minute!=current_time.minute:
-            # Save chats
-            for chat in redis.zrangebyscore('archive-queue', 0, get_time()):
-                redis.zrem('archive-queue', chat)
-                # If anyone's online, re-add it to the list.
-                chat_sessions = redis.hvals('chat.'+chat+'.sessions')
-                if 'online' in chat_sessions or 'away' in chat_sessions:
-                    print "chat "+chat+" is still active"
-                    redis.zadd('archive-queue', chat, get_time(ARCHIVE_PERIOD))
-                # Save
-                print "saving chat "+chat
-                archive_chat(redis, mysql, chat, backlog=50)
-                print "saved chat "+chat
-            # Delete match chats
-            for chat in redis.zrangebyscore('delete-queue', 0, get_time()):
-                # Check type, don't delete group chats for now.
-                print "deleting chat "+chat
-                if redis.hget('chat.'+chat+'.meta','type') in ['match', None]:
-                    # If it's been saved before, save it again.
-                    if redis.llen('chat.'+chat)!=0:
-                        print "saving before deletion"
-                        archive_chat(redis, mysql, chat, chat_type='match', backlog=0)
-                    delete_chat(redis, chat)
-                    redis.zrem('delete-queue', chat)
-                print "deleted chat "+chat
+
+            # Archive chats.
+
+            # Delete chat-sessions.
+
+            # Delete chats.
+
+            # Delete sessions.
+
             pass
 
         current_time = new_time

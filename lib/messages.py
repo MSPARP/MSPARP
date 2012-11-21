@@ -1,6 +1,6 @@
 from flask import g, json, jsonify
 
-from lib import DELETE_MATCH_PERIOD, get_time
+from lib import DELETE_UNSAVED_PERIOD, DELETE_SAVED_PERIOD, get_time
 from characters import CHARACTER_DETAILS
 
 FULL_CHARACTER_LENGTH = len(CHARACTER_DETAILS['anonymous/other'])+1
@@ -47,9 +47,12 @@ def send_message(redis, chat, counter, msg_type, text=None, color='000000', acro
         except RuntimeError:
             chat_type = redis.hget('chat.'+chat+'.meta', 'type')
 
-        # If the last person just left, mark the chat for archiving.
+        # If the last person just left, mark the chat for deletion.
         if len(json_message['online'])==0 and len(json_message['idle'])==0:
-            redis.zadd('delete-queue', chat, get_time(DELETE_MATCH_PERIOD))
+            if chat_type=='unsaved':
+                redis.zadd('delete-queue', chat, get_time(DELETE_UNSAVED_PERIOD))
+            else:
+                redis.zadd('delete-queue', chat, get_time(DELETE_SAVED_PERIOD))
 
     elif msg_type=='private':
         # Just send it to the specified person.
