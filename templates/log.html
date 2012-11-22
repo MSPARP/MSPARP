@@ -4,9 +4,11 @@
 <link rel="stylesheet" href="/static/css/chat.css">
 {% endblock %}
 {% block pager %}
+{% if paginator.page_count!=1 %}
 <div class="pager">
 {{paginator.pager(format='~20~')}}
 </div>
+{% endif %}
 {% endblock %}
 {% block content %}
 
@@ -18,11 +20,9 @@
 	<p style="color: #{{line.color}}" class="{% if line.counter==-1 %}system{% else %}user{{line.counter}}{% endif %}">{{line.line}}</p>
 {% endfor %}
 {% else %}
-	<p>This chat hasn't been archived yet - chats are saved every half hour.</p>
+	<p>There isn't a log for this chat - either it hasn't existed long enough to be archived or I've screwed up the archiving system yet again. Chats are archived about half an hour after the chat reaches 50 lines, so if you're still seeing this message after that then please send a series of <em>very angry</em> asks to tehdragonfly.tumblr.com.</p>
 {% endif %}
-{% if group!=None %}
-	<p>Join this chat at <a href="/chat/{{chat}}">this link</a>.</p>
-{% endif %}
+	<p><a href="/chat/{{chat}}">Continue this chat</a></p>
 </div>
 
 {{ self.pager() }}

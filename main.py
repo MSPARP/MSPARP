@@ -5,7 +5,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from webhelpers import paginate
 
 from lib import SEARCH_PERIOD, get_time, validate_chat_url
-from lib.archive import archive_chat
+from lib.archive import archive_chat, get_or_create_log
 from lib.characters import CHARACTER_GROUPS, CHARACTERS
 from lib.messages import parse_line
 from lib.model import Log, LogPage
@@ -109,7 +109,7 @@ def save():
             g.user.set_chat(chat)
             g.user.set_group('mod')
             g.redis.hset('chat.'+chat+'.meta', 'type', 'group')
-            g.mysql.add(Log(url=chat))
+            get_or_create_log(g.redis, g.mysql, chat, 'group')
             g.mysql.commit()
             return redirect(url_for('chat', chat=chat))
     except ValueError as e:

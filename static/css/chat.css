@@ -219,4 +219,5 @@ body.mobile.withSidebar #conversation, body.mobile.withSidebar #controls {
 
 #archiveConversation {
 	margin: 5px 0;
+	padding: 2px 0;
 }

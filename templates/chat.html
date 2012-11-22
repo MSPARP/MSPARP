@@ -17,6 +17,9 @@
 {% block content %}
 
 <div id="conversation">
+{% if chat_meta['type']!='unsaved' and lines|length>=50 %}
+	<p><a href="/chat/{{chat}}/log" target="_blank">View earlier messages</a></p>
+{% endif %}
 {% for line in lines %}
 	<p style="color: #{{line.color}}" class="{% if line.counter==-1 %}system{% else %}user{{line.counter}}{% endif %}">{{line.line}}</p>
 {% endfor %}
@@ -72,7 +75,7 @@
 	<button type="button" id="idleButton">Toggle idleness</button>
 	<button type="button" id="userListButton">User list</button>
 	<button type="button" id="settingsButton">Character settings</button>
-	<a id="logLink" target="_blank">Log URL</a>
+	<a id="logLink" target="_blank">View log</a>
 	<a href="/static/user-guide.html" target="_blank">User guide</a>
 	<button type="submit">Send</button>
 </form>
