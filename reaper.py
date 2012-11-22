@@ -6,7 +6,7 @@ import datetime
 
 from lib import PING_PERIOD, SEARCH_PERIOD, ARCHIVE_PERIOD, get_time
 from lib.api import disconnect
-from lib.archive import archive_chat, delete_chat
+from lib.archive import archive_chat, delete_chat_session, delete_chat
 from lib.characters import CHARACTER_DETAILS
 from lib.messages import send_message
 from lib.model import sm
@@ -50,10 +50,16 @@ if __name__=='__main__':
             # Archive chats.
 
             # Delete chat-sessions.
+            for chat_session in redis.zrangebyscore('chat-sessions', 0, get_time()):
+                delete_chat_session(redis, *chat_session.split('/'))
 
             # Delete chats.
+            for chat in redis.zrangebyscore('delete-queue', 0, get_time()):
+                delete_chat(redis, chat)
 
             # Delete sessions.
+            for session_id in redis.zrangebyscore('all-sessions', 0, get_time()):
+                delete_session(redis, session_id)
 
             pass
 

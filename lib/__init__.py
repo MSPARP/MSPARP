@@ -6,8 +6,8 @@ SEARCH_PERIOD = 1
 # Timeout period for chats.
 PING_PERIOD = 10
 
-# Period in which saved chats are archived.
-ARCHIVE_PERIOD = 30 * 60
+# Period in which saved chats are archived - 30 minutes.
+ARCHIVE_PERIOD = 1800
 
 # Time after which unsaved chats are deleted - 7 days.
 DELETE_UNSAVED_PERIOD = 604800

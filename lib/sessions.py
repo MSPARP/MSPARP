@@ -222,6 +222,8 @@ def get_or_create(redis, key, default):
 def generate_counter(redis, chat, session_id):
     counter = redis.hincrby('chat.'+chat+'.meta', 'counter', 1)
     redis.hset('chat.'+chat+'.counters', counter, session_id)
+    # This can be overloaded as a general hook for joining a chat for the first time.
+    redis.sadd('session.'+session_id+'.chats', chat)
     return counter
 
 def fill_in_data(character_data):

@@ -86,22 +86,47 @@ def archive_chat(redis, mysql, chat, chat_type=None, backlog=0):
 
     return log.id
 
+def delete_chat_session(redis, chat, session_id):
+
+    counter = redis.hget('session.'+session_id+'.meta.'+chat, 'counter')
+    pipe = redis.pipeline()
+    pipe.hdel('chat.'+chat+'.counters', counter)
+    pipe.delete('session.'+session_id+'.chat.'+chat)
+    pipe.delete('session.'+session_id+'.meta.'+chat)
+    pipe.srem('session.'+session_id+'.chats', chat)
+    pipe.zrem('chat-sessions', chat+'/'+session_id)
+    pipe.execute()
+
 def delete_chat(redis, chat):
 
     # XXX PIPELINE THIS???
 
-    # Delete type first because it's used to check whether a chat exists.
+    # XXX IF IT'S BEEN SAVED BEFORE, SAVE IT AGAIN BEFORE DELETING.
+    # XXX SAVE HERE RATHER THAN IN reaper.py
+
+    # Delete metadata first because it's used to check whether a chat exists.
     redis.delete('chat.'+chat+'.meta')
 
-    sessions = redis.lrange('chat.'+chat+'.counter', 0, -1)
-    for session_id in sessions:
+    redis.delete('chat.'+chat+'.online')
+    redis.delete('chat.'+chat+'.idle')
+    redis.delete('chat.'+chat+'.characters')
+
+    for session_id in redis.hvals('chat.'+chat+'.counters'):
         redis.srem('session.'+session_id+'.chats', chat)
         redis.delete('session.'+session_id+'.chat.'+chat)
         redis.delete('session.'+session_id+'.meta.'+chat)
+        redis.zrem('chat-sessions', chat+'/'+session_id)
 
-    redis.delete('chat.'+chat+'.counter')
-    redis.delete('chat.'+chat+'.characters')
-    redis.delete('chat.'+chat+'.log')
-    redis.delete('chat.'+chat+'.sessions')
+    redis.delete('chat.'+chat+'.counters')
     redis.delete('chat.'+chat)
+    redis.zrem('delete-queue', chat)
+
+def delete_session(redis, session_id):
+
+    for chat in redis.smembers('session.'+session_id+'.chats'):
+        delete_chat_session(redis, chat, session_id)
+
+    redis.delete('session.'+session_id)
+    redis.delete('session.'+session_id+'.meta')
+    redis.zrem('all-sessions', session_id)
 
