@@ -153,6 +153,9 @@ def view_log_by_id(log_id=None):
 @app.route('/chat/<chat>/log')
 def view_log(chat=None):
 
+    # Decide whether or not to put a continue link in.
+    continuable = g.redis.hget('chat.'+chat+'.meta', 'type') is not None
+
     try:
         log = g.mysql.query(Log).filter(Log.url==chat).one()
     except:
@@ -165,18 +168,12 @@ def view_log(chat=None):
     except NoResultFound:
         abort(404)
 
-    #return log_page.content
-
     url_generator = paginate.PageURL(url_for('view_log', chat=chat), {'page': current_page})
 
     # It's only one row per page and we want to fetch them via both log id and
     # page number rather than slicing, so we'll just give it an empty list and
     # override the count.
     paginator = paginate.Page([], page=current_page, items_per_page=1, item_count=log.page_count, url=url_generator)
-
-    #return str(log.page_count)
-
-    #log_pages = g.mysql.query(LogPage).filter(LogPage.log_id==log.id)
 
     # Pages end with a line break, so the last line is blank.
     lines = log_page.content.split('\n')[0:-1]
@@ -185,6 +182,7 @@ def view_log(chat=None):
     return render_template('log.html',
         chat=chat,
         lines=lines,
+        continuable=continuable,
         paginator=paginator
     )
 
