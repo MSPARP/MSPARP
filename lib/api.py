@@ -5,7 +5,6 @@ def ping(redis, chat, session):
     online_state = get_online_state(redis, chat, session.session_id)
     fake_join_message = False
     if online_state=='offline':
-        # XXX CHECK COUNTERS HERE
         # The user isn't online already. Add them to the chat.
         # Remove the chat from the delete queue and add to the archive queue.
         redis.zrem('delete-queue', chat)

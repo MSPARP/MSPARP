@@ -109,7 +109,7 @@ def save():
             g.user.set_chat(chat)
             g.user.set_group('mod')
             g.redis.hset('chat.'+chat+'.meta', 'type', 'group')
-            get_or_create_log(g.redis, g.mysql, chat, 'group')
+            get_or_create_log(g.redis, g.mysql, chat)
             g.mysql.commit()
             return redirect(url_for('chat', chat=chat))
     except ValueError as e:
@@ -129,7 +129,7 @@ def save_log():
     chat_type = g.redis.hget('chat.'+request.form['chat']+'.meta', 'type')
     if chat_type not in ['unsaved', 'saved']:
         abort(400)
-    log_id = archive_chat(g.redis, g.mysql, request.form['chat'], chat_type)
+    log_id = archive_chat(g.redis, g.mysql, request.form['chat'])
     g.redis.hset('chat.'+request.form['chat']+'.meta', 'type', 'saved')
     if 'tumblr' in request.form:
         # Set the character list as tags.

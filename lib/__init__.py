@@ -12,7 +12,7 @@ ARCHIVE_PERIOD = 1800
 # Time after which unsaved chats are deleted - 7 days.
 DELETE_UNSAVED_PERIOD = 604800
 
-# Time after which saved chars are deleted - 30 days.
+# Time after which saved chats are deleted - 30 days.
 DELETE_SAVED_PERIOD = 2592000
 
 # Time after which chat session data is deleted - 30 days.
