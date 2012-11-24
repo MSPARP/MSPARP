@@ -1,14 +1,15 @@
 from lib import get_time, ARCHIVE_PERIOD, PING_PERIOD
 from lib.messages import send_message
 
-def ping(redis, chat, session):
+def ping(redis, chat, session, chat_type):
     online_state = get_online_state(redis, chat, session.session_id)
     fake_join_message = False
     if online_state=='offline':
         # The user isn't online already. Add them to the chat.
-        # Remove the chat from the delete queue and add to the archive queue.
+        # Remove the chat from the delete queue.
         redis.zrem('delete-queue', chat)
-        if redis.zscore('archive-queue', chat) is None:
+        # Add to the archive queue, but only if it's saved.
+        if chat_type!='unsaved' and redis.zscore('archive-queue', chat) is None:
             redis.zadd('archive-queue', chat, get_time(ARCHIVE_PERIOD))
         # Set user state.
         redis.sadd('chat.'+chat+'.online', session.session_id)

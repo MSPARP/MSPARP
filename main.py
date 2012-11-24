@@ -4,7 +4,7 @@ from sqlalchemy import and_
 from sqlalchemy.orm.exc import NoResultFound
 from webhelpers import paginate
 
-from lib import SEARCH_PERIOD, get_time, validate_chat_url
+from lib import SEARCH_PERIOD, ARCHIVE_PERIOD, get_time, validate_chat_url
 from lib.archive import archive_chat, get_or_create_log
 from lib.characters import CHARACTER_GROUPS, CHARACTERS
 from lib.messages import parse_line
@@ -131,6 +131,7 @@ def save_log():
         abort(400)
     log_id = archive_chat(g.redis, g.mysql, request.form['chat'])
     g.redis.hset('chat.'+request.form['chat']+'.meta', 'type', 'saved')
+    g.redis.zadd('archive-queue', request.form['chat'], get_time(ARCHIVE_PERIOD))
     if 'tumblr' in request.form:
         # Set the character list as tags.
         tags = g.redis.smembers('chat.'+request.form['chat']+'.characters')

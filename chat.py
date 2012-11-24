@@ -34,7 +34,7 @@ def get_wanted_channels(channel_main, channel_mod, channel_self):
 def mark_alive(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if ping(g.redis, request.form['chat'], g.user):
+        if ping(g.redis, request.form['chat'], g.user, g.chat_type):
             g.fake_join_message = True
         return f(*args, **kwargs)
     return decorated_function
