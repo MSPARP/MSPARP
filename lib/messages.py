@@ -89,6 +89,7 @@ def get_sublist(redis, chat, sessions, silent_users=False):
             'character': session_character,
             'meta': session_meta,
         })
+    sublist.sort(key=lambda _: _['character']['name'])
     return sublist, silent_users
 
 def hide_silence(*args):
