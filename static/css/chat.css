@@ -30,6 +30,13 @@ p {
 	padding: 2px 5px;
 }
 
+hr {
+	margin: 5px 0;
+	border-color: #999999;
+	border-style: solid;
+	border-width: 1px 0 0 0;
+}
+
 button, input, select, #conversation, #settings, #userList, #preview, .pager, #archiveConversation {
 	border: 1px solid #999999;
 	border-radius: 1px;
@@ -109,14 +116,19 @@ body.withSidebar #conversation {
 	padding: 0 0 0 1.5em;
 }
 
-#userList ul:empty:after {
+#online:empty:after, #idle:empty:after {
 	content: "(no-one)";
+	display: block;
+	padding: 2px 0;
 	color: #999999;
 	font-style: italic;
 }
 
 .sidebar ul li {
 	padding: 2px 0;
+}
+
+#online li, #idle li {
 	cursor: pointer;
 }
 
@@ -180,6 +192,21 @@ body.settings #settings, body.userList #userList {
 
 .silent {
 	text-decoration: line-through;
+}
+
+/* Moderation */
+
+#metaOptions, #metaResults li {
+	display: none;
+}
+
+.modPowers #metaOptions {
+	display: block;
+}
+
+#metaOptions input {
+	vertical-align: middle;
+	margin: 0 0 0 2px;
 }
 
 /* Mobile */

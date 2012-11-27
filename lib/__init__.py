@@ -26,5 +26,5 @@ def get_time(offset=0):
 
 def validate_chat_url(url):
     if len(url)<=100:
-        return re.match('^[-a-zA-Z0-9]+$', url)
+        return re.match('^[-a-zA-Z0-9_]+$', url)
     return False

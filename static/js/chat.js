@@ -163,10 +163,6 @@ $(document).ready(function() {
 		function generateUserlist(users, listElement) {
 			for (var i=0; i<users.length; i++) {
 				var currentUser = users[i];
-				if (currentUser.meta.counter==user.meta.counter) {
-					// Set self-related things here.
-					user.meta.group = currentUser.meta.group;
-				}
 				// Get or create a list item.
 				var listItem = $(holdingList).find('#user'+currentUser.meta.counter);
 				if (listItem.length==0) {
@@ -182,6 +178,13 @@ $(document).ready(function() {
 					listItem.addClass('silent').attr('title', 'Silent');
 				}
 				if (currentUser.meta.counter==user.meta.counter) {
+					// Set self-related things here.
+					user.meta.group = currentUser.meta.group;
+					if (user.meta.group=='mod') {
+						$(document.body).addClass('modPowers');
+					} else {
+						$(document.body).removeClass('modPowers');
+					}
 					listItem.addClass('self').append(' (you)');
 				}
 				listItem.removeData().data(currentUser).appendTo(listElement);
