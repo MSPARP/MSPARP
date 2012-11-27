@@ -212,7 +212,7 @@ def new_chat_metadata(redis, chat, session_id, meta=None, key=None):
     if redis.hget('chat.'+chat+'.meta', 'autosilence')=='1':
         metadata = { 'group': 'silent' }
     else:
-        metadata = meta or get_or_create(redis, original_meta_prefix, lambda: META_DEFAULTS)
+        metadata = meta or get_or_create(redis, 'session.'+session_id+'.meta', lambda: META_DEFAULTS)
     metadata['counter'] = redis.hincrby('chat.'+chat+'.meta', 'counter', 1)
     redis.hset('chat.'+chat+'.counters', metadata['counter'], session_id)
     redis.sadd('session.'+session_id+'.chats', chat)
