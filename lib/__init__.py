@@ -26,7 +26,8 @@ CHAT_FLAGS = ['autosilence']
 def get_time(offset=0):
     return int(time.time())+offset
 
+chat_validator = re.compile('^[-a-zA-Z0-9_]+$')
 def validate_chat_url(url):
     if len(url)<=100:
-        return re.match('^[-a-zA-Z0-9_]+$', url)
+        return chat_validator.match(url)
     return False
