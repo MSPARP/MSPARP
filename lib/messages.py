@@ -54,6 +54,9 @@ def send_message(redis, chat, counter, msg_type, text=None, color='000000', acro
             else:
                 redis.zadd('delete-queue', chat, get_time(DELETE_SAVED_PERIOD))
 
+    elif msg_type=='meta_change':
+        json_message['meta'] = redis.hgetall('chat.'+chat+'.meta')
+
     elif msg_type=='private':
         # Just send it to the specified person.
         redis.publish('channel.'+chat+'.'+audience, json.dumps(json_message))

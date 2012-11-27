@@ -1,7 +1,7 @@
 from functools import wraps
 from flask import Flask, g, request, render_template, make_response, jsonify, abort
 
-from lib import PING_PERIOD, ARCHIVE_PERIOD, get_time
+from lib import PING_PERIOD, ARCHIVE_PERIOD, CHAT_FLAGS, get_time
 from lib.api import ping, change_state, disconnect, get_online_state
 from lib.characters import CHARACTER_DETAILS
 from lib.messages import send_message, get_userlists, hide_silence, parse_messages
@@ -54,8 +54,9 @@ def postMessage():
             send_message(g.redis, chat, g.user.meta['counter'], 'message', line, g.user.character['color'], g.user.character['acronym'])
     if 'state' in request.form and request.form['state'] in ['online', 'idle']:
         change_state(g.redis, chat, g.user.session_id, request.form['state'])
-    if 'set_group' in request.form and 'counter' in request.form:
-        if g.user.meta['group']=='mod':
+    # Mod options.
+    if g.user.meta['group']=='mod':
+        if 'set_group' in request.form and 'counter' in request.form:
             set_group = request.form['set_group']
             set_session_id = g.redis.hget('chat.'+chat+'.counters', request.form['counter']) or abort(400)
             ss_key = 'session.'+set_session_id+'.chat.'+chat
@@ -91,8 +92,14 @@ def postMessage():
                 # Refresh the user's subscriptions.
                 g.redis.publish('channel.'+chat+'.refresh', set_session_id+'#'+set_group)
                 send_message(g.redis, chat, -1, 'user_change', set_message)
-        else:
-            abort(403)
+        if 'meta_change' in request.form and g.user.meta['group']:
+            for flag in CHAT_FLAGS:
+                if flag in request.form:
+                    if request.form[flag]=='1':
+                        g.redis.hset('chat.'+chat+'.meta', flag, '1')
+                    else:
+                        g.redis.hdel('chat.'+chat+'.meta', flag)
+            send_message(g.redis, chat, -1, 'meta_change')
     return 'ok'
 
 @app.route('/ping', methods=['POST'])
@@ -129,6 +136,7 @@ def getMessages():
         message_dict['online'], message_dict['idle'], silent_users = get_userlists(g.redis, chat)
         if silent_users is True and g.user.meta['group']!='mod':
             hide_silence(message_dict['online'], message_dict['idle'])
+        message_dict['meta'] = g.redis.hgetall('chat.'+chat+'.meta')
         return jsonify(message_dict)
 
     # Otherwise, listen for a message.
