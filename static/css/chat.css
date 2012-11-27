@@ -196,7 +196,7 @@ body.settings #settings, body.userList #userList {
 
 /* Moderation */
 
-#metaOptions, #metaResults li {
+#metaOptions, .modPowers #metaResults, #metaResults li {
 	display: none;
 }
 

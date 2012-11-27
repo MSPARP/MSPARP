@@ -11,6 +11,8 @@ $(document).ready(function() {
 	var SAVE_URL = "/chat_ajax/save";
 	var QUIT_URL = "/chat_ajax/quit";
 
+	var CHAT_FLAGS = ['autosilence'];
+
 	var pingInterval;
 	var chatState;
 	var userState;
@@ -97,6 +99,19 @@ $(document).ready(function() {
 					$("#online > li, #idle > li").appendTo(holdingList);
 					generateUserlist(data.online, $('#online')[0]);
 					generateUserlist(data.idle, $('#idle')[0]);
+				}
+				if (typeof data.meta!=='undefined') {
+					// Reload chat metadata.
+					var chat_meta = data.meta;
+					for (i=0; i<CHAT_FLAGS.length; i++) {
+						if (typeof data.meta[CHAT_FLAGS[i]]!=='undefined') {
+							$('#'+CHAT_FLAGS[i]).attr('checked', 'checked');
+							$('#'+CHAT_FLAGS[i]+'Result').show();
+						} else {
+							$('#'+CHAT_FLAGS[i]).removeAttr('checked');
+							$('#'+CHAT_FLAGS[i]+'Result').hide();
+						}
+					}
 				}
 				if (typeof hidden!=="undefined" && document[hidden]==true) {
 					document.title = "New message - "+ORIGINAL_TITLE;
@@ -368,6 +383,13 @@ $(document).ready(function() {
 
 		$('#settingsCancelButton').click(function() {
 			closeSettings();
+		});
+
+		$('#metaOptions input').click(function() {
+			var data = {'chat': chat, 'meta_change': ''}
+			// Convert to integer then string.
+			data[this.id] = +this.checked+'';
+			$.post(POST_URL, data);
 		});
 
 		// Activate mobile mode on small screens
