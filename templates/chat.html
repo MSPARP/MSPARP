@@ -65,8 +65,8 @@
 	</select></label></p>
 	<p>Replacements:</p>
 	<ul id="replacementList">
-		{% if replacements|length!=0 %}
-		{% for replacement in replacements %}
+		{% if character_dict['character']['replacements']|length!=0 %}
+		{% for replacement in character_dict['character']['replacements'] %}
 		<li><input type="text" name="quirk_from" size="4" value="{{replacement[0]}}"> to <input type="text" name="quirk_to" size="4" value="{{replacement[1]}}"> <a href="#" class="deleteReplacement">x</a></li>
 		{% endfor %}
 		{% else %}
