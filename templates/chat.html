@@ -50,7 +50,7 @@
 		{% for group in groups %}
 		<optgroup label="{{group}}">
 			{% for char in characters[group] %}
-			<option value="{{char|lower}}"{% if char|lower==user.character %} selected="selected"{%endif%}>{{char}}</option>
+			<option value="{{char|lower}}"{% if char|lower==user.character['character'] %} selected="selected"{%endif%}>{{char}}</option>
 			{% endfor %}
 		</optgroup>
 		{% endfor %}
