@@ -166,15 +166,10 @@ class Session(object):
 
     def save_pickiness(self, form):
         picky_key = self.prefix+'.picky'
-        if 'picky' in form:
-            chars = self.picky = set(k[6:] for k in form.keys() if k.startswith('picky-'))
-            if not chars:
-                raise ValueError("no_characters")
-            pipe = self.redis.pipeline()
-            pipe.delete(picky_key)
-            for char in self.picky:
-                pipe.sadd(picky_key, char)
-            pipe.execute()
+        self.redis.delete(picky_key)
+        chars = self.picky = set(k[6:] for k in form.keys() if k.startswith('picky-'))
+        if len(CHARACTER_DETAILS)>len(chars)>0:
+            self.redis.sadd(picky_key, *chars)
 
     def set_chat(self, chat):
         if self.chat is None:

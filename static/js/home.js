@@ -50,6 +50,7 @@ $(document).ready(function() {
 			$('#picky-matches').show();
 		} else {
 			$('#picky-matches').hide();
+			$('#picky-matches input').removeAttr('checked').removeAttr('indeterminate');
 		}
 	}).change();
 

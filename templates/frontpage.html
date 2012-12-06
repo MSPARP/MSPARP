@@ -3,7 +3,7 @@
 <link rel="stylesheet" media="screen" type="text/css" href="/static/colorpicker/css/colorpicker.css" />
 <script type="text/javascript" src="/static/colorpicker/js/colorpicker.js"></script>
 <script src="/static/js/characters.js?fs"></script>
-<script src="/static/js/home.js?fs"></script>
+<script src="/static/js/home.js?p"></script>
 {% endblock %}
 {% block content %}
 <form method="post" action="{{url_for('save')}}" >
@@ -84,8 +84,7 @@
 				checked="checked" {% endif %} >{{char}}</label>
 		{% endfor %} 
 		</div>
-	{% endfor %}{% if error=="no_characters" %}
-		<span class="error">No characters were selected. Please either pick some characters or untick the specific characters box.</span>{% endif %}
+	{% endfor %}
 	</div>
 </div>
 
