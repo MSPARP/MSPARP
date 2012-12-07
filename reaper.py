@@ -31,7 +31,7 @@ if __name__=='__main__':
             chat, session = dead.split('/')
             disconnect_message = None
             if redis.hget('session.'+session+'.meta.'+chat, 'group')!='silent':
-                session_name = redis.hget('session'+session+'.chat.'+chat, 'name')
+                session_name = redis.hget('session.'+session+'.chat.'+chat, 'name')
                 if session_name is None:
                     session_name = CHARACTER_DETAILS[redis.hget('session.'+session+'.chat.'+chat, 'character')]['name']
                 disconnect_message = '%s\'s connection timed out. Please don\'t quit straight away; they could be back.' % (session_name)
