@@ -2,7 +2,7 @@
 {% block header %}
 <link rel="stylesheet" media="screen" type="text/css" href="/static/colorpicker/css/colorpicker.css" />
 <script type="text/javascript" src="/static/colorpicker/js/colorpicker.js"></script>
-<script src="/static/js/characters.js?fs"></script>
+<script src="/static/js/characters.js?sprites"></script>
 <script src="/static/js/home.js?p"></script>
 {% endblock %}
 {% block content %}
@@ -37,7 +37,7 @@
 <div class="options">
 	<h1>With settings:</h1>
 	<div class="options-contents" id="character-config">
-		<label>Acronym: <input type="text" size="3" name="acronym" value="{{user.character['acronym']}}" maxlength="15" /></label><br />
+		<label>Acronym: <input type="text" size="15" name="acronym" value="{{user.character['acronym']}}" maxlength="15" /></label><br />
 		<label>Name: <input type="text" size="50" name="name" value="{{user.character['name']}}" maxlength="50" /></label><br />{% if error=="name" %}
 		<span class="error">You can't chat with a blank name!</span><br />{% endif %}
 		<label>Color: <input type="text" size="7" name="color" value="{{user.character['color']}}" /></label>

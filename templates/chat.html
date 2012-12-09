@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="/static/css/chat.css?fs2">
 <link rel="stylesheet" media="screen" type="text/css" href="/static/colorpicker/css/colorpicker.css" />
 <script type="text/javascript" src="/static/colorpicker/js/colorpicker.js"></script>
-<script src="/static/js/characters.js?fs"></script>
+<script src="/static/js/characters.js?sprites"></script>
 <script src="/static/js/quirks.js?fs"></script>
 <script type="text/javascript">
 	var user = {{character_dict|tojson|safe}};
@@ -56,7 +56,7 @@
 		{% endfor %}
 	</select></p>
 	<p><input type="text" name="name" value="{{user.character['name']}}" maxlength="50"></p>
-	<p><input type="text" size="3" name="acronym" value="{{user.character['acronym']}}" maxlength="15"> <input type="text" size="7" name="color" value="{{user.character['color']}}"></p>
+	<p><input type="text" size="15" name="acronym" value="{{user.character['acronym']}}" maxlength="15"> <input type="text" size="7" name="color" value="{{user.character['color']}}"></p>
 	<p><label>Prefix: <input type="text" size="8" name="quirk_prefix" value="{{user.character['quirk_prefix']}}" /></label></p>
 	<p><label>Case: <select name="case">
 		{% for case in case_options.items()|sort %}

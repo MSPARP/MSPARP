@@ -5,6 +5,7 @@ CHARACTER_GROUPS = [
     'Humans',
     'Post-scratch Trolls',
     'Pre-scratch Trolls',
+    'Sprites',
 ]
 
 CHARACTERS = {
@@ -57,6 +58,16 @@ CHARACTERS = {
         'Kurloz',
         'Cronus',
         'Meenah',
+    ],
+    'Sprites': [
+        'Nannasprite',
+        'Jaspersprite',
+        'Calsprite',
+        'Davesprite',
+        'Jadesprite',
+        'Tavrisprite',
+        'Fefetasprite',
+        'Erisolsprite',
     ],
 }
 
@@ -172,7 +183,7 @@ CHARACTER_DETAILS = {
 		'name': 'gardenGnostic',
 		'color': '4AC925',
 		'quirk_prefix': '',
-		'case': 'lower',
+		'case': 'normal',
 		'replacements': '[]'
 	},
 	'jane': {
@@ -228,8 +239,8 @@ CHARACTER_DETAILS = {
 		'name': 'twinArmageddons',
 		'color': 'A1A100',
 		'quirk_prefix': '',
-		'case': 'lower',
-		'replacements': '[["i", "ii"], ["s", "2"]]'
+		'case': 'normal',
+		'replacements': '[["I", "II"], ["i", "ii"], ["S", "2"], ["s", "2"]]'
 	},
 	'karkat':{
 		'acronym': 'CG',
@@ -293,8 +304,8 @@ CHARACTER_DETAILS = {
 		'name': 'caligulasAquarium',
 		'color': '6A006A',
 		'quirk_prefix': '',
-		'case': 'lower',
-		'replacements': '[["v", "vv"], ["w", "ww"]]'
+		'case': 'normal',
+		'replacements': '[["V", "VV"], ["v", "vv"], ["W", "WW"], ["w", "ww"]]'
 	},
 	'feferi': {
 		'acronym': 'CC',
@@ -399,6 +410,70 @@ CHARACTER_DETAILS = {
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[["E", "-E"], ["H", ")("]]'
+	},
+	'nannasprite': {
+		'acronym': 'NANNASPRITE',
+		'name': 'Nannasprite',
+		'color': '00D5F2',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
+	'jaspersprite': {
+		'acronym': 'JASPERSPRITE',
+		'name': 'Jaspersprite',
+		'color': 'F141EF',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
+	'calsprite': {
+		'acronym': 'CALSPRITE',
+		'name': 'Calsprite',
+		'color': 'F2A400',
+		'quirk_prefix': '',
+		'case': 'upper',
+		'replacements': '[["A", "<"], ["B", ">"], ["C", "?"], ["D", "<"], ["E", ">"], ["F", "?"], ["G", "<"], ["H", ">"], ["I", "?"], ["J", "<"], ["K", ">"], ["L", "?"], ["M", "<"], ["N", ">"], ["O", "?"], ["P", "<"], ["Q", ">"], ["R", "?"], ["S", "<"], ["T", ">"], ["U", "?"], ["V", "<"], ["W", ">"], ["X", "?"], ["Y", "<"], ["Z", ">"], ["<", "HAA "], [">", "HEE "], ["?", "HOO "]]'
+	},
+	'davesprite': {
+		'acronym': 'DAVESPRITE',
+		'name': 'Davesprite',
+		'color': 'F2A400',
+		'quirk_prefix': '',
+		'case': 'lower',
+		'replacements': '[]'
+	},
+	'jadesprite': {
+		'acronym': 'JADESPRITE',
+		'name': 'Jadesprite',
+		'color': '1F9400',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
+	'tavrisprite': {
+		'acronym': 'TAVRISPRITE',
+		'name': 'Tavrisprite',
+		'color': '0715CD',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
+	'fefetasprite': {
+		'acronym': 'FEFETASPRITE',
+		'name': 'Fefetasprite',
+		'color': 'B536DA',
+		'quirk_prefix': '3833 <',
+		'case': 'normal',
+		'replacements': '[["E", "-E"], ["ee", "33"], ["H", ")("], ["h", ")("]]'
+	},
+	'erisolsprite': {
+		'acronym': 'ERISOLSPRITE',
+		'name': 'Erisolsprite',
+		'color': '4AC925',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[["I", "II"], ["i", "ii"], ["S", "2"], ["s", "2"], ["V", "VV"], ["v", "vv"], ["W", "WW"], ["w", "ww"]]'
 	}
 }
 

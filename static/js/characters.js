@@ -124,7 +124,7 @@ var characters = {
 		'color': '4AC925',
 		'quote': "i am never going to sleep again!",
 		'quirk_prefix': '',
-		'case': 'lower',
+		'case': 'normal',
 		'replacements': []
 	},
 	'jane': {
@@ -187,8 +187,8 @@ var characters = {
 		'color': 'A1A100',
 		'quote': "do me a favor and 2pare me your 2pooky conundrum2 twoniight, youre kiind of pii22iing me off.",
 		'quirk_prefix': '',
-		'case': 'lower',
-		'replacements': [['i', 'ii'], ['s', '2']]
+		'case': 'normal',
+		'replacements': [["I", "II"], ["i", "ii"], ["S", "2"], ["s", "2"]]
 	},
 	'karkat':{
 		'acronym': 'CG',
@@ -259,8 +259,8 @@ var characters = {
 		'color': '6A006A',
 		'quote': "wwho are you tryin to convvince wwith this ludicrous poppycock",
 		'quirk_prefix': '',
-		'case': 'lower',
-		'replacements': [["v", "vv"], ["w", "ww"]]
+		'case': 'normal',
+		'replacements': [["V", "VV"], ["v", "vv"], ["W", "WW"], ["w", "ww"]]
 	},
 	'feferi': {
 		'acronym': 'CC',
@@ -378,6 +378,78 @@ var characters = {
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': [["E", "-E"], ["H", ")("]]
+	},
+	'nannasprite': {
+		'acronym': 'NANNASPRITE',
+		'name': 'Nannasprite',
+		'color': '00D5F2',
+		'quote': "Hoo hoo hoo! Of course I know what a computer is, John! I was just pulling your leg!",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'jaspersprite': {
+		'acronym': 'JASPERSPRITE',
+		'name': 'Jaspersprite',
+		'color': 'F141EF',
+		'quote': "Maybe you can win his affection by rubbing your cheek against him thats what i would do.",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'calsprite': {
+		'acronym': 'CALSPRITE',
+		'name': 'Calsprite',
+		'color': 'F2A400',
+		'quote': "HAA HAA HEE HEE HOO HOO",
+		'quirk_prefix': '',
+		'case': 'upper',
+		'replacements': [["A", "<"], ["B", ">"], ["C", "?"], ["D", "<"], ["E", ">"], ["F", "?"], ["G", "<"], ["H", ">"], ["I", "?"], ["J", "<"], ["K", ">"], ["L", "?"], ["M", "<"], ["N", ">"], ["O", "?"], ["P", "<"], ["Q", ">"], ["R", "?"], ["S", "<"], ["T", ">"], ["U", "?"], ["V", "<"], ["W", ">"], ["X", "?"], ["Y", "<"], ["Z", ">"], ["<", "HAA "], [">", "HEE "], ["?", "HOO "]]
+	},
+	'davesprite': {
+		'acronym': 'DAVESPRITE',
+		'name': 'Davesprite',
+		'color': 'F2A400',
+		'quote': "thats the best fucking question anybody ever asked",
+		'quirk_prefix': '',
+		'case': 'lower',
+		'replacements': []
+	},
+	'jadesprite': {
+		'acronym': 'JADESPRITE',
+		'name': 'Jadesprite',
+		'color': '1F9400',
+		'quote': "yes i figured shenanigans were probably involved",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'tavrisprite': {
+		'acronym': 'TAVRISPRITE',
+		'name': 'Tavrisprite',
+		'color': '0715CD',
+		'quote': "eEEEEEEEAAAAAAAAUUUUUUUURRRRRRRRUUUUUUUUEEEEEEEEGGGGGGGGHHHHHHHH,,,,,,,,.",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'fefetasprite': {
+		'acronym': 'FEFETASPRITE',
+		'name': 'Fefetasprite',
+		'color': 'B536DA',
+		'quote': "3833 < 383",
+		'quirk_prefix': '3833 <',
+		'case': 'normal',
+		'replacements': [["E", "-E"], ["ee", "33"], ["H", ")("], ["h", ")("]]
+	},
+	'erisolsprite': {
+		'acronym': 'ERISOLSPRITE',
+		'name': 'Erisolsprite',
+		'color': '4AC925',
+		'quote': "wwoww, iit2 cool ii amu2e you, that really giivve2 meaniing to my joke of an exii2tence, ii mean WWOWW, thank2.",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': [["I", "II"], ["i", "ii"], ["S", "2"], ["s", "2"], ["V", "VV"], ["v", "vv"], ["W", "WW"], ["w", "ww"]]
 	}
 }
 
