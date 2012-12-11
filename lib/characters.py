@@ -6,13 +6,13 @@ CHARACTER_GROUPS = [
     'Post-scratch Trolls',
     'Pre-scratch Trolls',
     'Sprites',
+    'Ancestors',
 ]
 
 CHARACTERS = {
     'Special/Other': [
         'Anonymous/Other',
         'Original Character',
-        'Ancestor',
         'Guardian',
         'Midnight Crew',
         'Trickster',
@@ -69,6 +69,20 @@ CHARACTERS = {
         'Fefetasprite',
         'Erisolsprite',
     ],
+    'Ancestors': [
+        'The Handmaid',
+        'The Summoner',
+        'The Psiioniic',
+        'The Signless',
+        'The Disciple',
+        'The Dolorosa',
+        'Redglare',
+        'Mindfang',
+        'Darkleer',
+        'Grand Highblood',
+        'Dualscar',
+        'The Condesce',
+    ],
 }
 
 # XXX THIS IS JUST A DUPLICATE OF CHARACTERS.JS
@@ -90,6 +104,8 @@ CHARACTER_DETAILS = {
 		'case': 'normal',
 		'replacements': '[]'
 	},
+	# XXX GOTTA REMOVE THIS AT SOME POINT.
+	# needs conversion though otherwise we're gonna get a raft of 500s
 	'ancestor': {
 		'acronym': '??',
 		'name': 'Ancestor',
@@ -474,6 +490,102 @@ CHARACTER_DETAILS = {
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[["I", "II"], ["i", "ii"], ["S", "2"], ["s", "2"], ["V", "VV"], ["v", "vv"], ["W", "WW"], ["w", "ww"]]'
+	},
+	'the handmaid': {
+		'acronym': '♈',
+		'name': 'The Handmaid',
+		'color': 'A10000',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
+	'the summoner': {
+		'acronym': '♉',
+		'name': 'The Summoner',
+		'color': 'A15000',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
+	'the psiioniic':{
+		'acronym': '♊',
+		'name': 'The Ψiioniic',
+		'color': 'A1A100',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
+	'the signless':{
+		'acronym': '♋',
+		'name': 'The Signless',
+		'color': '626262',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
+	'the disciple': {
+		'acronym': '♌',
+		'name': 'The Disciple',
+		'color': '416600',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
+	'the dolorosa':{
+		'acronym': '♍',
+		'name': 'The Dolorosa',
+		'color': '008141',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
+	'redglare': {
+		'acronym': '♎',
+		'name': 'Neophyte Redglare',
+		'color': '008282',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
+	'mindfang': {
+		'acronym': '♏',
+		'name': 'Marquise Spinneret Mindfang',
+		'color': '005682',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
+	'darkleer': {
+		'acronym': '♐',
+		'name': 'E%ecutor Darkleer',
+		'color': '000056',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
+	'grand highblood': {
+		'acronym': '♑',
+		'name': 'The Grand Highblood',
+		'color': '2B0057',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
+	'dualscar': {
+		'acronym': '♒',
+		'name': 'Orphaner Dualscar',
+		'color': '6A006A',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
+	'the condesce': {
+		'acronym': '♓',
+		'name': 'Her Imperious Condescension',
+		'color': '77003C',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
 	}
 }
 

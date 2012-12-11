@@ -19,6 +19,7 @@ var characters = {
 		'case': 'normal',
 		'replacements': []
 	},
+	// XXX GOTTA REMOVE THIS AT SOME POINT
 	'ancestor': {
 		'acronym': '??',
 		'name': 'Ancestor',
@@ -450,6 +451,114 @@ var characters = {
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': [["I", "II"], ["i", "ii"], ["S", "2"], ["s", "2"], ["V", "VV"], ["v", "vv"], ["W", "WW"], ["w", "ww"]]
+	},
+	'the handmaid': {
+		'acronym': '♈',
+		'name': 'The Handmaid',
+		'color': 'A10000',
+		'quote': "some random text for previewing purposes",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'the summoner': {
+		'acronym': '♉',
+		'name': 'The Summoner',
+		'color': 'A15000',
+		'quote': "some random text for previewing purposes",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'the psiioniic':{
+		'acronym': '♊',
+		'name': 'The Ψiioniic',
+		'color': 'A1A100',
+		'quote': "some random text for previewing purposes",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'the signless':{
+		'acronym': '♋',
+		'name': 'The Signless',
+		'color': '626262',
+		'quote': "some random text for previewing purposes",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'the disciple': {
+		'acronym': '♌',
+		'name': 'The Disciple',
+		'color': '416600',
+		'quote': "some random text for previewing purposes",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'the dolorosa':{
+		'acronym': '♍',
+		'name': 'The Dolorosa',
+		'color': '008141',
+		'quote': "some random text for previewing purposes",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'redglare': {
+		'acronym': '♎',
+		'name': 'Neophyte Redglare',
+		'color': '008282',
+		'quote': "some random text for previewing purposes",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'mindfang': {
+		'acronym': '♏',
+		'name': 'Marquise Spinneret Mindfang',
+		'color': '005682',
+		'quote': "some random text for previewing purposes",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'darkleer': {
+		'acronym': '♐',
+		'name': 'E%ecutor Darkleer',
+		'color': '000056',
+		'quote': "some random text for previewing purposes",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'grand highblood': {
+		'acronym': '♑',
+		'name': 'The Grand Highblood',
+		'color': '2B0057',
+		'quote': "some random text for previewing purposes",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'dualscar': {
+		'acronym': '♒',
+		'name': 'Orphaner Dualscar',
+		'color': '6A006A',
+		'quote': "some random text for previewing purposes",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'the condesce': {
+		'acronym': '♓',
+		'name': 'Her Imperious Condescension',
+		'color': '77003C',
+		'quote': "some random text for previewing purposes",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
 	}
 }
 
