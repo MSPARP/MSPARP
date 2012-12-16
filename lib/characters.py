@@ -5,16 +5,16 @@ CHARACTER_GROUPS = [
     'Humans',
     'Post-scratch Trolls',
     'Pre-scratch Trolls',
+    'Guardians',
     'Sprites',
     'Ancestors',
+    'Midnight Crew',
 ]
 
 CHARACTERS = {
     'Special/Other': [
         'Anonymous/Other',
         'Original Character',
-        'Guardian',
-        'Midnight Crew',
         'Trickster',
         'Doc Scratch',
         'Calliope',
@@ -59,6 +59,13 @@ CHARACTERS = {
         'Cronus',
         'Meenah',
     ],
+    'Guardians': [
+        'Dad',
+        'Nanna',
+        'Mom',
+        'Bro',
+        'Grandpa',
+    ],
     'Sprites': [
         'Nannasprite',
         'Jaspersprite',
@@ -83,9 +90,16 @@ CHARACTERS = {
         'Dualscar',
         'The Condesce',
     ],
+    'Midnight Crew': [
+        'Spades Slick',
+        'Clubs Deuce',
+        'Diamonds Droog',
+        'Hearts Boxcars',
+    ],
 }
 
 # XXX THIS IS JUST A DUPLICATE OF CHARACTERS.JS
+# XXX also fix the goddamn indentation
 
 CHARACTER_DETAILS = {
 	'anonymous/other': {
@@ -130,6 +144,7 @@ CHARACTER_DETAILS = {
 		'case': 'normal',
 		'replacements': '[]'
 	},
+	# XXX END STUFF THAT NEEDS REMOVING
 	'trickster': {
 		'acronym': '??',
 		'name': 'Trickster',
@@ -427,6 +442,46 @@ CHARACTER_DETAILS = {
 		'case': 'normal',
 		'replacements': '[["E", "-E"], ["H", ")("]]'
 	},
+	'dad': {
+		'acronym': 'pipefan413',
+		'name': 'Dad',
+		'color': '4B4B4B',
+		'quirk_prefix': '',
+		'case': 'upper',
+		'replacements': '[]'
+	},
+	'nanna': {
+		'acronym': 'NANNA',
+		'name': 'Nanna',
+		'color': '000000',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
+	'mom': {
+		'acronym': 'MOM',
+		'name': 'Mom',
+		'color': '000000',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
+	'bro': {
+		'acronym': 'BRO',
+		'name': 'Bro',
+		'color': '000000',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
+	'grandpa': {
+		'acronym': 'GRANDPA',
+		'name': 'Grandpa',
+		'color': '000000',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
 	'nannasprite': {
 		'acronym': 'NANNASPRITE',
 		'name': 'Nannasprite',
@@ -586,6 +641,38 @@ CHARACTER_DETAILS = {
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
+	},
+	'spades slick': {
+		'acronym': '♠',
+		'name': 'Spades Slick',
+		'color': '000000',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'clubs deuce': {
+		'acronym': '♣',
+		'name': 'Clubs Deuce',
+		'color': '000000',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'diamonds droog': {
+		'acronym': '♦',
+		'name': 'Diamonds Droog',
+		'color': '000000',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'hearts boxcars': {
+		'acronym': '♥',
+		'name': 'Hearts Boxcars',
+		'color': '000000',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
 	}
 }
 

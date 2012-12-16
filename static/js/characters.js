@@ -47,6 +47,7 @@ var characters = {
 		'case': 'normal',
 		'replacements': []
 	},
+	// XXX END STUFF THAT NEEDS REMOVING
 	'trickster': {
 		'acronym': '??',
 		'name': 'Trickster',
@@ -380,6 +381,51 @@ var characters = {
 		'case': 'normal',
 		'replacements': [["E", "-E"], ["H", ")("]]
 	},
+	'dad': {
+		'acronym': 'pipefan413',
+		'name': 'Dad',
+		'color': '4B4B4B',
+		'quote': "YES. THIS WILL BE THE CASE REGARDLESS OF THE HAT'S ORIENTATION.",
+		'quirk_prefix': '',
+		'case': 'upper',
+		'replacements': []
+	},
+	'nanna': {
+		'acronym': 'NANNA',
+		'name': 'Nanna',
+		'color': '000000',
+		'quote': "some random text for previewing purposes",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'mom': {
+		'acronym': 'MOM',
+		'name': 'Mom',
+		'color': '000000',
+		'quote': "some random text for previewing purposes",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'bro': {
+		'acronym': 'BRO',
+		'name': 'Bro',
+		'color': '000000',
+		'quote': "some random text for previewing purposes",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'grandpa': {
+		'acronym': 'GRANDPA',
+		'name': 'Grandpa',
+		'color': '000000',
+		'quote': "some random text for previewing purposes",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
 	'nannasprite': {
 		'acronym': 'NANNASPRITE',
 		'name': 'Nannasprite',
@@ -555,6 +601,42 @@ var characters = {
 		'acronym': '♓',
 		'name': 'Her Imperious Condescension',
 		'color': '77003C',
+		'quote': "this is what i get for lettin all proper dudes run shit instead of nasty clowns",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'spades slick': {
+		'acronym': '♠',
+		'name': 'Spades Slick',
+		'color': '000000',
+		'quote': "some random text for previewing purposes",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'clubs deuce': {
+		'acronym': '♣',
+		'name': 'Clubs Deuce',
+		'color': '000000',
+		'quote': "some random text for previewing purposes",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'diamonds droog': {
+		'acronym': '♦',
+		'name': 'Diamonds Droog',
+		'color': '000000',
+		'quote': "some random text for previewing purposes",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'hearts boxcars': {
+		'acronym': '♥',
+		'name': 'Hearts Boxcars',
+		'color': '000000',
 		'quote': "some random text for previewing purposes",
 		'quirk_prefix': '',
 		'case': 'normal',
