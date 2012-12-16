@@ -65,6 +65,10 @@ CHARACTERS = {
         'Mom',
         'Bro',
         'Grandpa',
+        'Poppop',
+        'Alpha Mom',
+        'Alpha Bro',
+        'Grandma',
     ],
     'Sprites': [
         'Nannasprite',
@@ -482,6 +486,38 @@ CHARACTER_DETAILS = {
 		'case': 'normal',
 		'replacements': '[]'
 	},
+	'poppop': {
+		'acronym': 'POPPOP',
+		'name': 'Poppop',
+		'color': '000000',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
+	'alpha mom': {
+		'acronym': 'MOM',
+		'name': 'Mom',
+		'color': '000000',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
+	'alpha bro': {
+		'acronym': 'BRO',
+		'name': 'Bro',
+		'color': '000000',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
+	'grandma': {
+		'acronym': 'GRANDMA',
+		'name': 'Grandma',
+		'color': '000000',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[]'
+	},
 	'nannasprite': {
 		'acronym': 'NANNASPRITE',
 		'name': 'Nannasprite',
@@ -648,7 +684,7 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': '[]'
 	},
 	'clubs deuce': {
 		'acronym': '♣',
@@ -656,7 +692,7 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': '[]'
 	},
 	'diamonds droog': {
 		'acronym': '♦',
@@ -664,7 +700,7 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': '[]'
 	},
 	'hearts boxcars': {
 		'acronym': '♥',
@@ -672,7 +708,7 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': '[]'
 	}
 }
 

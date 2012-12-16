@@ -426,6 +426,42 @@ var characters = {
 		'case': 'normal',
 		'replacements': []
 	},
+	'poppop': {
+		'acronym': 'POPPOP',
+		'name': 'Poppop',
+		'color': '000000',
+		'quote': "some random text for previewing purposes",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'alpha mom': {
+		'acronym': 'MOM',
+		'name': 'Mom',
+		'color': '000000',
+		'quote': "some random text for previewing purposes",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'alpha bro': {
+		'acronym': 'BRO',
+		'name': 'Bro',
+		'color': '000000',
+		'quote': "some random text for previewing purposes",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
+	'grandma': {
+		'acronym': 'GRANDMA',
+		'name': 'Grandma',
+		'color': '000000',
+		'quote': "some random text for previewing purposes",
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
+	},
 	'nannasprite': {
 		'acronym': 'NANNASPRITE',
 		'name': 'Nannasprite',
