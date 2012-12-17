@@ -1,11 +1,14 @@
 from flask import g, json, jsonify
 
-from lib import DELETE_UNSAVED_PERIOD, DELETE_SAVED_PERIOD, get_time
+from lib import DELETE_UNSAVED_PERIOD, DELETE_SAVED_PERIOD, get_time, LONGPOLL_TIMEOUT_PERIOD
 from characters import CHARACTER_DETAILS
 
 FULL_CHARACTER_LENGTH = len(CHARACTER_DETAILS['anonymous/other'])+1
 
 def send_message(redis, chat, counter, msg_type, text=None, color='000000', acronym='', audience=None):
+
+    # Do this here because it's gotta be before userlist generation.
+    redis.zadd('longpoll-timeout', chat, get_time(LONGPOLL_TIMEOUT_PERIOD))
 
     # The JavaScript always expects the messages list, so if we don't have any then we need an empty list.
     json_message = { 'messages': [] }
@@ -47,12 +50,15 @@ def send_message(redis, chat, counter, msg_type, text=None, color='000000', acro
         except RuntimeError:
             chat_type = redis.hget('chat.'+chat+'.meta', 'type')
 
-        # If the last person just left, mark the chat for deletion.
+        # If the last person just left, clean stuff up.
         if len(json_message['online'])==0 and len(json_message['idle'])==0:
+            # Mark the chat for deletion.
             if chat_type=='unsaved':
                 redis.zadd('delete-queue', chat, get_time(DELETE_UNSAVED_PERIOD))
             else:
                 redis.zadd('delete-queue', chat, get_time(DELETE_SAVED_PERIOD))
+            # Stop avoiding timeouts.
+            redis.zrem('longpoll-timeout', chat)
 
     elif msg_type=='meta_change':
         json_message['meta'] = redis.hgetall('chat.'+chat+'.meta')
