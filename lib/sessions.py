@@ -39,7 +39,7 @@ class Session(object):
             self.meta = get_or_create(
                 redis,
                 self.meta_prefix,
-                lambda: new_chat_metadata(redis, chat, session_id, key=original_meta_prefix)
+                lambda: new_chat_metadata(redis, chat, session_id)
             )
             character = get_or_create(
                 redis,
@@ -180,7 +180,7 @@ class Session(object):
             self.meta = get_or_create(
                 self.redis,
                 self.meta_prefix,
-                lambda: new_chat_metadata(self.redis, chat, self.session_id, meta=self.meta)
+                lambda: new_chat_metadata(self.redis, chat, self.session_id)
             )
             character = get_or_create(
                 self.redis,
@@ -202,12 +202,12 @@ def get_or_create(redis, key, default):
         redis.hmset(key, data)
     return data
 
-def new_chat_metadata(redis, chat, session_id, meta=None, key=None):
+def new_chat_metadata(redis, chat, session_id):
     # This can be overloaded as a general hook for joining a chat for the first time.
     if redis.hget('chat.'+chat+'.meta', 'autosilence')=='1':
         metadata = { 'group': 'silent' }
     else:
-        metadata = meta or get_or_create(redis, 'session.'+session_id+'.meta', lambda: META_DEFAULTS)
+        metadata = dict(META_DEFAULTS)
     metadata['counter'] = redis.hincrby('chat.'+chat+'.meta', 'counter', 1)
     redis.hset('chat.'+chat+'.counters', metadata['counter'], session_id)
     redis.sadd('session.'+session_id+'.chats', chat)
