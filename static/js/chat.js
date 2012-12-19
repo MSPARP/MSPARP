@@ -113,7 +113,7 @@ $(document).ready(function() {
 						}
 					}
 				}
-				if (typeof hidden!=="undefined" && document[hidden]==true) {
+				if (messages.length>0 && typeof hidden!=="undefined" && document[hidden]==true) {
 					document.title = "New message - "+ORIGINAL_TITLE;
 				}
 			}, "json").complete(function() {
