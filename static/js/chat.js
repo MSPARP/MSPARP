@@ -93,6 +93,9 @@ $(document).ready(function() {
 					addLine(messages[i]);
 					latestNum = Math.max(latestNum, messages[i]['id']);
 				}
+				if (typeof data.counter!=="undefined") {
+					user.meta.counter = data.counter;
+				}
 				if (typeof data.online!=="undefined") {
 					// Reload user lists.
 					actionListUser = null;

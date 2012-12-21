@@ -137,6 +137,8 @@ def getMessages():
         if silent_users is True and g.user.meta['group']!='mod':
             hide_silence(message_dict['online'], message_dict['idle'])
         message_dict['meta'] = g.redis.hgetall('chat.'+chat+'.meta')
+        # Newly created matchmaker chats don't know the counter, so we send it here.
+        message_dict['counter'] = g.user.meta['counter']
         return jsonify(message_dict)
 
     # Otherwise, listen for a message.

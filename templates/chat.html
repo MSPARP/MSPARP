@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title%}{% endblock %}
 {% block header %}
-<link rel="stylesheet" href="/static/css/chat.css?fs2">
+<link rel="stylesheet" href="/static/css/chat.css">
 <link rel="stylesheet" media="screen" type="text/css" href="/static/colorpicker/css/colorpicker.css" />
 <script type="text/javascript" src="/static/colorpicker/js/colorpicker.js"></script>
 <script src="/static/js/characters.js?mc"></script>
@@ -12,7 +12,7 @@
 	var chat_meta = {{chat_meta|tojson|safe}};
 	var latestNum = {{latest_num}};
 </script>
-<script src="/static/js/chat.js?fs2"></script>
+<script src="/static/js/chat.js?2112"></script>
 {% endblock %}
 {% block content %}
 
