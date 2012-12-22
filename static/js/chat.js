@@ -115,6 +115,11 @@ $(document).ready(function() {
 							$('#'+CHAT_FLAGS[i]+'Result').hide();
 						}
 					}
+					if (typeof data.meta.topic!=='undefined') {
+						$('#topic').text(data.meta.topic);
+					} else {
+						$('#topic').text('');
+					}
 				}
 				if (messages.length>0 && typeof hidden!=="undefined" && document[hidden]==true) {
 					document.title = "New message - "+ORIGINAL_TITLE;
@@ -393,6 +398,15 @@ $(document).ready(function() {
 			// Convert to integer then string.
 			data[this.id] = +this.checked+'';
 			$.post(POST_URL, data);
+		});
+
+		$('#topicButton').click(function() {
+			if (user.meta.group=='mod') {
+				var new_topic = prompt('Please enter a new topic for the chat:');
+				if (new_topic!=null) {
+					$.post(POST_URL,{'chat': chat, 'topic': new_topic});
+				}
+			}
 		});
 
 		// Activate mobile mode on small screens

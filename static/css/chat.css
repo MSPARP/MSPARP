@@ -52,7 +52,6 @@ button, input, select {
 
 input[type="submit"], button {
 	display: inline-block;
-	margin: 5px 0 0 0;
 	padding: 2px 4px;
 	cursor: pointer;
 }
@@ -111,6 +110,15 @@ body.withSidebar #conversation {
 	display: none;
 }
 
+#topic {
+	padding: 0 5px 5px;
+	word-wrap: break-word;
+}
+
+#topic:empty {
+	display: none;
+}
+
 .sidebar ul {
 	margin: 0;
 	padding: 0 0 0 1.5em;
@@ -141,6 +149,10 @@ body.withSidebar #conversation {
 
 body.withSidebar #controls {
 	right: 233px;
+}
+
+#controls input[type="submit"], #controls button {
+	margin: 5px 0 0 0;
 }
 
 #hidePreview {

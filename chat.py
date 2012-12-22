@@ -92,7 +92,7 @@ def postMessage():
                 # Refresh the user's subscriptions.
                 g.redis.publish('channel.'+chat+'.refresh', set_session_id+'#'+set_group)
                 send_message(g.redis, chat, -1, 'user_change', set_message)
-        if 'meta_change' in request.form and g.user.meta['group']:
+        if 'meta_change' in request.form:
             for flag in CHAT_FLAGS:
                 if flag in request.form:
                     if request.form[flag]=='1':
@@ -100,6 +100,16 @@ def postMessage():
                     else:
                         g.redis.hdel('chat.'+chat+'.meta', flag)
             send_message(g.redis, chat, -1, 'meta_change')
+        if 'topic' in request.form:
+            if request.form['topic']!='':
+                g.redis.hset('chat.'+chat+'.meta', 'topic', request.form['topic'])
+                send_message(g.redis, chat, -1, 'meta_change', '%s changed the conversation topic to "%s".' % (
+                    g.user.character['name'],
+                    request.form['topic']
+                ))
+            else:
+                g.redis.hdel('chat.'+chat+'.meta', 'topic')
+                send_message(g.redis, chat, -1, 'meta_change', '%s removed the conversation topic.' % g.user.character['name'])
     return 'ok'
 
 @app.route('/ping', methods=['POST'])
