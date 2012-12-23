@@ -52,6 +52,9 @@ def chat(chat=None):
     else:
         # Check if chat exists
         chat_meta = g.redis.hgetall('chat.'+chat+'.meta')
+        # Convert topic to unicode.
+        if 'topic' in chat_meta.keys():
+            chat_meta['topic'] = unicode(chat_meta['topic'], encoding='utf8')
         if len(chat_meta)==0:
             # XXX CREATE
             abort(404)
