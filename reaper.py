@@ -6,7 +6,7 @@ import datetime
 
 from lib import ARCHIVE_PERIOD, get_time
 from lib.api import disconnect
-from lib.archive import archive_chat, delete_chat_session, delete_chat
+from lib.archive import archive_chat, delete_chat_session, delete_chat, delete_session
 from lib.characters import CHARACTER_DETAILS
 from lib.messages import send_message
 from lib.model import sm
