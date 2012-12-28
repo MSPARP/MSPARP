@@ -1,3 +1,4 @@
+from flask import request
 from lib import get_time, ARCHIVE_PERIOD, PING_PERIOD
 from lib.messages import send_message
 
@@ -11,6 +12,8 @@ def ping(redis, chat, session, chat_type):
         # Add to the archive queue, but only if it's saved.
         if chat_type!='unsaved' and redis.zscore('archive-queue', chat) is None:
             redis.zadd('archive-queue', chat, get_time(ARCHIVE_PERIOD))
+        # Log their IP address.
+        redis.hset('session.'+session.session_id+'.meta', 'last_ip', request.environ['HTTP_X_REAL_IP'])
         # Set user state.
         redis.sadd('chat.'+chat+'.online', session.session_id)
         if session.meta['group']=='silent':
