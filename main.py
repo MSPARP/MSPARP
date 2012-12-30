@@ -1,4 +1,8 @@
-import json, urllib
+try:
+    import ujson as json
+except:
+    import json
+import urllib
 from flask import Flask, g, request, render_template, redirect, url_for, jsonify, abort
 from sqlalchemy import and_
 from sqlalchemy.orm.exc import NoResultFound

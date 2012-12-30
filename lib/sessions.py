@@ -1,4 +1,8 @@
-import json, re
+try:
+    import ujson as json
+except:
+    import json
+import re
 
 from flask import g, request
 from uuid import uuid4

@@ -1,4 +1,8 @@
-from flask import g, json, jsonify
+from flask import g
+try:
+    import ujson as json
+except:
+    import json
 
 from lib import DELETE_UNSAVED_PERIOD, DELETE_SAVED_PERIOD, get_time, LONGPOLL_TIMEOUT_PERIOD
 from characters import CHARACTER_DETAILS
