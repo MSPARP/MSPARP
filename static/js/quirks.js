@@ -9,7 +9,7 @@ function applyQuirks(text) {
 			text = text.toUpperCase();
 			break;
 		case "title":
-			text = text.toLowerCase().replace(/\b\w/g, function(t) { return t.toUpperCase(); });
+			text = text.toLowerCase().replace(/(^|[^\w-'])\w/g, function(t) { return t.toUpperCase(); });
 			break;
 		case "inverted":
 	        var buffer = text.replace(/[a-zA-Z]/g, function(t) {
