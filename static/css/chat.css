@@ -198,7 +198,11 @@ body.settings #settings, body.userList #userList {
 
 /* User groups */
 
-.mod {
+.globalmod {
+	text-decoration: underline;
+}
+
+.mod, .mod2, .mod3 {
 	font-style: italic;
 }
 

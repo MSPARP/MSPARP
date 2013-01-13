@@ -4,6 +4,7 @@ from flask import Flask, g, request, render_template, make_response, jsonify, ab
 from lib import PING_PERIOD, ARCHIVE_PERIOD, CHAT_FLAGS, get_time
 from lib.api import ping, change_state, disconnect, get_online_state
 from lib.characters import CHARACTER_DETAILS
+from lib.groups import MOD_GROUPS, GROUP_RANKS
 from lib.messages import send_message, get_userlists, hide_silence, parse_messages
 from lib.requests import populate_all_chars, connect_redis, create_chat_session, set_cookie, disconnect_redis
 
@@ -21,7 +22,7 @@ app.after_request(disconnect_redis)
 def get_wanted_channels(channel_main, channel_mod, channel_self):
     wanted_channels = set()
     wanted_channels.add(channel_main)
-    if g.user.meta['group']=='mod':
+    if g.user.meta['group'] in MOD_GROUPS:
         # Moderator messages.
         wanted_channels.add(channel_mod)
     if g.user.meta['group']=='silent':
@@ -55,14 +56,14 @@ def postMessage():
     if 'state' in request.form and request.form['state'] in ['online', 'idle']:
         change_state(g.redis, chat, g.user.session_id, request.form['state'])
     # Mod options.
-    if g.user.meta['group']=='mod':
+    if g.user.meta['group'] in MOD_GROUPS:
         if 'set_group' in request.form and 'counter' in request.form:
             set_group = request.form['set_group']
             set_session_id = g.redis.hget('chat.'+chat+'.counters', request.form['counter']) or abort(400)
             ss_key = 'session.'+set_session_id+'.chat.'+chat
             ss_meta_key = 'session.'+set_session_id+'.meta.'+chat
             current_group = g.redis.hget(ss_meta_key, 'group')
-            if current_group!=set_group and set_group in ['user', 'mod', 'silent']:
+            if current_group!=set_group and set_group in GROUP_RANKS.keys():
                 g.redis.hset(ss_meta_key, 'group', set_group)
                 set_message = None
                 # Convert the name and acronym to unicode.
@@ -75,15 +76,18 @@ def postMessage():
                     g.redis.hget(ss_key, 'acronym') or CHARACTER_DETAILS[ss_character]['acronym'],
                     encoding='utf8'
                 )
-                if current_group!='mod' and set_group=='mod':
-                    set_message = '%s [%s] gave moderator status to %s [%s].' % (
-                        g.user.character['name'],
-                        g.user.character['acronym'],
-                        set_session_name,
-                        set_session_acronym
-                    )
-                elif current_group=='mod' and set_group!='mod':
-                    set_message = '%s [%s] removed moderator status from %s [%s].' % (
+                print current_group
+                print set_group
+                if set_group=='mod':
+                    set_message = '%s [%s] gave Tier 1 moderator status to %s [%s].'
+                elif set_group=='mod2':
+                    set_message = '%s [%s] gave Tier 2 moderator status to %s [%s].'
+                elif set_group=='mod3':
+                    set_message = '%s [%s] gave Tier 3 moderator status to %s [%s].'
+                elif current_group in MOD_GROUPS and set_group not in MOD_GROUPS:
+                    set_message = '%s [%s] removed moderator status from %s [%s].'
+                if set_message is not None:
+                    set_message = set_message % (
                         g.user.character['name'],
                         g.user.character['acronym'],
                         set_session_name,
@@ -144,7 +148,7 @@ def getMessages():
 
     if message_dict:
         message_dict['online'], message_dict['idle'], silent_users = get_userlists(g.redis, chat)
-        if silent_users is True and g.user.meta['group']!='mod':
+        if silent_users is True and g.user.meta['group'] not in MOD_GROUPS:
             hide_silence(message_dict['online'], message_dict['idle'])
         message_dict['meta'] = g.redis.hgetall('chat.'+chat+'.meta')
         # Newly created matchmaker chats don't know the counter, so we send it here.

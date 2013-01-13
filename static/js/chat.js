@@ -13,6 +13,17 @@ $(document).ready(function() {
 
 	var CHAT_FLAGS = ['autosilence'];
 
+	var MOD_GROUPS = ['globalmod', 'mod', 'mod2', 'mod3']
+	var GROUP_RANKS = { 'globalmod': 6, 'mod': 5, 'mod2': 4, 'mod3': 3, 'user': 2, 'silent': 1 }
+	var GROUP_DESCRIPTIONS = {
+		'globalmod': 'God tier moderator',
+		'mod': 'Tier 1 moderator',
+		'mod2': 'Tier 2 moderator',
+		'mod3': 'Tier 3 moderator',
+		'user': '',
+		'silent': 'Silenced',
+	};
+
 	var pingInterval;
 	var chatState;
 	var userState;
@@ -194,19 +205,15 @@ $(document).ready(function() {
 				}
 				// Name is a reserved word; this may or may not break stuff but whatever.
 				listItem.css('color', '#'+currentUser.character.color).text(currentUser.character['name']);
-				listItem.removeClass('mod').removeClass('silent');
-				if (currentUser.meta.group=='mod') {
-					listItem.addClass('mod').attr('title', 'Moderator');
-				} else if (currentUser.meta.group=='silent') {
-					listItem.addClass('silent').attr('title', 'Silent');
-				}
+				listItem.removeClass().addClass(currentUser.meta.group);
+				listItem.attr('title', GROUP_DESCRIPTIONS[currentUser.meta.group]);
 				if (currentUser.meta.counter==user.meta.counter) {
 					// Set self-related things here.
 					user.meta.group = currentUser.meta.group;
-					if (user.meta.group=='mod') {
-						$(document.body).addClass('modPowers');
-					} else {
+					if (MOD_GROUPS.indexOf(user.meta.group)==-1) {
 						$(document.body).removeClass('modPowers');
+					} else {
+						$(document.body).addClass('modPowers');
 					}
 					listItem.addClass('self').append(' (you)');
 				}
@@ -225,11 +232,18 @@ $(document).ready(function() {
 				} else {
 					$('<li />').text('Highlight posts').appendTo(actionList).click(function() { highlightPosts(userData.meta.counter); });
 				}
-				if (user.meta.group=='mod') {
-					if (userData.meta.group=='mod') {
+				if (MOD_GROUPS.indexOf(user.meta.group)!=-1) {
+					if (userData.meta.group!='mod') {
+						$('<li />').text('Make Tier 1 mod').appendTo(actionList).click(function() { setUserGroup('mod', userData.meta.counter); });
+					}
+					if (userData.meta.group!='mod2') {
+						$('<li />').text('Make Tier 2 mod').appendTo(actionList).click(function() { setUserGroup('mod2', userData.meta.counter); });
+					}
+					if (userData.meta.group!='mod3') {
+						$('<li />').text('Make Tier 3 mod').appendTo(actionList).click(function() { setUserGroup('mod3', userData.meta.counter); });
+					}
+					if (MOD_GROUPS.indexOf(userData.meta.group)!=-1) {
 						$('<li />').text('Unmod').appendTo(actionList).click(function() { setUserGroup('user', userData.meta.counter); });
-					} else {
-						$('<li />').text('Mod').appendTo(actionList).click(function() { setUserGroup('mod', userData.meta.counter); });
 					}
 					if (userData.meta.group=='silent') {
 						$('<li />').text('Unsilence').appendTo(actionList).click(function() { setUserGroup('user', userData.meta.counter); });
