@@ -232,23 +232,23 @@ $(document).ready(function() {
 				} else {
 					$('<li />').text('Highlight posts').appendTo(actionList).click(function() { highlightPosts(userData.meta.counter); });
 				}
-				if (MOD_GROUPS.indexOf(user.meta.group)!=-1) {
-					if (userData.meta.group!='mod') {
-						$('<li />').text('Make Tier 1 mod').appendTo(actionList).click(function() { setUserGroup('mod', userData.meta.counter); });
-					}
-					if (userData.meta.group!='mod2') {
-						$('<li />').text('Make Tier 2 mod').appendTo(actionList).click(function() { setUserGroup('mod2', userData.meta.counter); });
-					}
-					if (userData.meta.group!='mod3') {
-						$('<li />').text('Make Tier 3 mod').appendTo(actionList).click(function() { setUserGroup('mod3', userData.meta.counter); });
+				// Mod actions. You can only do these if you're (a) a mod, and (b) higher than the person you're doing it to.
+				if (MOD_GROUPS.indexOf(user.meta.group)!=-1 && GROUP_RANKS[user.meta.group]>=GROUP_RANKS[userData.meta.group]) {
+					for (var i=1; i<MOD_GROUPS.length; i++) {
+						if (userData.meta.group!=MOD_GROUPS[i] && GROUP_RANKS[user.meta.group]>=GROUP_RANKS[MOD_GROUPS[i]]) {
+							var command = $('<li />').text('Make Tier '+i+' mod');
+							command.appendTo(actionList);
+							command.data({ group: MOD_GROUPS[i] });
+							command.click(setUserGroup);
+						}
 					}
 					if (MOD_GROUPS.indexOf(userData.meta.group)!=-1) {
-						$('<li />').text('Unmod').appendTo(actionList).click(function() { setUserGroup('user', userData.meta.counter); });
+						$('<li />').text('Unmod').appendTo(actionList).data({ group: 'user' }).click(setUserGroup);
 					}
 					if (userData.meta.group=='silent') {
-						$('<li />').text('Unsilence').appendTo(actionList).click(function() { setUserGroup('user', userData.meta.counter); });
+						$('<li />').text('Unsilence').appendTo(actionList).data({ group: 'user' }).click(setUserGroup);
 					} else {
-						$('<li />').text('Silence').appendTo(actionList).click(function() { setUserGroup('silent', userData.meta.counter); });
+						$('<li />').text('Silence').appendTo(actionList).data({ group: 'silent' }).click(setUserGroup);
 					}
 				}
 				$(actionList).appendTo(this);
@@ -258,7 +258,9 @@ $(document).ready(function() {
 			}
 		}
 
-		function setUserGroup(group, counter) {
+		function setUserGroup() {
+			var counter = $(this).parent().parent().data().meta.counter;
+			var group = $(this).data().group;
 			if (counter!=user.meta.counter || confirm('You are about to unmod yourself. Are you sure you want to do this?')) {
 				$.post(POST_URL,{'chat': chat, 'set_group': group, 'counter': counter});
 			}

@@ -63,6 +63,12 @@ def postMessage():
             ss_key = 'session.'+set_session_id+'.chat.'+chat
             ss_meta_key = 'session.'+set_session_id+'.meta.'+chat
             current_group = g.redis.hget(ss_meta_key, 'group')
+            # You can't promote people to or demote people from a group higher than your own.
+            if (
+                GROUP_RANKS[current_group]>GROUP_RANKS[g.user.meta['group']]
+                or GROUP_RANKS[set_group]>GROUP_RANKS[g.user.meta['group']]
+            ):
+                return 'ok'
             if current_group!=set_group and set_group in GROUP_RANKS.keys():
                 g.redis.hset(ss_meta_key, 'group', set_group)
                 set_message = None
@@ -76,8 +82,6 @@ def postMessage():
                     g.redis.hget(ss_key, 'acronym') or CHARACTER_DETAILS[ss_character]['acronym'],
                     encoding='utf8'
                 )
-                print current_group
-                print set_group
                 if set_group=='mod':
                     set_message = '%s [%s] gave Tier 1 moderator status to %s [%s].'
                 elif set_group=='mod2':
