@@ -131,7 +131,7 @@ def postMessage():
                     their_session_acronym
                 ))
             elif request.form['user_action']=='ip_ban':
-                their_ip_address = g.redis.hget('session.'+their_session_id+'.meta.'+chat, 'last_ip')
+                their_ip_address = g.redis.hget('session.'+their_session_id+'.meta', 'last_ip')
                 if their_ip_address is not None:
                     g.redis.zadd('ip-bans', chat+'/'+their_ip_address, get_time(IP_BAN_PERIOD))
                 g.redis.publish('channel.'+chat+'.refresh', their_session_id+'#ban')
