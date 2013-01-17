@@ -8,7 +8,7 @@ from sqlalchemy import and_
 from sqlalchemy.orm.exc import NoResultFound
 from webhelpers import paginate
 
-from lib import SEARCH_PERIOD, ARCHIVE_PERIOD, get_time, validate_chat_url
+from lib import SEARCH_PERIOD, ARCHIVE_PERIOD, OUBLIETTE_ID, get_time, validate_chat_url
 from lib.archive import archive_chat, get_or_create_log
 from lib.characters import CHARACTER_GROUPS, CHARACTERS
 from lib.messages import parse_line
@@ -54,6 +54,8 @@ def chat(chat=None):
         existing_lines = []
         latest_num = -1
     else:
+        if redis.zrank('ip-bans', chat+'/'+request.environ['HTTP_X_REAL_IP']) is not None:
+            chat = OUBLIETTE_ID
         # Check if chat exists
         chat_meta = g.redis.hgetall('chat.'+chat+'.meta')
         # Convert topic to unicode.

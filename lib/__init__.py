@@ -28,6 +28,8 @@ DELETE_SESSION_PERIOD = 2592000
 # Time after which IP bans expire.
 IP_BAN_PERIOD = 2592000
 
+OUBLIETTE_ID = 'theoubliette'
+
 CHAT_FLAGS = ['autosilence']
 
 def get_time(offset=0):
