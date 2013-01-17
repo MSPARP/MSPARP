@@ -116,7 +116,8 @@ def save():
             if not validate_chat_url(chat):
                 raise ValueError('chaturl_invalid')
             g.user.set_chat(chat)
-            g.user.set_group('mod')
+            if g.user.meta['group']!='globalmod':
+                g.user.set_group('mod')
             g.redis.hset('chat.'+chat+'.meta', 'type', 'group')
             get_or_create_log(g.redis, g.mysql, chat)
             g.mysql.commit()
