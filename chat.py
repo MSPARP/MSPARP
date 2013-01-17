@@ -4,7 +4,7 @@ from flask import Flask, g, request, render_template, make_response, jsonify, ab
 from lib import PING_PERIOD, ARCHIVE_PERIOD, CHAT_FLAGS, get_time
 from lib.api import ping, change_state, disconnect, get_online_state
 from lib.characters import CHARACTER_DETAILS
-from lib.groups import MOD_GROUPS, GROUP_RANKS
+from lib.groups import MOD_GROUPS, GROUP_RANKS, MINIMUM_RANKS
 from lib.messages import send_message, get_userlists, hide_silence, parse_messages
 from lib.requests import populate_all_chars, connect_redis, create_chat_session, set_cookie, disconnect_redis
 
@@ -72,6 +72,7 @@ def postMessage():
             if current_group!=set_group and set_group in GROUP_RANKS.keys():
                 g.redis.hset(ss_meta_key, 'group', set_group)
                 set_message = None
+                # XXX make a function for fetching name and acronym?
                 # Convert the name and acronym to unicode.
                 ss_character = g.redis.hget(ss_key, 'character')
                 set_session_name = unicode(
@@ -100,6 +101,43 @@ def postMessage():
                 # Refresh the user's subscriptions.
                 g.redis.publish('channel.'+chat+'.refresh', set_session_id+'#'+set_group)
                 send_message(g.redis, chat, -1, 'user_change', set_message)
+        if 'user_action' in request.form and 'counter' in request.form and request.form['user_action'] in MINIMUM_RANKS:
+            # Check if we're high enough to perform this action.
+            if GROUP_RANKS[g.user.meta['group']]<MINIMUM_RANKS[request.form['user_action']]:
+                return 'ok'
+            their_session_id = g.redis.hget('chat.'+chat+'.counters', request.form['counter']) or abort(400)
+            their_group = g.redis.hget('session.'+their_session_id+'.meta.'+chat, 'group')
+            # Check if we're high enough to affect the other user.
+            if GROUP_RANKS[g.user.meta['group']]<GROUP_RANKS[their_group]:
+                return 'ok'
+            # XXX make a function for fetching name and acronym?
+            # Fetch their name and convert to unicode.
+            their_chat_key = 'session.'+their_session_id+'.chat.'+chat
+            their_character = g.redis.hget(their_chat_key, 'character')
+            their_session_name = unicode(
+                g.redis.hget(their_chat_key, 'name') or CHARACTER_DETAILS[their_character]['name'],
+                encoding='utf8'
+            )
+            their_session_acronym = unicode(
+                g.redis.hget(their_chat_key, 'acronym') or CHARACTER_DETAILS[their_character]['acronym'],
+                encoding='utf8'
+            )
+            if request.form['user_action']=='kick':
+                g.redis.publish('channel.'+chat+'.refresh', their_session_id+'#kick')
+                disconnect(g.redis, chat, their_session_id, "%s [%s] kicked %s [%s] from the chat." % (
+                    g.user.character['name'],
+                    g.user.character['acronym'],
+                    their_session_name,
+                    their_session_acronym
+                ))
+            elif request.form['user_action']=='ip_ban':
+                g.redis.publish('channel.'+chat+'.refresh', their_session_id+'#ban')
+                disconnect(g.redis, chat, their_session_id, "%s [%s] IP banned %s [%s]." % (
+                    g.user.character['name'],
+                    g.user.character['acronym'],
+                    their_session_name,
+                    their_session_acronym
+                ))
         if 'meta_change' in request.form:
             for flag in CHAT_FLAGS:
                 if flag in request.form:
@@ -183,8 +221,12 @@ def getMessages():
     for msg in pubsub.listen():
         if msg['type']=='message':
             if msg['channel']==channel_refresh:
-                refresh_user, refresh_group = msg['data'].split('#', 1)
+                refresh_user, refresh_command = msg['data'].split('#', 1)
                 if refresh_user==g.user.session_id:
+                    if refresh_command in ['kick', 'ban']:
+                        resp = make_response('{"exit":"'+refresh_command+'"}')
+                        resp.headers['Content-type'] = 'application/json'
+                        return resp
                     # Our group has changed. Alter wanted channels accordingly.
                     g.user.meta['group'] = refresh_group
                     wanted_channels = get_wanted_channels(channel_main, channel_mod, channel_self)

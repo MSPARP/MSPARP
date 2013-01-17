@@ -99,6 +99,18 @@ $(document).ready(function() {
 		function getMessages() {
 			var messageData = {'chat': chat, 'after': latestNum};
 			$.post(MESSAGES_URL, messageData, function(data) {
+				if (typeof data.exit!=='undefined') {
+					if (data.exit=='kick') {
+						clearChat();
+						addLine({ counter: -1, color: '000000', line: 'You have been kicked from this chat. Please think long and hard about your behaviour before rejoining.' });
+					} else if (data.exit=='ban') {
+						latestNum = -1;
+						chat = 'theoubliette'
+						$('#userList h1')[0].innerHTML = 'theoubliette';
+						$('#conversation').empty();
+					}
+					return true;
+				}
 				var messages = data.messages;
 				for (var i=0; i<messages.length; i++) {
 					addLine(messages[i]);
@@ -152,18 +164,22 @@ $(document).ready(function() {
 
 		function disconnect() {
 			if (confirm('Are you sure you want to disconnect?')) {
-				chatState = 'inactive';
-				if (pingInterval) {
-					window.clearTimeout(pingInterval);
-				}
 				$.ajax(QUIT_URL, {'type': 'POST', data: {'chat': chat}});
-				$('input[name="chat"]').val(chat);
-				chat = null;
-				$('input, select, button').attr('disabled', 'disabled');
-				$('#userList > ul').empty();
-				setSidebar(null);
-				document.title = ORIGINAL_TITLE;
+				clearChat();
 			}
+		}
+
+		function clearChat() {
+			chatState = 'inactive';
+			if (pingInterval) {
+				window.clearTimeout(pingInterval);
+			}
+			$('input[name="chat"]').val(chat);
+			chat = null;
+			$('input, select, button').attr('disabled', 'disabled');
+			$('#userList > ul').empty();
+			setSidebar(null);
+			document.title = ORIGINAL_TITLE;
 		}
 
 		// Sidebars
@@ -250,6 +266,8 @@ $(document).ready(function() {
 					} else {
 						$('<li />').text('Silence').appendTo(actionList).data({ group: 'silent' }).click(setUserGroup);
 					}
+					$('<li />').text('Kick').appendTo(actionList).data({ action: 'kick' }).click(userAction);
+					$('<li />').text('IP Ban').appendTo(actionList).data({ action: 'ip_ban' }).click(userAction);
 				}
 				$(actionList).appendTo(this);
 				actionListUser = this;
@@ -263,6 +281,14 @@ $(document).ready(function() {
 			var group = $(this).data().group;
 			if (counter!=user.meta.counter || confirm('You are about to unmod yourself. Are you sure you want to do this?')) {
 				$.post(POST_URL,{'chat': chat, 'set_group': group, 'counter': counter});
+			}
+		}
+
+		function userAction() {
+			var counter = $(this).parent().parent().data().meta.counter;
+			var action = $(this).data().action;
+			if (counter!=user.meta.counter || confirm('You are about to kick and/or ban yourself. Are you sure you want to do this?')) {
+				$.post(POST_URL,{'chat': chat, 'user_action': action, 'counter': counter});
 			}
 		}
 

@@ -11,3 +11,9 @@ GROUP_RANKS = {
     'silent': 1,
 }
 
+# Just how high do you even have to be to do that?
+MINIMUM_RANKS = {
+    'ip_ban': 5,
+    'kick': 4,
+}
+
