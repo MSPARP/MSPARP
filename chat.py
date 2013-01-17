@@ -130,7 +130,8 @@ def postMessage():
                     their_session_name,
                     their_session_acronym
                 ))
-            elif request.form['user_action']=='ip_ban':
+            # Don't ban people from the oubliette because that'll just put us in an infinite loop.
+            elif request.form['user_action']=='ip_ban' and chat!='theoubliette':
                 their_ip_address = g.redis.hget('session.'+their_session_id+'.meta', 'last_ip')
                 if their_ip_address is not None:
                     g.redis.zadd('ip-bans', chat+'/'+their_ip_address, get_time(IP_BAN_PERIOD))
