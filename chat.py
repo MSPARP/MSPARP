@@ -1,7 +1,7 @@
 from functools import wraps
 from flask import Flask, g, request, render_template, make_response, jsonify, abort
 
-from lib import PING_PERIOD, ARCHIVE_PERIOD, CHAT_FLAGS, get_time
+from lib import PING_PERIOD, ARCHIVE_PERIOD, IP_BAN_PERIOD, CHAT_FLAGS, get_time
 from lib.api import ping, change_state, disconnect, get_online_state
 from lib.characters import CHARACTER_DETAILS
 from lib.groups import MOD_GROUPS, GROUP_RANKS, MINIMUM_RANKS
@@ -131,6 +131,9 @@ def postMessage():
                     their_session_acronym
                 ))
             elif request.form['user_action']=='ip_ban':
+                their_ip_address = g.redis.hget('session.'+their_session_id+'.meta.'+chat, 'last_ip')
+                if their_ip_address is not None:
+                    g.redis.zadd('ip-bans', chat+'/'+their_ip_address, get_time(IP_BAN_PERIOD))
                 g.redis.publish('channel.'+chat+'.refresh', their_session_id+'#ban')
                 disconnect(g.redis, chat, their_session_id, "%s [%s] IP banned %s [%s]." % (
                     g.user.character['name'],

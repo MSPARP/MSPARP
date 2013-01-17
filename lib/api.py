@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, abort
 from lib import get_time, ARCHIVE_PERIOD, PING_PERIOD
 from lib.messages import send_message
 
@@ -6,6 +6,9 @@ def ping(redis, chat, session, chat_type):
     online_state = get_online_state(redis, chat, session.session_id)
     fake_join_message = False
     if online_state=='offline':
+        # Check IP bans.
+        if redis.zrank('ip-bans', chat+'/'+request.environ['HTTP_X_REAL_IP']) is not None:
+            abort(403)
         # The user isn't online already. Add them to the chat.
         # Remove the chat from the delete queue.
         redis.zrem('delete-queue', chat)

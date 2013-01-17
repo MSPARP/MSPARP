@@ -25,6 +25,9 @@ DELETE_CHAT_SESSION_PERIOD = 2592000
 # Time after which global session data is deleted - 30 days.
 DELETE_SESSION_PERIOD = 2592000
 
+# Time after which IP bans expire.
+IP_BAN_PERIOD = 2592000
+
 CHAT_FLAGS = ['autosilence']
 
 def get_time(offset=0):
