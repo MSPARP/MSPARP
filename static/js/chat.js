@@ -287,8 +287,17 @@ $(document).ready(function() {
 		function userAction() {
 			var counter = $(this).parent().parent().data().meta.counter;
 			var action = $(this).data().action;
+			var actionData = {'chat': chat, 'user_action': action, 'counter': counter};
+			if (action=='ip_ban') {
+				var reason = prompt('Please enter a reason for this ban (spamming, not following rules, etc.):');
+				if (reason==null) {
+					return;
+				} else if (reason!="") {
+					actionData['reason'] = reason;
+				}
+			}
 			if (counter!=user.meta.counter || confirm('You are about to kick and/or ban yourself. Are you sure you want to do this?')) {
-				$.post(POST_URL,{'chat': chat, 'user_action': action, 'counter': counter});
+				$.post(POST_URL, actionData);
 			}
 		}
 
