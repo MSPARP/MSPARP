@@ -140,6 +140,10 @@ body.withSidebar #conversation {
 	cursor: pointer;
 }
 
+.sidebar ul ul {
+	color: #000;
+}
+
 #controls {
 	position: fixed;
 	right: 8px;
