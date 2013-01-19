@@ -16,12 +16,12 @@ $(document).ready(function() {
 	var MOD_GROUPS = ['globalmod', 'mod', 'mod2', 'mod3']
 	var GROUP_RANKS = { 'globalmod': 6, 'mod': 5, 'mod2': 4, 'mod3': 3, 'user': 2, 'silent': 1 }
 	var GROUP_DESCRIPTIONS = {
-		'globalmod': 'God tier moderator',
-		'mod': 'Tier 1 moderator',
-		'mod2': 'Tier 2 moderator',
-		'mod3': 'Tier 3 moderator',
-		'user': '',
-		'silent': 'Silenced',
+		'globalmod': { title: 'God tier moderator', description: 'MSPARP staff.' },
+		'mod': { title: 'Professional Wet Blanket', description: 'can silence, kick and ban other users.' },
+		'mod2': { title: 'Bum\'s Rusher', description: 'can silence and kick other users.' },
+		'mod3': { title: 'Amateur Gavel-Slinger', description: 'can silence other users.' },
+		'user': { title: '', description: '' },
+		'silent': { title: 'Silenced', description: '' },
 	};
 
 	var pingInterval;
@@ -222,7 +222,12 @@ $(document).ready(function() {
 				// Name is a reserved word; this may or may not break stuff but whatever.
 				listItem.css('color', '#'+currentUser.character.color).text(currentUser.character['name']);
 				listItem.removeClass().addClass(currentUser.meta.group);
-				listItem.attr('title', GROUP_DESCRIPTIONS[currentUser.meta.group]);
+				var currentGroup = GROUP_DESCRIPTIONS[currentUser.meta.group]
+				var userTitle = currentGroup.title
+				if (currentGroup.description!='') {
+					userTitle += ' - '+GROUP_DESCRIPTIONS[currentUser.meta.group].description
+				}
+				listItem.attr('title', userTitle);
 				if (currentUser.meta.counter==user.meta.counter) {
 					// Set self-related things here.
 					user.meta.group = currentUser.meta.group;
@@ -252,7 +257,7 @@ $(document).ready(function() {
 				if (MOD_GROUPS.indexOf(user.meta.group)!=-1 && GROUP_RANKS[user.meta.group]>=GROUP_RANKS[userData.meta.group]) {
 					for (var i=1; i<MOD_GROUPS.length; i++) {
 						if (userData.meta.group!=MOD_GROUPS[i] && GROUP_RANKS[user.meta.group]>=GROUP_RANKS[MOD_GROUPS[i]]) {
-							var command = $('<li />').text('Make Tier '+i+' mod');
+							var command = $('<li />').text('Make '+GROUP_DESCRIPTIONS[MOD_GROUPS[i]].title);
 							command.appendTo(actionList);
 							command.data({ group: MOD_GROUPS[i] });
 							command.click(setUserGroup);

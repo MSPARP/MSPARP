@@ -84,11 +84,11 @@ def postMessage():
                     encoding='utf8'
                 )
                 if set_group=='mod':
-                    set_message = '%s [%s] gave Tier 1 moderator status to %s [%s].'
+                    set_message = '%s [%s] set %s [%s] to Professional Wet Blanket. They can now silence, kick and ban other users.'
                 elif set_group=='mod2':
-                    set_message = '%s [%s] gave Tier 2 moderator status to %s [%s].'
+                    set_message = '%s [%s] set %s [%s] to Bum\'s Rusher. They can now silence and kick other users.'
                 elif set_group=='mod3':
-                    set_message = '%s [%s] gave Tier 3 moderator status to %s [%s].'
+                    set_message = '%s [%s] set %s [%s] to Amateur Gavel-Slinger. They can now silence other users.'
                 elif current_group in MOD_GROUPS and set_group not in MOD_GROUPS:
                     set_message = '%s [%s] removed moderator status from %s [%s].'
                 if set_message is not None:
