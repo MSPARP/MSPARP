@@ -24,6 +24,14 @@ def send_message(redis, chat, counter, msg_type, text=None, color='000000', acro
         if msg_type!='private':
             message = ','.join([str(get_time()), str(counter), msg_type, color, message_content])
             message_count = redis.rpush('chat.'+chat, message)
+            # Send the chat for archiving early if the chat is getting too long.
+            if message_count>=500:
+                try:
+                    chat_type = g.chat_type
+                except RuntimeError:
+                    chat_type = redis.hget('chat.'+chat+'.meta', 'type')
+                if chat_type!='unsaved':
+                    redis.zadd('archive-queue', chat, get_time(-60))
         else:
             # ...or just get message count if it is.
             message_count = redis.llen('chat.'+chat)
