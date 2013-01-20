@@ -230,6 +230,13 @@ $(document).ready(function() {
 				listItem.attr('title', userTitle);
 				if (currentUser.meta.counter==user.meta.counter) {
 					// Set self-related things here.
+					if (currentUser.meta.group=='silent') {
+						// Just been made silent.
+						$('#textInput, #controls button[type="submit"]').attr('disabled', 'disabled');
+					} else if (user.meta.group=='silent' && currentUser.meta.group!='silent') {
+						// No longer silent.
+						$('input, select, button').removeAttr('disabled');
+					}
 					user.meta.group = currentUser.meta.group;
 					if (MOD_GROUPS.indexOf(user.meta.group)==-1) {
 						$(document.body).removeClass('modPowers');
