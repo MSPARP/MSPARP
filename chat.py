@@ -5,7 +5,7 @@ from lib import PING_PERIOD, ARCHIVE_PERIOD, IP_BAN_PERIOD, CHAT_FLAGS, get_time
 from lib.api import ping, change_state, disconnect, get_online_state
 from lib.characters import CHARACTER_DETAILS
 from lib.groups import MOD_GROUPS, GROUP_RANKS, MINIMUM_RANKS
-from lib.messages import send_message, get_userlists, hide_silence, parse_messages
+from lib.messages import send_message, get_userlists, parse_messages
 from lib.requests import populate_all_chars, connect_redis, create_chat_session, set_cookie, disconnect_redis
 
 app = Flask(__name__)
@@ -17,26 +17,12 @@ app.before_request(create_chat_session)
 app.after_request(set_cookie)
 app.after_request(disconnect_redis)
 
-# Helper functions
-
-def get_wanted_channels(channel_main, channel_mod, channel_self):
-    wanted_channels = set()
-    wanted_channels.add(channel_main)
-    if g.user.meta['group'] in MOD_GROUPS:
-        # Moderator messages.
-        wanted_channels.add(channel_mod)
-    if g.user.meta['group']=='silent':
-        # Channel for self messages if silent.
-        wanted_channels.add(channel_self)
-    return wanted_channels
-
 # Decorators
 
 def mark_alive(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if ping(g.redis, request.form['chat'], g.user, g.chat_type):
-            g.fake_join_message = True
+        g.joining = ping(g.redis, request.form['chat'], g.user, g.chat_type)
         return f(*args, **kwargs)
     return decorated_function
 
@@ -46,13 +32,10 @@ def mark_alive(f):
 @mark_alive
 def postMessage():
     chat = request.form['chat']
-    if 'line' in request.form:
+    if 'line' in request.form and g.user.meta['group']!='silent':
         # Remove linebreaks and truncate to 1500 characters.
         line = request.form['line'].replace('\n', ' ')[:1500]
-        if g.user.meta['group']=='silent':
-            send_message(g.redis, chat, g.user.meta['counter'], 'private', line, g.user.character['color'], g.user.character['acronym'], g.user.session_id)
-        else:
-            send_message(g.redis, chat, g.user.meta['counter'], 'message', line, g.user.character['color'], g.user.character['acronym'])
+        send_message(g.redis, chat, g.user.meta['counter'], 'message', line, g.user.character['color'], g.user.character['acronym'])
     if 'state' in request.form and request.form['state'] in ['online', 'idle']:
         change_state(g.redis, chat, g.user.session_id, request.form['state'])
     # Mod options.
@@ -98,8 +81,6 @@ def postMessage():
                         set_session_name,
                         set_session_acronym
                     )
-                # Refresh the user's subscriptions.
-                g.redis.publish('channel.'+chat+'.refresh', set_session_id+'#'+set_group)
                 send_message(g.redis, chat, -1, 'user_change', set_message)
         if 'user_action' in request.form and 'counter' in request.form and request.form['user_action'] in MINIMUM_RANKS:
             # Check if we're high enough to perform this action.
@@ -123,7 +104,7 @@ def postMessage():
                 encoding='utf8'
             )
             if request.form['user_action']=='kick':
-                g.redis.publish('channel.'+chat+'.refresh', their_session_id+'#kick')
+                g.redis.publish('channel.'+chat+'.'+their_session_id, '{"exit":"kick"}')
                 disconnect(g.redis, chat, their_session_id, "%s [%s] kicked %s [%s] from the chat." % (
                     g.user.character['name'],
                     g.user.character['acronym'],
@@ -138,7 +119,7 @@ def postMessage():
                     g.redis.zadd('ip-bans', ban_id, get_time(IP_BAN_PERIOD))
                 if 'reason' in request.form:
                     g.redis.hset('ban-reasons', ban_id, request.form['reason'])
-                g.redis.publish('channel.'+chat+'.refresh', their_session_id+'#ban')
+                g.redis.publish('channel.'+chat+'.'+their_session_id, '{"exit":"ban"}')
                 disconnect(g.redis, chat, their_session_id, "%s [%s] IP banned %s [%s]." % (
                     g.user.character['name'],
                     g.user.character['acronym'],
@@ -179,69 +160,42 @@ def getMessages():
 
     message_dict = None
 
-    if hasattr(g, 'fake_join_message'):
-        message_dict = { 'messages': [ {
-            'id': after,
-            'timestamp': get_time(),
-            'counter': -1,
-            'color': '000000',
-            'line': '%s [%s] joined chat.' % (g.user.character['name'], g.user.character['acronym'])
-        } ] }
-    else:
-        # Check for stored messages.
-        messages = g.redis.lrange('chat.'+chat, after+1, -1)
-        if messages:
-            message_dict = {
-                'messages': parse_messages(messages, after+1)
-            }
+    # Check for stored messages.
+    messages = g.redis.lrange('chat.'+chat, after+1, -1)
+    if messages:
+        message_dict = {
+            'messages': parse_messages(messages, after+1)
+        }
+    elif g.joining:
+        message_dict = {
+            'messages': []
+        }
 
     if message_dict:
-        message_dict['online'], message_dict['idle'], silent_users = get_userlists(g.redis, chat)
-        if silent_users is True and g.user.meta['group'] not in MOD_GROUPS:
-            hide_silence(message_dict['online'], message_dict['idle'])
+        message_dict['online'], message_dict['idle'] = get_userlists(g.redis, chat)
         message_dict['meta'] = g.redis.hgetall('chat.'+chat+'.meta')
         # Newly created matchmaker chats don't know the counter, so we send it here.
         message_dict['counter'] = g.user.meta['counter']
         return jsonify(message_dict)
 
     # Otherwise, listen for a message.
-
-    # Channel names.
-    channel_main = 'channel.'+chat
-    channel_mod = channel_main+'.mod'
-    channel_self = channel_main+'.'+g.user.session_id
-    channel_refresh = channel_main+'.refresh'
-
     pubsub = g.redis.pubsub()
 
-    # We subscribe to all four channels then ignore what we don't want because
-    # changing subscriptions doesn't happen quickly enough and we end up missing
-    # messages.
-    pubsub.subscribe(channel_main)
-    pubsub.subscribe(channel_mod)
-    pubsub.subscribe(channel_self)
-    pubsub.subscribe(channel_refresh)
+    # Main channel.
+    pubsub.subscribe('channel.'+chat)
 
-    # This gives us a list of all the channels we want to listen to.
-    wanted_channels = get_wanted_channels(channel_main, channel_mod, channel_self)
+    # Self channel.
+    # Right now this is only used by kick/ban and IP lookup, so only subscribe
+    # if we're in a group chat or a global mod.
+    if g.chat_type=='group' or g.user.meta['group']=='globalmod':
+        pubsub.subscribe('channel.'+chat+'.'+g.user.session_id)
 
     for msg in pubsub.listen():
         if msg['type']=='message':
-            if msg['channel']==channel_refresh:
-                refresh_user, refresh_command = msg['data'].split('#', 1)
-                if refresh_user==g.user.session_id:
-                    if refresh_command in ['kick', 'ban']:
-                        resp = make_response('{"exit":"'+refresh_command+'"}')
-                        resp.headers['Content-type'] = 'application/json'
-                        return resp
-                    # Our group has changed. Alter wanted channels accordingly.
-                    g.user.meta['group'] = refresh_group
-                    wanted_channels = get_wanted_channels(channel_main, channel_mod, channel_self)
-            elif msg['channel'] in wanted_channels:
-                # The pubsub channel sends us a JSON string, so we return that instead of using jsonify.
-                resp = make_response(msg['data'])
-                resp.headers['Content-type'] = 'application/json'
-                return resp
+            # The pubsub channel sends us a JSON string, so we return that instead of using jsonify.
+            resp = make_response(msg['data'])
+            resp.headers['Content-type'] = 'application/json'
+            return resp
 
 @app.route('/quit', methods=['POST'])
 def quitChatting():
