@@ -8,7 +8,8 @@ var characters = {
 		'quote': "some random text for previewing purposes",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'original character': {
 		'acronym': '**',
@@ -17,7 +18,8 @@ var characters = {
 		'quote': "I am too awesome for hussie to include in the canon",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	// XXX GOTTA REMOVE THIS AT SOME POINT
 	'ancestor': {
@@ -27,7 +29,8 @@ var characters = {
 		'quote': "I saw the look he gave. He's so secure in knowing I can't feel what's in his mind he forgets the tr8torous ways of his own face.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'guardian': {
 		'acronym': '??',
@@ -36,7 +39,8 @@ var characters = {
 		'quote': "NOW BE A GOOD GIRL, PUT THE FRIDGE DOWN, AND STAY INSIDE.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'midnight crew': {
 		'acronym': '??',
@@ -45,7 +49,8 @@ var characters = {
 		'quote': "Farmin' all these goddamn horses. Fuckin' pain in the ass.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	// XXX END STUFF THAT NEEDS REMOVING
 	'trickster': {
@@ -55,7 +60,8 @@ var characters = {
 		'quote': "Are you serious?",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'doc scratch': {
 		'acronym': '',
@@ -64,7 +70,8 @@ var characters = {
 		'quote': "You know you're going to anyway. You won't be able to help yourself.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'calliope': {
 		'acronym': 'UU',
@@ -73,7 +80,8 @@ var characters = {
 		'quote': "i am jUst astonished. not at the gUile of yoUr little ploy, bUt by the fact that yoU actUally seem to think this was a clever rUse.",
 		'quirk_prefix': '',
 		'case': 'lower',
-		'replacements': [['u', 'U']]
+		'replacements': [['u', 'U']],
+		'regexes': []
 	},
 	'caliborn': {
 		'acronym': 'uu',
@@ -82,7 +90,8 @@ var characters = {
 		'quote': "YOu CAN'T. ESCAPE. THE MIIIIIIIIIIILES.",
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': [['U', 'u']]
+		'replacements': [['U', 'u']],
+		'regexes': []
 	},
 	'other (canon)': {
 		'acronym': '??',
@@ -91,7 +100,8 @@ var characters = {
 		'quote': "NEIGH",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'john': {
 		'acronym': 'EB',
@@ -100,7 +110,8 @@ var characters = {
 		'quote': "i don't know, maybe! what do i do!",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'rose': {
 		'acronym': 'TT',
@@ -109,7 +120,8 @@ var characters = {
 		'quote': "You know you like the mannequin dick. Accept it.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'dave': {
 		'acronym': 'TG',
@@ -118,7 +130,8 @@ var characters = {
 		'quote': "you dont seem to harbor any sympathy for the fact that ive burrowed fuck deep into lively, fluffy muppet buttock",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'jade': {
 		'acronym': 'GG',
@@ -127,7 +140,8 @@ var characters = {
 		'quote': "i am never going to sleep again!",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'jane': {
 		'acronym': 'GG',
@@ -136,7 +150,8 @@ var characters = {
 		'quote': "If the chats and surplus dinners were truly important, I wouldn't want to interrupt.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'roxy': {
 		'acronym': 'TG',
@@ -145,7 +160,8 @@ var characters = {
 		'quote': "it seems 2 me that there is a (MATHS) % chance of you bein a huge tightass",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'dirk': {
 		'acronym': 'TT',
@@ -154,7 +170,8 @@ var characters = {
 		'quote': "It's not 4 you jackass, it's fucking nothing. There is no end.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'jake': {
 		'acronym': 'GT',
@@ -163,7 +180,8 @@ var characters = {
 		'quote': "Jesus christofer kringlefucker and here i thought i was rugged!",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'aradia': {
 		'acronym': 'AA',
@@ -172,7 +190,8 @@ var characters = {
 		'quote': "maybe if i say st0p en0ugh s0mething else will happen instead 0f the thing that d0es",
 		'quirk_prefix': '',
 		'case': 'lower',
-		'replacements': [['o', '0']]
+		'replacements': [['o', '0']],
+		'regexes': []
 	},
 	'tavros': {
 		'acronym': 'AT',
@@ -181,7 +200,8 @@ var characters = {
 		'quote': "i THINK i AM PERFECTLY CAPABLE OF MANUFACTURING THESE ALLEGED \"dope\" HUMAN RHYMES",
 		'quirk_prefix': '',
 		'case': 'inverted',
-		'replacements': [['.', ',']]
+		'replacements': [['.', ',']],
+		'regexes': []
 	},
 	'sollux':{
 		'acronym': 'TA',
@@ -190,7 +210,8 @@ var characters = {
 		'quote': "do me a favor and 2pare me your 2pooky conundrum2 twoniight, youre kiind of pii22iing me off.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["I", "II"], ["i", "ii"], ["S", "2"], ["s", "2"]]
+		'replacements': [["I", "II"], ["i", "ii"], ["S", "2"], ["s", "2"]],
+		'regexes': []
 	},
 	'karkat':{
 		'acronym': 'CG',
@@ -199,7 +220,8 @@ var characters = {
 		'quote': "NO. MORE LIKE TWITCHY EYED PROJECTILE VOMITING IN UTTER DISGUST FRIENDS, WHILE I PERFORATE MY BONE BULGE WITH A CULLING FORK.",
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'nepeta': {
 		'acronym': 'AC',
@@ -208,7 +230,8 @@ var characters = {
 		'quote': ":33 < but do you think you could purrhaps please spare your computer for just the most fl33ting of moments?",
 		'quirk_prefix': ':33 <',
 		'case': 'lower',
-		'replacements': [['ee', '33']]
+		'replacements': [['ee', '33']],
+		'regexes': []
 	},
 	'kanaya':{
 		'acronym':'GA',
@@ -217,7 +240,8 @@ var characters = {
 		'quote':"So You Are Destined To Edit It No Matter What And What You Submit Will Be What I Once Read Regardless",
 		'quirk_prefix': '',
 		'case': 'title',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'terezi': {
 		'acronym': 'GC',
@@ -226,7 +250,8 @@ var characters = {
 		'quote': "JOHN W3 AR3 SO MUCH B3TT3R TH4N YOU IN 3V3RY R3SP3CT 1TS R1D1CULOUS",
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': [["A", "4"], ["E", "3"], ["I", "1"]]
+		'replacements': [["A", "4"], ["E", "3"], ["I", "1"]],
+		'regexes': []
 	},
 	'vriska': {
 		'acronym': 'AG',
@@ -235,7 +260,8 @@ var characters = {
 		'quote': "It is 8ight groups of 8ight. I specifically counted them.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["B", "8"], ["b", "8"]]
+		'replacements': [["B", "8"], ["b", "8"]],
+		'regexes': []
 	},
 	'equius': {
 		'acronym': 'CT',
@@ -244,7 +270,8 @@ var characters = {
 		'quote': "D --> How do you know about my perspiration problem",
 		'quirk_prefix': 'D -->',
 		'case': 'normal',
-		'replacements': [["X", "%"], ["x", "%"], ["loo", "100"], ["ool", "001"]]
+		'replacements': [["X", "%"], ["x", "%"], ["loo", "100"], ["ool", "001"]],
+		'regexes': []
 	},
 	'gamzee': {
 		'acronym': 'TC',
@@ -253,7 +280,8 @@ var characters = {
 		'quote': "ThIs sOuNdS AmAzInG, i cAn't sEe hOw i wOuLdN'T Be aLl kIcKiNg tHe wIcKeD ShIt oUt Of sUcH KiNdS Of oPpOrTuNiTiEs",
 		'quirk_prefix': '',
 		'case': 'alternating',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'eridan': {
 		'acronym': 'CA',
@@ -262,7 +290,8 @@ var characters = {
 		'quote': "wwho are you tryin to convvince wwith this ludicrous poppycock",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["V", "VV"], ["v", "vv"], ["W", "WW"], ["w", "ww"]]
+		'replacements': [["V", "VV"], ["v", "vv"], ["W", "WW"], ["w", "ww"]],
+		'regexes': []
 	},
 	'feferi': {
 		'acronym': 'CC',
@@ -271,7 +300,8 @@ var characters = {
 		'quote': ")(oly mackerel, looks like SOM-EON-E woke up on t)(e wrong side of t)(e absurd )(uman bed!",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["E", "-E"], ["H", ")("], ["h", ")("]]
+		'replacements': [["E", "-E"], ["H", ")("], ["h", ")("]],
+		'regexes': []
 	},
 	'damara': {
 		'acronym': 'DAMARA',
@@ -280,7 +310,8 @@ var characters = {
 		'quote': "私が覚えている。 時々私は、そのメモリに自慰行為。",
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'rufioh': {
 		'acronym': 'RUFIOH',
@@ -289,7 +320,8 @@ var characters = {
 		'quote': "really, 1 thought 1t would be alr1ght, just flapp1ng w1ngs around... 1 could st1ll fly and just hang there l1mp... m1ght have been a dope look!",
 		'quirk_prefix': '',
 		'case': 'lower',
-		'replacements': [["i", "1"]]
+		'replacements': [["i", "1"]],
+		'regexes': []
 	},
 	'mituna':{
 		'acronym': 'MITUNA',
@@ -298,7 +330,8 @@ var characters = {
 		'quote': "K17H5 MY CH4GR1N 7UNK3L Y0U 5N4NK 4ZZ CHUM8UCK357",
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': [["A", "4"], ["B", "8"], ["E", "3"], ["I", "1"], ["O", "0"], ["S", "5"], ["T", "7"]]
+		'replacements': [["A", "4"], ["B", "8"], ["E", "3"], ["I", "1"], ["O", "0"], ["S", "5"], ["T", "7"]],
+		'regexes': []
 	},
 	'kankri':{
 		'acronym': 'KANKRI',
@@ -307,7 +340,8 @@ var characters = {
 		'quote': "",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["B", "6"], ["b", "6"], ["O", "9"], ["o", "9"]]
+		'replacements': [["B", "6"], ["b", "6"], ["O", "9"], ["o", "9"]],
+		'regexes': []
 	},
 	'meulin': {
 		'acronym': 'MEULIN',
@@ -316,7 +350,8 @@ var characters = {
 		'quote': "(=；ェ；=)  < YOU DON'T UNDERSTAND, M33NAH. THE F33LS. THE F333333333LS!!!!!!!!!",
 		'quirk_prefix': '(=｀ω´=) <',
 		'case': 'upper',
-		'replacements': [["EE", "33"]]
+		'replacements': [["EE", "33"]],
+		'regexes': []
 	},
 	'porrim':{
 		'acronym':'PORRIM',
@@ -325,7 +360,8 @@ var characters = {
 		'quote':" No+ o+ne quite prepares yo+u fo+r the fact that o+n the o+ther side o+f death is an infinite echo+ chamber o+f teen drama.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["o", "o+"]]
+		'replacements': [["o", "o+"]],
+		'regexes': []
 	},
 	'latula': {
 		'acronym': 'LATULA',
@@ -334,7 +370,8 @@ var characters = {
 		'quote': "do you 3v3n know how l4m3 of 4 sc3n3 1t 1s b31ng th3 only l3g1t 1n your f4c3 pow3rg4m1ng grl 1n 4 bunch of bubbl3s full of brut4l pos3rz???",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["A", "4"], ["a", "4"], ["E", "3"], ["e", "3"], ["I", "1"], ["i", "1"]]
+		'replacements': [["A", "4"], ["a", "4"], ["E", "3"], ["e", "3"], ["I", "1"], ["i", "1"]],
+		'regexes': []
 	},
 	'aranea': {
 		'acronym': 'ARANEA',
@@ -343,7 +380,8 @@ var characters = {
 		'quote': "You couldn't even wait a few minutes while I retrieved one last guest? I have to come 8ack to THIS????????",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["B", "8"], ["b", "8"]]
+		'replacements': [["B", "8"], ["b", "8"]],
+		'regexes': []
 	},
 	'horuss': {
 		'acronym': 'HORUSS',
@@ -352,7 +390,8 @@ var characters = {
 		'quote': "8=========D < Why the long face?",
 		'quirk_prefix': '8=D <',
 		'case': 'normal',
-		'replacements': [["X", "%"], ["x", "%"], ["loo", "100"], ["ool", "001"]]
+		'replacements': [["X", "%"], ["x", "%"], ["loo", "100"], ["ool", "001"]],
+		'regexes': []
 	},
 	'kurloz': {
 		'acronym': 'KURLOZ',
@@ -361,7 +400,8 @@ var characters = {
 		'quote': "",
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'cronus': {
 		'acronym': 'CRONUS',
@@ -370,7 +410,8 @@ var characters = {
 		'quote': "i just sawv you strutting in my direction, vwith all of your impressivwe moxy and confidence, for the first time in, howv long?",
 		'quirk_prefix': '',
 		'case': 'lower',
-		'replacements': [["B", "8"], ["v", ""], ["w", "wv"], ["", "vw"]]
+		'replacements': [["B", "8"], ["v", ""], ["w", "wv"], ["", "vw"]],
+		'regexes': []
 	},
 	'meenah': {
 		'acronym': 'MEENAH',
@@ -379,7 +420,8 @@ var characters = {
 		'quote': "sayin fish puns is obviously kind of this thing i do stupid G-ET WIT)( T)(-E PROGRAM",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["E", "-E"], ["H", ")("]]
+		'replacements': [["E", "-E"], ["H", ")("]],
+		'regexes': []
 	},
 	'dad': {
 		'acronym': 'pipefan413',
@@ -388,7 +430,8 @@ var characters = {
 		'quote': "YES. THIS WILL BE THE CASE REGARDLESS OF THE HAT'S ORIENTATION.",
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'nanna': {
 		'acronym': 'NANNA',
@@ -397,7 +440,8 @@ var characters = {
 		'quote': "some random text for previewing purposes",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'mom': {
 		'acronym': 'MOM',
@@ -406,7 +450,8 @@ var characters = {
 		'quote': "some random text for previewing purposes",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'bro': {
 		'acronym': 'BRO',
@@ -415,7 +460,8 @@ var characters = {
 		'quote': "some random text for previewing purposes",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'grandpa': {
 		'acronym': 'GRANDPA',
@@ -424,7 +470,8 @@ var characters = {
 		'quote': "some random text for previewing purposes",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'poppop': {
 		'acronym': 'POPPOP',
@@ -433,7 +480,8 @@ var characters = {
 		'quote': "some random text for previewing purposes",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'alpha mom': {
 		'acronym': 'MOM',
@@ -442,7 +490,8 @@ var characters = {
 		'quote': "some random text for previewing purposes",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'alpha bro': {
 		'acronym': 'BRO',
@@ -451,7 +500,8 @@ var characters = {
 		'quote': "some random text for previewing purposes",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'grandma': {
 		'acronym': 'GRANDMA',
@@ -460,7 +510,8 @@ var characters = {
 		'quote': "some random text for previewing purposes",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'nannasprite': {
 		'acronym': 'NANNASPRITE',
@@ -469,7 +520,8 @@ var characters = {
 		'quote': "Hoo hoo hoo! Of course I know what a computer is, John! I was just pulling your leg!",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'jaspersprite': {
 		'acronym': 'JASPERSPRITE',
@@ -478,7 +530,8 @@ var characters = {
 		'quote': "Maybe you can win his affection by rubbing your cheek against him thats what i would do.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'calsprite': {
 		'acronym': 'CALSPRITE',
@@ -487,7 +540,8 @@ var characters = {
 		'quote': "HAA HAA HEE HEE HOO HOO",
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': [["A", "<"], ["B", ">"], ["C", "?"], ["D", "<"], ["E", ">"], ["F", "?"], ["G", "<"], ["H", ">"], ["I", "?"], ["J", "<"], ["K", ">"], ["L", "?"], ["M", "<"], ["N", ">"], ["O", "?"], ["P", "<"], ["Q", ">"], ["R", "?"], ["S", "<"], ["T", ">"], ["U", "?"], ["V", "<"], ["W", ">"], ["X", "?"], ["Y", "<"], ["Z", ">"], ["<", "HAA "], [">", "HEE "], ["?", "HOO "]]
+		'replacements': [["A", "<"], ["B", ">"], ["C", "?"], ["D", "<"], ["E", ">"], ["F", "?"], ["G", "<"], ["H", ">"], ["I", "?"], ["J", "<"], ["K", ">"], ["L", "?"], ["M", "<"], ["N", ">"], ["O", "?"], ["P", "<"], ["Q", ">"], ["R", "?"], ["S", "<"], ["T", ">"], ["U", "?"], ["V", "<"], ["W", ">"], ["X", "?"], ["Y", "<"], ["Z", ">"], ["<", "HAA "], [">", "HEE "], ["?", "HOO "]],
+		'regexes': []
 	},
 	'davesprite': {
 		'acronym': 'DAVESPRITE',
@@ -496,7 +550,8 @@ var characters = {
 		'quote': "thats the best fucking question anybody ever asked",
 		'quirk_prefix': '',
 		'case': 'lower',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'jadesprite': {
 		'acronym': 'JADESPRITE',
@@ -505,7 +560,8 @@ var characters = {
 		'quote': "yes i figured shenanigans were probably involved",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'tavrisprite': {
 		'acronym': 'TAVRISPRITE',
@@ -514,7 +570,8 @@ var characters = {
 		'quote': "eEEEEEEEAAAAAAAAUUUUUUUURRRRRRRRUUUUUUUUEEEEEEEEGGGGGGGGHHHHHHHH,,,,,,,,.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'fefetasprite': {
 		'acronym': 'FEFETASPRITE',
@@ -523,7 +580,8 @@ var characters = {
 		'quote': "3833 < 383",
 		'quirk_prefix': '3833 <',
 		'case': 'normal',
-		'replacements': [["E", "-E"], ["ee", "33"], ["H", ")("], ["h", ")("]]
+		'replacements': [["E", "-E"], ["ee", "33"], ["H", ")("], ["h", ")("]],
+		'regexes': []
 	},
 	'erisolsprite': {
 		'acronym': 'ERISOLSPRITE',
@@ -532,7 +590,8 @@ var characters = {
 		'quote': "wwoww, iit2 cool ii amu2e you, that really giivve2 meaniing to my joke of an exii2tence, ii mean WWOWW, thank2.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["I", "II"], ["i", "ii"], ["S", "2"], ["s", "2"], ["V", "VV"], ["v", "vv"], ["W", "WW"], ["w", "ww"]]
+		'replacements': [["I", "II"], ["i", "ii"], ["S", "2"], ["s", "2"], ["V", "VV"], ["v", "vv"], ["W", "WW"], ["w", "ww"]],
+		'regexes': []
 	},
 	'the handmaid': {
 		'acronym': '♈',
@@ -541,7 +600,8 @@ var characters = {
 		'quote': "some random text for previewing purposes",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'the summoner': {
 		'acronym': '♉',
@@ -550,7 +610,8 @@ var characters = {
 		'quote': "some random text for previewing purposes",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'the psiioniic':{
 		'acronym': '♊',
@@ -559,7 +620,8 @@ var characters = {
 		'quote': "some random text for previewing purposes",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'the signless':{
 		'acronym': '♋',
@@ -568,7 +630,8 @@ var characters = {
 		'quote': "some random text for previewing purposes",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'the disciple': {
 		'acronym': '♌',
@@ -577,7 +640,8 @@ var characters = {
 		'quote': "some random text for previewing purposes",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'the dolorosa':{
 		'acronym': '♍',
@@ -586,7 +650,8 @@ var characters = {
 		'quote': "some random text for previewing purposes",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'redglare': {
 		'acronym': '♎',
@@ -595,7 +660,8 @@ var characters = {
 		'quote': "some random text for previewing purposes",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'mindfang': {
 		'acronym': '♏',
@@ -604,7 +670,8 @@ var characters = {
 		'quote': "some random text for previewing purposes",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'darkleer': {
 		'acronym': '♐',
@@ -613,7 +680,8 @@ var characters = {
 		'quote': "some random text for previewing purposes",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'grand highblood': {
 		'acronym': '♑',
@@ -622,7 +690,8 @@ var characters = {
 		'quote': "some random text for previewing purposes",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'dualscar': {
 		'acronym': '♒',
@@ -631,7 +700,8 @@ var characters = {
 		'quote': "some random text for previewing purposes",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'the condesce': {
 		'acronym': '♓',
@@ -640,7 +710,8 @@ var characters = {
 		'quote': "this is what i get for lettin all proper dudes run shit instead of nasty clowns",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'spades slick': {
 		'acronym': '♠',
@@ -649,7 +720,8 @@ var characters = {
 		'quote': "some random text for previewing purposes",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'clubs deuce': {
 		'acronym': '♣',
@@ -658,7 +730,8 @@ var characters = {
 		'quote': "some random text for previewing purposes",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'diamonds droog': {
 		'acronym': '♦',
@@ -667,7 +740,8 @@ var characters = {
 		'quote': "some random text for previewing purposes",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	},
 	'hearts boxcars': {
 		'acronym': '♥',
@@ -676,7 +750,8 @@ var characters = {
 		'quote': "some random text for previewing purposes",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [],
+		'regexes': []
 	}
 }
 

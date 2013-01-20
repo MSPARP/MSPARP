@@ -94,6 +94,7 @@ class Session(object):
         # Unpack the replacement info.
         unpacked_character = dict(self.character)
         unpacked_character['replacements'] = json.loads(unpacked_character['replacements'])
+        unpacked_character['regexes'] = json.loads(unpacked_character['regexes'])
         return { 'meta': self.meta, 'character': unpacked_character }
 
     def save(self, form):
@@ -140,11 +141,8 @@ class Session(object):
         else:
             raise ValueError("case")
 
-        replacements = zip(form.getlist('quirk_from'), form.getlist('quirk_to'))
-        # Strip out any rows where from is blank or the same as to.
-        replacements = [_ for _ in replacements if _[0]!='' and _[0]!=_[1]]
-        # And encode as JSON.
-        character['replacements'] = json.dumps(replacements)
+        character['replacements'] = replacement_list(form, 'quirk_from', 'quirk_to')
+        character['regexes'] = replacement_list(form, 'regex_from', 'regex_to')
 
         saved_character = dict(character)
         for key, value in CHARACTER_DETAILS[character['character']].items():
@@ -223,6 +221,13 @@ def fill_in_data(character_data):
         new_character_data.update(character_data)
         return new_character_data
     return character_data
+
+def replacement_list(form, from_parameter, to_parameter):
+    replacements = zip(form.getlist(from_parameter), form.getlist(to_parameter))
+    # Strip out any rows where from is blank or the same as to.
+    replacements = [_ for _ in replacements if _[0]!='' and _[0]!=_[1]]
+    # And encode as JSON.
+    return json.dumps(replacements)
 
 class PartialSession(object):
 

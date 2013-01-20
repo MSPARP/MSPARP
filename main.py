@@ -34,6 +34,7 @@ def show_homepage(error):
         error=error,
         user=g.user,
         replacements=json.loads(g.user.character['replacements']),
+        regexes=json.loads(g.user.character['regexes']),
         picky=g.redis.smembers(g.user.prefix+'.picky') or set(),
         case_options=CASE_OPTIONS,
         groups=CHARACTER_GROUPS,

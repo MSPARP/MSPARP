@@ -112,7 +112,8 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'original character': {
 		'acronym': '**',
@@ -120,7 +121,8 @@ CHARACTER_DETAILS = {
 		'color': 'FF00FF',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	# XXX GOTTA REMOVE THIS AT SOME POINT.
 	# needs conversion though otherwise we're gonna get a raft of 500s
@@ -130,7 +132,8 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'guardian': {
 		'acronym': '??',
@@ -138,7 +141,8 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'midnight crew': {
 		'acronym': '??',
@@ -146,7 +150,8 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	# XXX END STUFF THAT NEEDS REMOVING
 	'trickster': {
@@ -155,7 +160,8 @@ CHARACTER_DETAILS = {
 		'color': 'FFAC9F',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'doc scratch': {
 		'acronym': '',
@@ -163,7 +169,8 @@ CHARACTER_DETAILS = {
 		'color': 'FFFFFF',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'calliope': {
 		'acronym': 'UU',
@@ -171,7 +178,8 @@ CHARACTER_DETAILS = {
 		'color': '929292',
 		'quirk_prefix': '',
 		'case': 'lower',
-		'replacements': '[["u", "U"]]'
+		'replacements': '[["u", "U"]]',
+		'regexes': '[]'
 	},
 	'caliborn': {
 		'acronym': 'uu',
@@ -179,7 +187,8 @@ CHARACTER_DETAILS = {
 		'color': '323232',
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': '[["U", "u"]]'
+		'replacements': '[["U", "u"]]',
+		'regexes': '[]'
 	},
 	'other (canon)': {
 		'acronym': '??',
@@ -187,7 +196,8 @@ CHARACTER_DETAILS = {
 		'color': 'ff83fb',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'john': {
 		'acronym': 'EB',
@@ -195,7 +205,8 @@ CHARACTER_DETAILS = {
 		'color': '0715CD',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'rose': {
 		'acronym': 'TT',
@@ -203,7 +214,8 @@ CHARACTER_DETAILS = {
 		'color': 'B536DA',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'dave': {
 		'acronym': 'TG',
@@ -211,7 +223,8 @@ CHARACTER_DETAILS = {
 		'color': 'E00707',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'jade': {
 		'acronym': 'GG',
@@ -219,7 +232,8 @@ CHARACTER_DETAILS = {
 		'color': '4AC925',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'jane': {
 		'acronym': 'GG',
@@ -227,7 +241,8 @@ CHARACTER_DETAILS = {
 		'color': '00D5F2',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'roxy': {
 		'acronym': 'TG',
@@ -235,7 +250,8 @@ CHARACTER_DETAILS = {
 		'color': 'FF6FF2',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'dirk': {
 		'acronym': 'TT',
@@ -243,7 +259,8 @@ CHARACTER_DETAILS = {
 		'color': 'F2A400',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'jake': {
 		'acronym': 'GT',
@@ -251,7 +268,8 @@ CHARACTER_DETAILS = {
 		'color': '1F9400',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'aradia': {
 		'acronym': 'AA',
@@ -259,7 +277,8 @@ CHARACTER_DETAILS = {
 		'color': 'A10000',
 		'quirk_prefix': '',
 		'case': 'lower',
-		'replacements': '[["o", "0"]]'
+		'replacements': '[["o", "0"]]',
+		'regexes': '[]'
 	},
 	'tavros': {
 		'acronym': 'AT',
@@ -267,7 +286,8 @@ CHARACTER_DETAILS = {
 		'color': 'A15000',
 		'quirk_prefix': '',
 		'case': 'inverted',
-		'replacements': '[[".", ","]]'
+		'replacements': '[[".", ","]]',
+		'regexes': '[]'
 	},
 	'sollux':{
 		'acronym': 'TA',
@@ -275,7 +295,8 @@ CHARACTER_DETAILS = {
 		'color': 'A1A100',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[["I", "II"], ["i", "ii"], ["S", "2"], ["s", "2"]]'
+		'replacements': '[["I", "II"], ["i", "ii"], ["S", "2"], ["s", "2"]]',
+		'regexes': '[]'
 	},
 	'karkat':{
 		'acronym': 'CG',
@@ -283,7 +304,8 @@ CHARACTER_DETAILS = {
 		'color': '626262',
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'nepeta': {
 		'acronym': 'AC',
@@ -291,7 +313,8 @@ CHARACTER_DETAILS = {
 		'color': '416600',
 		'quirk_prefix': ':33 <',
 		'case': 'lower',
-		'replacements': '[["ee", "33"]]'
+		'replacements': '[["ee", "33"]]',
+		'regexes': '[]'
 	},
 	'kanaya':{
 		'acronym':'GA',
@@ -299,7 +322,8 @@ CHARACTER_DETAILS = {
 		'color':'008141',
 		'quirk_prefix': '',
 		'case': 'title',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'terezi': {
 		'acronym': 'GC',
@@ -307,7 +331,8 @@ CHARACTER_DETAILS = {
 		'color': '008282',
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': '[["A", "4"], ["E", "3"], ["I", "1"]]'
+		'replacements': '[["A", "4"], ["E", "3"], ["I", "1"]]',
+		'regexes': '[]'
 	},
 	'vriska': {
 		'acronym': 'AG',
@@ -315,7 +340,8 @@ CHARACTER_DETAILS = {
 		'color': '005682',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[["B", "8"], ["b", "8"]]'
+		'replacements': '[["B", "8"], ["b", "8"]]',
+		'regexes': '[]'
 	},
 	'equius': {
 		'acronym': 'CT',
@@ -323,7 +349,8 @@ CHARACTER_DETAILS = {
 		'color': '000056',
 		'quirk_prefix': 'D -->',
 		'case': 'normal',
-		'replacements': '[["X", "%"], ["x", "%"], ["loo", "100"], ["ool", "001"]]'
+		'replacements': '[["X", "%"], ["x", "%"], ["loo", "100"], ["ool", "001"]]',
+		'regexes': '[]'
 		
 	},
 	'gamzee': {
@@ -332,7 +359,8 @@ CHARACTER_DETAILS = {
 		'color': '2B0057',
 		'quirk_prefix': '',
 		'case': 'alternating',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'eridan': {
 		'acronym': 'CA',
@@ -340,7 +368,8 @@ CHARACTER_DETAILS = {
 		'color': '6A006A',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[["V", "VV"], ["v", "vv"], ["W", "WW"], ["w", "ww"]]'
+		'replacements': '[["V", "VV"], ["v", "vv"], ["W", "WW"], ["w", "ww"]]',
+		'regexes': '[]'
 	},
 	'feferi': {
 		'acronym': 'CC',
@@ -348,7 +377,8 @@ CHARACTER_DETAILS = {
 		'color': '77003C',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[["E", "-E"], ["H", ")("], ["h", ")("]]'
+		'replacements': '[["E", "-E"], ["H", ")("], ["h", ")("]]',
+		'regexes': '[]'
 	},
 	'damara': {
 		'acronym': 'DAMARA',
@@ -356,7 +386,8 @@ CHARACTER_DETAILS = {
 		'color': 'A10000',
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'rufioh': {
 		'acronym': 'RUFIOH',
@@ -364,7 +395,8 @@ CHARACTER_DETAILS = {
 		'color': 'A15000',
 		'quirk_prefix': '',
 		'case': 'lower',
-		'replacements': '[["i", "1"]]'
+		'replacements': '[["i", "1"]]',
+		'regexes': '[]'
 	},
 	'mituna':{
 		'acronym': 'MITUNA',
@@ -372,7 +404,8 @@ CHARACTER_DETAILS = {
 		'color': 'A1A100',
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': '[["A", "4"], ["B", "8"], ["E", "3"], ["I", "1"], ["O", "0"], ["S", "5"], ["T", "7"]]'
+		'replacements': '[["A", "4"], ["B", "8"], ["E", "3"], ["I", "1"], ["O", "0"], ["S", "5"], ["T", "7"]]',
+		'regexes': '[]'
 	},
 	'kankri':{
 		'acronym': 'KANKRI',
@@ -380,7 +413,8 @@ CHARACTER_DETAILS = {
 		'color': 'FF0000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[["B", "6"], ["b", "6"], ["O", "9"], ["o", "9"]]'
+		'replacements': '[["B", "6"], ["b", "6"], ["O", "9"], ["o", "9"]]',
+		'regexes': '[]'
 	},
 	'meulin': {
 		'acronym': 'MEULIN',
@@ -388,7 +422,8 @@ CHARACTER_DETAILS = {
 		'color': '416600',
 		'quirk_prefix': '(=｀ω´=) <',
 		'case': 'upper',
-		'replacements': '[["EE", "33"]]'
+		'replacements': '[["EE", "33"]]',
+		'regexes': '[]'
 	},
 	'porrim':{
 		'acronym':'PORRIM',
@@ -396,7 +431,8 @@ CHARACTER_DETAILS = {
 		'color':'008141',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[["o", "o+"]]'
+		'replacements': '[["o", "o+"]]',
+		'regexes': '[]'
 	},
 	'latula': {
 		'acronym': 'LATULA',
@@ -404,7 +440,8 @@ CHARACTER_DETAILS = {
 		'color': '008282',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[["A", "4"], ["a", "4"], ["E", "3"], ["e", "3"], ["I", "1"], ["i", "1"]]'
+		'replacements': '[["A", "4"], ["a", "4"], ["E", "3"], ["e", "3"], ["I", "1"], ["i", "1"]]',
+		'regexes': '[]'
 	},
 	'aranea': {
 		'acronym': 'ARANEA',
@@ -412,7 +449,8 @@ CHARACTER_DETAILS = {
 		'color': '005682',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[["B", "8"], ["b", "8"]]'
+		'replacements': '[["B", "8"], ["b", "8"]]',
+		'regexes': '[]'
 	},
 	'horuss': {
 		'acronym': 'HORUSS',
@@ -420,7 +458,8 @@ CHARACTER_DETAILS = {
 		'color': '000056',
 		'quirk_prefix': '8=D <',
 		'case': 'normal',
-		'replacements': '[["X", "%"], ["x", "%"], ["loo", "100"], ["ool", "001"]]'
+		'replacements': '[["X", "%"], ["x", "%"], ["loo", "100"], ["ool", "001"]]',
+		'regexes': '[]'
 	},
 	'kurloz': {
 		'acronym': 'KURLOZ',
@@ -428,7 +467,8 @@ CHARACTER_DETAILS = {
 		'color': '2B0057',
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'cronus': {
 		'acronym': 'CRONUS',
@@ -436,7 +476,8 @@ CHARACTER_DETAILS = {
 		'color': '6A006A',
 		'quirk_prefix': '',
 		'case': 'lower',
-		'replacements': '[["B", "8"], ["v", ""], ["w", "wv"], ["", "vw"]]'
+		'replacements': '[["B", "8"], ["v", ""], ["w", "wv"], ["", "vw"]]',
+		'regexes': '[]'
 	},
 	'meenah': {
 		'acronym': 'MEENAH',
@@ -444,7 +485,8 @@ CHARACTER_DETAILS = {
 		'color': '77003C',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[["E", "-E"], ["H", ")("]]'
+		'replacements': '[["E", "-E"], ["H", ")("]]',
+		'regexes': '[]'
 	},
 	'dad': {
 		'acronym': 'pipefan413',
@@ -452,7 +494,8 @@ CHARACTER_DETAILS = {
 		'color': '4B4B4B',
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'nanna': {
 		'acronym': 'NANNA',
@@ -460,7 +503,8 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'mom': {
 		'acronym': 'MOM',
@@ -468,7 +512,8 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'bro': {
 		'acronym': 'BRO',
@@ -476,7 +521,8 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'grandpa': {
 		'acronym': 'GRANDPA',
@@ -484,7 +530,8 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'poppop': {
 		'acronym': 'POPPOP',
@@ -492,7 +539,8 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'alpha mom': {
 		'acronym': 'MOM',
@@ -500,7 +548,8 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'alpha bro': {
 		'acronym': 'BRO',
@@ -508,7 +557,8 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'grandma': {
 		'acronym': 'GRANDMA',
@@ -516,7 +566,8 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'nannasprite': {
 		'acronym': 'NANNASPRITE',
@@ -524,7 +575,8 @@ CHARACTER_DETAILS = {
 		'color': '00D5F2',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'jaspersprite': {
 		'acronym': 'JASPERSPRITE',
@@ -532,7 +584,8 @@ CHARACTER_DETAILS = {
 		'color': 'F141EF',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'calsprite': {
 		'acronym': 'CALSPRITE',
@@ -540,7 +593,8 @@ CHARACTER_DETAILS = {
 		'color': 'F2A400',
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': '[["A", "<"], ["B", ">"], ["C", "?"], ["D", "<"], ["E", ">"], ["F", "?"], ["G", "<"], ["H", ">"], ["I", "?"], ["J", "<"], ["K", ">"], ["L", "?"], ["M", "<"], ["N", ">"], ["O", "?"], ["P", "<"], ["Q", ">"], ["R", "?"], ["S", "<"], ["T", ">"], ["U", "?"], ["V", "<"], ["W", ">"], ["X", "?"], ["Y", "<"], ["Z", ">"], ["<", "HAA "], [">", "HEE "], ["?", "HOO "]]'
+		'replacements': '[["A", "<"], ["B", ">"], ["C", "?"], ["D", "<"], ["E", ">"], ["F", "?"], ["G", "<"], ["H", ">"], ["I", "?"], ["J", "<"], ["K", ">"], ["L", "?"], ["M", "<"], ["N", ">"], ["O", "?"], ["P", "<"], ["Q", ">"], ["R", "?"], ["S", "<"], ["T", ">"], ["U", "?"], ["V", "<"], ["W", ">"], ["X", "?"], ["Y", "<"], ["Z", ">"], ["<", "HAA "], [">", "HEE "], ["?", "HOO "]]',
+		'regexes': '[]'
 	},
 	'davesprite': {
 		'acronym': 'DAVESPRITE',
@@ -548,7 +602,8 @@ CHARACTER_DETAILS = {
 		'color': 'F2A400',
 		'quirk_prefix': '',
 		'case': 'lower',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'jadesprite': {
 		'acronym': 'JADESPRITE',
@@ -556,7 +611,8 @@ CHARACTER_DETAILS = {
 		'color': '1F9400',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'tavrisprite': {
 		'acronym': 'TAVRISPRITE',
@@ -564,7 +620,8 @@ CHARACTER_DETAILS = {
 		'color': '0715CD',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'fefetasprite': {
 		'acronym': 'FEFETASPRITE',
@@ -572,7 +629,8 @@ CHARACTER_DETAILS = {
 		'color': 'B536DA',
 		'quirk_prefix': '3833 <',
 		'case': 'normal',
-		'replacements': '[["E", "-E"], ["ee", "33"], ["H", ")("], ["h", ")("]]'
+		'replacements': '[["E", "-E"], ["ee", "33"], ["H", ")("], ["h", ")("]]',
+		'regexes': '[]'
 	},
 	'erisolsprite': {
 		'acronym': 'ERISOLSPRITE',
@@ -580,7 +638,8 @@ CHARACTER_DETAILS = {
 		'color': '4AC925',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[["I", "II"], ["i", "ii"], ["S", "2"], ["s", "2"], ["V", "VV"], ["v", "vv"], ["W", "WW"], ["w", "ww"]]'
+		'replacements': '[["I", "II"], ["i", "ii"], ["S", "2"], ["s", "2"], ["V", "VV"], ["v", "vv"], ["W", "WW"], ["w", "ww"]]',
+		'regexes': '[]'
 	},
 	'the handmaid': {
 		'acronym': '♈',
@@ -588,7 +647,8 @@ CHARACTER_DETAILS = {
 		'color': 'A10000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'the summoner': {
 		'acronym': '♉',
@@ -596,7 +656,8 @@ CHARACTER_DETAILS = {
 		'color': 'A15000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'the psiioniic':{
 		'acronym': '♊',
@@ -604,7 +665,8 @@ CHARACTER_DETAILS = {
 		'color': 'A1A100',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'the signless':{
 		'acronym': '♋',
@@ -612,7 +674,8 @@ CHARACTER_DETAILS = {
 		'color': '626262',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'the disciple': {
 		'acronym': '♌',
@@ -620,7 +683,8 @@ CHARACTER_DETAILS = {
 		'color': '416600',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'the dolorosa':{
 		'acronym': '♍',
@@ -628,7 +692,8 @@ CHARACTER_DETAILS = {
 		'color': '008141',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'redglare': {
 		'acronym': '♎',
@@ -636,7 +701,8 @@ CHARACTER_DETAILS = {
 		'color': '008282',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'mindfang': {
 		'acronym': '♏',
@@ -644,7 +710,8 @@ CHARACTER_DETAILS = {
 		'color': '005682',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'darkleer': {
 		'acronym': '♐',
@@ -652,7 +719,8 @@ CHARACTER_DETAILS = {
 		'color': '000056',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'grand highblood': {
 		'acronym': '♑',
@@ -660,7 +728,8 @@ CHARACTER_DETAILS = {
 		'color': '2B0057',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'dualscar': {
 		'acronym': '♒',
@@ -668,7 +737,8 @@ CHARACTER_DETAILS = {
 		'color': '6A006A',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'the condesce': {
 		'acronym': '♓',
@@ -676,7 +746,8 @@ CHARACTER_DETAILS = {
 		'color': '77003C',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'spades slick': {
 		'acronym': '♠',
@@ -684,7 +755,8 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'clubs deuce': {
 		'acronym': '♣',
@@ -692,7 +764,8 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'diamonds droog': {
 		'acronym': '♦',
@@ -700,7 +773,8 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	},
 	'hearts boxcars': {
 		'acronym': '♥',
@@ -708,7 +782,8 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[]',
+		'regexes': '[]'
 	}
 }
 
