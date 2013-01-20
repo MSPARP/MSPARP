@@ -280,6 +280,8 @@ $(document).ready(function() {
 			var textPreview = $('#textInput').val();
 			if (textPreview.substr(0,1)=='/') {
 				textPreview = jQuery.trim(textPreview.substr(1));
+			} else if (textPreview.substr(0,4)=='http') {
+				textPreview = jQuery.trim(textPreview);
 			} else {
 				textPreview = applyQuirks(jQuery.trim(textPreview));
 			}
