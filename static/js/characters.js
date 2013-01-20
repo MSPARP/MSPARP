@@ -762,7 +762,7 @@ function deleteReplacement(e) {
 }
 
 function addReplacement(e, from, to) {
-	var newItem = $('<li><input type="text" name="quirk_from" size="4"> to <input type="text" name="quirk_to" size="4"> <a href="#" class="deleteReplacement">x</a></li>');
+	var newItem = $('<li><input type="text" name="quirk_from" size="8"> to <input type="text" name="quirk_to" size="8"> <a href="#" class="deleteReplacement">x</a></li>');
 	if (from && to) {
 		var inputs = $(newItem).find('input');
 		inputs[0].value = from;
@@ -774,7 +774,7 @@ function addReplacement(e, from, to) {
 }
 
 function addRegex(e, from, to) {
-	var newItem = $('<li><input type="text" name="regex_from" size="4"> to <input type="text" name="regex_to" size="4"> <a href="#" class="deleteReplacement">x</a></li>');
+	var newItem = $('<li><input type="text" name="regex_from" size="8"> to <input type="text" name="regex_to" size="8"> <a href="#" class="deleteReplacement">x</a></li>');
 	if (from && to) {
 		var inputs = $(newItem).find('input');
 		inputs[0].value = from;
