@@ -40,6 +40,12 @@ function applyQuirks(text) {
 		text = text.split(replacement[0]).join(replacement[1])
 	}
 
+	// Regexes
+	for (i=0; i<user.character.regexes.length; i++) {
+		var regex = user.character.regexes[i];
+		text = text.replace(new RegExp(regex[0],"g"), regex[1])
+	}
+
 	// Prefix
 	if (user.character.quirk_prefix!='') {
 		text = user.character.quirk_prefix+' '+text;

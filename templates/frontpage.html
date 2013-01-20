@@ -66,7 +66,18 @@
 			<li><input type="text" name="quirk_from" size="4"> to <input type="text" name="quirk_to" size="4"> <a href="#" class="deleteReplacement">x</a></li>
 			{% endif %}
 		</ul>
-		<a href="#" id="addReplacement">Add</a> <a href="#" id="clearReplacements">Clear</a>
+		<a href="#" id="addReplacement">Add</a> <a href="#" id="clearReplacements">Clear</a><br />
+		Regular expression replacements:<br />
+		<ul id="regexList">
+			{% if regexes|length!=0 %}
+			{% for regex in regexes %}
+			<li><input type="text" name="regex_from" size="4" value="{{regex[0]}}"> to <input type="text" name="regex_to" size="4" value="{{regex[1]}}"> <a href="#" class="deleteReplacement">x</a></li>
+			{% endfor %}
+			{% else %}
+			<li><input type="text" name="regex_from" size="4"> to <input type="text" name="regex_to" size="4"> <a href="#" class="deleteReplacement">x</a></li>
+			{% endif %}
+		</ul>
+		<a href="#" id="addRegex">Add</a> <a href="#" id="clearRegexes">Clear</a>
 	</div>
 </div>
 <div class="options">

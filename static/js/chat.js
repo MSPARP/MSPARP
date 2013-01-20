@@ -356,7 +356,7 @@ $(document).ready(function() {
 
 		$('#settings').submit(function() {
 			// Trim everything first
-			formInputs = $('#settings').find('input, select');
+			formInputs = $('#characterSettings').find('input, select');
 			for (i=0; i<formInputs.length; i++) {
 				formInputs[i].value = jQuery.trim(formInputs[i].value)
 			}
@@ -369,11 +369,9 @@ $(document).ready(function() {
 				formData.push({ name: 'chat', value: chat })
 				$.post(SAVE_URL, formData, function(data) {
 					$('#preview').css('color', '#'+$('input[name="color"]').val());
-					var formInputs = $('#settings').find('input, select');
+					var formInputs = $('#characterSettings').find('input, select');
 					for (i=0; i<formInputs.length; i++) {
-						if (formInputs[i].name!="quirk_from" && formInputs[i].name!="quirk_to") {
-							user.character[formInputs[i].name] = formInputs[i].value;
-						}
+						user.character[formInputs[i].name] = formInputs[i].value;
 					}
 					user.character.replacements = [];
 					var replacementsFrom = $('#settings').find('input[name="quirk_from"]');
@@ -381,6 +379,14 @@ $(document).ready(function() {
 					for (i=0; i<replacementsFrom.length; i++) {
 						if (replacementsFrom[i].value!="" && replacementsFrom[i].value!=replacementsTo[i].value) {
 							user.character.replacements.push([replacementsFrom[i].value, replacementsTo[i].value])
+						}
+					}
+					user.character.regexes = [];
+					var regexesFrom = $('#settings').find('input[name="regex_from"]');
+					var regexesTo = $('#settings').find('input[name="regex_to"]');
+					for (i=0; i<regexesFrom.length; i++) {
+						if (regexesFrom[i].value!="" && regexesFrom[i].value!=regexesTo[i].value) {
+							user.character.regexes.push([regexesFrom[i].value, regexesTo[i].value])
 						}
 					}
 					closeSettings();

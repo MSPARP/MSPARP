@@ -48,34 +48,47 @@
 <form id="settings" class="sidebar">
 	<a href="#" class="close">[close]</a>
 	<h1>Settings</h1>
-	<p><select name="character">
-		{% for group in groups %}
-		<optgroup label="{{group}}">
-			{% for char in characters[group] %}
-			<option value="{{char|lower}}"{% if char|lower==user.character['character'] %} selected="selected"{%endif%}>{{char}}</option>
+	<div id="characterSettings">
+		<p><select name="character">
+			{% for group in groups %}
+			<optgroup label="{{group}}">
+				{% for char in characters[group] %}
+				<option value="{{char|lower}}"{% if char|lower==user.character['character'] %} selected="selected"{%endif%}>{{char}}</option>
+				{% endfor %}
+			</optgroup>
 			{% endfor %}
-		</optgroup>
-		{% endfor %}
-	</select></p>
-	<p><input type="text" name="name" value="{{user.character['name']}}" maxlength="50"></p>
-	<p><input type="text" size="15" name="acronym" value="{{user.character['acronym']}}" maxlength="15"> <input type="text" size="7" name="color" value="{{user.character['color']}}"></p>
-	<p><label>Prefix: <input type="text" size="8" name="quirk_prefix" value="{{user.character['quirk_prefix']}}" /></label></p>
-	<p><label>Case: <select name="case">
-		{% for case in case_options.items()|sort %}
-		<option value="{{case[0]}}"{% if case[0]==user.character['case'] %} selected="selected"{%endif%}>{{case[1]}}</option>
-		{% endfor %}
-	</select></label></p>
-	<p>Replacements:</p>
+		</select></p>
+		<p><input type="text" name="name" value="{{user.character['name']}}" maxlength="50"></p>
+		<p><input type="text" size="15" name="acronym" value="{{user.character['acronym']}}" maxlength="15"> <input type="text" size="7" name="color" value="{{user.character['color']}}"></p>
+		<p><label>Prefix: <input type="text" size="8" name="quirk_prefix" value="{{user.character['quirk_prefix']}}" /></label></p>
+		<p><label>Case: <select name="case">
+			{% for case in case_options.items()|sort %}
+			<option value="{{case[0]}}"{% if case[0]==user.character['case'] %} selected="selected"{%endif%}>{{case[1]}}</option>
+			{% endfor %}
+		</select></label></p>
+	</div>
+	<p>Simple replacements:</p>
 	<ul id="replacementList">
 		{% if character_dict['character']['replacements']|length!=0 %}
 		{% for replacement in character_dict['character']['replacements'] %}
 		<li><input type="text" name="quirk_from" size="4" value="{{replacement[0]}}"> to <input type="text" name="quirk_to" size="4" value="{{replacement[1]}}"> <a href="#" class="deleteReplacement">x</a></li>
 		{% endfor %}
 		{% else %}
-		<li><input type="text" name="quirk_from" size="4"> to <input type="text" name="quirk_to" size="4"> <a href="#" class="deleteReplacement">x</a></li>
+		<li><input type="text" name="regex_from" size="4"> to <input type="text" name="regex_to" size="4"> <a href="#" class="deleteReplacement">x</a></li>
 		{% endif %}
 	</ul>
 	<p><a href="#" id="addReplacement">Add</a> <a href="#" id="clearReplacements">Clear</a></p>
+	<p>Regex replacements:</p>
+	<ul id="regexList">
+		{% if character_dict['character']['regexes']|length!=0 %}
+		{% for regex in character_dict['character']['regexes'] %}
+		<li><input type="text" name="regex_from" size="4" value="{{regex[0]}}"> to <input type="text" name="regex_to" size="4" value="{{regex[1]}}"> <a href="#" class="deleteReplacement">x</a></li>
+		{% endfor %}
+		{% else %}
+		<li><input type="text" name="regex_from" size="4"> to <input type="text" name="regex_to" size="4"> <a href="#" class="deleteReplacement">x</a></li>
+		{% endif %}
+	</ul>
+	<p><a href="#" id="addRegex">Add</a> <a href="#" id="clearRegexes">Clear</a></p>
 	<p><button type="submit">Apply</button> <button type="button" id="settingsCancelButton">Cancel</button></p>
 </form>
 
