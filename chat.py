@@ -72,8 +72,13 @@ def postMessage():
                     set_message = '%s [%s] set %s [%s] to Bum\'s Rusher. They can now silence and kick other users.'
                 elif set_group=='mod3':
                     set_message = '%s [%s] set %s [%s] to Amateur Gavel-Slinger. They can now silence other users.'
-                elif current_group in MOD_GROUPS and set_group not in MOD_GROUPS:
-                    set_message = '%s [%s] removed moderator status from %s [%s].'
+                elif set_group=='user':
+                    if current_group in MOD_GROUPS:
+                        set_message = '%s [%s] removed moderator status from %s [%s].'
+                    else:
+                        set_message = '%s [%s] unsilenced %s [%s].'
+                elif set_group=='silent':
+                    set_message = '%s [%s] silenced %s [%s].'
                 if set_message is not None:
                     set_message = set_message % (
                         g.user.character['name'],
