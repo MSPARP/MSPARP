@@ -467,7 +467,7 @@ $(document).ready(function() {
 			if ($.inArray(user.meta.group, MOD_GROUPS)!=-1) {
 				var new_topic = prompt('Please enter a new topic for the chat:');
 				if (new_topic!=null) {
-					$.post(POST_URL,{'chat': chat, 'topic': new_topic});
+					$.post(POST_URL,{'chat': chat, 'topic': new_topic.substr(0, 1500)});
 				}
 			}
 		});
