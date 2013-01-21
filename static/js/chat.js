@@ -271,7 +271,6 @@ $(document).ready(function() {
 						}
 					}
 					if ($.inArray(userData.meta.group, MOD_GROUPS)!=-1) {
-
 						$('<li />').text('Unmod').appendTo(actionList).data({ group: 'user' }).click(setUserGroup);
 					}
 					if (userData.meta.group=='silent') {
@@ -465,7 +464,7 @@ $(document).ready(function() {
 		});
 
 		$('#topicButton').click(function() {
-			if (user.meta.group=='mod') {
+			if ($.inArray(user.meta.group, MOD_GROUPS)!=-1) {
 				var new_topic = prompt('Please enter a new topic for the chat:');
 				if (new_topic!=null) {
 					$.post(POST_URL,{'chat': chat, 'topic': new_topic});
