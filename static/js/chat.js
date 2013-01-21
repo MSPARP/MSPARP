@@ -238,7 +238,7 @@ $(document).ready(function() {
 						$('input, select, button').removeAttr('disabled');
 					}
 					user.meta.group = currentUser.meta.group;
-					if (MOD_GROUPS.indexOf(user.meta.group)==-1) {
+					if ($.inArray(user.meta.group, MOD_GROUPS)==-1) {
 						$(document.body).removeClass('modPowers');
 					} else {
 						$(document.body).addClass('modPowers');
@@ -261,7 +261,7 @@ $(document).ready(function() {
 					$('<li />').text('Highlight posts').appendTo(actionList).click(function() { highlightPosts(userData.meta.counter); });
 				}
 				// Mod actions. You can only do these if you're (a) a mod, and (b) higher than the person you're doing it to.
-				if (MOD_GROUPS.indexOf(user.meta.group)!=-1 && GROUP_RANKS[user.meta.group]>=GROUP_RANKS[userData.meta.group]) {
+				if ($.inArray(user.meta.group, MOD_GROUPS)!=-1 && GROUP_RANKS[user.meta.group]>=GROUP_RANKS[userData.meta.group]) {
 					for (var i=1; i<MOD_GROUPS.length; i++) {
 						if (userData.meta.group!=MOD_GROUPS[i] && GROUP_RANKS[user.meta.group]>=GROUP_RANKS[MOD_GROUPS[i]]) {
 							var command = $('<li />').text('Make '+GROUP_DESCRIPTIONS[MOD_GROUPS[i]].title);
@@ -270,7 +270,8 @@ $(document).ready(function() {
 							command.click(setUserGroup);
 						}
 					}
-					if (MOD_GROUPS.indexOf(userData.meta.group)!=-1) {
+					if ($.inArray(userData.meta.group, MOD_GROUPS)!=-1) {
+
 						$('<li />').text('Unmod').appendTo(actionList).data({ group: 'user' }).click(setUserGroup);
 					}
 					if (userData.meta.group=='silent') {
