@@ -140,6 +140,10 @@ body.withSidebar #conversation {
 	cursor: pointer;
 }
 
+.sidebar ul ul {
+	color: #000;
+}
+
 #controls {
 	position: fixed;
 	right: 8px;
@@ -198,7 +202,11 @@ body.settings #settings, body.userList #userList {
 
 /* User groups */
 
-.mod {
+.globalmod {
+	text-decoration: underline;
+}
+
+.mod, .mod2, .mod3 {
 	font-style: italic;
 }
 

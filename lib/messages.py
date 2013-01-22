@@ -24,6 +24,14 @@ def send_message(redis, chat, counter, msg_type, text=None, color='000000', acro
         if msg_type!='private':
             message = ','.join([str(get_time()), str(counter), msg_type, color, message_content])
             message_count = redis.rpush('chat.'+chat, message)
+            # Send the chat for archiving early if the chat is getting too long.
+            if message_count>=500:
+                try:
+                    chat_type = g.chat_type
+                except RuntimeError:
+                    chat_type = redis.hget('chat.'+chat+'.meta', 'type')
+                if chat_type!='unsaved':
+                    redis.zadd('archive-queue', chat, get_time(-60))
         else:
             # ...or just get message count if it is.
             message_count = redis.llen('chat.'+chat)
@@ -41,12 +49,7 @@ def send_message(redis, chat, counter, msg_type, text=None, color='000000', acro
     if msg_type=='user_change':
 
         # Generate user list.
-        json_message['online'], json_message['idle'], silent_users = get_userlists(redis, chat)
-
-        # If there are silent users, send the uncensored message to mods then hide the silent users for everyone else.
-        if silent_users is True:
-            redis.publish('channel.'+chat+'.mod', json.dumps(json_message))
-            hide_silence(json_message['online'], json_message['idle'])
+        json_message['online'], json_message['idle'] = get_userlists(redis, chat)
 
         # g doesn't work in the reaper.
         try:
@@ -82,12 +85,12 @@ def get_userlists(redis, chat):
     pipe.smembers('chat.'+chat+'.idle')
     sessions_online, sessions_idle = pipe.execute()
 
-    online, silent_users = get_sublist(redis, chat, sessions_online)
-    idle, silent_users = get_sublist(redis, chat, sessions_idle, silent_users)
+    online = get_sublist(redis, chat, sessions_online)
+    idle = get_sublist(redis, chat, sessions_idle)
 
-    return online, idle, silent_users
+    return online, idle
 
-def get_sublist(redis, chat, sessions, silent_users=False):
+def get_sublist(redis, chat, sessions):
     sublist = []
     for session in sessions:
         session_character = redis.hgetall('session.'+session+'.chat.'+chat)
@@ -96,20 +99,12 @@ def get_sublist(redis, chat, sessions, silent_users=False):
             new_session_character.update(session_character)
             session_character = new_session_character
         session_meta = redis.hgetall('session.'+session+'.meta.'+chat)
-        if session_meta['group']=='silent':
-            silent_users = True
         sublist.append({
             'character': session_character,
             'meta': session_meta,
         })
     sublist.sort(key=lambda _: _['character']['name'].lower())
-    return sublist, silent_users
-
-def hide_silence(*args):
-    for userlist in args:
-        for user in userlist:
-            if user['meta']['group']=='silent':
-                user['meta']['group'] = 'user'
+    return sublist
 
 def parse_line(line, id):
     # Lines consist of comma separated fields.

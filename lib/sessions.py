@@ -157,12 +157,11 @@ class Session(object):
         if self.chat is not None:
             redis.sadd('chat.'+self.chat+'.characters', character['character'])
             if character['name']!=old_name or character['acronym']!=old_acronym:
-                user_change_message = '%s [%s] is now %s [%s].' % (old_name, old_acronym, character['name'], character['acronym'])
                 if self.meta['group']=='silent':
-                    send_message(redis, request.form['chat'], -1, 'private', user_change_message, audience=self.session_id)
-                    send_message(redis, request.form['chat'], -1, 'user_change', None)
+                    user_change_message = None
                 else:
-                    send_message(redis, request.form['chat'], -1, 'user_change', user_change_message)
+                    user_change_message = '%s [%s] is now %s [%s].' % (old_name, old_acronym, character['name'], character['acronym'])
+                send_message(redis, request.form['chat'], -1, 'user_change', user_change_message)
             elif character['color']!=old_color:
                 send_message(redis, request.form['chat'], -1, 'user_change', None)
 
@@ -206,7 +205,9 @@ def get_or_create(redis, key, default):
 
 def new_chat_metadata(redis, chat, session_id):
     # This can be overloaded as a general hook for joining a chat for the first time.
-    if redis.hget('chat.'+chat+'.meta', 'autosilence')=='1':
+    if redis.sismember('global-mods', session_id):
+        metadata = { 'group': 'globalmod' }
+    elif redis.hget('chat.'+chat+'.meta', 'autosilence')=='1':
         metadata = { 'group': 'silent' }
     else:
         metadata = dict(META_DEFAULTS)

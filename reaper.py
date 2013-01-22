@@ -48,11 +48,12 @@ if __name__=='__main__':
         if new_time.minute!=current_time.minute:
 
             # Send blank messages to avoid socket timeouts.
-            print "GETTING LONGPOLLS"
             for chat in redis.zrangebyscore('longpoll-timeout', 0, get_time()):
                 print chat
                 send_message(redis, chat, -1, "message")
-            print "GOT LONGPOLLS"
+
+            # Expire IP bans.
+            redis.zremrangebyscore('ip-bans', 0, get_time())
 
             # Archive chats.
             for chat in redis.zrangebyscore('archive-queue', 0, get_time()):

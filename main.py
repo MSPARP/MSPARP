@@ -8,7 +8,7 @@ from sqlalchemy import and_
 from sqlalchemy.orm.exc import NoResultFound
 from webhelpers import paginate
 
-from lib import SEARCH_PERIOD, ARCHIVE_PERIOD, get_time, validate_chat_url
+from lib import SEARCH_PERIOD, ARCHIVE_PERIOD, OUBLIETTE_ID, get_time, validate_chat_url
 from lib.archive import archive_chat, get_or_create_log
 from lib.characters import CHARACTER_GROUPS, CHARACTERS
 from lib.messages import parse_line
@@ -55,6 +55,8 @@ def chat(chat=None):
         existing_lines = []
         latest_num = -1
     else:
+        if g.redis.zrank('ip-bans', chat+'/'+request.environ['HTTP_X_REAL_IP']) is not None:
+            chat = OUBLIETTE_ID
         # Check if chat exists
         chat_meta = g.redis.hgetall('chat.'+chat+'.meta')
         # Convert topic to unicode.
@@ -115,7 +117,8 @@ def save():
             if not validate_chat_url(chat):
                 raise ValueError('chaturl_invalid')
             g.user.set_chat(chat)
-            g.user.set_group('mod')
+            if g.user.meta['group']!='globalmod':
+                g.user.set_group('mod')
             g.redis.hset('chat.'+chat+'.meta', 'type', 'group')
             get_or_create_log(g.redis, g.mysql, chat)
             g.mysql.commit()
@@ -171,6 +174,7 @@ def view_log(chat=None):
         abort(404)
 
     current_page = request.args.get('page') or log.page_count
+    mode = request.args.get('mode') or 'normal'
 
     try:
         log_page = g.mysql.query(LogPage).filter(and_(LogPage.log_id==log.id, LogPage.number==current_page)).one()
@@ -192,6 +196,8 @@ def view_log(chat=None):
         chat=chat,
         lines=lines,
         continuable=continuable,
+        current_page=current_page,
+        mode=mode,
         paginator=paginator
     )
 

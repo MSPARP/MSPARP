@@ -13,6 +13,17 @@ $(document).ready(function() {
 
 	var CHAT_FLAGS = ['autosilence'];
 
+	var MOD_GROUPS = ['globalmod', 'mod', 'mod2', 'mod3']
+	var GROUP_RANKS = { 'globalmod': 6, 'mod': 5, 'mod2': 4, 'mod3': 3, 'user': 2, 'silent': 1 }
+	var GROUP_DESCRIPTIONS = {
+		'globalmod': { title: 'God tier moderator', description: 'MSPARP staff.' },
+		'mod': { title: 'Professional Wet Blanket', description: 'can silence, kick and ban other users.' },
+		'mod2': { title: 'Bum\'s Rusher', description: 'can silence and kick other users.' },
+		'mod3': { title: 'Amateur Gavel-Slinger', description: 'can silence other users.' },
+		'user': { title: '', description: '' },
+		'silent': { title: 'Silenced', description: '' },
+	};
+
 	var pingInterval;
 	var chatState;
 	var userState;
@@ -88,6 +99,18 @@ $(document).ready(function() {
 		function getMessages() {
 			var messageData = {'chat': chat, 'after': latestNum};
 			$.post(MESSAGES_URL, messageData, function(data) {
+				if (typeof data.exit!=='undefined') {
+					if (data.exit=='kick') {
+						clearChat();
+						addLine({ counter: -1, color: '000000', line: 'You have been kicked from this chat. Please think long and hard about your behaviour before rejoining.' });
+					} else if (data.exit=='ban') {
+						latestNum = -1;
+						chat = 'theoubliette'
+						$('#userList h1')[0].innerHTML = 'theoubliette';
+						$('#conversation').empty();
+					}
+					return true;
+				}
 				var messages = data.messages;
 				for (var i=0; i<messages.length; i++) {
 					addLine(messages[i]);
@@ -141,18 +164,22 @@ $(document).ready(function() {
 
 		function disconnect() {
 			if (confirm('Are you sure you want to disconnect?')) {
-				chatState = 'inactive';
-				if (pingInterval) {
-					window.clearTimeout(pingInterval);
-				}
 				$.ajax(QUIT_URL, {'type': 'POST', data: {'chat': chat}});
-				$('input[name="chat"]').val(chat);
-				chat = null;
-				$('input, select, button').attr('disabled', 'disabled');
-				$('#userList > ul').empty();
-				setSidebar(null);
-				document.title = ORIGINAL_TITLE;
+				clearChat();
 			}
+		}
+
+		function clearChat() {
+			chatState = 'inactive';
+			if (pingInterval) {
+				window.clearTimeout(pingInterval);
+			}
+			$('input[name="chat"]').val(chat);
+			chat = null;
+			$('input, select, button').attr('disabled', 'disabled');
+			$('#userList > ul').empty();
+			setSidebar(null);
+			document.title = ORIGINAL_TITLE;
 		}
 
 		// Sidebars
@@ -194,19 +221,27 @@ $(document).ready(function() {
 				}
 				// Name is a reserved word; this may or may not break stuff but whatever.
 				listItem.css('color', '#'+currentUser.character.color).text(currentUser.character['name']);
-				listItem.removeClass('mod').removeClass('silent');
-				if (currentUser.meta.group=='mod') {
-					listItem.addClass('mod').attr('title', 'Moderator');
-				} else if (currentUser.meta.group=='silent') {
-					listItem.addClass('silent').attr('title', 'Silent');
+				listItem.removeClass().addClass(currentUser.meta.group);
+				var currentGroup = GROUP_DESCRIPTIONS[currentUser.meta.group]
+				var userTitle = currentGroup.title
+				if (currentGroup.description!='') {
+					userTitle += ' - '+GROUP_DESCRIPTIONS[currentUser.meta.group].description
 				}
+				listItem.attr('title', userTitle);
 				if (currentUser.meta.counter==user.meta.counter) {
 					// Set self-related things here.
+					if (currentUser.meta.group=='silent') {
+						// Just been made silent.
+						$('#textInput, #controls button[type="submit"]').attr('disabled', 'disabled');
+					} else if (user.meta.group=='silent' && currentUser.meta.group!='silent') {
+						// No longer silent.
+						$('input, select, button').removeAttr('disabled');
+					}
 					user.meta.group = currentUser.meta.group;
-					if (user.meta.group=='mod') {
-						$(document.body).addClass('modPowers');
-					} else {
+					if ($.inArray(user.meta.group, MOD_GROUPS)==-1) {
 						$(document.body).removeClass('modPowers');
+					} else {
+						$(document.body).addClass('modPowers');
 					}
 					listItem.addClass('self').append(' (you)');
 				}
@@ -225,17 +260,26 @@ $(document).ready(function() {
 				} else {
 					$('<li />').text('Highlight posts').appendTo(actionList).click(function() { highlightPosts(userData.meta.counter); });
 				}
-				if (user.meta.group=='mod') {
-					if (userData.meta.group=='mod') {
-						$('<li />').text('Unmod').appendTo(actionList).click(function() { setUserGroup('user', userData.meta.counter); });
-					} else {
-						$('<li />').text('Mod').appendTo(actionList).click(function() { setUserGroup('mod', userData.meta.counter); });
+				// Mod actions. You can only do these if you're (a) a mod, and (b) higher than the person you're doing it to.
+				if ($.inArray(user.meta.group, MOD_GROUPS)!=-1 && GROUP_RANKS[user.meta.group]>=GROUP_RANKS[userData.meta.group]) {
+					for (var i=1; i<MOD_GROUPS.length; i++) {
+						if (userData.meta.group!=MOD_GROUPS[i] && GROUP_RANKS[user.meta.group]>=GROUP_RANKS[MOD_GROUPS[i]]) {
+							var command = $('<li />').text('Make '+GROUP_DESCRIPTIONS[MOD_GROUPS[i]].title);
+							command.appendTo(actionList);
+							command.data({ group: MOD_GROUPS[i] });
+							command.click(setUserGroup);
+						}
+					}
+					if ($.inArray(userData.meta.group, MOD_GROUPS)!=-1) {
+						$('<li />').text('Unmod').appendTo(actionList).data({ group: 'user' }).click(setUserGroup);
 					}
 					if (userData.meta.group=='silent') {
-						$('<li />').text('Unsilence').appendTo(actionList).click(function() { setUserGroup('user', userData.meta.counter); });
+						$('<li />').text('Unsilence').appendTo(actionList).data({ group: 'user' }).click(setUserGroup);
 					} else {
-						$('<li />').text('Silence').appendTo(actionList).click(function() { setUserGroup('silent', userData.meta.counter); });
+						$('<li />').text('Silence').appendTo(actionList).data({ group: 'silent' }).click(setUserGroup);
 					}
+					$('<li />').text('Kick').appendTo(actionList).data({ action: 'kick' }).click(userAction);
+					$('<li />').text('IP Ban').appendTo(actionList).data({ action: 'ip_ban' }).click(userAction);
 				}
 				$(actionList).appendTo(this);
 				actionListUser = this;
@@ -244,9 +288,28 @@ $(document).ready(function() {
 			}
 		}
 
-		function setUserGroup(group, counter) {
+		function setUserGroup() {
+			var counter = $(this).parent().parent().data().meta.counter;
+			var group = $(this).data().group;
 			if (counter!=user.meta.counter || confirm('You are about to unmod yourself. Are you sure you want to do this?')) {
 				$.post(POST_URL,{'chat': chat, 'set_group': group, 'counter': counter});
+			}
+		}
+
+		function userAction() {
+			var counter = $(this).parent().parent().data().meta.counter;
+			var action = $(this).data().action;
+			var actionData = {'chat': chat, 'user_action': action, 'counter': counter};
+			if (action=='ip_ban') {
+				var reason = prompt('Please enter a reason for this ban (spamming, not following rules, etc.):');
+				if (reason==null) {
+					return;
+				} else if (reason!="") {
+					actionData['reason'] = reason;
+				}
+			}
+			if (counter!=user.meta.counter || confirm('You are about to kick and/or ban yourself. Are you sure you want to do this?')) {
+				$.post(POST_URL, actionData);
 			}
 		}
 
@@ -409,10 +472,10 @@ $(document).ready(function() {
 		});
 
 		$('#topicButton').click(function() {
-			if (user.meta.group=='mod') {
+			if ($.inArray(user.meta.group, MOD_GROUPS)!=-1) {
 				var new_topic = prompt('Please enter a new topic for the chat:');
 				if (new_topic!=null) {
-					$.post(POST_URL,{'chat': chat, 'topic': new_topic});
+					$.post(POST_URL,{'chat': chat, 'topic': new_topic.substr(0, 1500)});
 				}
 			}
 		});
