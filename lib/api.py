@@ -26,6 +26,7 @@ def ping(redis, chat, session, chat_type):
         redis.sadd('sessions-chatting', session.session_id)
         # Add character to chat character list.
         redis.sadd('chat.'+chat+'.characters', session.character['character'])
+        redis.zadd('chats-alive', chat+'/'+session.session_id, get_time(PING_PERIOD*2))
         return True
     redis.zadd('chats-alive', chat+'/'+session.session_id, get_time(PING_PERIOD*2))
     return False
