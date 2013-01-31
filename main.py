@@ -61,7 +61,7 @@ def chat(chat=None):
         # Convert topic to unicode.
         if 'topic' in chat_meta.keys():
             chat_meta['topic'] = unicode(chat_meta['topic'], encoding='utf8')
-        if len(chat_meta)==0:
+        if len(chat_meta)==0 or chat_meta['type']=='deleted':
             # XXX CREATE
             abort(404)
         # Load chat-based session data.
@@ -164,8 +164,13 @@ def view_log_by_id(log_id=None):
 @app.route('/chat/<chat>/log')
 def view_log(chat=None):
 
+    chat_type = g.redis.hget('chat.'+chat+'.meta', 'type')
+
+    if chat_type=='deleted':
+        abort(404)
+
     # Decide whether or not to put a continue link in.
-    continuable = g.redis.hget('chat.'+chat+'.meta', 'type') is not None
+    continuable = chat_type is not None
 
     try:
         log = g.mysql.query(Log).filter(Log.url==chat).one()

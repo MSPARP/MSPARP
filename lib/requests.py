@@ -46,7 +46,7 @@ def create_chat_session():
     else:
         abort(400)
     g.chat_type = g.redis.hget('chat.'+chat+'.meta', 'type')
-    if g.chat_type is None:
+    if g.chat_type in [None, 'deleted']:
         abort(404)
     g.user = user = Session(g.redis, session_id, chat)
 
