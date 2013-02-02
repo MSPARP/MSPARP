@@ -4,6 +4,15 @@ import uuid
 import time
 
 def check_compatibility(first, second):
+    for option in ["para", "nsfw"]:
+        first_option = first['options'].get(option)
+        second_option = second['options'].get(option)
+        if (
+            first_option is not None
+            and second_option is not None
+            and first_option!=second_option
+        ):
+            return False
     return first['char'] in second['wanted_chars'] and second['char'] in first['wanted_chars']
 
 if __name__=='__main__': 
@@ -20,6 +29,7 @@ if __name__=='__main__':
                 'id': session_id,
                 'char': redis.hget('session.'+session_id, 'character'),
                 'wanted_chars': redis.smembers('session.'+session_id+'.picky') or all_chars,
+                'options': redis.hgetall('session.'+session_id+'.picky-options'),
             } for session_id in searchers]
 
             already_matched = set()
