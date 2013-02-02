@@ -70,10 +70,21 @@
 	</div>
 </div>
 <div class="options">
+	<h1>Search for...</h1><br />
+	<label>Script or paragraph? <select name="para">
+		<option value="">No preference</option>
+		<option value="0"{% if picky_options.get('para')=='0' %} selected="selected"{% endif %}>Script</option>
+		<option value="1"{% if picky_options.get('para')=='1' %} selected="selected"{% endif %}>Paragraph</option>
+	</select></label><br />
+	<label>Work-safe or not? <select name="nsfw">
+		<option value="">No preference</option>
+		<option value="0"{% if picky_options.get('nsfw')=='0' %} selected="selected"{% endif %}>Work-safe</option>
+		<option value="1"{% if picky_options.get('nsfw')=='1' %} selected="selected"{% endif %}>Not work-safe</option>
+	</select></label><br />
 	<input type="hidden" name="save_pickiness" value="true">
 	<label><input type="checkbox" name="picky" 
 		{% if picky|length!=0 %}checked="checked" {%endif%}	
-	/>Only match me with specific characters</label>
+	/>Look for or exclude specific characters</label>
 	<div id="picky-matches">
 	{% for group in groups %}
 		<label class="picky-header"><input type="checkbox" id="group-{{group|lower}}" name="group-{{group|lower}}"> {{group}}:</label>
