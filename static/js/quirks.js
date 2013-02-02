@@ -1,3 +1,5 @@
+var lastAlternatingLine = false;
+
 function applyQuirks(text) {
 
 	// Case
@@ -29,6 +31,12 @@ function applyQuirks(text) {
 	        }
 	        text = buffer.join('');
 			break;
+        case "alt-lines":
+            if (lastAlternatingLine) {
+                text = text.toUpperCase();
+            } else {
+                text = text.toLowerCase();
+            }
 	}
 
 	// Replacements

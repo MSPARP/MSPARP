@@ -391,10 +391,12 @@ $(document).ready(function() {
 				if ($('#textInput').val()!='') {
 					if (pingInterval) {
 						window.clearTimeout(pingInterval);
-
 					}
 					$.post(POST_URL,{'chat': chat, 'line': $('#preview').text()}); // todo: check for for error
 					pingInterval = window.setTimeout(pingServer, PING_PERIOD*1000);
+                    if (user.character['case']=='alt-lines') {
+                        lastAlternatingLine = !lastAlternatingLine;
+                    }
 					$('#textInput').val('');
 					updateChatPreview();
 				}

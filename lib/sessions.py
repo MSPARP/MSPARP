@@ -18,7 +18,8 @@ CASE_OPTIONS = {
     'lower': 'lower case',
     'title': 'Title Case',
     'inverted': 'iNVERTED',
-    'alternating': 'AlTeRnAtInG'
+    'alternating': 'AlTeRnAtInG LeTtErS',
+    'alt-lines': 'alternating LINES'
 }
 
 META_DEFAULTS = {
