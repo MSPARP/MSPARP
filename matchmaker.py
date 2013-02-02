@@ -3,7 +3,15 @@ from redis import Redis
 import uuid
 import time
 
+OPTION_LABELS = {
+    'para0': 'script style',
+    'para1': 'paragraph style',
+    'nsfw0': 'safe for work',
+    'nsfw1': 'not safe for work',
+}
+
 def check_compatibility(first, second):
+    selected_options = []
     for option in ["para", "nsfw"]:
         first_option = first['options'].get(option)
         second_option = second['options'].get(option)
@@ -12,8 +20,13 @@ def check_compatibility(first, second):
             and second_option is not None
             and first_option!=second_option
         ):
-            return False
-    return first['char'] in second['wanted_chars'] and second['char'] in first['wanted_chars']
+            return False, selected_options
+        if first_option is not None:
+            selected_options.append(option+first_option)
+        elif second_option is not None:
+            selected_options.append(option+second_option)
+    compatible = first['char'] in second['wanted_chars'] and second['char'] in first['wanted_chars']
+    return compatible, selected_options
 
 if __name__=='__main__': 
 
@@ -35,13 +48,23 @@ if __name__=='__main__':
             already_matched = set()
             for n in range(len(sessions)):
                 for m in range(n+1, len(sessions)):
+                    print sessions[n]['id'], sessions[m]['id']
                     if (
                         sessions[n]['id'] not in already_matched
                         and sessions[m]['id'] not in already_matched
-                        and check_compatibility(sessions[n], sessions[m])
                     ):
+                        compatible, selected_options = check_compatibility(sessions[n], sessions[m])
+                        print compatible, selected_options
+                        if not compatible:
+                            continue
                         chat = str(uuid.uuid4()).replace('-','')
                         redis.hset('chat.'+chat+'.meta', 'type', 'unsaved')
+                        if len(selected_options)>0:
+                            option_text = ', '.join(OPTION_LABELS[_] for _ in selected_options)
+                            redis.rpush(
+                                'chat.'+chat,
+                                str(int(time.time()))+',-1,message,000000,This is a '+option_text+' chat.'
+                            )
                         redis.set('session.'+sessions[n]['id']+'.match', chat)
                         redis.set('session.'+sessions[m]['id']+'.match', chat)
                         redis.zrem('searchers', sessions[n]['id'])
