@@ -59,6 +59,11 @@ function applyQuirks(text) {
 		text = user.character.quirk_prefix+' '+text;
 	}
 
+	// Suffix
+	if (user.character.quirk_suffix!='') {
+		text = text+user.character.quirk_suffix;
+	}
+
 	return text
 
 }

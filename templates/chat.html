@@ -61,6 +61,7 @@
 		<p><input type="text" name="name" value="{{user.character['name']}}" maxlength="50"></p>
 		<p><input type="text" size="15" name="acronym" value="{{user.character['acronym']}}" maxlength="15"> <input type="text" size="7" name="color" value="{{user.character['color']}}"></p>
 		<p><label>Prefix: <input type="text" size="8" name="quirk_prefix" value="{{user.character['quirk_prefix']}}" /></label></p>
+		<p><label>Suffix: <input type="text" size="8" name="quirk_suffix" value="{{user.character['quirk_suffix']}}" /></label></p>
 		<p><label>Case: <select name="case">
 			{% for case in case_options.items()|sort %}
 			<option value="{{case[0]}}"{% if case[0]==user.character['case'] %} selected="selected"{%endif%}>{{case[1]}}</option>

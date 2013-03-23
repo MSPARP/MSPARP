@@ -135,6 +135,7 @@ class Session(object):
             raise ValueError("character")
 
         character['quirk_prefix'] = form['quirk_prefix']
+        character['quirk_suffix'] = form['quirk_suffix']
 
         # Validate case
         if form['case'] in CASE_OPTIONS.keys():
