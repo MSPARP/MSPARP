@@ -422,12 +422,13 @@ $(document).ready(function() {
 		});
 
 		$('#settings').submit(function() {
-			// Trim everything first
+			// Trim name and acronym first
 			formInputs = $('#characterSettings').find('input, select');
-			for (i=0; i<formInputs.length; i++) {
-				formInputs[i].value = jQuery.trim(formInputs[i].value)
-			}
-			if ($('input[name="name"]').val()=="") {
+			var nameInput = $('input[name="name"]')[0];
+			var acronymInput = $('input[name="acronym"]')[0];
+			nameInput.value = jQuery.trim(nameInput.value);
+			acronymInput.value = jQuery.trim(acronymInput.value);
+			if (nameInput.value=="") {
 				alert("You can't chat with a blank name!");
 			} else if ($('input[name="color"]').val().match(/^[0-9a-fA-F]{6}$/)==null) {
 				alert("You entered an invalid hex code. Try using the color picker.");

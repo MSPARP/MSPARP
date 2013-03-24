@@ -1,4 +1,4 @@
-var characterKeys = ['acronym', 'name', 'color', 'quirk_prefix', 'case'];
+var characterKeys = ['acronym', 'name', 'color', 'quirk_prefix', 'quirk_suffix', 'case'];
 
 var characters = {
 	'anonymous/other': {
@@ -250,7 +250,7 @@ var characters = {
 		'name': 'arsenicCatnip',
 		'color': '416600',
 		'quote': ":33 < but do you think you could purrhaps please spare your computer for just the most fl33ting of moments?",
-		'quirk_prefix': ':33 <',
+		'quirk_prefix': ':33 < ',
 		'quirk_suffix': '',
 		'case': 'lower',
 		'replacements': [['ee', '33']],
@@ -294,7 +294,7 @@ var characters = {
 		'name': 'centaursTesticle',
 		'color': '000056',
 		'quote': "D --> How do you know about my perspiration problem",
-		'quirk_prefix': 'D -->',
+		'quirk_prefix': 'D --> ',
 		'quirk_suffix': '',
 		'case': 'normal',
 		'replacements': [["X", "%"], ["x", "%"], ["loo", "100"], ["ool", "001"]],
@@ -382,7 +382,7 @@ var characters = {
 		'name': 'Meulin',
 		'color': '416600',
 		'quote': "(=；ェ；=)  < YOU DON'T UNDERSTAND, M33NAH. THE F33LS. THE F333333333LS!!!!!!!!!",
-		'quirk_prefix': '(=｀ω´=) <',
+		'quirk_prefix': '(=｀ω´=) < ',
 		'quirk_suffix': '',
 		'case': 'upper',
 		'replacements': [["EE", "33"]],
@@ -426,7 +426,7 @@ var characters = {
 		'name': 'Horuss',
 		'color': '000056',
 		'quote': "8=========D < Why the long face?",
-		'quirk_prefix': '8=D <',
+		'quirk_prefix': '8=D < ',
 		'quirk_suffix': '',
 		'case': 'normal',
 		'replacements': [["X", "%"], ["x", "%"], ["loo", "100"], ["ool", "001"]],
@@ -635,7 +635,7 @@ var characters = {
 		'name': 'Fefetasprite',
 		'color': 'B536DA',
 		'quote': "3833 < 383",
-		'quirk_prefix': '3833 <',
+		'quirk_prefix': '3833 < ',
 		'quirk_suffix': '',
 		'case': 'normal',
 		'replacements': [["E", "-E"], ["ee", "33"], ["H", ")("], ["h", ")("]],
