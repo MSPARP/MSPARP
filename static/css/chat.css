@@ -4,6 +4,7 @@ body {
 	margin: 5px;
 	background-color: #cccccc;
 	background-attachment: fixed;
+	word-wrap: break-word;
 }
 
 body, button, input, select, optgroup, option {
