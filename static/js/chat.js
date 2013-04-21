@@ -80,7 +80,11 @@ $(document).ready(function() {
 			if (highlightUser==msg.counter) {
 				mp.addClass('highlight');
 			}
-			conversation.scrollTop(conversation[0].scrollHeight);
+			var conversion = document.getElementById("conversation");
+			var von = conversion.scrollTop + 1008;
+			var don = conversion.scrollHeight;
+			if (von  == don) { conversation.scrollTop(conversation[0].scrollHeight); }
+
 		}
 
 		function startChat() {
