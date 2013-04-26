@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
 	var SEARCH_PERIOD = 1;
 	var PING_PERIOD = 10;
 
@@ -80,8 +79,17 @@ $(document).ready(function() {
 			if (highlightUser==msg.counter) {
 				mp.addClass('highlight');
 			}
-			conversation.scrollTop(conversation[0].scrollHeight);
-
+			
+			if ($.browser.webkit) {
+                            var von = conversation.scrollTop()+conversation.height()+24;
+                            var don = conversation[0].scrollHeight;
+                            if (von == don){
+                            conversation.scrollTop(conversation[0].scrollHeight);
+                            }
+                        }
+                        else {
+                             conversation.scrollTop(conversation[0].scrollHeight);
+                        }
 		}
 
 		function startChat() {
@@ -513,6 +521,6 @@ $(document).ready(function() {
 		}
 
 	}
-
+$('#conversation').scrollTop($('#conversation')[0].scrollHeight);
 });
 
