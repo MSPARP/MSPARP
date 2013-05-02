@@ -35,6 +35,14 @@ $(document).ready(function() {
 
 	var ORIGINAL_TITLE = document.title;
 	var conversation = $('#conversation');
+	
+	// Redirect iPhone/iPod visitors
+        function isiPhone(){
+            return (
+                (navigator.platform.indexOf("iPhone") != -1) ||
+                (navigator.platform.indexOf("iPod") != -1)
+            );
+        }
 
 	$('input, select, button').attr('disabled', 'disabled');
 
@@ -79,8 +87,11 @@ $(document).ready(function() {
 			if (highlightUser==msg.counter) {
 				mp.addClass('highlight');
 			}
-			
-			if ($.browser.webkit) {
+		 
+                        if(isiPhone()) {
+                            conversation.scrollTop(conversation[0].scrollHeight);
+                        }
+			else if ($.browser.webkit) {
                             var von = conversation.scrollTop()+conversation.height()+24;
                             var don = conversation[0].scrollHeight;
                             if (von == don){
