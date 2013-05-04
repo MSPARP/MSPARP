@@ -89,17 +89,17 @@ $(document).ready(function() {
 			}
 		 
                         if(isiPhone()) {
-                            conversation.scrollTop(conversation[0].scrollHeight);
+                             conversation.scrollTop(conversation[0].scrollHeight);
                         }
                         else if ( $.browser.safari ) {
-                            conversation.scrollTop(conversation[0].scrollHeight);
+                             conversation.scrollTop(conversation[0].scrollHeight);
                         }
 			else if ($.browser.webkit) {
-                            var von = conversation.scrollTop()+conversation.height()+24;
-                            var don = conversation[0].scrollHeight;
-                            if (von == don){
-                            conversation.scrollTop(conversation[0].scrollHeight);
-                            }
+                             var von = conversation.scrollTop()+conversation.height()+24;
+                             var don = conversation[0].scrollHeight;
+                             if (von == don){
+                             conversation.scrollTop(conversation[0].scrollHeight);
+                             }
                         }
                         else if ( $.browser.opera ) {
                              conversation.scrollTop(conversation[0].scrollHeight);
@@ -108,7 +108,11 @@ $(document).ready(function() {
                              conversation.scrollTop(conversation[0].scrollHeight);
                         }
                         else if ( $.browser.mozilla ) {
+                             var von = conversation.scrollTop()+conversation.height()+22;
+                             var don = conversation[0].scrollHeight;
+                             if (von == don){
                              conversation.scrollTop(conversation[0].scrollHeight);
+                            }
                         }
                         else {
                              conversation.scrollTop(conversation[0].scrollHeight);
