@@ -87,11 +87,7 @@ $(document).ready(function() {
 			if (highlightUser==msg.counter) {
 				mp.addClass('highlight');
 			}
-		 
                         if(isiPhone()) {
-                             conversation.scrollTop(conversation[0].scrollHeight);
-                        }
-                        else if ( $.browser.safari ) {
                              conversation.scrollTop(conversation[0].scrollHeight);
                         }
 			else if ($.browser.webkit) {
@@ -105,14 +101,19 @@ $(document).ready(function() {
                              conversation.scrollTop(conversation[0].scrollHeight);
                         }
                         else if ( $.browser.msie ) {
+                             var von = conversation.scrollTop()+conversation.height()-.1;
+                             var don = conversation[0].scrollHeight-22;
+                             var zon = don-von;
+                             if (zon == 0 || zon == -1){
                              conversation.scrollTop(conversation[0].scrollHeight);
+                             }
                         }
                         else if ( $.browser.mozilla ) {
                              var von = conversation.scrollTop()+conversation.height()+22;
                              var don = conversation[0].scrollHeight;
                              if (von == don){
                              conversation.scrollTop(conversation[0].scrollHeight);
-                            }
+                             }
                         }
                         else {
                              conversation.scrollTop(conversation[0].scrollHeight);
@@ -402,6 +403,7 @@ $(document).ready(function() {
 			}
 			$('#conversation').css('bottom',($('#controls').height()+10)+'px');
 			previewHidden = !previewHidden;
+			$("#textInput").focus();
 			return false;
 		});
 
@@ -433,6 +435,7 @@ $(document).ready(function() {
 					updateChatPreview();
 				}
 			}
+			$("#textInput").focus();
 			return false;
 		});
 
@@ -490,6 +493,7 @@ $(document).ready(function() {
 
 		$('#settingsCancelButton').click(function() {
 			closeSettings();
+			$("#textInput").focus();
 		});
 
 		$('#metaOptions input').click(function() {
@@ -549,5 +553,6 @@ $(document).ready(function() {
 
 	}
 $('#conversation').scrollTop($('#conversation')[0].scrollHeight);
+$("#textInput").focus();
 });
 
