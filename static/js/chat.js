@@ -472,8 +472,9 @@ $(document).ready(function() {
 			}
 		});
 
-		// Activate mobile mode on small screens
-		if (navigator.userAgent.indexOf('Android')!=-1 || navigator.userAgent.indexOf('iPhone')!=-1 || window.innerWidth<=500) {
+		// Activate mobile mode on small screens.
+		// This hides the sidebar and shows the userlist and character settings as separate screens.
+		if (isiPhone() || navigator.userAgent.indexOf('Android')!=-1 || window.innerWidth<=500) {
 			$(document.body).addClass('mobile');
 			$('.sidebar .close').click(function() {
 				setSidebar(null);
@@ -481,6 +482,10 @@ $(document).ready(function() {
 			$('#userListButton').click(function() {
 				setSidebar('userList');
 			}).show();
+		}
+		if(isiPhone()) {
+			$('#conversation').kinetic();
+			// TODO Hide the send button?
 		}
 
 		window.onbeforeunload = function (e) {
@@ -515,3 +520,15 @@ $(document).ready(function() {
 
 });
 
+function isiPhone() {
+	return (
+		(navigator.platform.indexOf("iPhone") != -1) ||
+		(navigator.platform.indexOf("iPod") != -1)
+	);
+}
+
+if(isiPhone()) {
+	$('head').append('<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />');
+} else {
+	$('head').append('<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />');
+}
