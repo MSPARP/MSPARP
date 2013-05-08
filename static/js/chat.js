@@ -87,37 +87,13 @@ $(document).ready(function() {
 			if (highlightUser==msg.counter) {
 				mp.addClass('highlight');
 			}
-                        if(isiPhone()) {
-                             conversation.scrollTop(conversation[0].scrollHeight);
-                        }
-			else if ($.browser.webkit) {
-                             var von = conversation.scrollTop()+conversation.height()+24;
-                             var don = conversation[0].scrollHeight;
-                             if (von == don){
-                             conversation.scrollTop(conversation[0].scrollHeight);
-                             }
-                        }
-                        else if ( $.browser.opera ) {
-                             conversation.scrollTop(conversation[0].scrollHeight);
-                        }
-                        else if ( $.browser.msie ) {
-                             var von = conversation.scrollTop()+conversation.height()-.1;
-                             var don = conversation[0].scrollHeight-22;
-                             var zon = don-von;
-                             if (zon == 0 || zon == -1){
-                             conversation.scrollTop(conversation[0].scrollHeight);
-                             }
-                        }
-                        else if ( $.browser.mozilla ) {
-                             var von = conversation.scrollTop()+conversation.height()+22;
-                             var don = conversation[0].scrollHeight;
-                             if (von == don){
-                             conversation.scrollTop(conversation[0].scrollHeight);
-                             }
-                        }
-                        else {
-                             conversation.scrollTop(conversation[0].scrollHeight);
-                        }
+
+            var von = conversation.scrollTop()+conversation.height()+24;
+            var don = conversation[0].scrollHeight;
+            var lon = don-von;
+            if (lon <= 100){
+                  conversation.scrollTop(conversation[0].scrollHeight);
+            }
 		}
 
 		function startChat() {
@@ -555,4 +531,3 @@ $(document).ready(function() {
 $('#conversation').scrollTop($('#conversation')[0].scrollHeight);
 $("#textInput").focus();
 });
-
