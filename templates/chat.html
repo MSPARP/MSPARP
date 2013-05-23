@@ -62,8 +62,8 @@
 		</select></p>
 		<p><input type="text" name="name" value="{{user.character['name']}}" maxlength="50"></p>
 		<p><input type="text" size="15" name="acronym" value="{{user.character['acronym']}}" maxlength="15"> <input type="text" size="7" name="color" value="{{user.character['color']}}"></p>
-		<p><label>Prefix: <input type="text" size="8" name="quirk_prefix" value="{{user.character['quirk_prefix']}}" /></label></p>
-		<p><label>Suffix: <input type="text" size="8" name="quirk_suffix" value="{{user.character['quirk_suffix']}}" /></label></p>
+		<p><label>Prefix: <input type="text" size="8" name="quirk_prefix" value="{{user.character['quirk_prefix']}}" maxlength="50" /></label></p>
+		<p><label>Suffix: <input type="text" size="8" name="quirk_suffix" value="{{user.character['quirk_suffix']}}" maxlength="50" /></label></p>
 		<p><label>Case: <select name="case">
 			{% for case in case_options.items()|sort %}
 			<option value="{{case[0]}}"{% if case[0]==user.character['case'] %} selected="selected"{%endif%}>{{case[1]}}</option>
@@ -74,10 +74,10 @@
 	<ul id="replacementList">
 		{% if character_dict['character']['replacements']|length!=0 %}
 		{% for replacement in character_dict['character']['replacements'] %}
-		<li><input type="text" name="quirk_from" size="8" value="{{replacement[0]}}"> to <input type="text" name="quirk_to" size="8" value="{{replacement[1]}}"> <a href="#" class="deleteReplacement">x</a></li>
+		<li><input type="text" name="quirk_from" size="8" value="{{replacement[0]}}" maxlength="50"> to <input type="text" name="quirk_to" size="8" value="{{replacement[1]}}" maxlength="50"> <a href="#" class="deleteReplacement">x</a></li>
 		{% endfor %}
 		{% else %}
-		<li><input type="text" name="regex_from" size="8"> to <input type="text" name="regex_to" size="4"> <a href="#" class="deleteReplacement">x</a></li>
+		<li><input type="text" name="quirk_from" size="8" maxlength="50"> to <input type="text" name="quirk_to" size="8" maxlength="50"> <a href="#" class="deleteReplacement">x</a></li>
 		{% endif %}
 	</ul>
 	<p><a href="#" id="addReplacement">Add</a> <a href="#" id="clearReplacements">Clear</a></p>
@@ -85,10 +85,10 @@
 	<ul id="regexList">
 		{% if character_dict['character']['regexes']|length!=0 %}
 		{% for regex in character_dict['character']['regexes'] %}
-		<li><input type="text" name="regex_from" size="8" value="{{regex[0]}}"> to <input type="text" name="regex_to" size="8" value="{{regex[1]}}"> <a href="#" class="deleteReplacement">x</a></li>
+		<li><input type="text" name="regex_from" size="8" value="{{regex[0]}}" maxlength="50"> to <input type="text" name="regex_to" size="8" value="{{regex[1]}}" maxlength="50"> <a href="#" class="deleteReplacement">x</a></li>
 		{% endfor %}
 		{% else %}
-		<li><input type="text" name="regex_from" size="8"> to <input type="text" name="regex_to" size="8"> <a href="#" class="deleteReplacement">x</a></li>
+		<li><input type="text" name="regex_from" size="8" maxlength="50"> to <input type="text" name="regex_to" size="8" maxlength="50"> <a href="#" class="deleteReplacement">x</a></li>
 		{% endif %}
 	</ul>
 	<p><a href="#" id="addRegex">Add</a> <a href="#" id="clearRegexes">Clear</a></p>

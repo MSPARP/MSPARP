@@ -134,8 +134,9 @@ class Session(object):
         else:
             raise ValueError("character")
 
-        character['quirk_prefix'] = form['quirk_prefix']
-        character['quirk_suffix'] = form['quirk_suffix']
+        # Truncate prefix and suffix to 50 characters.
+        character['quirk_prefix'] = form['quirk_prefix'][:50]
+        character['quirk_suffix'] = form['quirk_suffix'][:50]
 
         # Validate case
         if form['case'] in CASE_OPTIONS.keys():
@@ -234,11 +235,19 @@ def fill_in_data(character_data):
     return character_data
 
 def replacement_list(form, from_parameter, to_parameter):
-    replacements = zip(form.getlist(from_parameter), form.getlist(to_parameter))
+    # No more than 100 replacements of each type.
+    replacements = zip(form.getlist(from_parameter)[:100], form.getlist(to_parameter)[:100])
     # Strip out any rows where from is blank or the same as to.
-    replacements = [_ for _ in replacements if _[0]!='' and _[0]!=_[1]]
+    # Also truncate from and to to 50 characters.
+    filtered_replacements = []
+    for replacement in replacements:
+        if replacement[0]=='' or replacement[0]==replacement[1]:
+            continue
+        if len(replacement[0])>50 or len(replacement[1])>50:
+            replacement = (replacement[0][:50], replacement[1][:50])
+        filtered_replacements.append(replacement)
     # And encode as JSON.
-    return json.dumps(replacements)
+    return json.dumps(filtered_replacements)
 
 class PartialSession(object):
 
