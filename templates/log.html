@@ -17,8 +17,14 @@
 <div id="archiveConversation">
 {% if lines|length!=0 %}
 {% if mode=='normal': %}
+{% set last_date = None %}
 {% for line in lines %}
-	<p style="color: #{{line.color}}" class="{% if line.counter==-1 %}system{% else %}user{{line.counter}}{% endif %}">{{line.line}}</p>
+{% set current_date = line['datetime'].date() %}
+{% if current_date!=last_date %}
+	<h1>{{current_date.strftime("%A %d %B %Y")}}</h1>
+{% set last_date = current_date %}
+{% endif %}
+	<p style="color: #{{line['color']}}" class="{% if line.counter==-1 %}system{% else %}user{{line['counter']}}{% endif %}">{{line['line']}}<span class="timestamp">{{line['datetime'].strftime('%X')}}</span></p>
 {% endfor %}
 	<p><a href="{{url_for('view_log', chat=chat, page=current_page, mode='bbcode' )}}">View as BBCode</a></p>
 {% elif mode=='bbcode': %}

@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
 	var SEARCH_PERIOD = 1;
 	var PING_PERIOD = 10;
 
@@ -36,6 +35,14 @@ $(document).ready(function() {
 
 	var ORIGINAL_TITLE = document.title;
 	var conversation = $('#conversation');
+	
+	// Redirect iPhone/iPod visitors
+        function isiPhone(){
+            return (
+                (navigator.platform.indexOf("iPhone") != -1) ||
+                (navigator.platform.indexOf("iPod") != -1)
+            );
+        }
 
 	$('input, select, button').attr('disabled', 'disabled');
 
@@ -80,7 +87,13 @@ $(document).ready(function() {
 			if (highlightUser==msg.counter) {
 				mp.addClass('highlight');
 			}
-			conversation.scrollTop(conversation[0].scrollHeight);
+
+            var von = conversation.scrollTop()+conversation.height()+24;
+            var don = conversation[0].scrollHeight;
+            var lon = don-von;
+            if (lon <= 100){
+                  conversation.scrollTop(conversation[0].scrollHeight);
+            }
 		}
 
 		function startChat() {
@@ -368,6 +381,7 @@ $(document).ready(function() {
 			}
 			$('#conversation').css('bottom',($('#controls').height()+10)+'px');
 			previewHidden = !previewHidden;
+			$("#textInput").focus();
 			return false;
 		});
 
@@ -401,6 +415,7 @@ $(document).ready(function() {
 					updateChatPreview();
 				}
 			}
+			$("#textInput").focus();
 			return false;
 		});
 
@@ -465,6 +480,7 @@ $(document).ready(function() {
 
 		$('#settingsCancelButton').click(function() {
 			closeSettings();
+			$("#textInput").focus();
 		});
 
 		$('#metaOptions input').click(function() {
@@ -523,6 +539,6 @@ $(document).ready(function() {
 		}
 
 	}
-
+$('#conversation').scrollTop($('#conversation')[0].scrollHeight);
+$("#textInput").focus();
 });
-

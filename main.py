@@ -2,7 +2,7 @@ try:
     import ujson as json
 except:
     import json
-import urllib
+import datetime, urllib
 from flask import Flask, g, request, render_template, redirect, url_for, jsonify, abort
 from sqlalchemy import and_
 from sqlalchemy.orm.exc import NoResultFound
@@ -36,6 +36,7 @@ def show_homepage(error):
         replacements=json.loads(g.user.character['replacements']),
         regexes=json.loads(g.user.character['regexes']),
         picky=g.redis.smembers(g.user.prefix+'.picky') or set(),
+        picky_options=g.redis.hgetall(g.user.prefix+'.picky-options') or {},
         case_options=CASE_OPTIONS,
         groups=CHARACTER_GROUPS,
         characters=CHARACTERS,
@@ -191,6 +192,9 @@ def view_log(chat=None):
     # Pages end with a line break, so the last line is blank.
     lines = log_page.content.split('\n')[0:-1]
     lines = map(lambda _: parse_line(_, 0), lines)
+
+    for line in lines:
+        line['datetime'] = datetime.datetime.fromtimestamp(line['timestamp'])
 
     return render_template('log.html',
         chat=chat,

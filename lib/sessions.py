@@ -168,11 +168,19 @@ class Session(object):
                 send_message(redis, request.form['chat'], -1, 'user_change', None)
 
     def save_pickiness(self, form):
+        # Characters
         picky_key = self.prefix+'.picky'
         self.redis.delete(picky_key)
         chars = self.picky = set(k[6:] for k in form.keys() if k.startswith('picky-'))
         if len(CHARACTER_DETAILS)>len(chars)>0:
             self.redis.sadd(picky_key, *chars)
+        # Other options
+        option_key = self.prefix+'.picky-options'
+        for option in ['para', 'nsfw']:
+            if option in form and form[option] in ['0', '1']:
+                self.redis.hset(option_key, option, int(form[option]))
+            else:
+                self.redis.hdel(option_key, option)
 
     def set_chat(self, chat):
         if self.chat is None:

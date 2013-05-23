@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block title%}{% endblock %}
 {% block header %}
+<script src="../static/js/drag/jquery.kinetic.js" type="text/javascript" charset="utf-8"></script>
+
 <link rel="stylesheet" href="/static/css/chat.css?2212">
 <link rel="stylesheet" media="screen" type="text/css" href="/static/colorpicker/css/colorpicker.css" />
 <script type="text/javascript" src="/static/colorpicker/js/colorpicker.js"></script>
@@ -114,5 +116,19 @@
 		<input type="submit" name="tumblr" value="Save log and post to Tumblr">
 	</p></form>
 </div>
+
+<script type="text/javascript" charset="utf-8"  media="only screen and (max-width : 320px)">
+// Redirect iPhone/iPod visitors
+function isiPhone(){
+    return (
+        (navigator.platform.indexOf("iPhone") != -1) ||
+        (navigator.platform.indexOf("iPod") != -1)
+    );
+}
+
+if(isiPhone()) {
+$('#conversation').kinetic();
+}
+</script>
 
 {% endblock %}

@@ -4,6 +4,7 @@ body {
 	margin: 5px;
 	background-color: #cccccc;
 	background-attachment: fixed;
+	word-wrap: break-word;
 }
 
 body, button, input, select, optgroup, option {
@@ -72,6 +73,16 @@ optgroup option {
 
 input:focus, input:hover, select:focus, select:hover, button:hover {
 	background-color: #ffffff;
+}
+
+.timestamp {
+	display: none;
+}
+
+p:hover .timestamp {
+	display: block;
+	float: right;
+	color: #666;
 }
 
 /* Chat layout */

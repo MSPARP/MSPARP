@@ -21,7 +21,6 @@ def get_default(redis, session, chat, key, defaultValue=''):
 if __name__=='__main__':
 
     redis = Redis(unix_socket_path='/tmp/redis.sock')
-    mysql = sm()
 
     current_time = datetime.datetime.now()
 
@@ -46,10 +45,10 @@ if __name__=='__main__':
 
         # Every minute
         if new_time.minute!=current_time.minute:
+            mysql = sm()
 
             # Send blank messages to avoid socket timeouts.
             for chat in redis.zrangebyscore('longpoll-timeout', 0, get_time()):
-                print chat
                 send_message(redis, chat, -1, "message")
 
             # Expire IP bans.
@@ -80,7 +79,8 @@ if __name__=='__main__':
             for session_id in redis.zrangebyscore('all-sessions', 0, get_time()):
                 delete_session(redis, session_id)
 
-            pass
+            mysql.close()
+            del mysql
 
         current_time = new_time
 
