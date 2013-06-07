@@ -210,9 +210,10 @@ body > #save {
         position: fixed;
 	top: 5px;
 	left: 5px;
-        background-color: #cccccc;
+        background-color: #CCCCCC;
         padding: 5px;
         border: 1px solid #999999;
+        cursor: pointer;
 }
 
 /* Sidebars */

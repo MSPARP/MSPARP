@@ -533,21 +533,27 @@ $(document).ready(function() {
 		}
 
 	}
-$('#conversation').scrollTop($('#conversation')[0].scrollHeight);
-$("#textInput").focus();
-$('#conversation').scroll(function(){
-    var von = conversation.scrollTop()+conversation.height()+24;
-    var don = conversation[0].scrollHeight;
-    var lon = don-von;
-    if (lon <= 50){
-    $('.throwdown').hide();
-        tarnish = '0';
-    }
-    if ($('#conversation').scrollTop() == 0){
+    $('#conversation').scrollTop($('#conversation')[0].scrollHeight);
+    $("#textInput").focus();
+    // Exclaim the Keikaku
+    $('#conversation').scroll(function(){
+        var von = conversation.scrollTop()+conversation.height()+24;
+        var don = conversation[0].scrollHeight;
+        var lon = don-von;
+        if (lon <= 50){
+          $('.throwdown').hide();
+          tarnish = '0';
+        }
+        if ($('#conversation').scrollTop() == 0){
+          $('.throwdown').hide();
+        }
+        else if (tarnish == 1) {
+          $('.throwdown').show();
+        }
+    });
+    $('#exclaim').click(function(){
       $('.throwdown').hide();
-    }
-    else if (tarnish == 1) {
-      $('.throwdown').show();
-    }
-});
+      tarnish = '0';
+      conversation.scrollTop(conversation[0].scrollHeight);
+    });
 });
