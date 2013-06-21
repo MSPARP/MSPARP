@@ -1,7 +1,8 @@
 import datetime
 from sqlalchemy.orm.exc import NoResultFound
 
-from model import Log, LogPage
+from characters import CHARACTER_DETAILS
+from model import Chat, ChatSession, Log, LogPage
 
 def get_or_create_log(redis, mysql, chat_url):
     # Find existing log or create a new one.
@@ -20,6 +21,16 @@ def get_or_create_log(redis, mysql, chat_url):
         latest_page = new_page(mysql, log)
     return log, latest_page
 
+def get_or_create_chat(redis, mysql, chat_url):
+    # Find existing chat or create a new one.
+    try:
+        chat = mysql.query(Chat).filter(Chat.url==chat_url).one()
+    except NoResultFound:
+        chat = Chat(url=chat_url)
+        mysql.add(chat)
+        mysql.flush()
+    return chat
+
 def new_page(mysql, log, last=0):
     new_page_number = last+1
     latest_page = LogPage(log_id=log.id, number=new_page_number, content=u'')
@@ -29,6 +40,64 @@ def new_page(mysql, log, last=0):
     return latest_page
 
 def archive_chat(redis, mysql, chat_url, backlog=0):
+    # Metadata
+    chat = get_or_create_chat(redis, mysql, chat_url)
+    chat.type = redis.hget('chat.'+chat_url+'.meta', 'type')
+    chat.counter = redis.hget('chat.'+chat_url+'.meta', 'counter')
+    chat.topic = redis.hget('chat.'+chat_url+'.meta', 'topic')
+    mysql.flush()
+    # Sessions
+    mysql_sessions = mysql.query(ChatSession).filter(ChatSession.chat_id==chat.id)
+    redis_sessions = redis.hgetall('chat.'+chat_url+'.counters')
+    print redis_sessions
+    # Update the sessions which are already in the database.
+    for mysql_session in mysql_sessions:
+        redis_session = redis.hgetall('session.'+mysql_session.session_id+'.chat.'+chat_url)
+        redis_session_meta = redis.hgetall('session.'+mysql_session.session_id+'.meta.'+chat_url)
+        expiry_time = datetime.datetime.fromtimestamp(
+            redis.zscore('chat-sessions', chat_url+'/'+mysql_session.session_id) or 0
+        )
+        default_character = CHARACTER_DETAILS[redis_session['character']]
+        mysql_session.expiry_time = expiry_time
+        mysql_session.group = redis_session_meta['group']
+        mysql_session.character = redis_session['character']
+        mysql_session.name = redis_session.get('name', default_character['name'])
+        mysql_session.acronym = redis_session.get('acronym', default_character['acronym'])
+        mysql_session.color = redis_session.get('color', default_character['color'])
+        mysql_session.case = redis_session.get('case', default_character['case'])
+        mysql_session.replacements = redis_session.get('replacements', default_character['replacements'])
+        # XXX NEED TO UNCOMMENT THESE WHEN WE MERGE NEW QUIRKS
+        #mysql_session.regexes = redis_session.get('regexes', default_character['regexes'])
+        mysql_session.quirk_prefix = redis_session.get('quirk_prefix', default_character['quirk_prefix'])
+        #mysql_session.quirk_suffix = redis_session.get('quirk_suffix', default_character['quirk_suffix'])
+        del redis_sessions[str(mysql_session.counter)]
+    # And create the ones which aren't.
+    for counter, session_id in redis_sessions.items():
+        redis_session = redis.hgetall('session.'+session_id+'.chat.'+chat_url)
+        redis_session_meta = redis.hgetall('session.'+session_id+'.meta.'+chat_url)
+        expiry_time = datetime.datetime.fromtimestamp(
+            redis.zscore('chat-sessions', chat_url+'/'+session_id) or 0
+        )
+        default_character = CHARACTER_DETAILS[redis_session['character']]
+        mysql_session = ChatSession(
+            chat_id=chat.id,
+            session_id=session_id,
+            counter=counter,
+            expiry_time=expiry_time,
+            group=redis_session_meta['group'],
+            character=redis_session['character'],
+            name=redis_session.get('name', default_character['name']),
+            acronym=redis_session.get('acronym', default_character['acronym']),
+            color=redis_session.get('color', default_character['color']),
+            case=redis_session.get('case', default_character['case']),
+            replacements=redis_session.get('replacements', default_character['replacements']),
+            # XXX NEED TO UNCOMMENT THESE WHEN WE MERGE NEW QUIRKS
+            #regexes=redis_session.get('regexes', default_character['regexes']),
+            quirk_prefix=redis_session.get('quirk_prefix', default_character['quirk_prefix']),
+            #quirk_suffix=redis_session.get('quirk_suffix', default_character['quirk_suffix']),
+        )
+        mysql.add(mysql_session)
+    mysql.flush()
     # Text
     log, latest_page = get_or_create_log(redis, mysql, chat_url)
     # XXX MAKE REALLY REALLY REALLY GODDAMN SURE THIS WORKS WITH MINUS NUMBERS
