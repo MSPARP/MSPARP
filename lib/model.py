@@ -35,4 +35,42 @@ class LogPage(Base):
     number = Column(Integer, primary_key=True)
     content = Column(UnicodeText, nullable=False)
 
+class Chat(Base):
+    __tablename__ = 'chats'
+    id = Column(Integer, primary_key=True)
+    url = Column(String(100), unique=True)
+    type = Column(Enum(u"unsaved", u"saved", u"group", u"deleted", name=u"chats_type"), nullable=False, default=u"unsaved")
+    counter = Column(Integer, nullable=False, default=1)
+    topic = Column(UnicodeText, nullable=True)
+
+class ChatSession(Base):
+    __tablename__ = 'chat_sessions'
+    chat_id = Column(Integer, ForeignKey('chats.id'), primary_key=True)
+    session_id = Column(String(36), primary_key=True)
+    counter = Column(Integer, nullable=False)
+    expiry_time = Column(DateTime(), nullable=False, default=now)
+    group = Column(Enum(u"silent", u"user", u"mod3", u"mod2", u"mod", u"globalmod", name=u"chat_sessions_group"), nullable=False, default=u"user")
+    # XXX UTF-8 ISSUES WITH LENGTH?!
+    # XXX also check these lengths
+    character = Column(Unicode(100), nullable=False, default=u"anonymous/other")
+    name = Column(Unicode(100), nullable=False, default=u"Anonymous")
+    acronym = Column(Unicode(15), nullable=False, default=u"")
+    color = Column(Unicode(15), nullable=False, default=u"000000")
+    case = Column(Enum(
+        u"alt-lines",
+        u"alternating",
+        u"inverted",
+        u"lower",
+        u"normal",
+        u"title",
+        u"upper",
+        name=u"chat_sessions_case"
+    ), nullable=False, default=u"normal")
+    replacements = Column(UnicodeText, nullable=False, default=u"[]")
+    regexes = Column(UnicodeText, nullable=False, default=u"[]")
+    quirk_prefix = Column(Unicode(50), nullable=False, default=u"")
+    quirk_suffix = Column(Unicode(50), nullable=False, default=u"")
+
 Log.pages = relation(LogPage, backref='log')
+Chat.sessions = relation(ChatSession, backref='chat')
+
