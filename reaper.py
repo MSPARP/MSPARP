@@ -56,7 +56,7 @@ if __name__=='__main__':
 
             # Archive chats.
             for chat in redis.zrangebyscore('archive-queue', 0, get_time()):
-                archive_chat(redis, mysql, chat, 50)
+                archive_chat(redis, mysql, chat)
                 pipe = redis.pipeline()
                 pipe.scard('chat.'+chat+'.online')
                 pipe.scard('chat.'+chat+'.idle')
@@ -73,7 +73,6 @@ if __name__=='__main__':
                 delete_chat_session(redis, *chat_session.split('/'))
 
             # Delete chats.
-            print redis.zrangebyscore('delete-queue', 0, get_time())
             for chat in redis.zrangebyscore('delete-queue', 0, get_time()):
                 delete_chat(redis, mysql, chat)
                 redis.zrem('delete-queue', chat)

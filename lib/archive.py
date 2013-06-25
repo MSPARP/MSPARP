@@ -39,7 +39,7 @@ def new_page(mysql, log, last=0):
     log.page_count = new_page_number
     return latest_page
 
-def archive_chat(redis, mysql, chat_url, backlog=0):
+def archive_chat(redis, mysql, chat_url):
     # If the chat hasn't saved since the last archive, skip it.
     if redis.llen('chat.'+chat_url)==0:
         log, latest_page = get_or_create_log(redis, mysql, chat_url)
@@ -105,7 +105,7 @@ def archive_chat(redis, mysql, chat_url, backlog=0):
     log, latest_page = get_or_create_log(redis, mysql, chat_url)
     # XXX MAKE REALLY REALLY REALLY GODDAMN SURE THIS WORKS WITH MINUS NUMBERS
     # XXX FOR GOD'S SAKE
-    lines = redis.lrange('chat.'+chat_url, 0, -1-backlog)
+    lines = redis.lrange('chat.'+chat_url, 0, -1)
     for line in lines:
         # Create a new page if the line won't fit on this one.
         #if len(latest_page.content.encode('utf8'))+len(line)>65535:
