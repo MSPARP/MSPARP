@@ -61,8 +61,9 @@ if __name__=='__main__':
                 pipe.scard('chat.'+chat+'.online')
                 pipe.scard('chat.'+chat+'.idle')
                 online, idle = pipe.execute()
-                # Stop archiving if no-one is online any more.
+                # Delete if no-one is online any more.
                 if online+idle==0:
+                    delete_chat(redis, mysql, chat)
                     redis.zrem('archive-queue', chat)
                 else:
                     redis.zadd('archive-queue', chat, get_time(ARCHIVE_PERIOD))
@@ -72,8 +73,10 @@ if __name__=='__main__':
                 delete_chat_session(redis, *chat_session.split('/'))
 
             # Delete chats.
+            print redis.zrangebyscore('delete-queue', 0, get_time())
             for chat in redis.zrangebyscore('delete-queue', 0, get_time()):
                 delete_chat(redis, mysql, chat)
+                redis.zrem('delete-queue', chat)
 
             # Delete sessions.
             for session_id in redis.zrangebyscore('all-sessions', 0, get_time()):

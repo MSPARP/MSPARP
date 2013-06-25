@@ -24,14 +24,19 @@ def send_message(redis, chat, counter, msg_type, text=None, color='000000', acro
         if msg_type!='private':
             message = ','.join([str(get_time()), str(counter), msg_type, color, message_content])
             message_count = redis.rpush('chat.'+chat, message)
-            # Send the chat for archiving early if the chat is getting too long.
-            if message_count>=500:
+            # Save unsaved chats when they reach 10 lines.
+            if message_count>=10:
+                # g doesn't work in the reaper.
                 try:
                     chat_type = g.chat_type
                 except RuntimeError:
                     chat_type = redis.hget('chat.'+chat+'.meta', 'type')
-                if chat_type!='unsaved':
+                if chat_type=='unsaved':
+                    redis.hset('chat.'+chat+'.meta', 'type', 'saved')
                     redis.zadd('archive-queue', chat, get_time(-60))
+            # Send the chat for archiving early if it's getting too long.
+            elif message_count>=500:
+                redis.zadd('archive-queue', chat, get_time(-60))
         else:
             # ...or just get message count if it is.
             message_count = redis.llen('chat.'+chat)
@@ -51,19 +56,16 @@ def send_message(redis, chat, counter, msg_type, text=None, color='000000', acro
         # Generate user list.
         json_message['online'], json_message['idle'] = get_userlists(redis, chat)
 
-        # g doesn't work in the reaper.
-        try:
-            chat_type = g.chat_type
-        except RuntimeError:
-            chat_type = redis.hget('chat.'+chat+'.meta', 'type')
-
         # If the last person just left, clean stuff up.
         if len(json_message['online'])==0 and len(json_message['idle'])==0:
-            # Mark the chat for deletion.
+            # g doesn't work in the reaper.
+            try:
+                chat_type = g.chat_type
+            except RuntimeError:
+                chat_type = redis.hget('chat.'+chat+'.meta', 'type')
+            # If it's unsaved, mark the chat for deletion.
             if chat_type=='unsaved':
                 redis.zadd('delete-queue', chat, get_time(DELETE_UNSAVED_PERIOD))
-            else:
-                redis.zadd('delete-queue', chat, get_time(DELETE_SAVED_PERIOD))
             # Stop avoiding timeouts.
             redis.zrem('longpoll-timeout', chat)
 

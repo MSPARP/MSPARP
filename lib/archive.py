@@ -40,6 +40,10 @@ def new_page(mysql, log, last=0):
     return latest_page
 
 def archive_chat(redis, mysql, chat_url, backlog=0):
+    # If the chat hasn't saved since the last archive, skip it.
+    if redis.llen('chat.'+chat_url)==0:
+        log, latest_page = get_or_create_log(redis, mysql, chat_url)
+        return log.id
     # Metadata
     chat = get_or_create_chat(redis, mysql, chat_url)
     chat.type = redis.hget('chat.'+chat_url+'.meta', 'type')
@@ -49,7 +53,6 @@ def archive_chat(redis, mysql, chat_url, backlog=0):
     # Sessions
     mysql_sessions = mysql.query(ChatSession).filter(ChatSession.chat_id==chat.id)
     redis_sessions = redis.hgetall('chat.'+chat_url+'.counters')
-    print redis_sessions
     # Update the sessions which are already in the database.
     for mysql_session in mysql_sessions:
         redis_session = redis.hgetall('session.'+mysql_session.session_id+'.chat.'+chat_url)
@@ -132,10 +135,6 @@ def delete_chat(redis, mysql, chat_url):
 
     # XXX PIPELINE THIS???
 
-    # If it's been saved before, save it again before deleting.
-    if redis.hget('chat.'+chat_url+'.meta', 'type')!='unsaved':
-        archive_chat(redis, mysql, chat_url, 0)
-
     # Delete metadata first because it's used to check whether a chat exists.
     redis.delete('chat.'+chat_url+'.meta')
 
@@ -151,7 +150,6 @@ def delete_chat(redis, mysql, chat_url):
 
     redis.delete('chat.'+chat_url+'.counters')
     redis.delete('chat.'+chat_url)
-    redis.zrem('delete-queue', chat_url)
 
 def delete_session(redis, session_id):
 
