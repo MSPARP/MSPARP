@@ -35,30 +35,7 @@ $(document).ready(function() {
 
 	var ORIGINAL_TITLE = document.title;
 	var conversation = $('#conversation');
-	
-	//Auto-linking function
-        function linkify(inputText) {
-            var replacedText, replacePattern1, replacePattern2;
-            var snapit=["msparp.com","tumblr.com"];
-            var urla=snapit.join("|");
-            var cappurl=urla.replace(/./g,"\.");
-            var appurl=urla.split("|");
-            //URLs containing the Array
-            replacePattern1 = new RegExp('([-A-Z0-9+&@#\/%?=~_|!:,.;]*'+urla+'*[-A-Z0-9+&@#\/%?=~_|!:,.;])', 'gim');
-            replacePattern2 = /(http:\/\/http:\/\/)/gim;
-            fling = inputText.replace(replacePattern1, '$1');
-            replacedText = fling;
-            $.each(appurl, function(index, value) {
-                if (fling.indexOf(value) !== -1) {
-                    repText = inputText.replace(replacePattern1, '<a href="http://$1" target="_blank">$1</a>');
-                    replacedText = repText.replace(replacePattern2, 'http://');
-                }
-            });
-            return replacedText;
-        }
-        $('#conversation p').each(function() {
-            $(this).html(linkify($(this).html()));
-        });
+
 	// Redirect iPhone/iPod visitors
         function isiPhone(){
             return (
@@ -106,8 +83,7 @@ $(document).ready(function() {
 			} else {
 				msgClass = 'user'+msg.counter;
 			}
-			var np = $('<p>').addClass(msgClass).css('color', '#'+msg.color).text(msg.line).appendTo('#conversation');
-			var mp = linkify(np);
+			var mp = $('<p>').addClass(msgClass).css('color', '#'+msg.color).text(msg.line).appendTo('#conversation');
 			if (highlightUser==msg.counter) {
 				mp.addClass('highlight');
 			}
