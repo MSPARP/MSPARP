@@ -1,5 +1,4 @@
 $(document).ready(function() {
-        var tarnish = 0;
 	var SEARCH_PERIOD = 1;
 	var PING_PERIOD = 10;
 
@@ -37,6 +36,29 @@ $(document).ready(function() {
 	var ORIGINAL_TITLE = document.title;
 	var conversation = $('#conversation');
 	
+	//Auto-linking function
+        function linkify(inputText) {
+            var replacedText, replacePattern1, replacePattern2;
+            var snapit=["msparp.com","tumblr.com"];
+            var urla=snapit.join("|");
+            var cappurl=urla.replace(/./g,"\.");
+            var appurl=urla.split("|");
+            //URLs containing the Array
+            replacePattern1 = new RegExp('([-A-Z0-9+&@#\/%?=~_|!:,.;]*'+urla+'*[-A-Z0-9+&@#\/%?=~_|!:,.;])', 'gim');
+            replacePattern2 = /(http:\/\/http:\/\/)/gim;
+            fling = inputText.replace(replacePattern1, '$1');
+            replacedText = fling;
+            $.each(appurl, function(index, value) {
+                if (fling.indexOf(value) !== -1) {
+                    repText = inputText.replace(replacePattern1, '<a href="http://$1" target="_blank">$1</a>');
+                    replacedText = repText.replace(replacePattern2, 'http://');
+                }
+            });
+            return replacedText;
+        }
+        $('#conversation p').each(function() {
+            $(this).html(linkify($(this).html()));
+        });
 	// Redirect iPhone/iPod visitors
         function isiPhone(){
             return (
@@ -84,20 +106,17 @@ $(document).ready(function() {
 			} else {
 				msgClass = 'user'+msg.counter;
 			}
-			var mp = $('<p>').addClass(msgClass).css('color', '#'+msg.color).text(msg.line).appendTo('#conversation');
+			var np = $('<p>').addClass(msgClass).css('color', '#'+msg.color).text(msg.line).appendTo('#conversation');
+			var mp = linkify(np);
 			if (highlightUser==msg.counter) {
 				mp.addClass('highlight');
 			}
-
-                    var von = conversation.scrollTop()+conversation.height()+24;
-                    var don = conversation[0].scrollHeight;
-                    var lon = don-von;
-                    if (lon <= 50){
-                          conversation.scrollTop(conversation[0].scrollHeight);
-                    } else {
-                      $('#exclaim').show();
-                      tarnish = '1';
-                    }
+            var von = conversation.scrollTop()+conversation.height()+24;
+            var don = conversation[0].scrollHeight;
+            var lon = don-von;
+            if (lon <= 50){
+                  conversation.scrollTop(conversation[0].scrollHeight);
+            }
 		}
 
 		function startChat() {
@@ -370,7 +389,6 @@ $(document).ready(function() {
 			}
 			$('#conversation').css('bottom',($('#controls').height()+10)+'px');
 			return textPreview.length!=0;
-                        // Hide if typing at bottom
 		}
 		$('#textInput').change(updateChatPreview).keyup(updateChatPreview).change();
 
@@ -533,27 +551,6 @@ $(document).ready(function() {
 		}
 
 	}
-    $('#conversation').scrollTop($('#conversation')[0].scrollHeight);
-    $("#textInput").focus();
-    // Exclaim the Keikaku
-    $('#conversation').scroll(function(){
-        var von = conversation.scrollTop()+conversation.height()+24;
-        var don = conversation[0].scrollHeight;
-        var lon = don-von;
-        if (lon <= 50){
-          $('.throwdown').hide();
-          tarnish = '0';
-        }
-        if ($('#conversation').scrollTop() == 0){
-          $('.throwdown').hide();
-        }
-        else if (tarnish == 1) {
-          $('.throwdown').show();
-        }
-    });
-    $('#exclaim').click(function(){
-      $('.throwdown').hide();
-      tarnish = '0';
-      conversation.scrollTop(conversation[0].scrollHeight);
-    });
+$('#conversation').scrollTop($('#conversation')[0].scrollHeight);
+$("#textInput").focus();
 });
