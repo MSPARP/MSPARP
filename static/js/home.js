@@ -120,7 +120,7 @@ var $quote_sentence = $('#text_preview').find('.quote .sentence');
 function update_character() {
 	// set label[for=picky] span to the data-verb attribute of the selected #character, or else use 'Pester'
 	// TODO THIS IS BROKEN NOW, ALEX. AND IT'S ALL YOUR FAULT!
-	$picky_span.text(($('#character').find('option:selected').attr('data-verb') ? $('#character').find('option:selected').attr('data-verb') : 'Pester'));
+	// $picky_span.text(($('#character').find('option:selected').attr('data-verb') ? $('#character').find('option:selected').attr('data-verb') : 'Pester'));
 	
 	// Change Placeholder for Modal
 	// TODO there is nothing on the page with #persona -- what was this for? Placeholder attribute of what? Maybe a header?
@@ -433,6 +433,11 @@ String.prototype.toInvertedCase = function () {
 	tmp = ""; for (i=0; i< this.length; i++) { t=this[i]; t=(t==t.toUpperCase()?t.toLowerCase():t.toUpperCase()); tmp+=t; } return tmp;
 }
 
+// fast string replacement via http://dumpsite.com/forum/index.php?topic=4.msg8#msg8
+String.prototype.replaceAll = function(str1, str2, ignore) {
+	return this.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g,"\\$&"),(ignore?"gi":"g")),(typeof(str2)=="string")?str2.replace(/\$/g,"$$$$"):str2);
+};
+
 var text_manipulations = {
 	'normal': function (str) {
 		return str;
@@ -490,13 +495,12 @@ function get_length(obj) {
 	return $.map(obj, function(n, i) { return i; }).length;
 }
 
+
 /*
 --------------------------------------------------------------------------------
  * jQuery
 -------------------------------------------------------------------------------- */
 $(function() {
-	//////////////////// Page Initialization
-	
 	// generate an index for greeting_data
 	var greeting = rand(num_greetings);
 	

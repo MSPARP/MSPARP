@@ -1,17 +1,18 @@
-{% extends "base.html" %}
-{% block header %}
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- we responsive up in here -->
-	<link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" media="screen" />
-	<link href="/static/css/chosen.min.css" rel="stylesheet" type="text/css" media="screen" />
-	<link href="/static/css/colorpicker.css" rel="stylesheet" type="text/css" media="screen" />
-	<link href="/static/css/home.css" rel="stylesheet" type="text/css" media="screen" />
-	<script src="/static/js/modernizr.js"></script>
-{% endblock %}
-{% block content %}
+<!DOCTYPE html>
+<html>
+	<head>
+	<title>MSPARP (BETA)</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- we responsive up in here -->
+		<link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" media="screen" />
+		<link href="/static/css/chosen.min.css" rel="stylesheet" type="text/css" media="screen" />
+		<link href="/static/css/colorpicker.css" rel="stylesheet" type="text/css" media="screen" />
+		<link href="/static/css/home.css" rel="stylesheet" type="text/css" media="screen" />
+		<script src="/static/js/modernizr.js"></script>
+	</head>
+	<body>
 		<div class="container-fluid">
 			<div class="row-fluid" id="header">
 				<div class="span6">
-					<!-- header -->
 					<h1>MSPARP</h1>
 					<div id="random_greeting"></div>
 				</div>
@@ -70,7 +71,7 @@
 												<option value=""></option>
 												{% for group in groups %}
 												<optgroup label="{{group}}">
-													{% for char in characters[group] %}
+													{% for char in characters[group] %} 
 													<option value="{{char|lower}}" {% if char|lower in picky_exclude %}selected="selected"{%endif%}>{{char}}</option>
 													{% endfor %}
 												</optgroup>
@@ -297,7 +298,6 @@
 			</div>
 		</div>
 		<!-- JavaScripts -->
-		<script type="text/javascript" language="javascript" src="/static/js/jquery.min.js"></script>
 		<script type="text/javascript" language="javascript" src="/static/js/parsely.js"></script>
 		<script type="text/javascript" language="javascript" src="/static/js/chosen.jquery.js"></script>
 		<script type="text/javascript" language="javascript" src="/static/js/bootstrap.js"></script>
@@ -315,5 +315,5 @@
 			ga('send', 'pageview');
 		</script>
 		-->
-
-{% endblock %}
+	</body>
+</html>
