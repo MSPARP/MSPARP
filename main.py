@@ -10,7 +10,7 @@ from webhelpers import paginate
 
 from lib import SEARCH_PERIOD, ARCHIVE_PERIOD, OUBLIETTE_ID, get_time, validate_chat_url
 from lib.archive import archive_chat, get_or_create_log
-from lib.characters import CHARACTER_GROUPS, CHARACTERS
+from lib.characters import CHARACTER_DETAILS, GROUP_DETAILS, SORTED_CHARACTERS, SORTED_GROUPS
 from lib.messages import parse_line
 from lib.model import Log, LogPage
 from lib.requests import populate_all_chars, connect_redis, connect_mysql, create_normal_session, set_cookie, disconnect_redis, disconnect_mysql
@@ -38,8 +38,10 @@ def show_homepage(error):
         picky=g.redis.smembers(g.user.prefix+'.picky') or set(),
         picky_options=g.redis.hgetall(g.user.prefix+'.picky-options') or {},
         case_options=CASE_OPTIONS,
-        groups=CHARACTER_GROUPS,
-        characters=CHARACTERS,
+        character_details=CHARACTER_DETAILS,
+        group_details=GROUP_DETAILS,
+        sorted_characters=SORTED_CHARACTERS,
+        sorted_groups=SORTED_GROUPS,
         default_char=g.user.character['character'],
         users_searching=g.redis.zcard('searchers'),
         users_chatting=g.redis.scard('sessions-chatting')

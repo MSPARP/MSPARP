@@ -54,7 +54,7 @@ class Session(object):
                     original_prefix,
                     # Redis hashes can't be empty - if there are no keys they are auto-deleted.
                     # So we store the character ID in this dict so it always has at least one.
-                    lambda: dict([('character', 'anonymous/other')]+CHARACTER_DETAILS['anonymous/other'].items())
+                    lambda: dict([('character', '1')]+CHARACTER_DETAILS['1'].items())
                 )
             )
         else:
@@ -64,7 +64,7 @@ class Session(object):
             character = get_or_create(
                 redis,
                 self.prefix,
-                lambda: dict([('character', 'anonymous/other')]+CHARACTER_DETAILS['anonymous/other'].items())
+                lambda: dict([('character', '1')]+CHARACTER_DETAILS['1'].items())
             )
 
         # Fill in missing fields from the characters dict.
