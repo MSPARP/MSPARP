@@ -19,7 +19,7 @@
 {% block content %}
 
 <div id="conversation">
-{% if chat_meta['type']!='unsaved' and lines|length>=50 %}
+{% if chat_meta['type']!='unsaved' %}
 	<p><a href="/chat/{{chat}}/log" target="_blank">View earlier messages</a></p>
 {% endif %}
 {% for line in lines %}
