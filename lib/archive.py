@@ -58,6 +58,10 @@ def archive_chat(redis, mysql, chat_url):
     for mysql_session in mysql_sessions:
         redis_session = redis.hgetall('session.'+mysql_session.session_id+'.chat.'+chat_url)
         redis_session_meta = redis.hgetall('session.'+mysql_session.session_id+'.meta.'+chat_url)
+        # Delete the session from mysql if it's been deleted from redis.
+        if len(redis_session)==0 or len(redis_session_meta)==0:
+            mysql.delete(mysql_session)
+            continue
         expiry_time = datetime.datetime.fromtimestamp(
             redis.zscore('chat-sessions', chat_url+'/'+mysql_session.session_id) or 0
         )
