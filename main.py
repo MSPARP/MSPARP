@@ -66,7 +66,8 @@ def chat(chat_url=None):
         # Try to load the chat from mysql if it doesn't exist in redis.
         if len(chat_meta)==0:
             try:
-                mysql_chat = g.mysql.query(Chat).filter(Chat.url==chat_url).one()
+                mysql_log = g.mysql.query(Log).filter(Log.url==chat_url).one()
+                mysql_chat = g.mysql.query(Chat).filter(Chat.log_id==mysql_log.id).one()
                 chat_meta = {
                     "type": mysql_chat.type,
                     "counter": mysql_chat.counter,
@@ -74,7 +75,7 @@ def chat(chat_url=None):
                 if mysql_chat.topic is not None and mysql_chat.topic!="":
                     chat_meta["topic"] = mysql_chat.topic
                 g.redis.hmset('chat.'+chat_url+'.meta', chat_meta)
-                for mysql_session in g.mysql.query(ChatSession).filter(ChatSession.chat_id==mysql_chat.id):
+                for mysql_session in g.mysql.query(ChatSession).filter(ChatSession.log_id==mysql_log.id):
                     g.redis.hset('chat.'+chat_url+'.counters', mysql_session.counter, mysql_session.session_id)
                     g.redis.hmset('session.'+mysql_session.session_id+'.meta.'+chat_url, {
                         "counter": mysql_session.counter,
@@ -93,8 +94,11 @@ def chat(chat_url=None):
                     })
                     g.redis.sadd('session.'+mysql_session.session_id+'.chats', chat_url)
                     g.redis.zadd('chat-sessions', chat_url+'/'+mysql_session.session_id, mktime(mysql_session.expiry_time.timetuple()))
-            except:
+            except NoResultFound:
                 abort(404)
+        # Make sure it's in the archive queue.
+        if g.redis.zscore('archive-queue', chat_url) is None:
+            g.redis.zadd('archive-queue', chat_url, get_time(ARCHIVE_PERIOD))
         # Load chat-based session data.
         g.user.set_chat(chat_url)
         existing_lines = [parse_line(line, 0) for line in g.redis.lrange('chat.'+chat_url, 0, -1)]
