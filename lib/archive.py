@@ -4,8 +4,11 @@ from sqlalchemy.orm.exc import NoResultFound
 from characters import CHARACTER_DETAILS
 from model import Chat, ChatSession, Log, LogPage
 
-def get_or_create_log(redis, mysql, chat_url):
-    # Find existing log or create a new one.
+def get_or_create_log(redis, mysql, chat_url, chat_type='saved'):
+    # Find existing Log, LogPage and Chat or create new ones.
+    # If the Log doesn't exist, create Log, LogPage and Chat.
+    # If the LogPage doesn't exist, create LogPage.
+    # If the Chat doesn't exist, create Chat.
     try:
         log = mysql.query(Log).filter(Log.url==chat_url).one()
         try:
@@ -14,22 +17,21 @@ def get_or_create_log(redis, mysql, chat_url):
             # XXX Is IndexError the right exception?
         except IndexError:
             latest_page = new_page(mysql, log)
+        try:
+            chat = mysql.query(Chat).filter(Chat.log_id==log.id).one()
+        except NoResultFound:
+            chat = Chat(log_id=log.id, type=chat_type)
+            mysql.add(chat)
+            mysql.flush()
     except NoResultFound:
         log = Log(url=chat_url)
         mysql.add(log)
         mysql.flush()
         latest_page = new_page(mysql, log)
-    return log, latest_page
-
-def get_or_create_chat(redis, mysql, chat_url):
-    # Find existing chat or create a new one.
-    try:
-        chat = mysql.query(Chat).filter(Chat.url==chat_url).one()
-    except NoResultFound:
-        chat = Chat(url=chat_url)
+        chat = Chat(log_id=log.id, type=chat_type)
         mysql.add(chat)
         mysql.flush()
-    return chat
+    return log, latest_page, chat
 
 def new_page(mysql, log, last=0):
     new_page_number = last+1
@@ -40,18 +42,17 @@ def new_page(mysql, log, last=0):
     return latest_page
 
 def archive_chat(redis, mysql, chat_url):
+    log, latest_page, chat = get_or_create_log(redis, mysql, chat_url)
     # If the chat hasn't saved since the last archive, skip it.
     if redis.llen('chat.'+chat_url)==0:
-        log, latest_page = get_or_create_log(redis, mysql, chat_url)
         return log.id
     # Metadata
-    chat = get_or_create_chat(redis, mysql, chat_url)
     chat.type = redis.hget('chat.'+chat_url+'.meta', 'type')
     chat.counter = redis.hget('chat.'+chat_url+'.meta', 'counter')
     chat.topic = redis.hget('chat.'+chat_url+'.meta', 'topic')
     mysql.flush()
     # Sessions
-    mysql_sessions = mysql.query(ChatSession).filter(ChatSession.chat_id==chat.id)
+    mysql_sessions = mysql.query(ChatSession).filter(ChatSession.log_id==log.id)
     redis_sessions = redis.hgetall('chat.'+chat_url+'.counters')
     # Update the sessions which are already in the database.
     for mysql_session in mysql_sessions:
@@ -83,7 +84,7 @@ def archive_chat(redis, mysql, chat_url):
         )
         default_character = CHARACTER_DETAILS[redis_session['character']]
         mysql_session = ChatSession(
-            chat_id=chat.id,
+            log_id=log.id,
             session_id=session_id,
             counter=counter,
             expiry_time=expiry_time,
@@ -102,7 +103,6 @@ def archive_chat(redis, mysql, chat_url):
         mysql.add(mysql_session)
     mysql.flush()
     # Text
-    log, latest_page = get_or_create_log(redis, mysql, chat_url)
     # XXX MAKE REALLY REALLY REALLY GODDAMN SURE THIS WORKS WITH MINUS NUMBERS
     # XXX FOR GOD'S SAKE
     lines = redis.lrange('chat.'+chat_url, 0, -1)

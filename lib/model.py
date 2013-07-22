@@ -37,15 +37,14 @@ class LogPage(Base):
 
 class Chat(Base):
     __tablename__ = 'chats'
-    id = Column(Integer, primary_key=True)
-    url = Column(String(100), unique=True)
-    type = Column(Enum(u"unsaved", u"saved", u"group", u"deleted", name=u"chats_type"), nullable=False, default=u"unsaved")
+    log_id = Column(Integer, ForeignKey('logs.id'), primary_key=True)
+    type = Column(Enum(u"saved", u"group", u"deleted", name=u"chats_type"), nullable=False, default=u"saved")
     counter = Column(Integer, nullable=False, default=1)
     topic = Column(UnicodeText, nullable=True)
 
 class ChatSession(Base):
     __tablename__ = 'chat_sessions'
-    chat_id = Column(Integer, ForeignKey('chats.id'), primary_key=True)
+    log_id = Column(Integer, ForeignKey('logs.id'), primary_key=True)
     session_id = Column(String(36), primary_key=True)
     counter = Column(Integer, nullable=False)
     expiry_time = Column(DateTime(), nullable=False, default=now)
@@ -72,5 +71,6 @@ class ChatSession(Base):
     quirk_suffix = Column(Unicode(50), nullable=False, default=u"")
 
 Log.pages = relation(LogPage, backref='log')
-Chat.sessions = relation(ChatSession, backref='chat')
+Log.chat = relation(Chat, backref='log', uselist=False)
+Log.sessions = relation(ChatSession, backref='log')
 

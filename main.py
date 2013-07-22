@@ -150,7 +150,7 @@ def save():
             if g.user.meta['group']!='globalmod':
                 g.user.set_group('mod')
             g.redis.hset('chat.'+chat+'.meta', 'type', 'group')
-            get_or_create_log(g.redis, g.mysql, chat)
+            get_or_create_log(g.redis, g.mysql, chat, 'group')
             g.mysql.commit()
             return redirect(url_for('chat', chat=chat))
     except ValueError as e:
