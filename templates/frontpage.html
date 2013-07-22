@@ -17,11 +17,11 @@
 					<div id="random_greeting"></div>
 				</div>
 				<div class="span6">
-				    <div class="alert alert-block alert-error fade-in">
-					    <button type="button" class="close" data-dismiss="alert">&times;</button>
-					    <h4>Maintenance</h4>
-					    <p>In order to back up the database and check for any remaining issues, we'll be taking the site down for maintenance and <a href="http://www.timeanddate.com/worldclock/fixedtime.html?msg=Next+MSPARP+update&iso=20130720T14&p1=136&ah=1" target="_blank">9am EDT</a> for around an hour. Nothing should be lost during the maintenance, but please continue to back up any logs you'd like to keep just in case anything happens between now and then.</p>
-				    </div>
+					<div class="alert alert-block alert-error fade-in">
+						 <button type="button" class="close" data-dismiss="alert">&times;</button>
+						 <h4>Maintenance</h4>
+						 <p>In order to back up the database and check for any remaining issues, we'll be taking the site down for maintenance and <a href="http://www.timeanddate.com/worldclock/fixedtime.html?msg=Next+MSPARP+update&iso=20130720T14&p1=136&ah=1" target="_blank">9am EDT</a> for around an hour. Nothing should be lost during the maintenance, but please continue to back up any logs you'd like to keep just in case anything happens between now and then.</p>
+					</div>
 				</div>
 			</div>
 			<div class="row-fluid">
@@ -48,7 +48,7 @@
 											<span class="error">Congratulations. You've somehow picked a character who doesn't exist. I'm not sure how you got here, but I guess you'll just have to try again.</span>
 											{% endif %}
 										</div>
-										</div>
+									</div>
 									<div class="control-group" class="control-label">
 										<label for="picky" class="control-label">> <span>Pester</span></label>
 										<div class="controls">
@@ -109,13 +109,13 @@
 											<span class="help-inline"><span>0</span> left</span>
 										</div>
 									</div>
-									<!-- quirks -->
+									<!-- replacements -->
 									<div class="control-group replacements" id="replacements">
 										<label for="quirk_from" class="control-label">> Replace Letters</label>
 										<div class="controls">
-											<input type="text" name="quirk_from" class="span4" placeholder="" value="" />
+											<input type="text" name="quirk_from" class="span4" placeholder="" />
 											<span class="with"> with </span>
-											<input type="text" name="quirk_to" class="span4" placeholder="" value="" />
+											<input type="text" name="quirk_to" class="span4" placeholder="" />
 											<a href="#" class="close" tabindex="-1">&times;</a>
 											<a href="#" class="close add" tabindex="-1">+</a>
 										</div>
@@ -129,9 +129,9 @@
 									<div class="control-group replacements" id="regex_replacements">
 										<label for="quirk_from" class="control-label">> Replace Patterns</label>
 										<div class="controls">
-											<input type="text" name="regex_from" class="span4" placeholder="" value="" />
+											<input type="text" name="regex_from" class="span4" placeholder="" />
 											<span class="with"> with </span>
-											<input type="text" name="regex_to" class="span4" placeholder="" value="" />
+											<input type="text" name="regex_to" class="span4" placeholder="" />
 											<a href="#" class="close" tabindex="-1">&times;</a>
 											<a href="#" class="close add" tabindex="-1">+</a>
 										</div>
@@ -173,8 +173,8 @@
 										<span id="text_preview" class="span12">
 											<span class="acronym"><span>??</span>: </span>
 											<span class="quote">
-												<span class="quirk_prefix"></span> 
-												<span class="sentence">The quick brown fox jumps over the lazy dog.</span> 
+												<span class="quirk_prefix"></span>
+												<span class="sentence">The quick brown fox jumps over the lazy dog.</span>
 												<span class="quirk_suffix"></span>
 											</span>
 										</span>
@@ -182,6 +182,9 @@
 								</fieldset>
 								<fieldset>
 									<legend>> Make This Hapen</legend>
+									<!-- other settings here
+										<label for="nsfw" class="control-label"><abbr title="Not Safe For Work">NSFW</abbr>?</label>
+									-->
 									<div class="control-group">
 										 <a id="save_modal" class="btn" data-toggle="modal" data-target="#modal_savedata">> Save</a>
 										 <a id="load_modal" class="btn" data-toggle="modal" data-target="#modal_loaddata">> Load</a>
@@ -207,7 +210,7 @@
 						<li><a href="http://msparp.tumblr.com/">Tumblr</a></li>
 						<li><a href="http://msparp-forums.org/">Forums</a></li>
 					</ul>
-					
+
 					<h3>Meta</h3>
 					<ul>
 						<li><a href="http://msparp.uservoice.com/">Suggestions?</a></li>
@@ -280,18 +283,25 @@
 
 		<div id="modal_managedata" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modal_managelabel" aria-hidden="true">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h3 id="modal_loadlabel">Manage Personas</h3>
 			</div>
 			<div class="modal-body">
-				<p>These personas have been saved in this browser. Select one to rename or delete it. </p>
-				<form class="form-horizontal">
+				<p>These personas have been saved in this browser. Select a persona, then type a new name and Save to Rename, or choose the &times; to the right of the dropdown to delete the persona.</p>
+				<form class="form-horizontal" id="manage_modal_form">
 					 <div class="control-group">
 						<label class="control-label" for="manage_persona">Persona Name</label>
 						<div class="controls">
 							<select name="manage_persona" id="manage_persona" class="character-select chzn-select">
 							</select>
+							<a href="#" class="close" tabindex="-1">&times;</a>
 						 </div>
+					 </div>
+					 <div class="control-group">
+						<label class="control-label" for="rename_persona">Rename Persona to</label>
+						<div class="controls">
+							<input type="text" id="rename_persona" name="rename_persona" placeholder="New persona name" class="" />
+						</div>
 					</div>
 				</form>
 			</div>
@@ -316,7 +326,7 @@
 			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-			
+
 			ga('create', 'UA-42087625-1', 'msparp.com');
 			ga('send', 'pageview');
 		</script>

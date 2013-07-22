@@ -146,7 +146,7 @@ function update_character() {
 		}
 		
 		// update some things that we changed
-		update_replacements(selected_char['replacements']);
+		update_replacements(selected_char);
 		update_colorpicker_from_color();
 		update_quote($('#character').val());
 		$('.charsleft').keyup();
@@ -155,35 +155,62 @@ function update_character() {
 }
 
 // update replacements when a new character is chosen
-function update_replacements(rep) {
-	var len = rep.length;
+function update_replacements(char_obj) {
 	
+	// Clear all values before we get started
 	$('.replacements')
-		.find('[name^=quirk]')
+		.find('[name^=quirk], [name^=regex]')
 		.val('');
 		
-	if($('.replacements').find('.controls').length >= len) {
-		$('.replacements')
+	// Letter Replacements
+	var letter = char_obj['replacements'];
+	var llen = (letter ? letter.length : 0);
+	
+	if($('#replacements').find('.controls').length >= llen) {
+		// If there's more fields available than we need, get rid of some
+		$('#replacements')
 			.find('.controls')
-			.slice(rep.length)
+			.slice(Math.max(llen, 1))	// don't remove all of them
 				.remove();
 	} else {
-		while($('.replacements').find('.controls').length < len) {
-			add_replacement()
+		// and if there's fewer than we need, add some
+		while($('#replacements').find('.controls').length < llen) {
+			add_letter_replacement();
 		}
 	}
 	
-	if(len == 0) {
-		add_replacement()
-	}
-	
-	for(i = 0; i < len; i++) {
+	for(i = 0; i < llen; i++) {
 		$('[name=quirk_from]')
 			.eq(i)
-			.val(rep[i][0]);
+			.val(letter[i][0]);
 		$('[name=quirk_to]')
 			.eq(i)
-			.val(rep[i][1]);
+			.val(letter[i][1]);
+	}
+	
+	// RegExp -- this code mirrors the above for Letter Replacements
+	// TODO DRY: We should use one set of code for both! 
+	var regexp = char_obj['regexes'];
+	var rlen = (regexp ? regexp.length : 0);
+	
+	if($('#regex_replacements').find('.controls').length >= rlen) {
+		$('#regex_replacements')
+			.find('.controls')
+			.slice(Math.max(rlen, 1))
+				.remove();
+	} else {
+		while($('#regex_replacements').find('.controls').length < rlen) {
+			add_regex_replacement();
+		}
+	}
+	
+	for(i = 0; i < rlen; i++) {
+		$('[name=regex_from]')
+			.eq(i)
+			.val(regexp[i][0]);
+		$('[name=regex_to]')
+			.eq(i)
+			.val(regexp[i][1]);
 	}
 }
 
@@ -225,11 +252,18 @@ function save_data() {
 function prep_save_data() {
 	var temp = { 'prefname': $('#save_new').val() };
 	var replacements = [];
+	var regexes = [];
 
 	// replacements
 	$('[name=quirk_from]').each(function () {
 	    if($(this).val().length && $(this).siblings('[name=quirk_to]').val().length) {
 	        replacements.push([ $(this).val(), $(this).siblings('[name=quirk_to]').val()]);
+	    }
+	});
+	
+	$('[name=regex_from]').each(function () {
+	    if($(this).val().length && $(this).siblings('[name=regex_to]').val().length) {
+	        regexes.push([ $(this).val(), $(this).siblings('[name=regex_to]').val()]);
 	    }
 	});
 	
@@ -243,6 +277,7 @@ function prep_save_data() {
 	temp['quirk_prefix'] = $('#quirk_prefix').val();
 	temp['quirk_suffix'] = $('#quirk_suffix').val();
 	temp['replacements'] = replacements;
+	temp['regexes'] = regexes;
 	
 	return temp;
 }
@@ -286,7 +321,7 @@ function load_data() {
 	$('#case').val(temp['case']);
 	$('#quirk_prefix').val(temp['quirk_prefix']);
 	$('#quirk_suffix').val(temp['quirk_suffix']);	
-	update_replacements(temp['replacements']);	
+	update_replacements(temp);	
 	
 	// updates
 	update_colorpicker_from_color();
@@ -319,16 +354,20 @@ function clear_localStorage() {
 }
 
 function delete_persona(persona_name) {
-	var t = get_prefs();
-	delete t.personas[persona_name];
-	
-	// if there are no personas left, that's bad, m'kay?
-	if(!get_length(t.personas)) {
-		t = { 'personas': {} };
+	if(confirm('Are you sure you\'d like to delete the persona ' + persona_name + '? This cannot be undone.')) {
+		// close the modal first
+		$('#modal_managedata').modal('hide')
+		
+		var t = get_prefs();
+		delete t.personas[persona_name];
+
+		if(!get_length(t.personas)) {
+			t = { 'personas': {} };
+		}
+		
+		set_prefs(t);
+		propogate_personas();
 	}
-	
-	set_prefs(t);
-	propogate_personas();
 }
 
 function import_personas() {
@@ -352,9 +391,14 @@ function rename_persona(oldname, newname) {
  * Quirk Replacements
 -------------------------------------------------------------------------------- */
 
-var $replacement = $('.replacements .controls').first();
-function add_replacement() {
-	$('.replacements').append($replacement.clone());
+var $letter_replace = $('#replacements .controls').first().clone();
+function add_letter_replacement() {
+	$('#replacements').append($letter_replace.clone());
+}
+
+var $regex_replace = $('#regex_replacements .controls').first().clone();
+function add_regex_replacement() {
+	$('#regex_replacements').append($regex_replace.clone());
 }
 
 
@@ -380,10 +424,10 @@ function propogate_personas() {
 	// load personas from localStorage
 	personas = get_prefs().personas;
 	if(get_length(personas) > 0) {
-		console.log('over 0');
-			
 		// ensure these buttons are visible
 		$('#load_modal, #manage_modal').show();
+	} else {
+		$('#load_modal, #manage_modal').hide();
 	}
 	
 	// clear all the values out
@@ -398,18 +442,27 @@ function propogate_personas() {
 	
 	$('#save_persona').append($add_new.clone());
 	
+	// TODO Man this is getting sloppy. Barf.
 	if($('#save_persona option').length == 1) {
 		$('#save_persona')
 			.closest('.control-group')
 			.hide();
 			
 		$('#save_overwrite').hide();
+		
+		$('#save_new')
+			.closest('.control-group')
+			.show();
 	} else {
 		$('#save_persona')
 			.closest('.control-group')
 			.show();
 			
 		$('#save_overwrite').show();
+		
+		$('#save_new')
+			.closest('.control-group')
+			.hide();
 	}
 	
 	// Refresh Chosen
@@ -556,9 +609,17 @@ $(function() {
 		.on('click', '.close:not(.add)', function(e) {
 		    $(this).closest('.controls').remove();
 		    e.preventDefault();
-		})
+		});
+		
+	$('#replacements')
 		.on('click', '.add', function(e) {
-		    add_replacement();
+		    add_letter_replacement();
+		    e.preventDefault();
+		});
+		
+	$('#regex_replacements')
+		.on('click', '.add', function(e) {
+		    add_regex_replacement();
 		    e.preventDefault();
 		});
 	
@@ -597,6 +658,11 @@ $(function() {
 	$('#clear_localStorage').click(clear_localStorage);
 	$('#import_personas').click(import_personas);
 	$('#manage_data').click(manage_data);
+	$('#manage_modal_form .controls')
+		.on('click', '.close', function(e) {
+			delete_persona($('#manage_persona').val());
+		    e.preventDefault();
+		});
 });
 
 
