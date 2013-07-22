@@ -152,7 +152,7 @@ def save():
             g.redis.hset('chat.'+chat+'.meta', 'type', 'group')
             get_or_create_log(g.redis, g.mysql, chat, 'group')
             g.mysql.commit()
-            return redirect(url_for('chat', chat=chat))
+            return redirect(url_for('chat', chat_url=chat))
     except ValueError as e:
         return show_homepage(e.args[0])
 
