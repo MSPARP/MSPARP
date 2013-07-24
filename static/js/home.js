@@ -49,7 +49,7 @@ if (!msparp_prefs || !get_length(msparp_prefs.personas)) {
 	msparp_prefs = get_prefs();
 	
 	// also, there's nothing to load or manage yet. Hide those!
-	$('#load_modal, #manage_modal').hide();
+	$('#load_modal, #manage_modal').addClass('disabled').attr('disabled','disabled');
 }
 
 // we are also going to have an array for the personas available. This'll be used in a few ways:
@@ -60,6 +60,7 @@ if (!msparp_prefs || !get_length(msparp_prefs.personas)) {
 
 var personas = get_prefs().personas;
 propogate_personas();
+
 
 /*
 --------------------------------------------------------------------------------
@@ -76,11 +77,11 @@ for(i = 0; i < NUM_CHARS; i++) {
     $char.append(make_option(i, chars[i].option));
 }
 
+
 /*
 --------------------------------------------------------------------------------
  * Updates for Events
 -------------------------------------------------------------------------------- */
-
 
 // Update Preview Text when color, acronym, prefix or suffix change
 function update_preview() {
@@ -245,7 +246,7 @@ function save_data() {
 	propogate_personas();
 	
 	// ensure these buttons are visible
-	$('#load_modal, #manage_modal').show();
+	$('#load_modal, #manage_modal').removeClass('disabled').removeAttr('disabled');
 }
 
 // returns an object containing persona data
@@ -305,6 +306,7 @@ function change_save_persona() {
 	}
 }
 
+
 /*
 --------------------------------------------------------------------------------
  * Load Data
@@ -336,27 +338,35 @@ function load_data() {
 	$('.chzn-select').trigger("liszt:updated");
 }
 
+
 /*
 --------------------------------------------------------------------------------
  * Manage Data
 -------------------------------------------------------------------------------- */
+// Rename
 function manage_data() {
+	if($.trim($('#rename_persona').val()).length > 0) {
+		rename_persona($('#manage_persona').val(), $('#rename_persona').val())
+	}
+	$('#rename_persona').val('');
 	
+	propogate_personas();
 }
 
-// Erase Persona Data from localStorage
+// Erase ALL Personas from localStorage
 function clear_localStorage() {
 	var confirm = prompt('THIS WILL DELETE ALL PERSONA DATA FROM\nYOUR BROWSER. THIS IS NOT REVERSIBLE.\nTO CONFIRM, TYPE "DELETE" (ALL CAPS) HERE:');
 	if(confirm === 'DELETE') {
-		localStorage.removeItem('msparp_prefs');
+		set_prefs({ 'personas': {} });
 		propogate_personas();
 	}
 }
 
+// Delete a single Persona
 function delete_persona(persona_name) {
 	if(confirm('Are you sure you\'d like to delete the persona ' + persona_name + '? This cannot be undone.')) {
 		// close the modal first
-		$('#modal_managedata').modal('hide')
+		$('#modal_managedata').modal('hide');
 		
 		var t = get_prefs();
 		delete t.personas[persona_name];
@@ -370,11 +380,14 @@ function delete_persona(persona_name) {
 	}
 }
 
+// Import / Export Personas
 function import_personas() {
+	// TODO write this :)
 	
 	propogate_personas();
 }
 
+// Rename a single Persona
 function rename_persona(oldname, newname) {
 	var t = get_prefs();
 	
@@ -383,7 +396,6 @@ function rename_persona(oldname, newname) {
 	delete t.personas[oldname];
 	
 	set_prefs(t);
-	propogate_personas();
 }
 
 /*
@@ -421,13 +433,13 @@ function propogate_personas() {
 				'value': 'add_new'
 			});
 	
-	// load personas from localStorage
+	// load personas from localStorage\
 	personas = get_prefs().personas;
 	if(get_length(personas) > 0) {
-		// ensure these buttons are visible
-		$('#load_modal, #manage_modal').show();
+		// ensure these buttons are enabled
+		$('#load_modal, #manage_modal').removeClass('disabled').removeAttr('disabled');
 	} else {
-		$('#load_modal, #manage_modal').hide();
+		$('#load_modal, #manage_modal').addClass('disabled').attr('disabled','disabled');
 	}
 	
 	// clear all the values out
@@ -464,6 +476,12 @@ function propogate_personas() {
 			.closest('.control-group')
 			.hide();
 	}
+	
+	$('#persona_data')
+		.val(JSON.stringify(get_prefs()))
+		.focus(function () {
+			$(this).select();
+		});
 	
 	// Refresh Chosen
 	$dropdowns.trigger("liszt:updated");
@@ -644,7 +662,8 @@ $(function() {
 	
 	// Save / Load / Manage Personas
 	if (!Modernizr.localstorage) {
-		$('#save_modal, #load_modal, #manage_modal').remove();
+		$('#save_modal').closest('.control-group').remove();
+		$('#modal_import_export').remove();
 	}
 	
 	//$('#save_modal').click(save_modal);
@@ -656,7 +675,7 @@ $(function() {
 	
 	// Manage
 	$('#clear_localStorage').click(clear_localStorage);
-	$('#import_personas').click(import_personas);
+	// $('#import_personas').click(import_personas);
 	$('#manage_data').click(manage_data);
 	$('#manage_modal_form .controls')
 		.on('click', '.close', function(e) {
@@ -664,40 +683,3 @@ $(function() {
 		    e.preventDefault();
 		});
 });
-
-
-/*
---------------------------------------------------------------------------------
- * UNUSED
--------------------------------------------------------------------------------- */
-var $picky_span = $('label[for=picky] span');
-
-function toggle_exclude() {
-	var picky_length = $('#picky option').length;
-	if($.inArray("anyone", $('#picky').val()) != -1 || $('#picky_val').length == (picky_length-1)) {
-		// if the user has selected that they'd like to chat with anyone
-		if(!$('#exclude').is(':disabled')) {
-			// if exclude is not already disabled
-			$('#exclude_help')
-				.attr('title', exclude_help_disabled)
-				.attr('data-original-title', exclude_help_disabled);
-				
-			$('#exclude').attr('disabled', 'disabled');
-				
-			if($('#exclude').is(':checked')) {
-				//if we disable a choice the user had made, display the reason why for 3000ms
-				$('#exclude').removeAttr('checked')
-				
-				$('#exclude_help').tooltip('show');
-				setTimeout("$('#exclude_help').tooltip('hide')", 3000);
-			}
-		}
-	} else {
-		$('#exclude')
-			.removeAttr('disabled');
-			
-			$('#exclude_help')
-				.attr('title', exclude_help)
-				.attr('data-original-title', exclude_help);
-	}
-}

@@ -8,7 +8,7 @@ var characters = {
             "option": "Anon/not MSPA",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -105,13 +105,13 @@ var characters = {
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "maybe if i say st0p en0ugh s0mething else will happen instead 0f the thing that d0es",
-            "regexes": [],
-            "replacements": [
+            "regexes": [
                 [
-                    "o",
+                    "/o/gi",
                     "0"
                 ]
-            ]
+            ],
+            "replacements": []
         },
         "18": {
             "acronym": "AT",
@@ -139,7 +139,16 @@ var characters = {
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "do me a favor and 2pare me your 2pooky conundrum2 twoniight, youre kiind of pii22iing me off.",
-            "regexes": [],
+            "regexes": [
+                [
+                    "/s/gi",
+                    "2"
+                ],
+                [
+                	"/\bto\b/gi",
+                	"two"
+                ]
+            ],
             "replacements": [
                 [
                     "I",
@@ -148,14 +157,6 @@ var characters = {
                 [
                     "i",
                     "ii"
-                ],
-                [
-                    "S",
-                    "2"
-                ],
-                [
-                    "s",
-                    "2"
                 ]
             ]
         },
@@ -191,14 +192,14 @@ var characters = {
             "option": "Nepeta Leijon",
             "quirk_prefix": ":33 < ",
             "quirk_suffix": "",
-            "quote": ":33 < but do you think you could purrhaps please spare your computer for just the most fl33ting of moments?",
-            "regexes": [],
-            "replacements": [
+            "quote": "but do you think you could purrhaps please spare your computer for just the most fl33ting of moments?",
+            "regexes": [
                 [
-                    "ee",
+                    "/ee/gi",
                     "33"
                 ]
-            ]
+            ],
+            "replacements": []
         },
         "22": {
             "acronym": "GA",
@@ -221,21 +222,21 @@ var characters = {
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "JOHN W3 AR3 SO MUCH B3TT3R TH4N YOU IN 3V3RY R3SP3CT 1TS R1D1CULOUS",
-            "regexes": [],
-            "replacements": [
+            "regexes": [
                 [
-                    "A",
+                    "/a/gi",
                     "4"
                 ],
                 [
-                    "E",
+                    "/e/gi",
                     "3"
                 ],
                 [
-                    "I",
+                    "/i/gi",
                     "1"
                 ]
-            ]
+            ],
+            "replacements": []
         },
         "24": {
             "acronym": "AG",
@@ -246,17 +247,13 @@ var characters = {
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "It is 8ight groups of 8ight. I specifically counted them.",
-            "regexes": [],
-            "replacements": [
+            "regexes": [
                 [
-                    "B",
-                    "8"
-                ],
-                [
-                    "b",
+                    "/b/gi",
                     "8"
                 ]
-            ]
+            ],
+            "replacements": []
         },
         "25": {
             "acronym": "CT",
@@ -266,17 +263,14 @@ var characters = {
             "option": "Equius Zahhak",
             "quirk_prefix": "D --> ",
             "quirk_suffix": "",
-            "quote": "D --> How do you know about my perspiration problem",
-            "regexes": [],
+            "quote": "How do you know about my perspiration problem",
+            "regexes": [
+                [
+                    "/x/gi",
+                    "%"
+                ]
+            ],
             "replacements": [
-                [
-                    "X",
-                    "%"
-                ],
-                [
-                    "x",
-                    "%"
-                ],
                 [
                     "loo",
                     "100"
@@ -337,19 +331,16 @@ var characters = {
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": ")(oly mackerel, looks like SOM-EON-E woke up on t)(e wrong side of t)(e absurd )(uman bed!",
-            "regexes": [],
+            "regexes": [
+                [
+                    "/h/gi",
+                    ")("
+                ]
+            ],
             "replacements": [
                 [
                     "E",
                     "-E"
-                ],
-                [
-                    "H",
-                    ")("
-                ],
-                [
-                    "h",
-                    ")("
                 ]
             ]
         },
@@ -386,13 +377,13 @@ var characters = {
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "really, 1 thought 1t would be alr1ght, just flapp1ng w1ngs around... 1 could st1ll fly and just hang there l1mp... m1ght have been a dope look!",
-            "regexes": [],
-            "replacements": [
+            "regexes": [
                 [
-                    "i",
+                    "/i/gi",
                     "1"
                 ]
-            ]
+            ],
+            "replacements": []
         },
         "31": {
             "acronym": "MITUNA",
@@ -403,37 +394,37 @@ var characters = {
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "K17H5 MY CH4GR1N 7UNK3L Y0U 5N4NK 4ZZ CHUM8UCK357",
-            "regexes": [],
-            "replacements": [
+            "regexes": [
                 [
-                    "A",
+                    "/a/gi",
                     "4"
                 ],
                 [
-                    "B",
+                    "/b/gi",
                     "8"
                 ],
                 [
-                    "E",
+                    "/e/gi",
                     "3"
                 ],
                 [
-                    "I",
+                    "/i/gi",
                     "1"
                 ],
                 [
-                    "O",
+                    "/o/gi",
                     "0"
                 ],
                 [
-                    "S",
+                    "/s/gi",
                     "5"
                 ],
                 [
-                    "T",
+                    "/t/gi",
                     "7"
                 ]
-            ]
+            ],
+            "replacements": []
         },
         "32": {
             "acronym": "KANKRI",
@@ -444,25 +435,17 @@ var characters = {
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "Triggers include 6ut likely will n9t 6e limited t9 class 9ppressi9n, culling culture and vi9lence against gru6s, lusus a6use, c9mplementary and anal9g9us hate speech, pail filling, slurries and 9ther c9ncupiscent fluids, lifespan shaming, a6leist slurs, pr9lix dissertation...",
-            "regexes": [],
-            "replacements": [
+            "regexes": [
                 [
-                    "B",
+                    "/b/gi",
                     "6"
                 ],
                 [
-                    "b",
-                    "6"
-                ],
-                [
-                    "O",
-                    "9"
-                ],
-                [
-                    "o",
+                    "/o/gi",
                     "9"
                 ]
-            ]
+            ],
+            "replacements": []
         },
         "33": {
             "acronym": "MEULIN",
@@ -472,14 +455,14 @@ var characters = {
             "option": "Meulin Leijon",
             "quirk_prefix": "(=\uff40\u03c9\u00b4=) < ",
             "quirk_suffix": "",
-            "quote": "(=\uff1b\u30a7\uff1b=)  < YOU DON'T UNDERSTAND, M33NAH. THE F33LS. THE F333333333LS!!!!!!!!!",
-            "regexes": [],
-            "replacements": [
+            "quote": "YOU DON'T UNDERSTAND, M33NAH. THE F33LS. THE F333333333LS!!!!!!!!!",
+            "regexes": [
                 [
-                    "EE",
+                    "/ee/gi",
                     "33"
                 ]
-            ]
+            ],
+            "replacements": []
         },
         "34": {
             "acronym": "PORRIM",
@@ -507,33 +490,21 @@ var characters = {
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "do you 3v3n know how l4m3 of 4 sc3n3 1t 1s b31ng th3 only l3g1t 1n your f4c3 pow3rg4m1ng grl 1n 4 bunch of bubbl3s full of brut4l pos3rz???",
-            "regexes": [],
-            "replacements": [
+            "regexes": [
                 [
-                    "A",
+                    "/a/gi",
                     "4"
                 ],
                 [
-                    "a",
-                    "4"
-                ],
-                [
-                    "E",
+                    "/e/gi",
                     "3"
                 ],
                 [
-                    "e",
-                    "3"
-                ],
-                [
-                    "I",
-                    "1"
-                ],
-                [
-                    "i",
+                    "/i/gi",
                     "1"
                 ]
-            ]
+            ],
+            "replacements": []
         },
         "36": {
             "acronym": "ARANEA",
@@ -544,17 +515,13 @@ var characters = {
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "You couldn't even wait a few minutes while I retrieved one last guest? I have to come 8ack to THIS????????",
-            "regexes": [],
-            "replacements": [
+            "regexes": [
                 [
-                    "B",
-                    "8"
-                ],
-                [
-                    "b",
+                    "/b/gi",
                     "8"
                 ]
-            ]
+            ],
+            "replacements": []
         },
         "37": {
             "acronym": "HORUSS",
@@ -564,17 +531,14 @@ var characters = {
             "option": "Horuss Zahhak",
             "quirk_prefix": "8=D < ",
             "quirk_suffix": "",
-            "quote": "8=========D < Why the long face?",
-            "regexes": [],
+            "quote": "Why the long face?",
+            "regexes": [
+                [
+                    "/x/gi",
+                    "%"
+                ]
+            ],
             "replacements": [
-                [
-                    "X",
-                    "%"
-                ],
-                [
-                    "x",
-                    "%"
-                ],
                 [
                     "loo",
                     "100"
@@ -606,23 +570,28 @@ var characters = {
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "i just sawv you strutting in my direction, vwith all of your impressivwe moxy and confidence, for the first time in, howv long?",
-            "regexes": [],
+            "regexes": [
+                [
+                    "/b/gi",
+                    "8"
+                ]
+            ],
             "replacements": [
                 [
-                    "B",
-                    "8"
+                    "v",
+                    "vw"
                 ],
                 [
-                    "v",
-                    "\uf06a"
+                    "V",
+                    "VW"
                 ],
                 [
                     "w",
                     "wv"
                 ],
                 [
-                    "\uf06a",
-                    "vw"
+                    "W",
+                    "WV"
                 ]
             ]
         },
@@ -647,16 +616,17 @@ var characters = {
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "sayin fish puns is obviously kind of this thing i do stupid G-ET WIT)( T)(-E PROGRAM",
-            "regexes": [],
+            "regexes": [
+                [
+                    "/h/gi",
+                    ")("
+                ]
+            ],
             "replacements": [
                 [
                     "E",
                     "-E"
                 ],
-                [
-                    "H",
-                    ")("
-                ]
             ]
         },
         "41": {
@@ -679,7 +649,7 @@ var characters = {
             "option": "Nanna",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -691,7 +661,7 @@ var characters = {
             "option": "Mom (pre-scratch)",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -703,7 +673,7 @@ var characters = {
             "option": "Bro (pre-scratch)",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -715,7 +685,7 @@ var characters = {
             "option": "Grandpa",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -727,7 +697,7 @@ var characters = {
             "option": "Poppop",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -739,7 +709,7 @@ var characters = {
             "option": "Mom (post-scratch)",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -751,7 +721,7 @@ var characters = {
             "option": "Bro (post-scratch)",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -763,7 +733,7 @@ var characters = {
             "option": "Grandma",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -981,24 +951,21 @@ var characters = {
             "option": "Fefetasprite",
             "quirk_prefix": "3833 < ",
             "quirk_suffix": "",
-            "quote": "3833 < 383",
-            "regexes": [],
+            "quote": "383",
+            "regexes": [
+                [
+                    "/ee/gi",
+                    "33"
+                ],
+                [
+                    "/h/gi",
+                    ")("
+                ]
+            ],
             "replacements": [
                 [
                     "E",
                     "-E"
-                ],
-                [
-                    "ee",
-                    "33"
-                ],
-                [
-                    "H",
-                    ")("
-                ],
-                [
-                    "h",
-                    ")("
                 ]
             ]
         },
@@ -1011,7 +978,12 @@ var characters = {
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "wwoww, iit2 cool ii amu2e you, that really giivve2 meaniing to my joke of an exii2tence, ii mean WWOWW, thank2.",
-            "regexes": [],
+            "regexes": [
+            	[
+            		"/s/gi",
+            		"2"
+            	]
+            ],
             "replacements": [
                 [
                     "I",
@@ -1020,14 +992,6 @@ var characters = {
                 [
                     "i",
                     "ii"
-                ],
-                [
-                    "S",
-                    "2"
-                ],
-                [
-                    "s",
-                    "2"
                 ],
                 [
                     "V",
@@ -1053,42 +1017,71 @@ var characters = {
             "color": "E00707",
             "name": "Arquiusprite",
             "option": "Arquiusprite",
-            "quirk_prefix": "",
+            "quirk_prefix": "\u25E5\u25B6\u25C0\u25E4 --> ",
             "quirk_suffix": "",
-            "quote": "--> I demand that you order me to touch your muscles",
-            "regexes": [],
+            "quote": "I demand that you order me to touch your muscles",
+            "regexes": [
+                [
+                    "/x/gi",
+                    "%"
+                ]
+            ],
             "replacements": [
                 [
-                    "I",
-                    "II"
+                    "loo",
+                    "100"
                 ],
                 [
-                    "i",
-                    "ii"
+                    "ool",
+                    "001"
                 ],
                 [
-                    "S",
-                    "2"
+                    "shit",
+                    "s\u2593\u2592\u2591"
                 ],
                 [
-                    "s",
-                    "2"
+                    "Shit",
+                    "S\u2593\u2591\u2592"
                 ],
                 [
-                    "V",
-                    "VV"
+                    "fuck",
+                    "f\u2592\u2593\u2592"
                 ],
                 [
-                    "v",
-                    "vv"
+                    "Fuck",
+                    "F\u2592\u2593\u2591"
                 ],
                 [
-                    "W",
-                    "WW"
+                    "ass",
+                    "a\u2591\u2592"
                 ],
                 [
-                    "w",
-                    "ww"
+                    "Ass",
+                    "A\u2592\u2592"
+                ],
+                [
+                    "bitch",
+                    "b\u2592\u2593\u2591\u2592"
+                ],
+                [
+                    "Bitch",
+                    "B\u2592\u2591\u2592\u2593"
+                ],
+                [
+                    "hell",
+                    "h\u2591\u2593\u2592"
+                ],
+                [
+                    "Hell",
+                    "H\u2592\u2593\u2593"
+                ],
+                [
+                    "damn",
+                    "d\u2593\u2591\u2592"
+                ],
+                [
+                    "Damn",
+                    "D\u2593\u2591\u2591"
                 ]
             ]
         },
@@ -1100,7 +1093,7 @@ var characters = {
             "option": "The Handmaid",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -1129,7 +1122,7 @@ var characters = {
             "option": "The Summoner",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -1141,7 +1134,7 @@ var characters = {
             "option": "The \u03a8iioniic",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -1153,7 +1146,7 @@ var characters = {
             "option": "The Signless",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -1165,7 +1158,7 @@ var characters = {
             "option": "The Disciple",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -1177,7 +1170,7 @@ var characters = {
             "option": "The Dolorosa",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -1189,7 +1182,7 @@ var characters = {
             "option": "Neophyte Redglare",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -1201,7 +1194,7 @@ var characters = {
             "option": "Marquise Spinneret Mindfang",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -1213,7 +1206,7 @@ var characters = {
             "option": "E%ecutor Darkleer",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -1225,7 +1218,7 @@ var characters = {
             "option": "The Grand Highblood",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -1237,7 +1230,7 @@ var characters = {
             "option": "Orphaner Dualscar",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -1273,7 +1266,7 @@ var characters = {
             "option": "Spades Slick",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -1285,7 +1278,7 @@ var characters = {
             "option": "Clubs Deuce",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -1297,7 +1290,7 @@ var characters = {
             "option": "Diamonds Droog",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -1309,7 +1302,7 @@ var characters = {
             "option": "Hearts Boxcars",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -1321,7 +1314,7 @@ var characters = {
             "option": "Wayward Vagabond",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -1333,7 +1326,7 @@ var characters = {
             "option": "Parcel Mistress",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -1345,7 +1338,7 @@ var characters = {
             "option": "Aimless Renegade",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -1357,7 +1350,7 @@ var characters = {
             "option": "Windswept Questant",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -1369,7 +1362,7 @@ var characters = {
             "option": "Jack Noir",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -1393,7 +1386,7 @@ var characters = {
             "option": "Draconian Dignitary",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -1405,7 +1398,7 @@ var characters = {
             "option": "Hegemonic Brute",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -1417,7 +1410,7 @@ var characters = {
             "option": "Courtyard Droll",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -1441,7 +1434,7 @@ var characters = {
             "option": "Snowman",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },
@@ -1453,7 +1446,7 @@ var characters = {
             "option": "Ms. Paint",
             "quirk_prefix": "",
             "quirk_suffix": "",
-            "quote": "some random text for previewing purposes",
+            "quote": "",
             "regexes": [],
             "replacements": []
         },

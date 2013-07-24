@@ -49,9 +49,11 @@ function applyQuirks(text) {
 	}
 
 	// Regexes
-	for (i=0; i<user.character.regexes.length; i++) {
-		var regex = user.character.regexes[i];
-		text = text.replace(new RegExp(regex[0],"g"), regex[1])
+	var rlen = user.character.regexes.length;
+	while(i < rlen)
+		var regex = user.character.regexes[i++];
+
+		text = text.replace(parse_regex(regex[0])), regex[1]);
 	}
 
 	// Prefix
@@ -66,6 +68,19 @@ function applyQuirks(text) {
 
 	return text
 
+}
+	
+function parse_regex(str) {
+	var flags = 'g';
+    
+    if(str.charAt(0) == '/') {
+	    var pattern = str.substr(1, str.lastIndexOf('/')-1);
+	    flags = t.substr(t.lastIndexOf('/')+1);
+	    
+	    return RegExp(pattern, flags);
+	} else {
+		return RegExp(str, flags);
+	}
 }
 
 function depunct(txt) {

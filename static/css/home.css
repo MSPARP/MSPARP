@@ -26,14 +26,6 @@ a:hover { text-decoration: none; }
 			background-size: contain;
 			height: 81px;
 			}
-			
-
-/* form */
-/*
-.chzn-container-multi .chzn-choices .search-choice,
-.chzn-container-single .chzn-single,
-.chzn-container-single .chzn-search input { border-radius: 0px; }
-*/
 
 .chzn-container-multi .chzn-choices li.search-field input { 
 	font-family: Courier New, Courier, monospace;

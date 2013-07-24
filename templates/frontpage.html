@@ -187,10 +187,13 @@
 										<label for="nsfw" class="control-label"><abbr title="Not Safe For Work">NSFW</abbr>?</label>
 									-->
 									<div class="control-group">
-										 <a id="save_modal" class="btn" data-toggle="modal" data-target="#modal_savedata">> Save</a>
-										 <a id="load_modal" class="btn" data-toggle="modal" data-target="#modal_loaddata">> Load</a>
-										 <a id="manage_modal" class="btn" data-toggle="modal" data-target="#modal_managedata">> Manage</a>
-										 <button type="submit" class="btn btn-primary">> Chat</button>
+										 <button id="save_modal" class="btn" data-toggle="modal" data-target="#modal_savedata"><i class="icon-circle-arrow-down"></i> Save</button>
+										 <button id="load_modal" class="btn" data-toggle="modal" data-target="#modal_loaddata"><i class="icon-circle-arrow-up"></i> Load</button>
+										 <button id="manage_modal" class="btn" data-toggle="modal" data-target="#modal_managedata"><i class="icon-pencil"></i> Manage</button>
+									</div>
+									<div class="control-group">
+										 <button id="import_personas" class="btn" data-toggle="modal" data-target="#modal_import_export"><i class="icon-refresh"></i> Import / Export</button>
+										 <button type="submit" class="btn btn-primary"><i class="icon-comment icon-white"></i> Chat</button>
 									</div>
 								</fieldset>
 							</div>
@@ -232,7 +235,7 @@
 		<!-- Modals -->
 		<div id="modal_savedata" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modal_savelabel" aria-hidden="true">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h3 id="modal_savelabel">Save Personas</h3>
 			</div>
 			<div class="modal-body">
@@ -261,7 +264,7 @@
 
 		<div id="modal_loaddata" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modal_loadlabel" aria-hidden="true">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h3 id="modal_loadlabel">Load Personas</h3>
 			</div>
 			<div class="modal-body">
@@ -309,10 +312,35 @@
 			<div class="modal-footer">
 				<button class="btn" data-dismiss="modal" aria-hidden="true">> Close</button>
 				<button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" id="clear_localStorage">> Clear</button>
-				<button class="btn btn-info" data-dismiss="modal" aria-hidden="true" id="import_personas">> Import / Export</button>
 				<button class="btn btn-primary" data-dismiss="modal" id="manage_data">> Save</button>
 			</div>
 		</div>
+
+
+		<div id="modal_import_export" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modal_import_export_label" aria-hidden="true">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3 id="modal_import_export_label">Import / Export Personas</h3>
+			</div>
+			<div class="modal-body">
+				<p>This string contains the personas stored in this browser. Copy and paste this value into another browser to <span class="text-error">replace</span> the existing personas in that browser. If you'd like to replace these personas with some you've already copied from elsewhere, just paste it here and save!</p>
+				<form class="form-horizontal" id="import_export_modal_form">
+					 <div class="control-group">
+						<label class="control-label" for="persona_data">Raw Persona Data</label>
+						<div class="controls">
+							<textarea name="persona_data" id="persona_data" value="">
+							</textarea>
+						</div>
+					 </div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal" aria-hidden="true">> Close</button>
+				<button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" id="clear_localStorage">> Clear</button>
+				<button class="btn btn-primary" data-dismiss="modal" id="manage_data">> Save</button>
+			</div>
+		</div>
+
 		<!-- JavaScripts -->
 		<script type="text/javascript" language="javascript" src="/static/js/jquery.min.js"></script>
 		<script type="text/javascript" language="javascript" src="/static/js/parsely.js"></script>
