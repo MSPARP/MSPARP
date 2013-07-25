@@ -233,7 +233,8 @@ function update_quote(char_id) {
 // commit save data to localStorage
 function save_data() {
 	// add the new persona to the local object
-	msparp_prefs.personas[($('#save_persona').val() != 'add_new' ? $('#save_persona').val() : $('#save_new').val())] = prep_save_data();
+	var t = get_prefs();
+	t.personas[($('#save_persona').val() != 'add_new' ? $('#save_persona').val() : $('#save_new').val())] = prep_save_data();
 	
 	// save this local object to localStorage
 	set_prefs(msparp_prefs);
@@ -338,7 +339,6 @@ function load_data() {
 	$('.chzn-select').trigger("liszt:updated");
 }
 
-
 /*
 --------------------------------------------------------------------------------
  * Manage Data
@@ -382,8 +382,32 @@ function delete_persona(persona_name) {
 
 // Import / Export Personas
 function import_personas() {
-	// TODO write this :)
+	var t = get_prefs();
+	try {
+		var u = JSON.parse($('#persona_data').val());
+	} catch (err) {
+		if(err.name == 'SyntaxError') {
+			alert("It looks like you've entered in some bad persona data.\nYou may want to try copying and pasting into this field again.");
+		} else {
+			alert('An error occurred. Please try again.');
+		}
+		
+		propogate_personas();
+		
+		return;
+	}	
+
+	console.log('success!');
+
+	$.each(u.personas, function(key, value){
+	    if(t.personas[key]) {
+	        t.personas[key + ' (Imported ' + (new Date().getTime()) + ')'] = value;
+	    } else {
+	        t.personas[key] = value;
+	    }
+	});	
 	
+	set_prefs(t);
 	propogate_personas();
 }
 
@@ -675,7 +699,7 @@ $(function() {
 	
 	// Manage
 	$('#clear_localStorage').click(clear_localStorage);
-	// $('#import_personas').click(import_personas);
+	$('#import_export_data').click(import_personas);
 	$('#manage_data').click(manage_data);
 	$('#manage_modal_form .controls')
 		.on('click', '.close', function(e) {
@@ -683,3 +707,4 @@ $(function() {
 		    e.preventDefault();
 		});
 });
+

@@ -48,6 +48,8 @@ form {}
 	
 .parsley-error-list { color: #626262; }
 
+	#group_chat div.controls { margin-left: 0; }
+
 /* Large desktop */
 @media (min-width: 1200px) {
     

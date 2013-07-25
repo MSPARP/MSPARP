@@ -195,6 +195,12 @@
 										 <button id="import_personas" class="btn" data-toggle="modal" data-target="#modal_import_export"><i class="icon-refresh"></i> Import / Export</button>
 										 <button type="submit" class="btn btn-primary"><i class="icon-comment icon-white"></i> Chat</button>
 									</div>
+									<div class="control-group" id="group_chat">
+										<div class="controls">
+											<input type="text" name="chaturl" class="span6" placeholder="Chat URL" />
+											<button type="submit" class="btn" name="create"><i class="icon-comment"></i> Group Chat</button>
+										</div>
+									</div>
 								</fieldset>
 							</div>
 						</div>
@@ -221,13 +227,6 @@
 						<li><a href="https://docs.google.com/forms/d/1f5VPB2xQelQQIpH0_wU6TfCUXdNX_Rq44CEwbc4z7FQ/viewform" target="_blank">Volunteer</a></li>
 						<li><a href="https://docs.google.com/forms/d/1UWvRuChUqYmT1gd1XMiuXX-cvGqgsb3tCD24EmUdVvI/viewform" target="_blank">Mod/Ban Problems</a></li>
 					</ul>
-					<!--
-					<h2>Trollplay</h2>
-					<p>Here for Trollmegle? If so, you don't give a crap about any of those options over there...</p>
-					<form action="/save" method="post">
-						<button class="btn" type="button">> Chat</button>
-					</form>
-					-->
 				</div>
 			</div>
 		</div>
@@ -323,7 +322,7 @@
 				<h3 id="modal_import_export_label">Import / Export Personas</h3>
 			</div>
 			<div class="modal-body">
-				<p>This string contains the personas stored in this browser. Copy and paste this value into another browser to <span class="text-error">replace</span> the existing personas in that browser. If you'd like to replace these personas with some you've already copied from elsewhere, just paste it here and save!</p>
+				<p>This string contains the personas stored in this browser. Copy and paste this value into another browser to merge your personas with the existing personas in that browser. If you'd like to merge these personas with some you've already copied from elsewhere, just paste those in here and save!</p>
 				<form class="form-horizontal" id="import_export_modal_form">
 					 <div class="control-group">
 						<label class="control-label" for="persona_data">Raw Persona Data</label>
@@ -336,8 +335,7 @@
 			</div>
 			<div class="modal-footer">
 				<button class="btn" data-dismiss="modal" aria-hidden="true">> Close</button>
-				<button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" id="clear_localStorage">> Clear</button>
-				<button class="btn btn-primary" data-dismiss="modal" id="manage_data">> Save</button>
+				<button class="btn btn-primary" data-dismiss="modal" id="import_export_data">> Save</button>
 			</div>
 		</div>
 
