@@ -50,10 +50,10 @@ function applyQuirks(text) {
 
 	// Regexes
 	var rlen = user.character.regexes.length;
-	while(i < rlen)
+	while(i < rlen) {
 		var regex = user.character.regexes[i++];
 
-		text = text.replace(parse_regex(regex[0])), regex[1]);
+		text = text.replace(parse_regex(regex[0]), regex[1]);
 	}
 
 	// Prefix

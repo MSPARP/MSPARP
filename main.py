@@ -36,6 +36,9 @@ def show_homepage(error):
         replacements=json.loads(g.user.character['replacements']),
         regexes=json.loads(g.user.character['regexes']),
         picky=g.redis.smembers(g.user.prefix+'.picky') or set(),
+        picky_groups=g.redis.smembers(g.user.prefix+'.picky-groups') or set(),
+        picky_exclude=g.redis.smembers(g.user.prefix+'.picky-exclude') or set(),
+        picky_exclude_groups=g.redis.smembers(g.user.prefix+'.picky-exclude-groups') or set(),
         picky_options=g.redis.hgetall(g.user.prefix+'.picky-options') or {},
         case_options=CASE_OPTIONS,
         character_details=CHARACTER_DETAILS,
@@ -78,8 +81,8 @@ def chat(chat=None):
         user=g.user,
         character_dict=g.user.json_info(),
         case_options=CASE_OPTIONS,
-        groups=CHARACTER_GROUPS,
-        characters=CHARACTERS,
+        character_details=CHARACTER_DETAILS,
+        sorted_characters=SORTED_CHARACTERS,
         chat=chat,
         chat_meta=chat_meta,
         lines=existing_lines,
@@ -108,10 +111,8 @@ def quitSearching():
 @app.route('/save', methods=['POST'])
 def save():
     try:
-        if 'character' in request.form:
-            g.user.save_character(request.form)
-        if 'save_pickiness' in request.form:
-            g.user.save_pickiness(request.form)
+        g.user.save_character(request.form)
+        g.user.save_pickiness(request.form)
         if 'create' in request.form:
             chat = request.form['chaturl']
             if g.redis.exists('chat.'+chat):
@@ -128,11 +129,7 @@ def save():
             return redirect(url_for('chat', chat=chat))
     except ValueError as e:
         return show_homepage(e.args[0])
-
-    if 'search' in request.form:
-        return redirect(url_for('chat'))
-    else:
-        return redirect(url_for('configure'))
+    return redirect(url_for('chat'))
 
 # Logs
 

@@ -49,7 +49,7 @@
 									<div class="control-group" class="control-label">
 										<label for="picky" class="control-label">> <span>Pester</span></label>
 										<div class="controls">
-											<select name="picky" id="picky" class="character-select chzn-select" data-placeholder="Chat with..." multiple="multiple" data-required="true" data-error-message="WHAT, ARE YOU TRYING TO TALK TO YOURSELF, YOU MALADJUSTED PIECE OF SHIT?">
+											<select name="picky" id="picky" class="character-select chzn-select" data-placeholder="Chat with..." multiple="multiple">
 												<optgroup label="Groups">
 													{% for id in sorted_groups %}
 													<option value="g{{id}}"{% if id in picky_groups %} selected="selected"{%endif%}>{{group_details[id]['name']}}</option>
@@ -69,12 +69,12 @@
 											<select name="picky_exclude" id="picky_exclude" class="character-select chzn-select" data-placeholder="Don't chat with..." multiple="multiple">
 												<optgroup label="Groups">
 													{% for id in sorted_groups %}
-													<option value="g{{id}}"{% if id in picky_groups %} selected="selected"{%endif%}>{{group_details[id]['name']}}</option>
+													<option value="g{{id}}"{% if id in picky_exclude_groups %} selected="selected"{%endif%}>{{group_details[id]['name']}}</option>
 													{% endfor %}
 												</optgroup>
 												<optgroup label="Characters">
 													{% for id in sorted_characters %}
-													<option value="c{{id}}"{% if id in picky %} selected="selected"{%endif%}>{{character_details[id]['option']}}</option>
+													<option value="c{{id}}"{% if id in picky_exclude %} selected="selected"{%endif%}>{{character_details[id]['option']}}</option>
 													{% endfor %}
 												</optgroup>
 											</select>

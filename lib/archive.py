@@ -90,5 +90,10 @@ def delete_session(redis, session_id):
 
     redis.delete('session.'+session_id)
     redis.delete('session.'+session_id+'.meta')
+    redis.delete('session.'+session_id+'.picky')
+    redis.delete('session.'+session_id+'.picky-groups')
+    redis.delete('session.'+session_id+'.picky-exclude')
+    redis.delete('session.'+session_id+'.picky-exclude-groups')
+    redis.delete('session.'+session_id+'.picky-options')
     redis.zrem('all-sessions', session_id)
 

@@ -52,12 +52,8 @@
 	<h1>Settings</h1>
 	<div id="characterSettings">
 		<p><select name="character">
-			{% for group in groups %}
-			<optgroup label="{{group}}">
-				{% for char in characters[group] %}
-				<option value="{{char|lower}}"{% if char|lower==user.character['character'] %} selected="selected"{%endif%}>{{char}}</option>
-				{% endfor %}
-			</optgroup>
+			{% for id in sorted_characters %}
+			<option value="{{id}}"{% if id==user.character['character'] %} selected="selected"{%endif%}>{{character_details[id]['option']}}</option>
 			{% endfor %}
 		</select></p>
 		<p><input type="text" name="name" value="{{user.character['name']}}" maxlength="50"></p>
