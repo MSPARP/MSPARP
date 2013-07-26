@@ -674,6 +674,11 @@ $(function() {
 		e.preventDefault();
 	});
 	
+	// NSFW / Script / Para Triggers
+	$('.btn-group button').click(function () {
+	    $(this).siblings('input:hidden').val($(this).attr('data-value'));    
+	});
+	
 	// Characters left for Prefix / Suffix / Acronym
 	$('.charsleft').keyup(update_chars_left).keyup();
 	

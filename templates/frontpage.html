@@ -183,9 +183,30 @@
 								</fieldset>
 								<fieldset>
 									<legend>> Make This Hapen</legend>
-									<!-- other settings here
-										<label for="nsfw" class="control-label"><abbr title="Not Safe For Work">NSFW</abbr>?</label>
-									-->
+									<div class="control-group">
+										<label for="nsfw" class="control-label">> Set Chat Filter</label>
+											<div class="controls">
+												<div class="btn-toolbar">
+													<div class="btn-group" data-toggle="buttons-radio">
+														<button class="btn active" data-value="0" id="nsfw-0">Clean</button>
+														<button class="btn" data-value="1" id="nsfw-1">NSFW</button>
+														<input type="hidden" name="nsfw" id="nsfw" value="0" />
+													</div>
+												</div>
+											</div>
+									</div>
+									<div class="control-group">
+										<label for="para" class="control-label">> Set Chat Style</label>
+										<div class="controls">
+											  <div class="btn-toolbar">
+												   <div class="btn-group" data-toggle="buttons-radio">
+														<button class="btn active" data-value="0" id="para-0">Script</button>
+														<button class="btn" data-value="1" id="para-1">Paragraph</button>
+														<input type="hidden" name="para" id="para" value="0" />
+												   </div>
+											  </div>
+										</div>
+									</div>
 									<div class="control-group">
 										 <button id="save_modal" class="btn" data-toggle="modal" data-target="#modal_savedata"><i class="icon-circle-arrow-down"></i> Save</button>
 										 <button id="load_modal" class="btn" data-toggle="modal" data-target="#modal_loaddata"><i class="icon-circle-arrow-up"></i> Load</button>
