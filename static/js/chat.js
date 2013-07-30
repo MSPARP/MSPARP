@@ -32,6 +32,7 @@ function addRegex(e, from, to) {
 }
 
 $(document).ready(function() {
+        var tarnish = 0;
 	var SEARCH_PERIOD = 1;
 	var PING_PERIOD = 10;
 
@@ -121,12 +122,15 @@ $(document).ready(function() {
 				mp.addClass('highlight');
 			}
 
-            var von = conversation.scrollTop()+conversation.height()+24;
-            var don = conversation[0].scrollHeight;
-            var lon = don-von;
-            if (lon <= 100){
-                  conversation.scrollTop(conversation[0].scrollHeight);
-            }
+                    var von = conversation.scrollTop()+conversation.height()+24;
+                    var don = conversation[0].scrollHeight;
+                    var lon = don-von;
+                    if (lon <= 50){
+                          conversation.scrollTop(conversation[0].scrollHeight);
+                    } else {
+                      $('#exclaim').show();
+                      tarnish = '1';
+                    }
 		}
 
 		function startChat() {
@@ -401,6 +405,7 @@ $(document).ready(function() {
 			}
 			$('#conversation').css('bottom',($('#controls').height()+10)+'px');
 			return textPreview.length!=0;
+                        // Hide if typing at bottom
 		}
 		$('#textInput').change(updateChatPreview).keyup(updateChatPreview).change();
 
