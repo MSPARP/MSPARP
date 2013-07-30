@@ -49,11 +49,12 @@ function applyQuirks(text) {
 	}
 
 	// Regexes
+	var i=0;
 	var rlen = user.character.regexes.length;
 	while(i < rlen) {
 		var regex = user.character.regexes[i++];
-
 		text = text.replace(parse_regex(regex[0]), regex[1]);
+		i++;
 	}
 
 	// Prefix
@@ -72,11 +73,9 @@ function applyQuirks(text) {
 	
 function parse_regex(str) {
 	var flags = 'g';
-    
     if(str.charAt(0) == '/') {
 	    var pattern = str.substr(1, str.lastIndexOf('/')-1);
-	    flags = t.substr(t.lastIndexOf('/')+1);
-	    
+	    flags = str.substr(str.lastIndexOf('/')+1);
 	    return RegExp(pattern, flags);
 	} else {
 		return RegExp(str, flags);

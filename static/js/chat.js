@@ -1,3 +1,36 @@
+// Character settings stuff from characters.js.
+
+var characterKeys = ['acronym', 'name', 'color', 'quirk_prefix', 'quirk_suffix', 'case'];
+
+function deleteReplacement(e) {
+	$(this.parentNode).remove();
+	return false;
+}
+
+function addReplacement(e, from, to) {
+	var newItem = $('<li><input type="text" name="quirk_from" size="8" maxlength="50"> to <input type="text" name="quirk_to" size="8" maxlength="50"> <a href="#" class="deleteReplacement">x</a></li>');
+	if (from && to) {
+		var inputs = $(newItem).find('input');
+		inputs[0].value = from;
+		inputs[1].value = to;
+	}
+	$(newItem).find('.deleteReplacement').click(deleteReplacement);
+	$(newItem).appendTo('#replacementList');
+	return false;
+}
+
+function addRegex(e, from, to) {
+	var newItem = $('<li><input type="text" name="regex_from" size="8" maxlength="50"> to <input type="text" name="regex_to" size="8" maxlength="50"> <a href="#" class="deleteReplacement">x</a></li>');
+	if (from && to) {
+		var inputs = $(newItem).find('input');
+		inputs[0].value = from;
+		inputs[1].value = to;
+	}
+	$(newItem).find('.deleteReplacement').click(deleteReplacement);
+	$(newItem).appendTo('#regexList');
+	return false;
+}
+
 $(document).ready(function() {
 	var SEARCH_PERIOD = 1;
 	var PING_PERIOD = 10;
@@ -537,6 +570,56 @@ $(document).ready(function() {
 		} else {
 			startChat();
 		}
+
+		// Character settings stuff from characters.js.
+		$('.deleteReplacement').click(deleteReplacement);
+		$('#addReplacement').click(addReplacement);
+		$('#clearReplacements').click(function() { $('#replacementList').empty(); return false; });
+		$('#addRegex').click(addRegex);
+		$('#clearRegexes').click(function() { $('#regexList').empty(); return false; });
+
+		$('select[name="character"]').change(function() {
+			if (characters.characters[this.value]) {
+				var newCharacter = characters.characters[this.value];
+				for (i=0; i<characterKeys.length; i++) {
+					$('input[name="'+characterKeys[i]+'"], select[name="'+characterKeys[i]+'"]').val(newCharacter[characterKeys[i]]);
+				}
+				$('#replacementList').empty();
+				if (newCharacter['replacements'].length>0) {
+					for (i=0; i<newCharacter['replacements'].length; i++) {
+						addReplacement(null, newCharacter['replacements'][i][0], newCharacter['replacements'][i][1]);
+					}
+				} else {
+					addReplacement();
+				}
+				$('#regexList').empty();
+				if (newCharacter['regexes'].length>0) {
+					for (i=0; i<newCharacter['regexes'].length; i++) {
+						addRegex(null, newCharacter['regexes'][i][0], newCharacter['regexes'][i][1]);
+					}
+				} else {
+					addRegex();
+				}
+			}
+		});
+
+		var colorBox = $('input[name="color"]');
+		colorBox.ColorPicker({
+			onSubmit: function(hsb, hex, rgb, el) {
+				$(el).val(hex);
+				$(el).ColorPickerHide();
+			},
+			onBeforeShow: function () {
+				$(this).ColorPickerSetColor(this.value);
+			},
+			onChange: function (hsb, hex, rgb) {
+				colorBox.val(hex);
+				// This doesn't do anything in the chat window.
+				$('#color-preview').css('color', '#' + hex);
+			}
+		}).bind('keyup', function() {
+			$(this).ColorPickerSetColor(this.value);
+		});
 
 	}
 $('#conversation').scrollTop($('#conversation')[0].scrollHeight);
