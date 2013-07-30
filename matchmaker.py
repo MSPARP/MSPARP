@@ -3,6 +3,8 @@ from redis import Redis
 import uuid
 import time
 
+from lib.characters import GROUP_DETAILS
+
 OPTION_LABELS = {
     'para0': 'script style',
     'para1': 'paragraph style',
@@ -28,6 +30,19 @@ def check_compatibility(first, second):
     compatible = first['char'] in second['wanted_chars'] and second['char'] in first['wanted_chars']
     return compatible, selected_options
 
+def get_picky_list(session_id):
+    picky = redis.smembers('session.'+session_id+'.picky')
+    picky_groups = redis.smembers('session.'+session_id+'.picky-groups')
+    for group in picky_groups:
+        picky = picky|GROUP_DETAILS[group]['character']
+    picky_exclude = redis.smembers('session.'+session_id+'.picky-exclude')
+    if len(picky_exclude)>0:
+        picky = picky-picky_exclude
+    picky_exclude_groups = redis.smembers('session.'+session_id+'.picky-exclude-groups')
+    for group in picky_exclude_groups:
+        picky = picky-GROUP_DETAILS[group]['character']
+    return picky
+
 if __name__=='__main__': 
 
     redis = Redis(unix_socket_path='/tmp/redis.sock')
@@ -41,20 +56,18 @@ if __name__=='__main__':
             sessions = [{
                 'id': session_id,
                 'char': redis.hget('session.'+session_id, 'character'),
-                'wanted_chars': redis.smembers('session.'+session_id+'.picky') or all_chars,
+                'wanted_chars': get_picky_list(session_id) or all_chars,
                 'options': redis.hgetall('session.'+session_id+'.picky-options'),
             } for session_id in searchers]
 
             already_matched = set()
             for n in range(len(sessions)):
                 for m in range(n+1, len(sessions)):
-                    print sessions[n]['id'], sessions[m]['id']
                     if (
                         sessions[n]['id'] not in already_matched
                         and sessions[m]['id'] not in already_matched
                     ):
                         compatible, selected_options = check_compatibility(sessions[n], sessions[m])
-                        print compatible, selected_options
                         if not compatible:
                             continue
                         chat = str(uuid.uuid4()).replace('-','')
