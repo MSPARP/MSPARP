@@ -7,7 +7,7 @@ except:
 from lib import DELETE_UNSAVED_PERIOD, DELETE_SAVED_PERIOD, get_time, LONGPOLL_TIMEOUT_PERIOD
 from characters import CHARACTER_DETAILS
 
-FULL_CHARACTER_LENGTH = len(CHARACTER_DETAILS['1'])+1
+FULL_CHARACTER_LENGTH = 9
 
 def send_message(redis, chat, counter, msg_type, text=None, color='000000', acronym='', audience=None):
 

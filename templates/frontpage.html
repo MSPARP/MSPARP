@@ -113,6 +113,17 @@
 									<!-- replacements -->
 									<div class="control-group replacements" id="replacements">
 										<label for="quirk_from" class="control-label">> Replace Letters</label>
+										{% if replacements|length!=0 %}
+										{% for replacement in replacements %}
+										<div class="controls">
+											<input type="text" name="quirk_from" class="span4" placeholder="" value="{{replacement[0]}}" />
+											<span class="with"> with </span>
+											<input type="text" name="quirk_to" class="span4" placeholder="" value="{{replacement[1]}}" />
+											<a href="#" class="close" tabindex="-1">&times;</a>
+											<a href="#" class="close add" tabindex="-1">+</a>
+										</div>
+										{% endfor %}
+										{% else %}
 										<div class="controls">
 											<input type="text" name="quirk_from" class="span4" placeholder="" />
 											<span class="with"> with </span>
@@ -120,15 +131,21 @@
 											<a href="#" class="close" tabindex="-1">&times;</a>
 											<a href="#" class="close add" tabindex="-1">+</a>
 										</div>
-										{% if replacements|length!=0 %}
-										{% for replacement in replacements %}
-										<div class="controls"><input type="text" name="quirk_from" class="span4" placeholder="" value="{{replacement[0]}}" /><span class="with"> with </span><input type="text" name="quirk_to" class="span4" placeholder="" value="{{replacement[1]}}" /><a href="#" class="close" tabindex="-1">&times;</a><a href="#" class="close add" tabindex="-1">+</a></div>
-										{% endfor %}
-										{% else %}
 										{% endif %}
 									</div>
 									<div class="control-group replacements" id="regex_replacements">
 										<label for="quirk_from" class="control-label">> Replace Patterns</label>
+										{% if regexes|length!=0 %}
+										{% for regex in regexes %}
+										<div class="controls">
+											<input type="text" name="regex_from" class="span4" placeholder="" value="{{regex[0]}}" />
+											<span class="with"> with </span>
+											<input type="text" name="regex_to" class="span4" placeholder="" value="{{regex[1]}}" />
+											<a href="#" class="close" tabindex="-1">&times;</a>
+											<a href="#" class="close add" tabindex="-1">+</a>
+										</div>
+										{% endfor %}
+										{% else %}
 										<div class="controls">
 											<input type="text" name="regex_from" class="span4" placeholder="" />
 											<span class="with"> with </span>
@@ -136,11 +153,6 @@
 											<a href="#" class="close" tabindex="-1">&times;</a>
 											<a href="#" class="close add" tabindex="-1">+</a>
 										</div>
-										{% if regexes|length!=0 %}
-										{% for regex in regexes %}
-										<div class="controls"><input type="text" name="regex_from" class="span4" placeholder="" value="{{regex[0]}}" /><span class="with"> with </span><input type="text" name="regex_to" class="span4" placeholder="" value="{{regex[1]}}" /><a href="#" class="close" tabindex="-1">&times;</a><a href="#" class="close add" tabindex="-1">+</a></div>
-										{% endfor %}
-										{% else %}
 										{% endif %}
 									</div>
 								</fieldset>

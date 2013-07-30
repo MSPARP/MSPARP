@@ -639,7 +639,8 @@ $(function() {
 	*/
 	
 	// Chosen to update Label text for #picky
-	update_character();
+	// Don't fire this immediately - it clears any custom settings.
+	//update_character();
 	$('#character').change(update_character);
 	
 	// Show New Persona Name if you choose to rename an existing persona
