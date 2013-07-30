@@ -74,10 +74,9 @@ def archive_chat(redis, mysql, chat_url):
         mysql_session.color = redis_session.get('color', default_character['color'])
         mysql_session.case = redis_session.get('case', default_character['case'])
         mysql_session.replacements = redis_session.get('replacements', default_character['replacements'])
-        # XXX NEED TO UNCOMMENT THESE WHEN WE MERGE NEW QUIRKS
-        #mysql_session.regexes = redis_session.get('regexes', default_character['regexes'])
+        mysql_session.regexes = redis_session.get('regexes', default_character['regexes'])
         mysql_session.quirk_prefix = redis_session.get('quirk_prefix', default_character['quirk_prefix'])
-        #mysql_session.quirk_suffix = redis_session.get('quirk_suffix', default_character['quirk_suffix'])
+        mysql_session.quirk_suffix = redis_session.get('quirk_suffix', default_character['quirk_suffix'])
         del redis_sessions[str(mysql_session.counter)]
     # And create the ones which aren't.
     for counter, session_id in redis_sessions.items():
@@ -99,10 +98,9 @@ def archive_chat(redis, mysql, chat_url):
             color=redis_session.get('color', default_character['color']),
             case=redis_session.get('case', default_character['case']),
             replacements=redis_session.get('replacements', default_character['replacements']),
-            # XXX NEED TO UNCOMMENT THESE WHEN WE MERGE NEW QUIRKS
-            #regexes=redis_session.get('regexes', default_character['regexes']),
+            regexes=redis_session.get('regexes', default_character['regexes']),
             quirk_prefix=redis_session.get('quirk_prefix', default_character['quirk_prefix']),
-            #quirk_suffix=redis_session.get('quirk_suffix', default_character['quirk_suffix']),
+            quirk_suffix=redis_session.get('quirk_suffix', default_character['quirk_suffix']),
         )
         mysql.add(mysql_session)
     mysql.flush()
