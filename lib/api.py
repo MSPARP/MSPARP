@@ -9,10 +9,11 @@ def ping(redis, chat, session, chat_type):
         if redis.zrank('ip-bans', chat+'/'+request.environ['HTTP_X_REAL_IP']) is not None:
             abort(403)
         # The user isn't online already. Add them to the chat.
-        # Remove the chat from the delete queue.
-        redis.zrem('delete-queue', chat)
-        # Add to the archive queue, but only if it's saved.
-        if chat_type!='unsaved' and redis.zscore('archive-queue', chat) is None:
+        # If it's unsaved, remove it from the delete queue.
+        if chat_type=='unsaved':
+            redis.zrem('delete-queue', chat)
+        # Otherwise make sure it's in the archive queue.
+        elif redis.zscore('archive-queue', chat) is None:
             redis.zadd('archive-queue', chat, get_time(ARCHIVE_PERIOD))
         # Log their IP address.
         redis.hset('session.'+session.session_id+'.meta', 'last_ip', request.environ['HTTP_X_REAL_IP'])

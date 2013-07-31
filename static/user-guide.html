@@ -1,45 +1,161 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>User Guide/FAQ for MSPARP</title>
-</head>
+<!DOCTYPE html>
+<html>
+	<head>
+	<title>User Guide/FAQ for MSPARP</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- we responsive up in here -->
+		<link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" media="screen" />
+		<link href="/static/css/home.css" rel="stylesheet" type="text/css" media="screen" />
+		<style>
+			.egbert { color: #0715CD; }
+			.nitram { color: #A15000; }
+			.pyrope { color: #008282; }
+			.captor { color: #A1A100; }
+		</style>
+		<script src="/static/js/modernizr.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row-fluid" id="header">
+				<div class="span6">
+					<a href="/"><h1>MSPARP</h1></a>
+					<div id="random_greeting"></div>
+				</div>
+				<div class="span6">
+				</div>
+			</div>
+			<div class="row-fluid">		
+				<h2>User Guide for MSPARP</h2>
+				
+				<p>Welcome to MSPARP, a text-roleplaying chatspace on the web. At present, the website focuses on roleplaying for the popular webcomic <a href="http://www.mspaintadventures.com/">Homestuck</a> by Andrew Hussie.</p>
+				
+				<p>Here is some information to get you started…</p>
+				
+				<h3>Selecting Your Character</h3>
+				
+				<p>Use the &quot;&gt; Be&quot; dropdown to select your character. We&#39;ve got (nearly) all of them. You can also use your keyboard to search for the character you want.</p>
+				
+				<p>Once you choose a character, any information we have on that character will be filled in for you. For instance, John&#39;s Acronym will be set to <span class="egbert">EB</span> and his name will be set to <span class="egbert">ectoBiologist</span>; of course both will use his specific font color (<span class="egbert">#0715CD</span>), too!</p>
+				
+				<p>You can modify any of these values at your leisure. Some fields provide character limits (&quot;## left&quot;) to the right: these limit you from going too crazy with your selections.</p>
+				
+				<h3>Control who you chat with</h3>
+				
+				<p>The new homepage makes it even easier to chat with exactly who you want. The Pester field allows you to set who you chat with, just like before. We have groups and individual characters. If you&#39;d like to chat with every troll but <span class="nitram">Tavros</span>, set the following options:</p>
+				
+				<ul>
+					<li>Pester: Trolls (Pre-Scratch), Trolls (Post-Scratch)</li>
+					<li>Exclude: Tavros Nitram</li>
+				</ul>
+				
+				<p>You can place as many characters as you want in either of these fields, so go nuts customizing them to your heart&#39;s content!</p>
+				
+				<h5>WARNING: if you set Pester and Exclude to the same characters, or exclude groups containing all the characters you&#39;ve chosen, you&#39;ll never find anyone to chat with <strike>and you&#39;ll die alone all sad and stuff</strike>.</h5>
+				
+				<h3>Typing Quirks</h3>
+				
+				<p>What good is a chat program without some options for self expression?! We have a few options set out for you:</p>
+				
+				<ul>
+					<li>Typing case will alter the case of the characters you type. We offer nearly everything you could possibly want.</li>
+					<li>Prefixes and suffixes allow you to bookend your text with a few characters.</li>
+					<li>Letter and Pattern Replacements give you powerful tools to make your beautiful instant messages look like gibberish (see the next section).</li>
+				</ul>
+				
+				<h4>Notes</h4>
+				
+				<ul>
+					<li>Remember that the &#39;lower case&#39; option will prevent you from typing uppercase, even for proper nouns or emphasis. You may want to pick &#39;Normal&#39; case and force yourself to keep your fingers off the shift keys.</li>
+					<li>You can always &#39;break&#39; out of a quirk by typing a forward slash (&#39;/&#39;) the start of your line. If you start a line with a slash, we won&#39;t apply any quirks for you as you chat until you send that message and begin another.</li>
+				</ul>
+				
+				<h3>Letter &amp; Pattern Replacement</h3>
+				
+				<p>Letter Replacements allow you to replace one or more characters with some others. For instance, as <span class="pyrope">Terezi</span> you might want to replace &#39;E&#39; with &#39;3&#39;. You could do this by setting the left field to &#39;E&#39; and one across from it to &#39;3&#39;. You could read it as &quot;Replace the letter &#39;E&#39; with &#39;3&#39;. <span class="pyrope">SW33T</span>. If you need to add or remove letter replacements, &#39;&times;&#39; and &#39;+&#39; links are available when you hover over the rows containing the letter replacement fields.</p>
+				
+				<p>But what about characters who don&#39;t always type in uppercase? <span class="captor">Sollux</span>, for instance replaces all instances of &#39;s&#39; with &#39;2&#39;, regardless of case. While we could &quot;Replace the letter &#39;S&#39; with &#39;2&#39;&quot; and &quot;Replace the letter &#39;s&#39; with &#39;2&#39;&quot; (they&#39;re different) we have pattern replacements that can help us here. By replacing <code>/s/gi</code>, we want to globally (that&#39;s the <code>g</code>) replace all instances of the character &#39;s&#39; in a case insensitive (that&#39;s the <code>i</code>) manner. </p>
+				
+				<p>Confused? Don&#39;t fret. We&#39;re using a programming technique here called &quot;Regular Expressions&quot; which allow for complex pattern matching. For instance, <span class="captor">Sollux</span> has another quirk we&#39;ve set up which is even more complicated: <code>/\b(to|too)\b/gi</code> will find every instance of &#39;to&#39; and &#39;too&#39;, but not if they&#39;re part of a word. So <span class="captor">II&#39;d love to!</span> will change to <span class="captor">II&#39;d love two!</span> but <span class="captor">II took iit.</span> would NOT change to <span class="captor">II twok iit.</span> This type of replacement could never be done without using regular expressions. </p>
+				
+				<p>To learn regular expressions, talk to the nerdiest person you know, or use these resources:</p>
+				
+				<ul>
+					<li><a href="http://www.w3schools.com/jsref/jsref_obj_regexp.asp">W3 Schools JS RegExp Object Reference</a></li>
+					<li><a href="http://www.regular-expressions.info/index.html">Regular-Expressions.info</a> - Learn Regular Expressions</li>
+					<li><a href="http://www.regex101.com/">http://www.regex101.com/</a> - test regular expressions in the browser</li>
+				</ul>
+				
+				<p>Rest assured that we&#39;ve set a bunch of these up for you :)</p>
+				
+				<h3>All Those Buttons</h3>
+				
+				<p>We&#39;re introducing something called Personas for you all. Personas allow you to create settings for a character and save them for later, then load them in at will. You can even share them with friends by copying and pasting information.</p>
+				
+				<h4>Save</h4>
+				
+				<p>Once you&#39;ve got your character just right, the Save button allows you to Save the persona for later. If you&#39;ve never done this before, you&#39;ll be prompted to choose a name. If you&#39;ve got personas saved already, you&#39;ll be able to save over your existing personas which will replace the settings for that persona with these new settings.</p>
+				
+				<h4>Load</h4>
+				
+				<p>Once you&#39;ve saved a persona, Load will be available. If it&#39;s not available to you, you have no saved personas in this browser. Load allows you to choose one of those personas and get chatting or customize it further. Remember that if you customize a persona once you load it into the homepage, you&#39;ll need to save it for those changes to persist for the next time you visit the site.</p>
+				
+				<h4>Manage</h4>
+				
+				<p>The manage screen allows you to do three things:</p>
+				
+				<ul>
+					<li>Rename personas to change their names</li>
+					<li>Delete individual personas to keep things fresh, and</li>
+					<li>Delete all personas.</li>
+				</ul>
+				
+				<p>Renaming personas is easy. Choose one from the list, then type a new name and save: you&#39;re done.</p>
+				
+				<p>Deleting individual personas is easy, too. Choose one from the list and the &#39;&times;&#39; icon to the right will remove it from the system for you. You&#39;ll be given a confirmation dialog before this is final.</p>
+				
+				<p>Deleting all personas is a big deal, so when you tap the big red Clear button, you&#39;ll get a pretty intense message reminding you that you can&#39;t undo this action. If you wanna go through with it, just type &quot;DELETE&quot; (all caps, no quotes) in the field as you&#39;re instructed to and choose Okay. Bye bye, personas!</p>
+				
+				<h4>Import / Export</h4>
+				
+				<p>You set up all these great personas but you lost your mind and did it in Internet Explorer. How are you ever going to get them out? You can use the Import / Export feature to do this. In IE, click Import / Export and copy the block of text that appears in the modal window. Once done, you can click the same button in Chrome, Firefox, Safari or anything else and paste it in.</p>
+				
+				<p>&quot;But Ms. Parp,&quot; you say arrogantly… &quot;What if I have two personas with the same name? You&#39;re not gonna clobber one of my dear, sweet personas, are you?&quot; No, Ms. Parp is a pacifist. She&#39;ll append &quot; (Imported --------------)&quot; to the one you import. Those dashes will be replaced with a big number to make sure you don&#39;t run into any collisions when importing your data. You can then go and rename personas or delete them in the Manage dialog (see above).</p>
+				
+				<h3>Group Chat</h3>
+				
+				<p>To start your own group chat, you just need to pick a URL and go for it. URLs are formatted like so: <code>http://www.msparp.com/chat/a-string-of-letters-and-numbers-here</code> and instead of writing <code>a-string-of-letters-and-numbers-here</code>, you would just put a string of letters and numbers, without spaces.</p>
+				
+				<p>For example, your group chat could be called <code>http://www.msparp.com/chat/penguin</code> or <code>http://www.msparp.com/chat/icannotfindthepumpkin413</code></p>
+				
+				<h3>I&#39;m lost!</h3>
+				
+				<p>If you are still having trouble, boy do you have options! You can hit up our <a href="http://msparp-forums.org/">forums</a> to ask for help. You can drop by our <a href="http://msparp.tumblr.com/">Tumblr</a> and drop us an <a href="http://msparp.tumblr.com/ask">ask</a>, or you can… just keep trying to figure it out? If you&#39;re really nice, maybe you can get us on speaker crab and we&#39;ll help you out verbally.</p>
 
-<body>
-<h1>User Guide for MSPARP</h1>
+				<p><a href="/">> Go Home</a></p>
+				
+				<p>Last Updated 25 July 2013</p>
 
-<p>Welcome to MSPARP, a text-roleplaying chatspace on the web. At present, the website focuses on roleplaying for the popular webcomic <a href="http://www.mspaintadventures.com/">Homestuck</a> by Andrew Hussie, though we have some notion of expanding this into a pan-fandom and original character RP service somewhere down the line.</p>
-
-<p>Here is some information to get you started:</p>
-
-<h2>Selecting Your Character</h2>
-
-<p>At present, we have a listing of CHARACTERS FROM HOMESTUCK that you can select from in the "ROLEPLAY AS" DROP DOWN MENU. If you want to just START RPING right off the bat, SELECT A CHARACTER from this DROP DOWN MENU and click "SAVE AND BEGIN CHATTING."</p>
-
-<h2>Options for customizing your character</h2>
-
-<p>You can select the ACRONYM, NAME, and COLOR of your character in the WITH SETTINGS BOX. Acronyms are limited to 10 characters, names are limited to 50.</p>
-
-<p>If you click on the ELLIPSIS next to TYPING QUIRKS, you will see a list of possible AUTOMATED TYPING QUIRKS that you can SELECT from. We will be ADDING NEW QUIRKS at some point in the future or make them CUSTOMIZABLE BY THE USER. If you have SUGGESTIONS FOR NEW QUIRKS, please feel free to SEND US A MESSAGE. </p>
-
-<p>To REMOVE QUIRKS when you are IN THE CHAT, start your line out with a / and just write whatever.</p>
-
-<h2>Search options</h2>
-
-<p>On MSPARP you have the option to chat with anyone at random or ONLY SEARCH FOR SPECIFIC CHARACTERS. You can PUT A CHECK MARK in the boxes for characters you want to search for. If you have SUGGESTIONS FOR OTHER CHARACTERS, once again, SEND US A MESSAGE. </p>
-
-<h2>Save Info or Start Chatting?</h2>
-
-<p>The SAVE INFO BUTTON is for when you want to save your CHARACTER INFORMATION before you enter a GROUP CHAT. It will also allow you to SWITCH CHARACTERS from the main page. You do not have to leave a chat in order to use it. If you are already in a chat (one-on-one or group), then open a new tab, go to http://www.msparp.com/, select a different character to roleplay as or change your settings/quirks and then click SAVE INFO BUTTON. Your text color and acronym will automatically change in the chat window, but you will have to refresh for the quirk to take effect. </p>
-
-<h2>Group chats</h2>
-
-<p>To start YOUR VERY OWN GROUP CHAT, all you need to do is CREATE A URL for it. URLs are formatted like so: http://www.msparp.com/chat/a-string-of-letters-and-numbers-here and instead of writing a-string-of-letters-and-numbers-here, you would just put a string of letters and numbers, without spaces.</p>
-
-<p>For example, your group chat could be called http://www.msparp.com/chat/penguin or http://www.msparp.com/chat/icannotfindthepumpkin413</p>
-
-<p>At present there is NO WAY to MODERATE GROUP CHATS. We will be IMPLEMENTING THIS in the FUTURE.</p>
-
-
-</body>
+			</div>
+		</div>
+		
+		<!-- JavaScripts -->
+		<script type="text/javascript" language="javascript" src="/static/js/jquery.min.js"></script>
+		<script type="text/javascript" language="javascript" src="/static/js/parsely.js"></script>
+		<script type="text/javascript" language="javascript" src="/static/js/chosen.jquery.js"></script>
+		<script type="text/javascript" language="javascript" src="/static/js/bootstrap.js"></script>
+		<script type="text/javascript" language="javascript" src="/static/js/colorpicker.js"></script>
+		<script type="text/javascript" language="javascript" src="/static/js/characters.js"></script>
+		<script type="text/javascript" language="javascript" src="/static/js/home.js"></script>
+		<!--
+		<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+			
+			ga('create', 'UA-42087625-1', 'msparp.com');
+			ga('send', 'pageview');
+		</script>
+		-->
+		
+	</body>
 </html>

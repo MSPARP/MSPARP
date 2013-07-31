@@ -13,8 +13,8 @@ LONGPOLL_TIMEOUT_PERIOD = 175
 # Period in which saved chats are archived - 30 minutes.
 ARCHIVE_PERIOD = 1800
 
-# Time after which unsaved chats are deleted - 7 days.
-DELETE_UNSAVED_PERIOD = 604800
+# Time after which unsaved chats are deleted - 24 hours.
+DELETE_UNSAVED_PERIOD = 86400
 
 # Time after which saved chats are deleted - 30 days.
 DELETE_SAVED_PERIOD = 2592000

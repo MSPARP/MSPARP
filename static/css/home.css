@@ -1,0 +1,93 @@
+body {
+	font-size: 14px;
+	font-weight: bold;
+	}
+	
+a:hover { text-decoration: none; }
+
+.modal-body { max-height: 600px; overflow-y: visible; }
+
+/* fixes an issue with Bootstrap where all inputs
+	are given a width. why would they do that?! */
+.colorpicker input { width: auto; }
+
+#text_preview { background: #eee; padding: .5em }
+
+/* #header */
+#header { padding: 1em 0; }
+	#header div { min-height: inherit; }
+		h1 {
+			margin: 0 0 .25em;
+			background: url(../img/logo.png) no-repeat;
+			display: block;
+			text-indent: 101%;
+			white-space: nowrap;
+			overflow: hidden;
+			background-size: contain;
+			height: 81px;
+			}
+
+.chzn-container-multi .chzn-choices li.search-field input { 
+	font-family: Courier New, Courier, monospace;
+	font-weight: bold;
+	}
+
+form {}
+	form > div { margin-bottom: .5em; }
+	form div label,
+	form div button { font-weight: bold; }
+	form div input[type="radio"], 
+	form div input[type="checkbox"] { margin-top: -4px; }
+	form div select { font-weight: bold; }
+	
+
+.controls .close { float: none; opacity: .6; display: none; }
+.controls:hover .close { display: inline-block; }
+	.controls .close:hover { color: #B94A48; }
+	.controls .add:hover { color: #468847; }
+	
+.parsley-error-list { color: #626262; }
+
+#group_chat div.controls { margin-left: 0; }
+
+.control-group .btn-toolbar { margin: 0; }
+
+
+/* Large desktop */
+@media (min-width: 1200px) {
+    
+}
+
+@media (max-width: 1024px) {
+	#sidebar { display: none; }
+	#char_form { width: 100%; }
+}
+ 
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 768px) and (max-width: 979px) {
+	h1 { height: 70px; }
+}
+ 
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) {
+	h1 { height: 60px; }
+	
+	#sidebar { display: block; }
+	
+	#exclude_help { display: none; }
+	
+	#replacements .controls input { width: 25%; }
+	#replacements .close { display: inline-block; }
+}
+ 
+/* Landscape phones and down */
+@media (max-width: 480px) {
+	h1 { height: 50px; }
+}
+
+    
+    
+    
+    
+    
+    
