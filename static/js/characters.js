@@ -1100,7 +1100,7 @@ var characters = {
         "6": {
             "acronym": "uu",
             "case": "upper",
-            "color": "323232",
+            "color": "2ed73a",
             "name": "undyingUmbrage",
             "option": "Caliborn",
             "quirk_prefix": "",
