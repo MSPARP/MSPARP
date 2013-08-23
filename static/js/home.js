@@ -237,7 +237,7 @@ function save_data() {
 	t.personas[($('#save_persona').val() != 'add_new' ? $('#save_persona').val() : $('#save_new').val())] = prep_save_data();
 	
 	// save this local object to localStorage
-	set_prefs(msparp_prefs);
+	set_prefs(t);
 	
 	// clean up #save_modal; hide #save_new
 	$('#save_persona, #save_new').val('');
