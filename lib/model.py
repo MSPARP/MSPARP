@@ -51,10 +51,10 @@ class ChatSession(Base):
     group = Column(Enum(u"silent", u"user", u"mod3", u"mod2", u"mod", u"globalmod", name=u"chat_sessions_group"), nullable=False, default=u"user")
     # XXX UTF-8 ISSUES WITH LENGTH?!
     # XXX also check these lengths
-    character = Column(Unicode(100), nullable=False, default=u"anonymous/other")
+    character = Column(Integer, nullable=False, default=1)
     name = Column(Unicode(100), nullable=False, default=u"Anonymous")
     acronym = Column(Unicode(15), nullable=False, default=u"")
-    color = Column(Unicode(15), nullable=False, default=u"000000")
+    color = Column(Unicode(6), nullable=False, default=u"000000")
     case = Column(Enum(
         u"alt-lines",
         u"alternating",

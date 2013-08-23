@@ -82,6 +82,10 @@ def archive_chat(redis, mysql, chat_url):
     for counter, session_id in redis_sessions.items():
         redis_session = redis.hgetall('session.'+session_id+'.chat.'+chat_url)
         redis_session_meta = redis.hgetall('session.'+session_id+'.meta.'+chat_url)
+        # Sometimes the counter list contains sessions that have already been deleted.
+        # If this is one of them, skip it.
+        if len(redis_session)==0 or len(redis_session_meta)==0:
+            continue
         expiry_time = datetime.datetime.fromtimestamp(
             redis.zscore('chat-sessions', chat_url+'/'+session_id) or 0
         )
@@ -93,14 +97,14 @@ def archive_chat(redis, mysql, chat_url):
             expiry_time=expiry_time,
             group=redis_session_meta['group'],
             character=redis_session['character'],
-            name=redis_session.get('name', default_character['name']),
-            acronym=redis_session.get('acronym', default_character['acronym']),
-            color=redis_session.get('color', default_character['color']),
+            name=redis_session.get('name', default_character['name'])[:100],
+            acronym=redis_session.get('acronym', default_character['acronym'])[:15],
+            color=redis_session.get('color', default_character['color'])[:6],
             case=redis_session.get('case', default_character['case']),
             replacements=redis_session.get('replacements', default_character['replacements']),
             regexes=redis_session.get('regexes', default_character['regexes']),
-            quirk_prefix=redis_session.get('quirk_prefix', default_character['quirk_prefix']),
-            quirk_suffix=redis_session.get('quirk_suffix', default_character['quirk_suffix']),
+            quirk_prefix=redis_session.get('quirk_prefix', default_character['quirk_prefix'])[:50],
+            quirk_suffix=redis_session.get('quirk_suffix', default_character['quirk_suffix'])[:50],
         )
         mysql.add(mysql_session)
     mysql.flush()
