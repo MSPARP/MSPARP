@@ -17,11 +17,7 @@ def check_compatibility(first, second):
     for option in ["para", "nsfw"]:
         first_option = first['options'].get(option)
         second_option = second['options'].get(option)
-        if (
-            first_option is not None
-            and second_option is not None
-            and first_option!=second_option
-        ):
+        if first_option!=second_option:
             return False, selected_options
         if first_option is not None:
             selected_options.append(option+first_option)
@@ -31,7 +27,7 @@ def check_compatibility(first, second):
     return compatible, selected_options
 
 def get_picky_list(session_id):
-    picky = redis.smembers('session.'+session_id+'.picky')
+    picky = redis.smembers('session.'+session_id+'.picky') or all_chars
     picky_groups = redis.smembers('session.'+session_id+'.picky-groups')
     for group in picky_groups:
         picky = picky|GROUP_DETAILS[group]['character']
@@ -56,7 +52,7 @@ if __name__=='__main__':
             sessions = [{
                 'id': session_id,
                 'char': redis.hget('session.'+session_id, 'character'),
-                'wanted_chars': get_picky_list(session_id) or all_chars,
+                'wanted_chars': get_picky_list(session_id),
                 'options': redis.hgetall('session.'+session_id+'.picky-options'),
             } for session_id in searchers]
 
