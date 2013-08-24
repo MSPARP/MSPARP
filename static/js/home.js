@@ -11,16 +11,16 @@
 // greeting_data[x][1] //=> quote text
 var greeting_data = [
 	['#626262', 'WHAT ARE YOU LOOKING AT, FUCKFACE?'],										// Karkat
-	['#A15000', 'uM, wELCOME TO OUR WEBSITE, yOU SHOULD, uH, mAKE YOURSELF AT HOME'],		// Tavros
-	['#2B0057', 'HaVe sOmE FaYgO AnD GeT YoUr mOtHeRfUcKiN ChAt oN! hOnK :o)'],				// Gamzee
-	['#A1A100', 'ii wrote thii2 2iite iin ~ath, 2orry for all the lag'],					// Sollux
-	['#A10000', 'y0u can talk t0 pe0ple here 0r n0t i d0nt really care'],					// Aradia
-	['#416600', ':33 < *ac thinks this site is a purrfect place to chat* :3'],				// Nepeta
+	['#A15000', 'wELCOME TO OUR WEBSITE, yOU SHOULD, uH, mAKE YOURSELF AT HOME,'],		// Tavros
+	['#2B0057', 'HaVe SoMe FaYgO aNd GeT yOuR mOtHeRfUcKiN cHaT oN! hOnK :o)'],				// Gamzee
+	['#A1A100', 'ii wrote thii2 2iite iin ~ath, 2orry for all the lag.'],					// Sollux
+	['#A10000', 'if y0u wanted to r0leplay i w0uld be 0k with that 0_0'],					// Aradia
+	['#416600', ':33 < *ac thinks this site is a purrfect place to chat*'],				// Nepeta
 	['#000056', 'D --> Invite me to a chat, lowb100d, I demand it'],						// Equius
-	['#005682', 'people keep disconnecting from you? Them\'s the 8r8ks!'],					// Vriska
-	['#008141', 'Welcome To Microsoft Paint Adventures Role Playing.'],						// Kanaya
+	['#005682', 'People keep disconnecting from you? Them\'s the 8r8ks!'],					// Vriska
+	['#008141', 'Welcome To Microsoft Paint Adventures Role Playing'],						// Kanaya
 	['#008282', 'TH1S S1T3 T4ST3S 4WFUL! WH3R3S 4LL TH3 R3D?!'],							// Terezi
-	['#77003C', 'W)(alecome to MSCARP, land glubb-Er!'],									// Feferi
+	['#77003C', 'W)(alecome to MSCARP, LAND GLUBB-ER!'],									// Feferi
 	['#6A006A', 'wwhy doesnt anyone on this site wwant to talk wwith me']					// Eridan
 ];
 var num_greetings = greeting_data.length;
