@@ -27,7 +27,7 @@ def check_compatibility(first, second):
     return compatible, selected_options
 
 def get_picky_list(session_id):
-    picky = redis.smembers('session.'+session_id+'.picky') or all_chars
+    picky = redis.smembers('session.'+session_id+'.picky') or set(all_chars)
     picky_groups = redis.smembers('session.'+session_id+'.picky-groups')
     for group in picky_groups:
         picky = picky|GROUP_DETAILS[group]['character']
