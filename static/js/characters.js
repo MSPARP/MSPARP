@@ -145,7 +145,7 @@ var characters = {
                     "2"
                 ],
                 [
-                    "/\bto\b/gi",
+                    "/\btoo?\b/gi",
                 	"two"
                 ]
             ],
@@ -616,17 +616,16 @@ var characters = {
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "sayin fish puns is obviously kind of this thing i do stupid G-ET WIT)( T)(-E PROGRAM",
-            "regexes": [
-                [
-                    "/h/gi",
-                    ")("
-                ]
-            ],
+            "regexes": [],
             "replacements": [
                 [
                     "E",
                     "-E"
                 ],
+                [
+                    "H",
+                    ")("
+                ]
             ]
         },
         "41": {
@@ -982,7 +981,11 @@ var characters = {
             	[
             		"/s/gi",
             		"2"
-            	]
+            	],
+                [
+                    "/\btoo?\b/gi",
+                	"two"
+                ]
             ],
             "replacements": [
                 [
@@ -1130,8 +1133,8 @@ var characters = {
             "acronym": "\u264a",
             "case": "normal",
             "color": "A1A100",
-            "name": "The \u03a8iioniic",
-            "option": "The \u03a8iioniic",
+            "name": "The Psiioniic",
+            "option": "The Psiioniic",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",

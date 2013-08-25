@@ -13,6 +13,20 @@
 	var chat = {{(chat)|tojson|safe}};
 	var chat_meta = {{chat_meta|tojson|safe}};
 	var latestNum = {{latest_num}};
+	
+	$(document).ready(function() {
+	    // Redirect iPhone/iPod visitors
+	    function isiPhone(){
+	        return (
+	            (navigator.platform.indexOf("iPhone") != -1) ||
+	            (navigator.platform.indexOf("iPod") != -1)
+	        );
+	    }
+	
+	    if(isiPhone() || $(window).width() <= 578) {
+	        $('meta[name=viewport]').attr('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />');
+	    }
+	});
 </script>
 <script src="/static/js/chat.js?2212"></script>
 {% endblock %}

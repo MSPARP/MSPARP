@@ -11,11 +11,11 @@
 // greeting_data[x][1] //=> quote text
 var greeting_data = [
 	['#626262', 'WHAT ARE YOU LOOKING AT, FUCKFACE?'],										// Karkat
-	['#A15000', 'wELCOME TO OUR WEBSITE, yOU SHOULD, uH, mAKE YOURSELF AT HOME,'],		// Tavros
+	['#A15000', 'wELCOME TO OUR WEBSITE, yOU SHOULD, uH, mAKE YOURSELF AT HOME,'],			// Tavros
 	['#2B0057', 'HaVe SoMe FaYgO aNd GeT yOuR mOtHeRfUcKiN cHaT oN! hOnK :o)'],				// Gamzee
 	['#A1A100', 'ii wrote thii2 2iite iin ~ath, 2orry for all the lag.'],					// Sollux
 	['#A10000', 'if y0u wanted to r0leplay i w0uld be 0k with that 0_0'],					// Aradia
-	['#416600', ':33 < *ac thinks this site is a purrfect place to chat*'],				// Nepeta
+	['#416600', ':33 < *ac thinks this site is a purrfect place to chat*'],					// Nepeta
 	['#000056', 'D --> Invite me to a chat, lowb100d, I demand it'],						// Equius
 	['#005682', 'People keep disconnecting from you? Them\'s the 8r8ks!'],					// Vriska
 	['#008141', 'Welcome To Microsoft Paint Adventures Role Playing'],						// Kanaya
