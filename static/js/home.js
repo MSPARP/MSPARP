@@ -116,6 +116,18 @@ function update_chars_left() {
 	update_preview();
 }
 
+function update_chat_options() {
+	$('#nsfw, #para')
+	    .siblings()
+	        .removeClass('active')
+	.end()
+	    .each(function () {
+	        $(this)
+	            .siblings('[data-value=' + $(this).val() + ']')
+	            .addClass('active');
+	    });
+}
+
 var $quote_sentence = $('#text_preview').find('.quote .sentence');
 // update fields when you change who you are
 function update_character() {
@@ -280,6 +292,8 @@ function prep_save_data() {
 	temp['quirk_suffix'] = $('#quirk_suffix').val();
 	temp['replacements'] = replacements;
 	temp['regexes'] = regexes;
+	temp['nsfw'] = $('#nsfw').val();
+	temp['para'] = $('#para').val();
 	
 	return temp;
 }
@@ -323,13 +337,16 @@ function load_data() {
 	$('#color').val(temp['color']);
 	$('#case').val(temp['case']);
 	$('#quirk_prefix').val(temp['quirk_prefix']);
-	$('#quirk_suffix').val(temp['quirk_suffix']);	
+	$('#quirk_suffix').val(temp['quirk_suffix']);
+	$('#nsfw').val(temp['nsfw']);
+	$('#para').val(temp['para']);
 	update_replacements(temp);	
 	
 	// updates
 	update_colorpicker_from_color();
 	update_preview();
 	update_case();
+	update_chat_options();
 	$('.charsleft').keyup();
 	
 	// When you load a persona, load their quote in from characters.js
