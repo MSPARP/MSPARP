@@ -18,6 +18,7 @@ var characters = {
             "color": "E00707",
             "name": "turntechGodhead",
             "option": "Dave Strider",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "you dont seem to harbor any sympathy for the fact that ive burrowed fuck deep into lively, fluffy muppet buttock",
@@ -30,6 +31,7 @@ var characters = {
             "color": "4AC925",
             "name": "gardenGnostic",
             "option": "Jade Harley",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "i am never going to sleep again!",
@@ -42,6 +44,7 @@ var characters = {
             "color": "00D5F2",
             "name": "gutsyGumshoe",
             "option": "Jane Crocker",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "If the chats and surplus dinners were truly important, I wouldn't want to interrupt.",
@@ -54,6 +57,7 @@ var characters = {
             "color": "FF6FF2",
             "name": "tipsyGnostalgic",
             "option": "Roxy Lalonde",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "it seems 2 me that there is a (MATHS) % chance of you bein a huge tightass",
@@ -66,6 +70,7 @@ var characters = {
             "color": "F2A400",
             "name": "timaeusTestified",
             "option": "Dirk Strider",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "It's not 4 you jackass, it's fucking nothing. There is no end.",
@@ -78,6 +83,7 @@ var characters = {
             "color": "1F9400",
             "name": "golgothasTerror",
             "option": "Jake English",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "Jesus christofer kringlefucker and here i thought i was rugged!",
@@ -90,6 +96,7 @@ var characters = {
             "color": "E00707",
             "name": "timaeusTestified",
             "option": "Autoresponder",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "Dirk's dead, Jake. Jane's dead. Roxy? She's dead, Jake. Everybody is dead, Jake.",
@@ -102,6 +109,7 @@ var characters = {
             "color": "A10000",
             "name": "apocalypseArisen",
             "option": "Aradia Megido",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "maybe if i say st0p en0ugh s0mething else will happen instead 0f the thing that d0es",
@@ -119,6 +127,7 @@ var characters = {
             "color": "A15000",
             "name": "adiosToreador",
             "option": "Tavros Nitram",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "i THINK i AM PERFECTLY CAPABLE OF MANUFACTURING THESE ALLEGED \"dope\" HUMAN RHYMES",
@@ -136,6 +145,7 @@ var characters = {
             "color": "A1A100",
             "name": "twinArmageddons",
             "option": "Sollux Captor",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "do me a favor and 2pare me your 2pooky conundrum2 twoniight, youre kiind of pii22iing me off.",
@@ -145,7 +155,7 @@ var characters = {
                     "2"
                 ],
                 [
-                    "/\btoo?\b/gi",
+                    "/\\btoo?\\b/gi",
                 	"two"
                 ]
             ],
@@ -178,6 +188,7 @@ var characters = {
             "color": "626262",
             "name": "carcinoGeneticist",
             "option": "Karkat Vantas",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "NO. MORE LIKE TWITCHY EYED PROJECTILE VOMITING IN UTTER DISGUST FRIENDS, WHILE I PERFORATE MY BONE BULGE WITH A CULLING FORK.",
@@ -190,6 +201,7 @@ var characters = {
             "color": "416600",
             "name": "arsenicCatnip",
             "option": "Nepeta Leijon",
+            "gender": "female",
             "quirk_prefix": ":33 < ",
             "quirk_suffix": "",
             "quote": "but do you think you could purrhaps please spare your computer for just the most fl33ting of moments?",
@@ -207,6 +219,7 @@ var characters = {
             "color": "008141",
             "name": "grimAuxiliatrix",
             "option": "Kanaya Maryam",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "So You Are Destined To Edit It No Matter What And What You Submit Will Be What I Once Read Regardless",
@@ -219,6 +232,7 @@ var characters = {
             "color": "008282",
             "name": "gallowsCalibrator",
             "option": "Terezi Pyrope",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "JOHN W3 AR3 SO MUCH B3TT3R TH4N YOU IN 3V3RY R3SP3CT 1TS R1D1CULOUS",
@@ -244,6 +258,7 @@ var characters = {
             "color": "005682",
             "name": "arachnidsGrip",
             "option": "Vriska Serket",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "It is 8ight groups of 8ight. I specifically counted them.",
@@ -261,6 +276,7 @@ var characters = {
             "color": "000056",
             "name": "centaursTesticle",
             "option": "Equius Zahhak",
+            "gender": "male",
             "quirk_prefix": "D --> ",
             "quirk_suffix": "",
             "quote": "How do you know about my perspiration problem",
@@ -287,6 +303,7 @@ var characters = {
             "color": "2B0057",
             "name": "terminallyCapricious",
             "option": "Gamzee Makara",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "ThIs sOuNdS AmAzInG, i cAn't sEe hOw i wOuLdN'T Be aLl kIcKiNg tHe wIcKeD ShIt oUt Of sUcH KiNdS Of oPpOrTuNiTiEs",
@@ -299,6 +316,7 @@ var characters = {
             "color": "6A006A",
             "name": "caligulasAquarium",
             "option": "Eridan Ampora",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "wwho are you tryin to convvince wwith this ludicrous poppycock",
@@ -328,6 +346,7 @@ var characters = {
             "color": "77003C",
             "name": "cuttlefishCuller",
             "option": "Feferi Peixes",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": ")(oly mackerel, looks like SOM-EON-E woke up on t)(e wrong side of t)(e absurd )(uman bed!",
@@ -350,6 +369,7 @@ var characters = {
             "color": "A10000",
             "name": "Damara Megido",
             "option": "Damara Megido",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "\u79c1\u304c\u899a\u3048\u3066\u3044\u308b\u3002 \u6642\u3005\u79c1\u306f\u3001\u305d\u306e\u30e1\u30e2\u30ea\u306b\u81ea\u6170\u884c\u70ba\u3002",
@@ -374,6 +394,7 @@ var characters = {
             "color": "A15000",
             "name": "Rufioh Nitram",
             "option": "Rufioh Nitram",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "really, 1 thought 1t would be alr1ght, just flapp1ng w1ngs around... 1 could st1ll fly and just hang there l1mp... m1ght have been a dope look!",
@@ -391,6 +412,7 @@ var characters = {
             "color": "A1A100",
             "name": "Mituna Captor",
             "option": "Mituna Captor",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "K17H5 MY CH4GR1N 7UNK3L Y0U 5N4NK 4ZZ CHUM8UCK357",
@@ -432,6 +454,7 @@ var characters = {
             "color": "FF0000",
             "name": "Kankri Vantas",
             "option": "Kankri Vantas",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "Triggers include 6ut likely will n9t 6e limited t9 class 9ppressi9n, culling culture and vi9lence against gru6s, lusus a6use, c9mplementary and anal9g9us hate speech, pail filling, slurries and 9ther c9ncupiscent fluids, lifespan shaming, a6leist slurs, pr9lix dissertation...",
@@ -453,6 +476,7 @@ var characters = {
             "color": "416600",
             "name": "Meulin Leijon",
             "option": "Meulin Leijon",
+            "gender": "female",
             "quirk_prefix": "(=\uff40\u03c9\u00b4=) < ",
             "quirk_suffix": "",
             "quote": "YOU DON'T UNDERSTAND, M33NAH. THE F33LS. THE F333333333LS!!!!!!!!!",
@@ -470,6 +494,7 @@ var characters = {
             "color": "008141",
             "name": "Porrim Maryam",
             "option": "Porrim Maryam",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": " No+ o+ne quite prepares yo+u fo+r the fact that o+n the o+ther side o+f death is an infinite echo+ chamber o+f teen drama.",
@@ -487,6 +512,7 @@ var characters = {
             "color": "008282",
             "name": "Latula Pyrope",
             "option": "Latula Pyrope",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "do you 3v3n know how l4m3 of 4 sc3n3 1t 1s b31ng th3 only l3g1t 1n your f4c3 pow3rg4m1ng grl 1n 4 bunch of bubbl3s full of brut4l pos3rz???",
@@ -512,6 +538,7 @@ var characters = {
             "color": "005682",
             "name": "Aranea Serket",
             "option": "Aranea Serket",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "You couldn't even wait a few minutes while I retrieved one last guest? I have to come 8ack to THIS????????",
@@ -529,6 +556,7 @@ var characters = {
             "color": "000056",
             "name": "Horuss Zahhak",
             "option": "Horuss Zahhak",
+            "gender": "male",
             "quirk_prefix": "8=D < ",
             "quirk_suffix": "",
             "quote": "Why the long face?",
@@ -555,6 +583,7 @@ var characters = {
             "color": "2B0057",
             "name": "Kurloz Makara",
             "option": "Kurloz Makara",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -567,6 +596,7 @@ var characters = {
             "color": "6A006A",
             "name": "Cronus Ampora",
             "option": "Cronus Ampora",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "i just sawv you strutting in my direction, vwith all of your impressivwe moxy and confidence, for the first time in, howv long?",
@@ -577,22 +607,30 @@ var characters = {
                 ]
             ],
             "replacements": [
-                [
-                    "v",
-                    "vw"
-                ],
-                [
-                    "V",
-                    "VW"
-                ],
-                [
-                    "w",
-                    "wv"
-                ],
-                [
-                    "W",
-                    "WV"
-                ]
+            	[
+            		"v", 
+            		""
+            	], 
+            	[
+            		"w", 
+            		"wv"
+            	], 
+            	[
+            		"",
+            		"vw"
+            	],
+            	[
+            		"V", 
+            		""
+            	], 
+            	[
+            		"W", 
+            		"WV"
+            	], 
+            	[
+            		"",
+            		"VW"
+            	]
             ]
         },
         "4": {
@@ -601,6 +639,7 @@ var characters = {
             "color": "FFFFFF",
             "name": "Doc Scratch",
             "option": "Doc Scratch",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "You know you're going to anyway. You won't be able to help yourself.",
@@ -613,6 +652,7 @@ var characters = {
             "color": "77003C",
             "name": "Meenah Peixes",
             "option": "Meenah Peixes",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "sayin fish puns is obviously kind of this thing i do stupid G-ET WIT)( T)(-E PROGRAM",
@@ -634,6 +674,7 @@ var characters = {
             "color": "4B4B4B",
             "name": "Dad",
             "option": "Dad",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "YES. THIS WILL BE THE CASE REGARDLESS OF THE HAT'S ORIENTATION.",
@@ -646,6 +687,7 @@ var characters = {
             "color": "000000",
             "name": "Nanna",
             "option": "Nanna",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -658,6 +700,7 @@ var characters = {
             "color": "000000",
             "name": "Mom",
             "option": "Mom (pre-scratch)",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -670,6 +713,7 @@ var characters = {
             "color": "000000",
             "name": "Bro",
             "option": "Bro (pre-scratch)",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -682,6 +726,7 @@ var characters = {
             "color": "000000",
             "name": "Grandpa",
             "option": "Grandpa",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -694,6 +739,7 @@ var characters = {
             "color": "000000",
             "name": "Poppop",
             "option": "Poppop",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -706,6 +752,7 @@ var characters = {
             "color": "000000",
             "name": "Mom",
             "option": "Mom (post-scratch)",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -718,6 +765,7 @@ var characters = {
             "color": "000000",
             "name": "Bro",
             "option": "Bro (post-scratch)",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -730,6 +778,7 @@ var characters = {
             "color": "000000",
             "name": "Grandma",
             "option": "Grandma",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -742,6 +791,7 @@ var characters = {
             "color": "929292",
             "name": "uranianUmbra",
             "option": "Calliope",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "i am jUst astonished. not at the gUile of yoUr little ploy, bUt by the fact that yoU actUally seem to think this was a clever rUse.",
@@ -759,6 +809,7 @@ var characters = {
             "color": "00D5F2",
             "name": "Nannasprite",
             "option": "Nannasprite",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "Hoo hoo hoo! Of course I know what a computer is, John! I was just pulling your leg!",
@@ -771,6 +822,7 @@ var characters = {
             "color": "F141EF",
             "name": "Jaspersprite",
             "option": "Jaspersprite",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "Maybe you can win his affection by rubbing your cheek against him thats what i would do.",
@@ -783,6 +835,7 @@ var characters = {
             "color": "F2A400",
             "name": "Calsprite",
             "option": "Calsprite",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "HAA HAA HEE HEE HOO HOO",
@@ -912,6 +965,7 @@ var characters = {
             "color": "F2A400",
             "name": "Davesprite",
             "option": "Davesprite",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "thats the best fucking question anybody ever asked",
@@ -924,6 +978,7 @@ var characters = {
             "color": "1F9400",
             "name": "Jadesprite",
             "option": "Jadesprite",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "yes i figured shenanigans were probably involved",
@@ -948,6 +1003,7 @@ var characters = {
             "color": "B536DA",
             "name": "Fefetasprite",
             "option": "Fefetasprite",
+            "gender": "female",
             "quirk_prefix": "3833 < ",
             "quirk_suffix": "",
             "quote": "383",
@@ -974,6 +1030,7 @@ var characters = {
             "color": "4AC925",
             "name": "Erisolsprite",
             "option": "Erisolsprite",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "wwoww, iit2 cool ii amu2e you, that really giivve2 meaniing to my joke of an exii2tence, ii mean WWOWW, thank2.",
@@ -983,7 +1040,7 @@ var characters = {
             		"2"
             	],
                 [
-                    "/\btoo?\b/gi",
+                    "/\\btoo?\\b/gi",
                 	"two"
                 ]
             ],
@@ -1020,6 +1077,7 @@ var characters = {
             "color": "E00707",
             "name": "Arquiusprite",
             "option": "Arquiusprite",
+            "gender": "male",
             "quirk_prefix": "\u25E5\u25B6\u25C0\u25E4 --> ",
             "quirk_suffix": "",
             "quote": "I demand that you order me to touch your muscles",
@@ -1094,6 +1152,7 @@ var characters = {
             "color": "A10000",
             "name": "The Handmaid",
             "option": "The Handmaid",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -1106,6 +1165,7 @@ var characters = {
             "color": "2ed73a",
             "name": "undyingUmbrage",
             "option": "Caliborn",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "YOu CAN'T. ESCAPE. THE MIIIIIIIIIIILES.",
@@ -1123,6 +1183,7 @@ var characters = {
             "color": "A15000",
             "name": "The Summoner",
             "option": "The Summoner",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -1135,6 +1196,7 @@ var characters = {
             "color": "A1A100",
             "name": "The Psiioniic",
             "option": "The Psiioniic",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -1147,6 +1209,7 @@ var characters = {
             "color": "626262",
             "name": "The Signless",
             "option": "The Signless",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -1159,6 +1222,7 @@ var characters = {
             "color": "416600",
             "name": "The Disciple",
             "option": "The Disciple",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -1171,6 +1235,7 @@ var characters = {
             "color": "008141",
             "name": "The Dolorosa",
             "option": "The Dolorosa",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -1183,6 +1248,7 @@ var characters = {
             "color": "008282",
             "name": "Neophyte Redglare",
             "option": "Neophyte Redglare",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -1195,6 +1261,7 @@ var characters = {
             "color": "005682",
             "name": "Marquise Spinneret Mindfang",
             "option": "Marquise Spinneret Mindfang",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -1207,6 +1274,7 @@ var characters = {
             "color": "000056",
             "name": "E%ecutor Darkleer",
             "option": "E%ecutor Darkleer",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -1219,6 +1287,7 @@ var characters = {
             "color": "2B0057",
             "name": "The Grand Highblood",
             "option": "The Grand Highblood",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -1231,6 +1300,7 @@ var characters = {
             "color": "6A006A",
             "name": "Orphaner Dualscar",
             "option": "Orphaner Dualscar",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -1255,6 +1325,7 @@ var characters = {
             "color": "77003C",
             "name": "Her Imperious Condescension",
             "option": "Her Imperious Condescension",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "this is what i get for lettin all proper dudes run shit instead of nasty clowns",
@@ -1267,6 +1338,7 @@ var characters = {
             "color": "000000",
             "name": "Spades Slick",
             "option": "Spades Slick",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -1279,6 +1351,7 @@ var characters = {
             "color": "000000",
             "name": "Clubs Deuce",
             "option": "Clubs Deuce",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -1291,6 +1364,7 @@ var characters = {
             "color": "000000",
             "name": "Diamonds Droog",
             "option": "Diamonds Droog",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -1303,6 +1377,7 @@ var characters = {
             "color": "000000",
             "name": "Hearts Boxcars",
             "option": "Hearts Boxcars",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -1315,6 +1390,7 @@ var characters = {
             "color": "000000",
             "name": "Wayward Vagabond",
             "option": "Wayward Vagabond",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -1325,8 +1401,9 @@ var characters = {
             "acronym": "PM",
             "case": "normal",
             "color": "000000",
-            "name": "Parcel Mistress",
-            "option": "Parcel Mistress",
+            "name": "Peregrine Mendicant",
+            "option": "Peregrine Mendicant",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -1339,6 +1416,7 @@ var characters = {
             "color": "000000",
             "name": "Aimless Renegade",
             "option": "Aimless Renegade",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -1351,6 +1429,7 @@ var characters = {
             "color": "000000",
             "name": "Windswept Questant",
             "option": "Windswept Questant",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -1363,6 +1442,7 @@ var characters = {
             "color": "000000",
             "name": "Jack Noir",
             "option": "Jack Noir",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -1375,6 +1455,7 @@ var characters = {
             "color": "0715CD",
             "name": "ectoBiologist",
             "option": "John Egbert",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "i don't know, maybe! what do i do!",
@@ -1387,6 +1468,7 @@ var characters = {
             "color": "000000",
             "name": "Draconian Dignitary",
             "option": "Draconian Dignitary",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -1399,6 +1481,7 @@ var characters = {
             "color": "000000",
             "name": "Hegemonic Brute",
             "option": "Hegemonic Brute",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -1411,6 +1494,7 @@ var characters = {
             "color": "000000",
             "name": "Courtyard Droll",
             "option": "Courtyard Droll",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -1423,6 +1507,7 @@ var characters = {
             "color": "2ED73A",
             "name": "Lord English",
             "option": "Lord English",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "HOW DO YOU EXPECT TO OUTRUN ME. WHEN I AM ALREADY HERE?",
@@ -1435,6 +1520,7 @@ var characters = {
             "color": "000000",
             "name": "Snowman",
             "option": "Snowman",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -1447,6 +1533,7 @@ var characters = {
             "color": "000000",
             "name": "Ms. Paint",
             "option": "Ms. Paint",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "",
@@ -1459,6 +1546,7 @@ var characters = {
             "color": "000000",
             "name": "Andrew Hussie",
             "option": "Andrew Hussie",
+            "gender": "male",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "Do you think you'll wear that tee shirt and those stupid suspenders all your life? ",
@@ -1471,35 +1559,145 @@ var characters = {
             "color": "B536DA",
             "name": "tentacleTherapist",
             "option": "Rose Lalonde",
+            "gender": "female",
             "quirk_prefix": "",
             "quirk_suffix": "",
             "quote": "You know you like the mannequin dick. Accept it.",
             "regexes": [],
             "replacements": []
         }
+    }
+}
+
+GROUP_DETAILS = {
+    "0": {
+	    "name": "Miscellaneous",
+		"primary": true,
+	    "character": ['1', '2', '3', '4', '7', '83', '86']
+	},
+	"1": {
+        "name": "Agents of Derse",
+		"primary": true,
+        "character": ["79", "80", "81", "82"]
     },
-    "groups": {
-        "1": "Agents of Derse",
-        "10": "Kids",
-        "11": "Kids (post-scratch)",
-        "12": "Kids (pre-scratch)",
-        "13": "Lalondes",
-        "14": "Midnight Crew",
-        "15": "Prospitians",
-        "16": "Sprites",
-        "17": "Sprites (post-scratch)",
-        "18": "Sprites (pre-scratch)",
-        "19": "Striders",
-        "2": "Ancestors",
-        "20": "Trolls",
-        "21": "Trolls (post-scratch)",
-        "22": "Trolls (pre-scratch)",
-        "3": "Carapaces",
-        "4": "Cherubs",
-        "5": "Dersites",
-        "6": "Exiles",
-        "7": "Guardians",
-        "8": "Guardians (post-scratch)",
-        "9": "Guardians (pre-scratch)"
+    "2": {
+        "name": "Ancestors",
+		"primary": true,
+        "character": ["59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "70"]
+    },
+    "3": {
+        "name": "Carapaces",
+		"primary": false,
+        "character": ["71", "72", "73", "74", "75", "76", "77", "78", "79", "80", "81", "82", "84", "85"]
+    },
+    "4": {
+        "name": "Cherubs",
+		"primary": true,
+        "character": ["5", "6"]
+    },
+    "5": {
+        "name": "Dersites",
+		"primary": false,
+        "character": ["71", "72", "73", "74", "75", "77", "79", "80", "81", "82", "84"]
+    },
+    "6": {
+        "name": "Exiles",
+		"primary": true,
+        "character": ["75", "76", "77", "78"]
+    },
+    "7": {
+        "name": "Guardians",
+		"primary": false,
+        "character": ["41", "42", "43", "44", "45", "46", "47", "48", "49"]
+    },
+    "8": {
+        "name": "Guardians (post-scratch)",
+		"primary": true,
+        "character": ["41", "46", "47", "48", "49"]
+    },
+    "9": {
+        "name": "Guardians (pre-scratch)",
+		"primary": true,
+        "character": ["41", "42", "43", "44", "45"]
+    },
+    "10": {
+        "name": "Kids",
+		"primary": false,
+        "character": ["8", "9", "10", "11", "12", "13", "14", "15"]
+    },
+    "11": {
+        "name": "Kids (post-scratch)",
+		"primary": true,
+        "character": ["12", "13", "14", "15"]
+    },
+    "12": {
+        "name": "Kids (pre-scratch)",
+		"primary": true,
+        "character": ["8", "9", "10", "11"]
+    },
+    "13": {
+        "name": "Lalondes",
+		"primary": false,
+        "character": ["9", "13", "43", "47"]
+    },
+    "14": {
+        "name": "Midnight Crew",
+		"primary": true,
+        "character": ["71", "72", "73", "74"]
+    },
+    "15": {
+        "name": "Prospitians",
+		"primary": false,
+        "character": ["76", "78", "85"]
+    },
+    "16": {
+        "name": "Sprites",
+		"primary": false,
+        "character": ["50", "51", "52", "53", "54", "55", "56", "57", "58"]
+    },
+    "17": {
+        "name": "Sprites (post-scratch)",
+		"primary": true,
+        "character": ["55", "56", "57", "58"]
+    },
+    "18": {
+        "name": "Sprites (pre-scratch)",
+		"primary": true,
+        "character": ["50", "51", "52", "53", "54"]
+    },
+    "19": {
+        "name": "Striders",
+		"primary": false,
+        "character": ["10", "14", "16", "44", "48", "53"]
+    },
+    "20": {
+        "name": "Trolls",
+		"primary": false,
+        "character": ["17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40"]
+    },
+    "21": {
+        "name": "Trolls (post-scratch)",
+		"primary": true,
+        "character": ["17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28"]
+    },
+    "22": {
+        "name": "Trolls (pre-scratch)",
+		"primary": true,
+        "character": ["29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40"]
+    },
+    "23": {
+	    "name": "Males",
+		"primary": false,
+	    "character": ["4", "6", "8", "10", "14", "15", "16", "18", "19", "20", "25", "26", "27", "30", "31", "32", "37", "38", "39", "41", "44", "45", "46", "48", "51", "52", "53", "57", "58", "60", "61", "62", "67", "68", "69", "71", "72", "73", "74", "75", "77", "79", "80", "81", "82", "83", "86"]
+    },
+    "24": {
+	    "name": "Females",
+		"primary": false,
+	    "character": ["5", "9", "11", "12", "13", "17", "21", "22", "23", "24", "28", "29", "33", "34", "35", "36", "40", "42", "43", "47", "49", "50", "54", "56", "59", "63", "64", "65", "66", "70", "76", "78", "84", "85"]
+    },
+    "25": {
+	    "name": "Genderless",
+		"primary": false,
+	    "character": ["1", "2", "3", "7", "55"]
     }
 }
