@@ -7,8 +7,20 @@ from gevent import monkey; monkey.patch_socket()
 try:
     if sys.argv[1]=='main':
         from main import app
+    elif sys.argv[1]=='main1':
+        from main1 import app
     elif sys.argv[1]=='chat':
         from chat import app
+    elif sys.argv[1]=='chat2':
+	from chat import app
+    elif sys.argv[1]=='chat3':
+	from chat import app
+    elif sys.argv[1]=='chat4':
+	from chat import app
+    elif sys.argv[1]=='chat5':
+	from chat import app
+    elif sys.argv[1]=='chat6':
+	from chat import app
 except ImportError:
     sys.exit("Usage: python run_server.py (main|chat) [--debug]")
 

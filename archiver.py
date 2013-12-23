@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 from redis import Redis
+import sys
 import time
 import datetime
 
@@ -14,6 +15,8 @@ from lib.sessions import PartialSession
 
 if __name__=='__main__':
 
+    print "Archiving script started."
+
     redis = Redis(unix_socket_path='/tmp/redis.sock')
 
     current_time = datetime.datetime.now()
@@ -24,6 +27,7 @@ if __name__=='__main__':
 
         # Every minute
         if new_time.minute!=current_time.minute:
+            print "running archiving"
             mysql = sm()
 
             # Send blank messages to avoid socket timeouts.
@@ -35,6 +39,7 @@ if __name__=='__main__':
 
             # Archive chats.
             for chat in redis.zrangebyscore('archive-queue', 0, get_time()):
+                print "archiving chat: ",chat
                 archive_chat(redis, mysql, chat)
                 pipe = redis.pipeline()
                 pipe.scard('chat.'+chat+'.online')
@@ -49,15 +54,23 @@ if __name__=='__main__':
 
             # Delete chat-sessions.
             for chat_session in redis.zrangebyscore('chat-sessions', 0, get_time()):
+                print "deleting chat session: ", chat_session
                 delete_chat_session(redis, *chat_session.split('/'))
 
             # Delete chats.
             for chat in redis.zrangebyscore('delete-queue', 0, get_time()):
-                delete_chat(redis, mysql, chat)
-                redis.zrem('delete-queue', chat)
-
+                myLength = redis.llen('chat.'+chat)
+                if myLength < 10:
+                    print "deleting unsaved chat: ", chat, "(lines:", redis.llen('chat.'+chat), ")"
+                    delete_chat(redis, mysql, chat)
+                    redis.zrem('delete-queue', chat)
+                else:
+                    print "found chat over 10 lines, fixing save status!", chat, "(lines:", redis.llen('chat.'+chat), ")"
+                    redis.hset('chat.'+chat+'.meta', 'type', 'saved')
+                    redis.zadd('archive-queue', chat, get_time(-60))
             # Delete sessions.
             for session_id in redis.zrangebyscore('all-sessions', 0, get_time()):
+                print "deleting session: ", session_id
                 delete_session(redis, session_id)
 
             mysql.close()
@@ -66,4 +79,5 @@ if __name__=='__main__':
         current_time = new_time
 
         time.sleep(1)
-
+        sys.stdout.write('.'),
+        sys.stdout.flush()

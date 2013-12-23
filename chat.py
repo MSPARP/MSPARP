@@ -7,8 +7,14 @@ from lib.characters import CHARACTER_DETAILS
 from lib.groups import MOD_GROUPS, GROUP_RANKS, MINIMUM_RANKS
 from lib.messages import send_message, get_userlists, parse_messages
 from lib.requests import populate_all_chars, connect_redis, create_chat_session, set_cookie, disconnect_redis
+from Crypto.Cipher import XOR
+import base64
 
 app = Flask(__name__)
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 # Pre and post request stuff
 app.before_first_request(populate_all_chars)
@@ -32,7 +38,7 @@ def mark_alive(f):
 @mark_alive
 def postMessage():
     chat = request.form['chat']
-    if 'line' in request.form and g.user.meta['group']!='silent':
+    if 'line' in request.form and (g.user.meta['group']=='user' or g.user.meta['group']=='mod3' or g.user.meta['group']=='mod2' or g.user.meta['group']=='mod' or g.user.meta['group']=='globalmod'):
         # Remove linebreaks and truncate to 1500 characters.
         line = request.form['line'].replace('\n', ' ')[:1500]
         send_message(g.redis, chat, g.user.meta['counter'], 'message', line, g.user.character['color'], g.user.character['acronym'])
@@ -117,7 +123,8 @@ def postMessage():
                     their_session_acronym
                 ))
             # Don't ban people from the oubliette because that'll just put us in an infinite loop.
-            elif request.form['user_action']=='ip_ban' and chat!='theoubliette':
+            elif request.form['user_action']=='ip_ban':
+                cipher = XOR.new('equius')
                 their_ip_address = g.redis.hget('session.'+their_session_id+'.meta', 'last_ip')
                 ban_id = chat+'/'+their_ip_address
                 if their_ip_address is not None:
@@ -125,11 +132,12 @@ def postMessage():
                 if 'reason' in request.form:
                     g.redis.hset('ban-reasons', ban_id, request.form['reason'])
                 g.redis.publish('channel.'+chat+'.'+their_session_id, '{"exit":"ban"}')
-                disconnect(g.redis, chat, their_session_id, "%s [%s] IP banned %s [%s]." % (
+                disconnect(g.redis, chat, their_session_id, "%s [%s] IP banned %s [%s]. ~ %s ~" % (
                     g.user.character['name'],
                     g.user.character['acronym'],
                     their_session_name,
-                    their_session_acronym
+                    their_session_acronym,
+                    base64.b64encode(cipher.encrypt(ban_id)),
                 ))
         if 'meta_change' in request.form:
             for flag in CHAT_FLAGS:
