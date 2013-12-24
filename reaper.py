@@ -12,6 +12,8 @@ from lib.characters import CHARACTER_DETAILS
 from lib.messages import send_message
 from lib.model import sm
 from lib.sessions import PartialSession
+import os
+
 
 def get_default(redis, session, chat, key, defaultValue=''):
     v = redis.hget("session."+session+".chat."+chat, key)
@@ -21,7 +23,7 @@ def get_default(redis, session, chat, key, defaultValue=''):
 
 if __name__=='__main__':
 
-    redis = Redis(unix_socket_path='/tmp/redis.sock')
+    redis = Redis(host=os.environ['REDIS_HOST'], port=os.environ['REDIS_PORT'], db=os.environ['REDIS_DB'])
 
     while True:
 

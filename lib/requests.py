@@ -1,18 +1,19 @@
 from flask import g, request, abort
-from redis import ConnectionPool, Redis, UnixDomainSocketConnection
+from redis import ConnectionPool, Redis
 
 from lib import validate_chat_url
 from characters import CHARACTER_DETAILS
 from model import sm
 from sessions import Session
+import os
 
 # Connection pooling. This takes far too much effort.
-redis_pool = ConnectionPool(connection_class=UnixDomainSocketConnection, path='/tmp/redis.sock')
+redis_pool = ConnectionPool(host=os.environ['REDIS_HOST'], port=os.environ['REDIS_PORT'], db=os.environ['REDIS_DB'])
 
 # Application start
 
 def populate_all_chars():
-    redis = Redis(unix_socket_path='/tmp/redis.sock')
+    redis = Redis(host=os.environ['REDIS_HOST'], port=os.environ['REDIS_PORT'], db=os.environ['REDIS_DB'])
     pipe = redis.pipeline()
     pipe.delete('all-chars')
     pipe.sadd('all-chars', *CHARACTER_DETAILS.keys())

@@ -2,6 +2,7 @@
 from redis import Redis
 import uuid
 import time
+import os
 
 OPTION_LABELS = {
     'para0': 'script style',
@@ -30,7 +31,7 @@ def check_compatibility(first, second):
 
 if __name__=='__main__': 
 
-    redis = Redis(unix_socket_path='/tmp/redis.sock')
+    redis = Redis(host=os.environ['REDIS_HOST'], port=os.environ['REDIS_PORT'], db=os.environ['REDIS_DB'])
 
     while True:
         searchers = redis.zrange('searchers', 0, -1)

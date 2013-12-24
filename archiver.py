@@ -12,12 +12,13 @@ from lib.characters import CHARACTER_DETAILS
 from lib.messages import send_message
 from lib.model import sm
 from lib.sessions import PartialSession
+import os
 
 if __name__=='__main__':
 
     print "Archiving script started."
 
-    redis = Redis(unix_socket_path='/tmp/redis.sock')
+    redis = Redis(host=os.environ['REDIS_HOST'], port=os.environ['REDIS_PORT'], db=os.environ['REDIS_DB'])
 
     current_time = datetime.datetime.now()
 

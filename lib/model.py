@@ -4,11 +4,12 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, ForeignKey, Integer, String, Unicode, UnicodeText, DateTime, Enum
 
 import datetime
+import os
 
 def now():
     return datetime.datetime.now()
 
-engine = create_engine('mysql://msparp:thisisamsparppassword@localhost:3306/msparp', convert_unicode=True, pool_recycle=3600)
+engine = create_engine(host=os.environ['MYSQL_URL'], convert_unicode=True, pool_recycle=3600)
 sm = sessionmaker(autocommit=False,
                   autoflush=False,
                   bind=engine)
