@@ -149,8 +149,11 @@ class Session(object):
 
         saved_character = dict(character)
         for key, value in CHARACTER_DETAILS[character['character']].items():
-            if saved_character[key]==value:
-                del saved_character[key]
+            try:
+                if saved_character[key]==value:
+                    del saved_character[key]
+            except KeyError:
+        		#just continue
         pipe = redis.pipeline()
         pipe.delete(self.prefix)
         pipe.hmset(self.prefix, saved_character)
