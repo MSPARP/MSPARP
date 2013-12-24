@@ -153,7 +153,7 @@ class Session(object):
                 if saved_character[key]==value:
                     del saved_character[key]
             except KeyError:
-        		#just continue
+                pass
         pipe = redis.pipeline()
         pipe.delete(self.prefix)
         pipe.hmset(self.prefix, saved_character)
