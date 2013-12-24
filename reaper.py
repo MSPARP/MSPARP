@@ -23,10 +23,10 @@ def get_default(redis, session, chat, key, defaultValue=''):
 
 if __name__=='__main__':
 
-    redis = Redis(host=os.environ['REDIS_HOST'], port=os.environ['REDIS_PORT'], db=os.environ['REDIS_DB'])
+    redis = Redis(host=os.environ['REDIS_HOST'], port=int(os.environ['REDIS_PORT']), db=int(os.environ['REDIS_DB']))
 
     while True:
-
+        print "Loop begin"
         for dead in redis.zrangebyscore('chats-alive', 0, get_time()):
             chat, session = dead.split('/')
             disconnect_message = None
