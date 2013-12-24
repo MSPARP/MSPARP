@@ -3,4 +3,5 @@ chat: gunicorn -b 0.0.0.0:8000 --debug --log-level debug -w 3 chat:app
 archiver: python archiver.py
 matchmaker: python matchmaker.py
 reaper: python reaper.py
-hello: python hello.py
+main-debug: python main.py
+chat-debug: python chat.py
