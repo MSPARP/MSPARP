@@ -8,7 +8,7 @@ from flask import g, request
 from uuid import uuid4
 
 from lib import DELETE_SESSION_PERIOD, get_time
-from characters import CHARACTER_DETAILS
+from characters import CHARACTER_DETAILS, GROUP_DETAILS
 from messages import send_message
 
 # XXX Move this to characters.py?
@@ -18,7 +18,8 @@ CASE_OPTIONS = {
     'lower': 'lower case',
     'title': 'Title Case',
     'inverted': 'iNVERTED',
-    'alternating': 'AlTeRnAtInG'
+    'alternating': 'AlTeRnAtInG LeTtErS',
+    'alt-lines': 'alternating LINES'
 }
 
 META_DEFAULTS = {
@@ -94,6 +95,7 @@ class Session(object):
         # Unpack the replacement info.
         unpacked_character = dict(self.character)
         unpacked_character['replacements'] = json.loads(unpacked_character['replacements'])
+        unpacked_character['regexes'] = json.loads(unpacked_character['regexes'])
         return { 'meta': self.meta, 'character': unpacked_character }
 
     def save(self, form):
@@ -132,7 +134,9 @@ class Session(object):
         else:
             raise ValueError("character")
 
-        character['quirk_prefix'] = form['quirk_prefix']
+        # Truncate prefix and suffix to 50 characters.
+        character['quirk_prefix'] = form['quirk_prefix'][:50]
+        character['quirk_suffix'] = form['quirk_suffix'][:50]
 
         # Validate case
         if form['case'] in CASE_OPTIONS.keys():
@@ -140,11 +144,8 @@ class Session(object):
         else:
             raise ValueError("case")
 
-        replacements = zip(form.getlist('quirk_from'), form.getlist('quirk_to'))
-        # Strip out any rows where from is blank or the same as to.
-        replacements = [_ for _ in replacements if _[0]!='' and _[0]!=_[1]]
-        # And encode as JSON.
-        character['replacements'] = json.dumps(replacements)
+        character['replacements'] = replacement_list(form, 'quirk_from', 'quirk_to')
+        character['regexes'] = replacement_list(form, 'regex_from', 'regex_to')
 
         saved_character = dict(character)
         for key, value in CHARACTER_DETAILS[character['character']].items():
@@ -169,11 +170,20 @@ class Session(object):
 
     def save_pickiness(self, form):
         # Characters
-        picky_key = self.prefix+'.picky'
-        self.redis.delete(picky_key)
-        chars = self.picky = set(k[6:] for k in form.keys() if k.startswith('picky-'))
-        if len(CHARACTER_DETAILS)>len(chars)>0:
-            self.redis.sadd(picky_key, *chars)
+        self.redis.delete(self.prefix+'.picky')
+        self.redis.delete(self.prefix+'.picky-groups')
+        self.redis.delete(self.prefix+'.picky-exclude')
+        self.redis.delete(self.prefix+'.picky-exclude-groups')
+        picky, picky_groups = make_picky_lists(form.getlist('picky'))
+        if len(CHARACTER_DETAILS)>len(picky)>0:
+            self.redis.sadd(self.prefix+'.picky', *picky)
+        if len(GROUP_DETAILS)>len(picky_groups)>0:
+            self.redis.sadd(self.prefix+'.picky-groups', *picky_groups)
+        picky_exclude, picky_exclude_groups = make_picky_lists(form.getlist('picky_exclude'))
+        if len(CHARACTER_DETAILS)>len(picky_exclude)>0:
+            self.redis.sadd(self.prefix+'.picky-exclude', *picky_exclude)
+        if len(GROUP_DETAILS)>len(picky_exclude_groups)>0:
+            self.redis.sadd(self.prefix+'.picky-exclude-groups', *picky_exclude_groups)
         # Other options
         option_key = self.prefix+'.picky-options'
         for option in ['para', 'nsfw']:
@@ -233,6 +243,32 @@ def fill_in_data(character_data):
         return new_character_data
     return character_data
 
+def replacement_list(form, from_parameter, to_parameter):
+    # No more than 100 replacements of each type.
+    replacements = zip(form.getlist(from_parameter)[:100], form.getlist(to_parameter)[:100])
+    # Strip out any rows where from is blank or the same as to.
+    # Also truncate from and to to 50 characters.
+    filtered_replacements = []
+    for replacement in replacements:
+        if replacement[0]=='' or replacement[0]==replacement[1]:
+            continue
+        if len(replacement[0])>50 or len(replacement[1])>50:
+            replacement = (replacement[0][:50], replacement[1][:50])
+        filtered_replacements.append(replacement)
+    # And encode as JSON.
+    return json.dumps(filtered_replacements)
+
+def make_picky_lists(picky):
+    picky_characters = set()
+    picky_groups = set()
+    for item in picky:
+        item_id = item[1:]
+        if item.startswith('c') and item_id in CHARACTER_DETAILS:
+            picky_characters.add(item_id)
+        elif item.startswith('g') and item_id in GROUP_DETAILS:
+            picky_groups.add(item_id)
+    return picky_characters, picky_groups
+
 class PartialSession(object):
 
     def __init__(self, redis, session, chat):
@@ -249,4 +285,3 @@ class PartialSession(object):
             value = CHARACTER_DETAILS[self.character][attr]
         setattr(self, attr, value)
         return value
-
