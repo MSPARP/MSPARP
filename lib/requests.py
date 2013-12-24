@@ -8,12 +8,12 @@ from sessions import Session
 import os
 
 # Connection pooling. This takes far too much effort.
-redis_pool = ConnectionPool(host=os.environ['REDIS_HOST'], port=os.environ['REDIS_PORT'], db=os.environ['REDIS_DB'])
+redis_pool = ConnectionPool(host=os.environ['REDIS_HOST'], port=int(os.environ['REDIS_PORT']), db=int(os.environ['REDIS_DB']))
 
 # Application start
 
 def populate_all_chars():
-    redis = Redis(host=os.environ['REDIS_HOST'], port=os.environ['REDIS_PORT'], db=os.environ['REDIS_DB'])
+    redis = Redis(host=os.environ['REDIS_HOST'], port=int(os.environ['REDIS_PORT']), db=int(os.environ['REDIS_DB']))
     pipe = redis.pipeline()
     pipe.delete('all-chars')
     pipe.sadd('all-chars', *CHARACTER_DETAILS.keys())
