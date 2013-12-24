@@ -30,9 +30,9 @@ def check_compatibility(first, second):
     return compatible, selected_options
 
 if __name__=='__main__': 
-	print "about to open redis connection"
+    print "about to open redis connection"
     redis = Redis.Connection(host=os.environ['REDIS_HOST'], port=int(os.environ['REDIS_PORT']), db=int(os.environ['REDIS_DB']))
-	print "redis connection open"
+    print "redis connection open"
     while True:
         searchers = redis.zrange('searchers', 0, -1)
         
