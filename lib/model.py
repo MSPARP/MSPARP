@@ -32,20 +32,20 @@ class Log(Base):
 
 class LogPage(Base):
     __tablename__ = 'log_pages'
-    log_id = Column(Integer, ForeignKey('logs.id'), primary_key=True)
+    log_id = Column(Integer, ForeignKey('logs.id'))
     number = Column(Integer, primary_key=True)
     content = Column(UnicodeText, nullable=False)
 
 class Chat(Base):
     __tablename__ = 'chats'
-    log_id = Column(Integer, ForeignKey('logs.id'), primary_key=True)
+    log_id = Column(Integer, ForeignKey('logs.id'))
     type = Column(Enum(u"saved", u"group", u"deleted", name=u"chats_type"), nullable=False, default=u"saved")
     counter = Column(Integer, nullable=False, default=1)
     topic = Column(UnicodeText, nullable=True)
 
 class ChatSession(Base):
     __tablename__ = 'chat_sessions'
-    log_id = Column(Integer, ForeignKey('logs.id'), primary_key=True)
+    log_id = Column(Integer, ForeignKey('logs.id'))
     session_id = Column(String(36), primary_key=True)
     counter = Column(Integer, nullable=False)
     expiry_time = Column(DateTime(), nullable=False, default=now)
