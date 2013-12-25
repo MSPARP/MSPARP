@@ -33,7 +33,7 @@ class Log(Base):
 class LogPage(Base):
     __tablename__ = 'log_pages'
     log_id = Column(Integer, ForeignKey('logs.id'), primary_key=True)
-    number = Column(Integer)
+    number = Column(Integer, primary_key=True)
     content = Column(UnicodeText, nullable=False)
 
 class Chat(Base):
@@ -46,7 +46,7 @@ class Chat(Base):
 class ChatSession(Base):
     __tablename__ = 'chat_sessions'
     log_id = Column(Integer, ForeignKey('logs.id'), primary_key=True)
-    session_id = Column(String(36))
+    session_id = Column(String(36), primary_key=True)
     counter = Column(Integer, nullable=False)
     expiry_time = Column(DateTime(), nullable=False, default=now)
     group = Column(Enum(u"silent", u"user", u"mod3", u"mod2", u"mod", u"globalmod", name=u"chat_sessions_group"), nullable=False, default=u"user")
