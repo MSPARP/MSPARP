@@ -1,5 +1,3 @@
-var lastAlternatingLine = false;
-
 function applyQuirks(text) {
 
 	// Case
@@ -11,7 +9,7 @@ function applyQuirks(text) {
 			text = text.toUpperCase();
 			break;
 		case "title":
-			text = text.toLowerCase().replace(/(^|[^\w-'])\w/g, function(t) { return t.toUpperCase(); });
+			text = text.toLowerCase().replace(/\b\w/g, function(t) { return t.toUpperCase(); });
 			break;
 		case "inverted":
 	        var buffer = text.replace(/[a-zA-Z]/g, function(t) {
@@ -31,12 +29,6 @@ function applyQuirks(text) {
 	        }
 	        text = buffer.join('');
 			break;
-        case "alt-lines":
-            if (lastAlternatingLine) {
-                text = text.toUpperCase();
-            } else {
-                text = text.toLowerCase();
-            }
 	}
 
 	// Replacements
@@ -48,38 +40,13 @@ function applyQuirks(text) {
 		text = text.split(replacement[0]).join(replacement[1])
 	}
 
-	// Regexes
-	var i=0;
-	var rlen = user.character.regexes.length;
-	while(i < rlen) {
-		var regex = user.character.regexes[i];
-		text = text.replace(parse_regex(regex[0]), regex[1]);
-		i++;
-	}
-
 	// Prefix
 	if (user.character.quirk_prefix!='') {
-		text = user.character.quirk_prefix+text;
-	}
-
-	// Suffix
-	if (user.character.quirk_suffix!='') {
-		text = text+user.character.quirk_suffix;
+		text = user.character.quirk_prefix+' '+text;
 	}
 
 	return text
 
-}
-	
-function parse_regex(str) {
-	var flags = 'g';
-    if(str.charAt(0) == '/') {
-	    var pattern = str.substr(1, str.lastIndexOf('/')-1);
-	    flags = str.substr(str.lastIndexOf('/')+1);
-	    return RegExp(pattern, flags);
-	} else {
-		return RegExp(str, flags);
-	}
 }
 
 function depunct(txt) {

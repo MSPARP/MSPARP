@@ -1,397 +1,111 @@
-<!DOCTYPE html>
-<html>
-	<head>
-	<title>MSPARP (BETA)</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- we responsive up in here -->
-		<link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" media="screen" />
-		<link href="/static/css/chosen.min.css" rel="stylesheet" type="text/css" media="screen" />
-		<link href="/static/css/colorpicker.css" rel="stylesheet" type="text/css" media="screen" />
-		<link href="/static/css/home.css" rel="stylesheet" type="text/css" media="screen" />
-		<script src="/static/js/modernizr.js"></script>
-	</head>
-	<body>
-		<div class="container">
-			<div class="row-fluid" id="header">
-				<div class="span6">
-					<h1>MSPARP</h1>
-					<div id="random_greeting"></div>
-				</div>
-				<div class="span6">
-					<div class="alert alert-block alert-error fade-in">
-						 <button type="button" class="close" data-dismiss="alert">&times;</button>
-						 <h4>New Homepage</h4>
-						 <p>Thanks for your patience as we work out the kinks on the new design. We just <a href="http://msparp.tumblr.com/" target="_blank">posted some changes now</a>. If you have any other feedback, feel free to let us know on our <a href="http://msparp.tumblr.com/ask" target="_blank">Tumblr</a> or on <a href="http://msparp.uservoice.com/forums/213175-general" target="_blank">UserVoice</a>.</p>
-					</div>
-				</div>
-			</div>
-			<div class="row-fluid">
-				<div class="span10" id="char_form">
-					<form action="{{url_for('save')}}" method="post" class="form-horizontal" data-validate="parsley">
-						<div class="row-fluid">
-							<div class="span6">
-								<fieldset>
-									<legend>> Set Chat Options</legend>
-									<div class="control-group">
-										<label for="character" class="control-label">> Be</label>
-										<div class="controls">
-											<select name="character" id="character" class="character-select chzn-select" data-placeholder="Choose a Character" data-required="true" data-error-message="YOU HAVE TO TYPE SOMETHING HERE, YOU FUCK.">
-												<optgroup label="Characters">
-													{% for id in sorted_characters %}
-													<option value="{{id}}"{% if id==user.character['character'] %} selected="selected"{%endif%}>{{character_details[id]['option']}}</option>
-													{% endfor %}
-												</optgroup>
-											</select>
-											{% if error=="character" %}
-											<span class="error">Congratulations. You've somehow picked a character who doesn't exist. I'm not sure how you got here, but I guess you'll just have to try again.</span>
-											{% endif %}
-										</div>
-									</div>
-									<div class="control-group" class="control-label">
-										<label for="picky" class="control-label">> <span>Pester</span></label>
-										<div class="controls">
-											<select name="picky" id="picky" class="character-select chzn-select" data-placeholder="Chat with..." multiple="multiple">
-												<optgroup label="Groups">
-													{% for id in sorted_groups %}
-													<option value="g{{id}}"{% if id in picky_groups %} selected="selected"{%endif%}>{{group_details[id]['name']}}</option>
-													{% endfor %}
-												</optgroup>
-												<optgroup label="Characters">
-													{% for id in sorted_characters %}
-													<option value="c{{id}}"{% if id in picky %} selected="selected"{%endif%}>{{character_details[id]['option']}}</option>
-													{% endfor %}
-												</optgroup>
-											</select>
-										</div>
-									</div>
-									<div class="control-group">
-										<label for="picky_exclude" class="control-label">> Exclude</label>
-										<div class="controls">
-											<select name="picky_exclude" id="picky_exclude" class="character-select chzn-select" data-placeholder="Don't chat with..." multiple="multiple">
-												<optgroup label="Groups">
-													{% for id in sorted_groups %}
-													<option value="g{{id}}"{% if id in picky_exclude_groups %} selected="selected"{%endif%}>{{group_details[id]['name']}}</option>
-													{% endfor %}
-												</optgroup>
-												<optgroup label="Characters">
-													{% for id in sorted_characters %}
-													<option value="c{{id}}"{% if id in picky_exclude %} selected="selected"{%endif%}>{{character_details[id]['option']}}</option>
-													{% endfor %}
-												</optgroup>
-											</select>
-											<a href="#" id="exclude_help" title="chat with characters you selected, unless they appear in this list">[?]</a></label>
-										</div>
-									</div>
-								</fieldset>
-								<fieldset>
-									<legend>> Customize Quirk</legend>
-									<div class="control-group">
-										<label for="case" class="control-label">> Set Typing Case</label>
-										<div class="controls">
-											<select name="case" id="case" class="chzn-select" data-required="true">
-												{% for case in case_options.items()|sort %}
-												<option value="{{case[0]}}"{% if case[0]==user.character['case'] %} selected="selected"{%endif%}>{{case[1]}}</option>
-												{% endfor %}
-											</select>
-											{% if error=="case" %}
-											<span class="error">Congratulations. You've somehow picked a case option which doesn't exist. I'm not sure how you got here, but I guess you'll just have to try again.</span><br />{% endif %}
-										</div>
-									</div>
-									<div class="control-group">
-										<label for="quirk_prefix" class="control-label">> Set Prefix</label>
-										<div class="controls">
-											<input type="text" id="quirk_prefix" name="quirk_prefix" maxlength="10" value="{{user.character['quirk_prefix']}}" class="span4 charsleft" />
-											<span class="help-inline"><span>0</span> left</span>
-										</div>
-									</div>
-									<div class="control-group">
-										<label for="quirk_suffix" class="control-label">> Set Suffix</label>
-										<div class="controls">
-											<input type="text" id="quirk_suffix" name="quirk_suffix" maxlength="10" value="{{user.character['quirk_suffix']}}" class="span4 charsleft" />
-											<span class="help-inline"><span>0</span> left</span>
-										</div>
-									</div>
-									<!-- replacements -->
-									<div class="control-group replacements" id="replacements">
-										<label for="quirk_from" class="control-label">> Replace Letters</label>
-										{% if replacements|length!=0 %}
-										{% for replacement in replacements %}
-										<div class="controls">
-											<input type="text" name="quirk_from" class="span4" placeholder="" value="{{replacement[0]}}" />
-											<span class="with"> with </span>
-											<input type="text" name="quirk_to" class="span4" placeholder="" value="{{replacement[1]}}" />
-											<a href="#" class="close" tabindex="-1">&times;</a>
-											<a href="#" class="close add" tabindex="-1">+</a>
-										</div>
-										{% endfor %}
-										{% else %}
-										<div class="controls">
-											<input type="text" name="quirk_from" class="span4" placeholder="" />
-											<span class="with"> with </span>
-											<input type="text" name="quirk_to" class="span4" placeholder="" />
-											<a href="#" class="close" tabindex="-1">&times;</a>
-											<a href="#" class="close add" tabindex="-1">+</a>
-										</div>
-										{% endif %}
-									</div>
-									<div class="control-group replacements" id="regex_replacements">
-										<label for="quirk_from" class="control-label">> Replace Patterns</label>
-										{% if regexes|length!=0 %}
-										{% for regex in regexes %}
-										<div class="controls">
-											<input type="text" name="regex_from" class="span4" placeholder="" value="{{regex[0]}}" />
-											<span class="with"> with </span>
-											<input type="text" name="regex_to" class="span4" placeholder="" value="{{regex[1]}}" />
-											<a href="#" class="close" tabindex="-1">&times;</a>
-											<a href="#" class="close add" tabindex="-1">+</a>
-										</div>
-										{% endfor %}
-										{% else %}
-										<div class="controls">
-											<input type="text" name="regex_from" class="span4" placeholder="" />
-											<span class="with"> with </span>
-											<input type="text" name="regex_to" class="span4" placeholder="" />
-											<a href="#" class="close" tabindex="-1">&times;</a>
-											<a href="#" class="close add" tabindex="-1">+</a>
-										</div>
-										{% endif %}
-									</div>
-								</fieldset>
-							</div>
-							<div class="span6">
-								<fieldset>
-									<legend>> Set Text Options</legend>
-									<div class="control-group">
-										<label for="acronym" class="control-label">> Choose Acronym</label>
-										<div class="controls">
-											<input type="text" name="acronym" id="acronym" maxlength="15" placeholder="??" value="{{user.character['acronym']}}" class="span6 charsleft" />
-											<span class="help-inline"><span>0</span> left</span>
-										</div>
-									</div>
-									<div class="control-group">
-										<label for="name" class="control-label">> Choose Name</label>
-										<div class="controls">
-											<input type="text" name="name" id="name" placeholder="anonymous" value="{{user.character['name']}}" class="span8"  data-required="true" data-minlength="3" data-minlength-message="YOUR NAME IS LESS THAN %s LETTERS? I CALL BULLSHIT. TYPE IN A LONGER ONE, SCUMBAG." data-required-message="IT'S NOT MY PROBLEM YOU'RE ASHAMED OF YOUR NAME. TYPE, HUMAN." />
-										</div>
-									</div>
-									<div class="control-group">
-										<label for="color" class="control-label">> Choose Color</label>
-										<div class="controls">
-											<div class="input-prepend">
-												<span class="add-on">#</span>
-												<input type="text" name="color" id="color" class="span4" maxlength="6" data-required="true" value="{{user.character['color']}}" data-regexp="[A-Fa-f0-9]{6}" data-required-message="YOU TOOK THE TIME TO DELETE THIS COLOR? WHAT IS WRONG WITH YOU?" data-regexp-message="THAT IS THE SHITTIEST COLOR I'VE SEEN IN SWEEPS. ARE YOU PROUD OF YOURSELF, ASSWIPE?" />
-											</div>
-										</div>
-									</div>
-									<div class="control-group">
-										<span id="text_preview" class="span12">
-											<span class="acronym"><span>??</span>: </span>
-											<span class="quote">
-												<span class="quirk_prefix"></span>
-												<span class="sentence">The quick brown fox jumps over the lazy dog.</span>
-												<span class="quirk_suffix"></span>
-											</span>
-										</span>
-									</div>
-								</fieldset>
-								<fieldset>
-									<legend>> Make This Hapen</legend>
-									<div class="control-group">
-										<label for="nsfw" class="control-label">> Set Chat Filter</label>
-											<div class="controls">
-												<div class="btn-toolbar">
-													<div class="btn-group" data-toggle="buttons-radio">
-														<button class="btn active" data-value="" id="nsfw-00" type="button">Either</button>
-														<button class="btn" data-value="0" id="nsfw-0" type="button">Clean</button>
-														<button class="btn" data-value="1" id="nsfw-1" type="button">NSFW</button>
-														<input type="hidden" name="nsfw" id="nsfw" value="0" />
-													</div>
-												</div>
-											</div>
-									</div>
-									<div class="control-group">
-										<label for="para" class="control-label">> Set Chat Style</label>
-										<div class="controls">
-											  <div class="btn-toolbar">
-												   <div class="btn-group" data-toggle="buttons-radio">
-														<button class="btn active" data-value="" id="para-00" type="button">Either</button>
-														<button class="btn" data-value="0" id="para-0" type="button">Script</button>
-														<button class="btn" data-value="1" id="para-1" type="button">Paragraph</button>
-														<input type="hidden" name="para" id="para" value="0" />
-												   </div>
-											  </div>
-										</div>
-									</div>
-									<div class="control-group">
-										 <button id="save_modal" class="btn" data-toggle="modal" data-target="#modal_savedata"><i class="icon-circle-arrow-down"></i> Save</button>
-										 <button id="load_modal" class="btn" data-toggle="modal" data-target="#modal_loaddata"><i class="icon-circle-arrow-up"></i> Load</button>
-										 <button id="manage_modal" class="btn" data-toggle="modal" data-target="#modal_managedata"><i class="icon-pencil"></i> Manage</button>
-									</div>
-									<div class="control-group">
-										 <button id="import_personas" class="btn" data-toggle="modal" data-target="#modal_import_export"><i class="icon-refresh"></i> Import / Export</button>
-										 <button type="submit" class="btn btn-primary"><i class="icon-comment icon-white"></i> Chat</button>
-									</div>
-									<div class="control-group" id="group_chat">
-										<div class="controls">
-											<input type="text" name="chaturl" class="span6" placeholder="Chat URL" />
-											<button type="submit" class="btn" name="create"><i class="icon-comment"></i> Group Chat</button>
-										</div>
-									</div>
-								</fieldset>
-							</div>
-						</div>
-					</form>
-				</div>
-				<div class="span2" id="sidebar">
-					<h3>Stats</h3>
-					<ul id="load_stats">
-						<li class="online">Online: <span class="badge badge-inverse">{{users_searching+users_chatting}}</span></li>
-						<li class="searching">Searching: <span class="badge badge-inverse">{{users_searching}}</span></li>
-						<li class="chatting">Chatting: <span class="badge badge-inverse">{{users_chatting}}</span></li>
-					</ul>
+{% extends "base.html" %}
+{% block header %}
+<link rel="stylesheet" media="screen" type="text/css" href="/static/colorpicker/css/colorpicker.css" />
+<script type="text/javascript" src="/static/colorpicker/js/colorpicker.js"></script>
+<script src="/static/js/characters.js?mc"></script>
+<script src="/static/js/home.js?p"></script>
+{% endblock %}
+{% block content %}
+<form method="post" action="{{url_for('save')}}" >
+<noscript>
+	<h1>You completely need javascript for this site. Turn it on or upgrade to a real browser.</h1>
+</noscript>
 
-					<h3>Links</h3>
-					<ul id="site_links">
-						<li><a href="/static/user-guide.html">User Guide</a></li>
-						<li><a href="http://msparp.tumblr.com/">Tumblr</a></li>
-						<li><a href="http://msparp-forums.org/">Forums</a></li>
-					</ul>
+<div class="online-notice">
+	{{users_searching+users_chatting}} users online ({{users_searching}} searching, {{users_chatting}} chatting)
+	<h1>Updates</h1>
+If you have lost mod status or have any other problems that remain after recreating your chat, please let us know using the issue report form.<br>
+If you can't type in chat or change your chat color - please close MSPARP, clear your cookies, and come back. This will reset your session.
+</div>
 
-					<h3>Meta</h3>
-					<ul>
-						<li><a href="http://msparp.uservoice.com/">Suggestions?</a></li>
-						<li><a href="https://docs.google.com/forms/d/1f5VPB2xQelQQIpH0_wU6TfCUXdNX_Rq44CEwbc4z7FQ/viewform" target="_blank">Volunteer</a></li>
-						<li><a href="https://docs.google.com/forms/d/1UWvRuChUqYmT1gd1XMiuXX-cvGqgsb3tCD24EmUdVvI/viewform" target="_blank">Mod/Ban Problems</a></li>
-					</ul>
-				</div>
-			</div>
+<div class="options">
+	Welcome to MSPARP. If you're not sure what to do, please read the <a href="/static/user-guide.html" target="_blank">user guide</a>.</p> <p>For updates, follow the <a href="http://not-quite-defunct-msparp.tumblr.com">MSPARP Tumblr</a>.</p><p>Please report issues such as lost mod status via <a href="https://docs.google.com/forms/d/1UWvRuChUqYmT1gd1XMiuXX-cvGqgsb3tCD24EmUdVvI/viewform" target="_blank">The MSPARP Chat Mod Issue Report Form</a>.</p> <p>You can also head over to the <a href="http://www.msparp-forums.org" target="_blank">MSPARP Forums</a> to connect with fellow users.</p> <p>Looking for pan-fandom RP? Check out our sister site, <a href="http://charatrp.com/" target="_blank">Project Charat</a>, coded by the adorable Sho.</p> <p>
+	<h1>Roleplay as </h1>
+	<div class="options-contents">
+	<select class="character-select" name="character">
+		{% for group in groups %}
+		<optgroup label="{{group}}">
+			{% for char in characters[group] %}
+			<option value="{{char|lower}}" {% if char|lower==user.character['character'] %}selected="selected"{%endif%}>{{char}}</option>
+			{% endfor %}
+		</optgroup>
+		{% endfor %}
+	</select>{% if error=="character" %}<br />
+	<span class="error">Congratulations. You've somehow picked a character who doesn't exist. I'm not sure how you got here, but I guess you'll just have to try again.</span>{% endif %}
+	</div>
+</div>
+<div class="options">
+	<h1>With settings:</h1>
+	<div class="options-contents" id="character-config">
+		<label>Acronym: <input type="text" size="15" name="acronym" value="{{user.character['acronym']}}" maxlength="15" /></label><br />
+		<label>Name: <input type="text" size="50" name="name" value="{{user.character['name']}}" maxlength="50" /></label><br />{% if error=="name" %}
+		<span class="error">You can't chat with a blank name!</span><br />{% endif %}
+		<label>Color: <input type="text" size="7" name="color" value="{{user.character['color']}}" /></label>
+		<span class="pester-line" id="color-preview"><span id="acronym">??: </span><span id="quote">oh god how did this get here I am not good with computer</span></span><br />{% if error=="color" %}
+                <span class="error">You entered an invalid hex code. Try using the color picker.</span>{% endif %}
+</div></div>
+<div class="options">
+	<h1>Typing quirks</h1><button data-target="typing-quirks" class="show-button">...</button>
+	<div class="options-contents defaults-off" id="typing-quirks">
+		<label>Prefix: <input type="text" name="quirk_prefix" value="{{user.character['quirk_prefix']}}" /></label><br />
+		<label>Case:
+			<select name="case">
+				{% for case in case_options.items()|sort %}
+				<option value="{{case[0]}}"{% if case[0]==user.character['case'] %} selected="selected"{%endif%}>{{case[1]}}</option>
+				{% endfor %}
+			</select>
+		</label><br />{% if error=="case" %}
+		<span class="error">Congratulations. You've somehow picked a case option which doesn't exist. I'm not sure how you got here, but I guess you'll just have to try again.</span><br />{% endif %}
+		Letter replacements:<br />
+		<ul id="replacementList">
+			{% if replacements|length!=0 %}
+			{% for replacement in replacements %}
+			<li><input type="text" name="quirk_from" size="4" value="{{replacement[0]}}"> to <input type="text" name="quirk_to" size="4" value="{{replacement[1]}}"> <a href="#" class="deleteReplacement">x</a></li>
+			{% endfor %}
+			{% else %}
+			<li><input type="text" name="quirk_from" size="4"> to <input type="text" name="quirk_to" size="4"> <a href="#" class="deleteReplacement">x</a></li>
+			{% endif %}
+		</ul>
+		<a href="#" id="addReplacement">Add</a> <a href="#" id="clearReplacements">Clear</a>
+	</div>
+</div>
+<div class="options">
+	<h1>Search for...</h1><br />
+	<label>Script or paragraph? <select name="para">
+		<option value="">No preference</option>
+		<option value="0"{% if picky_options.get('para')=='0' %} selected="selected"{% endif %}>Script</option>
+		<option value="1"{% if picky_options.get('para')=='1' %} selected="selected"{% endif %}>Paragraph</option>
+	</select></label><br />
+	<label>Work-safe or not? <select name="nsfw">
+		<option value="">No preference</option>
+		<option value="0"{% if picky_options.get('nsfw')=='0' %} selected="selected"{% endif %}>Work-safe</option>
+		<option value="1"{% if picky_options.get('nsfw')=='1' %} selected="selected"{% endif %}>Not work-safe</option>
+	</select></label><br />
+	<input type="hidden" name="save_pickiness" value="true">
+	<label><input type="checkbox" name="picky" 
+		{% if picky|length!=0 %}checked="checked" {%endif%}	
+	/>Look for specific characters (check the box if you want to include the character in your search)</label>
+	<div id="picky-matches">
+	{% for group in groups %}
+		<label class="picky-header"><input type="checkbox" id="group-{{group|lower}}" name="group-{{group|lower}}"> {{group}}:</label>
+		<div class="picky-group">
+		{% for char in characters[group] %}
+		<label><input type="checkbox" name="picky-{{char|lower}}" 
+			{% if char|lower in picky %}
+				checked="checked" {% endif %} >{{char}}</label>
+		{% endfor %} 
 		</div>
+	{% endfor %}
+	</div>
+</div>
 
-		<!-- Modals -->
-		<div id="modal_savedata" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modal_savelabel" aria-hidden="true">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3 id="modal_savelabel">Save Personas</h3>
-			</div>
-			<div class="modal-body">
-				<p>A <strong>persona</strong> is a set of all the preferences you set on this page (including who you want to chat with). In the future, you can load this persona and get right to chatting. <span id="save_overwrite" class="text-error">Saving a persona with a name from the dropdown below will overwrite the existing persona.</span></p>
-				<form class="form-horizontal">
-					 <div class="control-group">
-						 <label class="control-label" for="save_persona">Save Over a Persona</label>
-						 <div class="controls">
-							<select name="save_persona" id="save_persona" class="character-select chzn-select">
-							</select>
-						 </div>
-					</div>
-					<div class="control-group">
-						<label class="control-label" for="save_new">New Persona Name</label>
-						 <div class="controls">
-							<input type="text" name="save_new" id="save_new" class="" />
-						 </div>
-					</div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button class="btn" data-dismiss="modal" aria-hidden="true">> Close</button>
-				<button class="btn btn-primary" data-dismiss="modal" id="save_data">> Save</button>
-			</div>
-		</div>
+<ul id="saveOptions">
+	<li><input type="submit" name="save" value="Save info"></li>
+	<li><input type="submit" name="search" value="Chat with a random person"></li>
+	<li><input type="text" name="chaturl" placeholder="Chat URL" maxlength="100"> <input type="submit" name="create" value="Create a group chat"></li>
+</ul>{% if error=="chaturl_taken" %}
+<span class="error">The chat URL you specified has already been taken.</span>{% elif error=="chaturl_invalid" %}
+<span class="error">The chat URL you specified is invalid. Chat URLs can only contain letters, numbers, hyphens and underscores.</span>{% endif %}
 
-		<div id="modal_loaddata" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modal_loadlabel" aria-hidden="true">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3 id="modal_loadlabel">Load Personas</h3>
-			</div>
-			<div class="modal-body">
-				<p>These personas have been saved in this browser. Select one to load the preferences associated with that persona.</p>
-				<form class="form-horizontal">
-					 <div class="control-group">
-						<label class="control-label" for="load_persona">Persona Name</label>
-						<div class="controls">
-							<select name="load_persona" id="load_persona" class="character-select chzn-select">
-							</select>
-						 </div>
-					</div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button class="btn" data-dismiss="modal" aria-hidden="true">> Close</button>
-				<button class="btn btn-primary" data-dismiss="modal" id="load_data">> Load</button>
-			</div>
-		</div>
-
-		<div id="modal_managedata" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modal_managelabel" aria-hidden="true">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3 id="modal_loadlabel">Manage Personas</h3>
-			</div>
-			<div class="modal-body">
-				<p>These personas have been saved in this browser. Select a persona, then type a new name and Save to Rename, or choose the &times; to the right of the dropdown to delete the persona.</p>
-				<form class="form-horizontal" id="manage_modal_form">
-					 <div class="control-group">
-						<label class="control-label" for="manage_persona">Persona Name</label>
-						<div class="controls">
-							<select name="manage_persona" id="manage_persona" class="character-select chzn-select">
-							</select>
-							<a href="#" class="close" tabindex="-1">&times;</a>
-						 </div>
-					 </div>
-					 <div class="control-group">
-						<label class="control-label" for="rename_persona">Rename Persona to</label>
-						<div class="controls">
-							<input type="text" id="rename_persona" name="rename_persona" placeholder="New persona name" class="" />
-						</div>
-					</div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button class="btn" data-dismiss="modal" aria-hidden="true">> Close</button>
-				<button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" id="clear_localStorage">> Clear</button>
-				<button class="btn btn-primary" data-dismiss="modal" id="manage_data">> Save</button>
-			</div>
-		</div>
-
-
-		<div id="modal_import_export" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modal_import_export_label" aria-hidden="true">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3 id="modal_import_export_label">Import / Export Personas</h3>
-			</div>
-			<div class="modal-body">
-				<p>This string contains the personas stored in this browser. Copy and paste this value into another browser to merge your personas with the existing personas in that browser. If you'd like to merge these personas with some you've already copied from elsewhere, just paste those in here and save!</p>
-				<form class="form-horizontal" id="import_export_modal_form">
-					 <div class="control-group">
-						<label class="control-label" for="persona_data">Raw Persona Data</label>
-						<div class="controls">
-							<textarea name="persona_data" id="persona_data" value="">
-							</textarea>
-						</div>
-					 </div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button class="btn" data-dismiss="modal" aria-hidden="true">> Close</button>
-				<button class="btn btn-primary" data-dismiss="modal" id="import_export_data">> Save</button>
-			</div>
-		</div>
-
-		<!-- JavaScripts -->
-		<script type="text/javascript" language="javascript" src="/static/js/jquery.min.js"></script>
-		<script type="text/javascript" language="javascript" src="/static/js/parsely.js"></script>
-		<script type="text/javascript" language="javascript" src="/static/js/chosen.jquery.js"></script>
-		<script type="text/javascript" language="javascript" src="/static/js/bootstrap.js"></script>
-		<script type="text/javascript" language="javascript" src="/static/js/colorpicker.js"></script>
-		<script type="text/javascript" language="javascript" src="/static/js/characters.js"></script>
-		<script type="text/javascript" language="javascript" src="/static/js/home.js?update"></script>
-		<!--
-		<script>
-			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-			ga('create', 'UA-42087625-1', 'msparp.com');
-			ga('send', 'pageview');
-		</script>
-		-->
-	</body>
-</html>
+</form>
+{% endblock %}

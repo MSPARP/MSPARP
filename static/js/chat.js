@@ -1,36 +1,3 @@
-// Character settings stuff from characters.js.
-
-var characterKeys = ['acronym', 'name', 'color', 'quirk_prefix', 'quirk_suffix', 'case'];
-
-function deleteReplacement(e) {
-	$(this.parentNode).remove();
-	return false;
-}
-
-function addReplacement(e, from, to) {
-	var newItem = $('<li><input type="text" name="quirk_from" size="8" maxlength="50"> to <input type="text" name="quirk_to" size="8" maxlength="50"> <a href="#" class="deleteReplacement">x</a></li>');
-	if (from && to) {
-		var inputs = $(newItem).find('input');
-		inputs[0].value = from;
-		inputs[1].value = to;
-	}
-	$(newItem).find('.deleteReplacement').click(deleteReplacement);
-	$(newItem).appendTo('#replacementList');
-	return false;
-}
-
-function addRegex(e, from, to) {
-	var newItem = $('<li><input type="text" name="regex_from" size="8" maxlength="50"> to <input type="text" name="regex_to" size="8" maxlength="50"> <a href="#" class="deleteReplacement">x</a></li>');
-	if (from && to) {
-		var inputs = $(newItem).find('input');
-		inputs[0].value = from;
-		inputs[1].value = to;
-	}
-	$(newItem).find('.deleteReplacement').click(deleteReplacement);
-	$(newItem).appendTo('#regexList');
-	return false;
-}
-
 $(document).ready(function() {
 	var SEARCH_PERIOD = 1;
 	var PING_PERIOD = 10;
@@ -149,10 +116,12 @@ $(document).ready(function() {
 						clearChat();
 						addLine({ counter: -1, color: '000000', line: 'You have been kicked from this chat. Please think long and hard about your behaviour before rejoining.' });
 					} else if (data.exit=='ban') {
-						latestNum = -1;
-						chat = 'theoubliette'
-						$('#userList h1')[0].innerHTML = 'theoubliette';
+						clearChat();
+						VlatestNum = -1;
+						chat = ''
+						$('#userList h1')[0].innerHTML = '';
 						$('#conversation').empty();
+						window.location.replace("http://msparp.com/");
 					}
 					return true;
 				}
@@ -388,8 +357,6 @@ $(document).ready(function() {
 			var textPreview = $('#textInput').val();
 			if (textPreview.substr(0,1)=='/') {
 				textPreview = jQuery.trim(textPreview.substr(1));
-			} else if (textPreview.substr(0,4)=='http') {
-				textPreview = jQuery.trim(textPreview);
 			} else {
 				textPreview = applyQuirks(jQuery.trim(textPreview));
 			}
@@ -437,12 +404,10 @@ $(document).ready(function() {
 				if ($('#textInput').val()!='') {
 					if (pingInterval) {
 						window.clearTimeout(pingInterval);
+
 					}
 					$.post(POST_URL,{'chat': chat, 'line': $('#preview').text()}); // todo: check for for error
 					pingInterval = window.setTimeout(pingServer, PING_PERIOD*1000);
-                    if (user.character['case']=='alt-lines') {
-                        lastAlternatingLine = !lastAlternatingLine;
-                    }
 					$('#textInput').val('');
 					updateChatPreview();
 				}
@@ -469,13 +434,12 @@ $(document).ready(function() {
 		});
 
 		$('#settings').submit(function() {
-			// Trim name and acronym first
-			formInputs = $('#characterSettings').find('input, select');
-			var nameInput = $('input[name="name"]')[0];
-			var acronymInput = $('input[name="acronym"]')[0];
-			nameInput.value = jQuery.trim(nameInput.value);
-			acronymInput.value = jQuery.trim(acronymInput.value);
-			if (nameInput.value=="") {
+			// Trim everything first
+			formInputs = $('#settings').find('input, select');
+			for (i=0; i<formInputs.length; i++) {
+				formInputs[i].value = jQuery.trim(formInputs[i].value)
+			}
+			if ($('input[name="name"]').val()=="") {
 				alert("You can't chat with a blank name!");
 			} else if ($('input[name="color"]').val().match(/^[0-9a-fA-F]{6}$/)==null) {
 				alert("You entered an invalid hex code. Try using the color picker.");
@@ -484,9 +448,11 @@ $(document).ready(function() {
 				formData.push({ name: 'chat', value: chat })
 				$.post(SAVE_URL, formData, function(data) {
 					$('#preview').css('color', '#'+$('input[name="color"]').val());
-					var formInputs = $('#characterSettings').find('input, select');
+					var formInputs = $('#settings').find('input, select');
 					for (i=0; i<formInputs.length; i++) {
-						user.character[formInputs[i].name] = formInputs[i].value;
+						if (formInputs[i].name!="quirk_from" && formInputs[i].name!="quirk_to") {
+							user.character[formInputs[i].name] = formInputs[i].value;
+						}
 					}
 					user.character.replacements = [];
 					var replacementsFrom = $('#settings').find('input[name="quirk_from"]');
@@ -494,14 +460,6 @@ $(document).ready(function() {
 					for (i=0; i<replacementsFrom.length; i++) {
 						if (replacementsFrom[i].value!="" && replacementsFrom[i].value!=replacementsTo[i].value) {
 							user.character.replacements.push([replacementsFrom[i].value, replacementsTo[i].value])
-						}
-					}
-					user.character.regexes = [];
-					var regexesFrom = $('#settings').find('input[name="regex_from"]');
-					var regexesTo = $('#settings').find('input[name="regex_to"]');
-					for (i=0; i<regexesFrom.length; i++) {
-						if (regexesFrom[i].value!="" && regexesFrom[i].value!=regexesTo[i].value) {
-							user.character.regexes.push([regexesFrom[i].value, regexesTo[i].value])
 						}
 					}
 					closeSettings();
@@ -569,56 +527,6 @@ $(document).ready(function() {
 		} else {
 			startChat();
 		}
-
-		// Character settings stuff from characters.js.
-		$('.deleteReplacement').click(deleteReplacement);
-		$('#addReplacement').click(addReplacement);
-		$('#clearReplacements').click(function() { $('#replacementList').empty(); return false; });
-		$('#addRegex').click(addRegex);
-		$('#clearRegexes').click(function() { $('#regexList').empty(); return false; });
-
-		$('select[name="character"]').change(function() {
-			if (characters.characters[this.value]) {
-				var newCharacter = characters.characters[this.value];
-				for (i=0; i<characterKeys.length; i++) {
-					$('input[name="'+characterKeys[i]+'"], select[name="'+characterKeys[i]+'"]').val(newCharacter[characterKeys[i]]);
-				}
-				$('#replacementList').empty();
-				if (newCharacter['replacements'].length>0) {
-					for (i=0; i<newCharacter['replacements'].length; i++) {
-						addReplacement(null, newCharacter['replacements'][i][0], newCharacter['replacements'][i][1]);
-					}
-				} else {
-					addReplacement();
-				}
-				$('#regexList').empty();
-				if (newCharacter['regexes'].length>0) {
-					for (i=0; i<newCharacter['regexes'].length; i++) {
-						addRegex(null, newCharacter['regexes'][i][0], newCharacter['regexes'][i][1]);
-					}
-				} else {
-					addRegex();
-				}
-			}
-		});
-
-		var colorBox = $('input[name="color"]');
-		colorBox.ColorPicker({
-			onSubmit: function(hsb, hex, rgb, el) {
-				$(el).val(hex);
-				$(el).ColorPickerHide();
-			},
-			onBeforeShow: function () {
-				$(this).ColorPickerSetColor(this.value);
-			},
-			onChange: function (hsb, hex, rgb) {
-				colorBox.val(hex);
-				// This doesn't do anything in the chat window.
-				$('#color-preview').css('color', '#' + hex);
-			}
-		}).bind('keyup', function() {
-			$(this).ColorPickerSetColor(this.value);
-		});
 
 	}
 $('#conversation').scrollTop($('#conversation')[0].scrollHeight);
