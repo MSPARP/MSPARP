@@ -62,8 +62,12 @@ def chat(chat_url=None):
         existing_lines = []
         latest_num = -1
     else:
-        if g.redis.zrank('ip-bans', chat_url+'/'+request.environ['HTTP_X_REAL_IP']) is not None:
-            chat_url = OUBLIETTE_ID
+        try: #HTTP_X_REAL_IP doesn't exist when running in test environment
+			if g.redis.zrank('ip-bans', chat_url+'/'+request.environ['HTTP_X_REAL_IP']) is not None:
+				return redirect('http://msparp.com/')
+				chat_url = OUBLIETTE_ID
+		except KeyError:
+			pass
         # Check if chat exists
         chat_meta = g.redis.hgetall('chat.'+chat_url+'.meta')
         # Convert topic to unicode.
