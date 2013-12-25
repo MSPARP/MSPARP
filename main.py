@@ -6,8 +6,8 @@ import datetime, urllib
 from flask import Flask, g, request, render_template, redirect, url_for, jsonify, abort
 from sqlalchemy import and_
 from sqlalchemy.orm.exc import NoResultFound
-from webhelpers import paginate
 from time import mktime
+from webhelpers import paginate
 
 from lib import SEARCH_PERIOD, ARCHIVE_PERIOD, OUBLIETTE_ID, get_time, validate_chat_url
 from lib.archive import archive_chat, get_or_create_log
@@ -18,10 +18,6 @@ from lib.requests import populate_all_chars, connect_redis, connect_mysql, creat
 from lib.sessions import CASE_OPTIONS
 
 app = Flask(__name__)
-
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('404.html'), 404
 
 # Pre and post request stuff
 app.before_first_request(populate_all_chars)
@@ -38,8 +34,8 @@ def show_homepage(error):
     return render_template('frontpage.html',
         error=error,
         user=g.user,
-        replacements=json.dumps(g.user.character['replacements']),
-        regexes=json.dumps(g.user.character['regexes']),
+        replacements=json.loads(g.user.character['replacements']),
+        regexes=json.loads(g.user.character['regexes']),
         picky=g.redis.smembers(g.user.prefix+'.picky') or set(),
         picky_groups=g.redis.smembers(g.user.prefix+'.picky-groups') or set(),
         picky_exclude=g.redis.smembers(g.user.prefix+'.picky-exclude') or set(),
@@ -58,25 +54,25 @@ def show_homepage(error):
 # Chat
 
 @app.route('/chat')
-@app.route('/chat/<chat>')
-def chat(chat=None):
+@app.route('/chat/<chat_url>')
+def chat(chat_url=None):
 
-    if chat is None:
+    if chat_url is None:
         chat_meta = { 'type': 'unsaved' }
         existing_lines = []
         latest_num = -1
     else:
-        if g.redis.zrank('ip-bans', chat+'/'+request.environ['REMOTE_ADDR']) is not None:
-            return redirect('http://msparp.com/')
-            chat = OUBLIETTE_ID
+        if g.redis.zrank('ip-bans', chat_url+'/'+request.environ['HTTP_X_REAL_IP']) is not None:
+            chat_url = OUBLIETTE_ID
         # Check if chat exists
-        chat_meta = g.redis.hgetall('chat.'+chat+'.meta')
+        chat_meta = g.redis.hgetall('chat.'+chat_url+'.meta')
         # Convert topic to unicode.
         if 'topic' in chat_meta.keys():
             chat_meta['topic'] = unicode(chat_meta['topic'], encoding='utf8')
+        # Try to load the chat from mysql if it doesn't exist in redis.
         if len(chat_meta)==0:
             try:
-                mysql_log = g.mysql.query(Log).filter(Log.url==chat).one()
+                mysql_log = g.mysql.query(Log).filter(Log.url==chat_url).one()
                 mysql_chat = g.mysql.query(Chat).filter(Chat.log_id==mysql_log.id).one()
                 chat_meta = {
                     "type": mysql_chat.type,
@@ -84,14 +80,14 @@ def chat(chat=None):
                 }
                 if mysql_chat.topic is not None and mysql_chat.topic!="":
                     chat_meta["topic"] = mysql_chat.topic
-                g.redis.hmset('chat.'+chat+'.meta', chat_meta)
+                g.redis.hmset('chat.'+chat_url+'.meta', chat_meta)
                 for mysql_session in g.mysql.query(ChatSession).filter(ChatSession.log_id==mysql_log.id):
-                    g.redis.hset('chat.'+chat+'.counters', mysql_session.counter, mysql_session.session_id)
-                    g.redis.hmset('session.'+mysql_session.session_id+'.meta.'+chat, {
+                    g.redis.hset('chat.'+chat_url+'.counters', mysql_session.counter, mysql_session.session_id)
+                    g.redis.hmset('session.'+mysql_session.session_id+'.meta.'+chat_url, {
                         "counter": mysql_session.counter,
                         "group": mysql_session.group,
                     })
-                    g.redis.hmset('session.'+mysql_session.session_id+'.chat.'+chat, {
+                    g.redis.hmset('session.'+mysql_session.session_id+'.chat.'+chat_url, {
                         "character": mysql_session.character,
                         "name": mysql_session.name,
                         "acronym": mysql_session.acronym,
@@ -102,17 +98,16 @@ def chat(chat=None):
                         "quirk_prefix": mysql_session.quirk_prefix,
                         "quirk_suffix": mysql_session.quirk_suffix,
                     })
-                    g.redis.sadd('session.'+mysql_session.session_id+'.chats', chat)
-                    g.redis.zadd('chat-sessions', chat+'/'+mysql_session.session_id, mktime(mysql_session.expiry_time.timetuple()))
+                    g.redis.sadd('session.'+mysql_session.session_id+'.chats', chat_url)
+                    g.redis.zadd('chat-sessions', chat_url+'/'+mysql_session.session_id, mktime(mysql_session.expiry_time.timetuple()))
             except NoResultFound:
                 abort(404)
         # Make sure it's in the archive queue.
-        if g.redis.zscore('archive-queue', chat) is None:
-            g.redis.zadd('archive-queue', chat, get_time(ARCHIVE_PERIOD))
-        
+        if g.redis.zscore('archive-queue', chat_url) is None:
+            g.redis.zadd('archive-queue', chat_url, get_time(ARCHIVE_PERIOD))
         # Load chat-based session data.
-        g.user.set_chat(chat)
-        existing_lines = [parse_line(line, 0) for line in g.redis.lrange('chat.'+chat, 0, -1)]
+        g.user.set_chat(chat_url)
+        existing_lines = [parse_line(line, 0) for line in g.redis.lrange('chat.'+chat_url, 0, -1)]
         latest_num = len(existing_lines)-1
 
     return render_template(
@@ -150,10 +145,8 @@ def quitSearching():
 @app.route('/save', methods=['POST'])
 def save():
     try:
-        if 'character' in request.form:
-            g.user.save_character(request.form)
-        if 'save_pickiness' in request.form:
-            g.user.save_pickiness(request.form)
+        g.user.save_character(request.form)
+        g.user.save_pickiness(request.form)
         if 'create' in request.form:
             chat = request.form['chaturl']
             if g.redis.exists('chat.'+chat):
@@ -165,16 +158,12 @@ def save():
             if g.user.meta['group']!='globalmod':
                 g.user.set_group('mod')
             g.redis.hset('chat.'+chat+'.meta', 'type', 'group')
-            get_or_create_log(g.redis, g.mysql, chat)
+            get_or_create_log(g.redis, g.mysql, chat, 'group')
             g.mysql.commit()
-            return redirect(url_for('chat', chat=chat))
+            return redirect(url_for('chat', chat_url=chat))
     except ValueError as e:
         return show_homepage(e.args[0])
-
-    if 'search' in request.form:
-        return redirect(url_for('chat'))
-    else:
-        return redirect(url_for('configure'))
+    return redirect(url_for('chat'))
 
 # Logs
 
