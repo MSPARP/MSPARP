@@ -61,7 +61,7 @@ def chat(chat=None):
         latest_num = -1
     else:
         try: #HTTP_X_REAL_IP doesn't exist when running in test environment
-            if g.redis.zrank('ip-bans', chat_url+'/'+request.environ['HTTP_X_REAL_IP']) is not None:
+            if g.redis.zrank('ip-bans', chat+'/'+request.environ['HTTP_X_REAL_IP']) is not None:
                 return redirect('http://msparp.com/')
                 chat_url = OUBLIETTE_ID
         except KeyError:
