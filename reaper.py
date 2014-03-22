@@ -20,7 +20,7 @@ def get_default(redis, session, chat, key, defaultValue=''):
 
 if __name__=='__main__':
 
-    redis = Redis(unix_socket_path='/tmp/redis.sock')
+    redis = Redis(host=os.environ['REDIS_HOST'], port=int(os.environ['REDIS_PORT']), db=int(os.environ['REDIS_DB']))
 
     current_time = datetime.datetime.now()
 

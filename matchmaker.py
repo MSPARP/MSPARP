@@ -30,7 +30,7 @@ def check_compatibility(first, second):
 
 if __name__=='__main__': 
 
-    redis = Redis(unix_socket_path='/tmp/redis.sock')
+    redis = Redis(host=os.environ['REDIS_HOST'], port=int(os.environ['REDIS_PORT']), db=int(os.environ['REDIS_DB']))
 
     while True:
         searchers = redis.zrange('searchers', 0, -1)

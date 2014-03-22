@@ -8,7 +8,7 @@ import datetime
 def now():
     return datetime.datetime.now()
 
-engine = create_engine('sqlite:////tmp/test.db', convert_unicode=True, pool_recycle=3600)
+engine = create_engine(os.environ['MYSQL_URL'], convert_unicode=True, pool_recycle=3600)
 sm = sessionmaker(autocommit=False,
                   autoflush=False,
                   bind=engine)
