@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
 	var SEARCH_PERIOD = 1;
 	var PING_PERIOD = 10;
 
@@ -35,14 +36,6 @@ $(document).ready(function() {
 
 	var ORIGINAL_TITLE = document.title;
 	var conversation = $('#conversation');
-
-	// Redirect iPhone/iPod visitors
-        function isiPhone(){
-            return (
-                (navigator.platform.indexOf("iPhone") != -1) ||
-                (navigator.platform.indexOf("iPod") != -1)
-            );
-        }
 
 	$('input, select, button').attr('disabled', 'disabled');
 
@@ -87,12 +80,7 @@ $(document).ready(function() {
 			if (highlightUser==msg.counter) {
 				mp.addClass('highlight');
 			}
-            var von = conversation.scrollTop()+conversation.height()+24;
-            var don = conversation[0].scrollHeight;
-            var lon = don-von;
-            if (lon <= 50){
-                  conversation.scrollTop(conversation[0].scrollHeight);
-            }
+			conversation.scrollTop(conversation[0].scrollHeight);
 		}
 
 		function startChat() {
@@ -116,12 +104,10 @@ $(document).ready(function() {
 						clearChat();
 						addLine({ counter: -1, color: '000000', line: 'You have been kicked from this chat. Please think long and hard about your behaviour before rejoining.' });
 					} else if (data.exit=='ban') {
-						clearChat();
-						VlatestNum = -1;
-						chat = ''
-						$('#userList h1')[0].innerHTML = '';
+						latestNum = -1;
+						chat = 'theoubliette'
+						$('#userList h1')[0].innerHTML = 'theoubliette';
 						$('#conversation').empty();
-						window.location.replace("http://msparp.com/");
 					}
 					return true;
 				}
@@ -380,7 +366,6 @@ $(document).ready(function() {
 			}
 			$('#conversation').css('bottom',($('#controls').height()+10)+'px');
 			previewHidden = !previewHidden;
-			$("#textInput").focus();
 			return false;
 		});
 
@@ -412,7 +397,6 @@ $(document).ready(function() {
 					updateChatPreview();
 				}
 			}
-			$("#textInput").focus();
 			return false;
 		});
 
@@ -470,7 +454,6 @@ $(document).ready(function() {
 
 		$('#settingsCancelButton').click(function() {
 			closeSettings();
-			$("#textInput").focus();
 		});
 
 		$('#metaOptions input').click(function() {
@@ -529,6 +512,6 @@ $(document).ready(function() {
 		}
 
 	}
-$('#conversation').scrollTop($('#conversation')[0].scrollHeight);
-$("#textInput").focus();
+
 });
+

@@ -7,21 +7,16 @@ from flask import Flask, g, request, render_template, redirect, url_for, jsonify
 from sqlalchemy import and_
 from sqlalchemy.orm.exc import NoResultFound
 from webhelpers import paginate
-from time import mktime
 
 from lib import SEARCH_PERIOD, ARCHIVE_PERIOD, OUBLIETTE_ID, get_time, validate_chat_url
 from lib.archive import archive_chat, get_or_create_log
 from lib.characters import CHARACTER_GROUPS, CHARACTERS
 from lib.messages import parse_line
-from lib.model import Chat, ChatSession, Log, LogPage
+from lib.model import Log, LogPage
 from lib.requests import populate_all_chars, connect_redis, connect_mysql, create_normal_session, set_cookie, disconnect_redis, disconnect_mysql
 from lib.sessions import CASE_OPTIONS
 
 app = Flask(__name__)
-
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('404.html'), 404
 
 # Pre and post request stuff
 app.before_first_request(populate_all_chars)
@@ -61,50 +56,15 @@ def chat(chat=None):
         latest_num = -1
     else:
         if g.redis.zrank('ip-bans', chat+'/'+request.environ['HTTP_X_REAL_IP']) is not None:
-            return redirect('http://msparp.com/')
-            chat_url = OUBLIETTE_ID
+            chat = OUBLIETTE_ID
         # Check if chat exists
         chat_meta = g.redis.hgetall('chat.'+chat+'.meta')
         # Convert topic to unicode.
         if 'topic' in chat_meta.keys():
             chat_meta['topic'] = unicode(chat_meta['topic'], encoding='utf8')
-        # Try to load the chat from mysql if it doesn't exist in redis.
         if len(chat_meta)==0:
-            try:
-                mysql_log = g.mysql.query(Log).filter(Log.url==chat).one()
-                mysql_chat = g.mysql.query(Chat).filter(Chat.log_id==mysql_log.id).one()
-                chat_meta = {
-                    "type": mysql_chat.type,
-                    "counter": mysql_chat.counter,
-                }
-                if mysql_chat.topic is not None and mysql_chat.topic!="":
-                    chat_meta["topic"] = mysql_chat.topic
-                g.redis.hmset('chat.'+chat+'.meta', chat_meta)
-                for mysql_session in g.mysql.query(ChatSession).filter(ChatSession.log_id==mysql_log.id):
-                    g.redis.hset('chat.'+chat+'.counters', mysql_session.counter, mysql_session.session_id)
-                    g.redis.hmset('session.'+mysql_session.session_id+'.meta.'+chat, {
-                        "counter": mysql_session.counter,
-                        "group": mysql_session.group,
-                    })
-                    g.redis.hmset('session.'+mysql_session.session_id+'.chat.'+chat, {
-                        "character": mysql_session.character,
-                        "name": mysql_session.name,
-                        "acronym": mysql_session.acronym,
-                        "color": mysql_session.color,
-                        "case": mysql_session.case,
-                        "replacements": mysql_session.replacements,
-                        "regexes": mysql_session.regexes,
-                        "quirk_prefix": mysql_session.quirk_prefix,
-                        "quirk_suffix": mysql_session.quirk_suffix,
-                    })
-                    g.redis.sadd('session.'+mysql_session.session_id+'.chats', chat)
-                    g.redis.zadd('chat-sessions', chat+'/'+mysql_session.session_id, mktime(mysql_session.expiry_time.timetuple()))
-            except NoResultFound:
-                abort(404)
-        # Make sure it's in the archive queue.
-        if g.redis.zscore('archive-queue', chat) is None:
-            g.redis.zadd('archive-queue', chat, get_time(ARCHIVE_PERIOD))
-        
+            # XXX CREATE
+            abort(404)
         # Load chat-based session data.
         g.user.set_chat(chat)
         existing_lines = [parse_line(line, 0) for line in g.redis.lrange('chat.'+chat, 0, -1)]
@@ -251,5 +211,5 @@ def configure():
     return show_homepage(None)
 
 if __name__ == "__main__":
-    app.run(port=8000, debug=True, host='0.0.0.0')
+    app.run(port=8000, debug=True)
 

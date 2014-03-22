@@ -14,12 +14,12 @@
 <div class="online-notice">
 	{{users_searching+users_chatting}} users online ({{users_searching}} searching, {{users_chatting}} chatting)
 	<h1>Updates</h1>
-If you have lost mod status or have any other problems that remain after recreating your chat, please let us know using the issue report form.<br>
-If you can't type in chat or change your chat color - please close MSPARP, clear your cookies, and come back. This will reset your session.
+	In this space we're gonna put notifications about updates and/or scheduled downtime. Updates may result in your chats being cut off, so please remember to back up your logs if you're using the site when we're updating it. They will usually only happen between 7am and 10am US Eastern time.<br>
+	There are no updates scheduled at the moment.
 </div>
 
 <div class="options">
-	Welcome to MSPARP. If you're not sure what to do, please read the <a href="/static/user-guide.html" target="_blank">user guide</a>.</p> <p>For updates, follow the <a href="http://not-quite-defunct-msparp.tumblr.com">MSPARP Tumblr</a>.</p><p>Please report issues such as lost mod status via <a href="https://docs.google.com/forms/d/1UWvRuChUqYmT1gd1XMiuXX-cvGqgsb3tCD24EmUdVvI/viewform" target="_blank">The MSPARP Chat Mod Issue Report Form</a>.</p> <p>You can also head over to the <a href="http://www.msparp-forums.org" target="_blank">MSPARP Forums</a> to connect with fellow users.</p> <p>Looking for pan-fandom RP? Check out our sister site, <a href="http://charatrp.com/" target="_blank">Project Charat</a>, coded by the adorable Sho.</p> <p>
+	Welcome to MSPARP. If you're not sure what to do, please read the <a href="/static/user-guide.html">user guide</a>.<br>
 	<h1>Roleplay as </h1>
 	<div class="options-contents">
 	<select class="character-select" name="character">
@@ -84,7 +84,7 @@ If you can't type in chat or change your chat color - please close MSPARP, clear
 	<input type="hidden" name="save_pickiness" value="true">
 	<label><input type="checkbox" name="picky" 
 		{% if picky|length!=0 %}checked="checked" {%endif%}	
-	/>Look for specific characters (check the box if you want to include the character in your search)</label>
+	/>Look for or exclude specific characters</label>
 	<div id="picky-matches">
 	{% for group in groups %}
 		<label class="picky-header"><input type="checkbox" id="group-{{group|lower}}" name="group-{{group|lower}}"> {{group}}:</label>
