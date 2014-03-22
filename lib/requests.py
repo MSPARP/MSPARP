@@ -1,7 +1,7 @@
 from flask import g, request, abort
 from redis import ConnectionPool, Redis, UnixDomainSocketConnection
 
-from lib import validate_chat_url
+from lib import validate_chat_url, session_validator
 from characters import CHARACTER_DETAILS
 from model import sm
 from sessions import Session
@@ -39,6 +39,9 @@ def create_chat_session():
     session_id = request.cookies.get('session', None)
     # Don't accept chat requests if there's no cookie.
     if session_id is None:
+        abort(400)
+    # Validate session ID.
+    if session_validator.match(session_id) is None:
         abort(400)
     # Validate chat ID.
     if 'chat' in request.form and validate_chat_url(request.form['chat']):
