@@ -210,6 +210,7 @@ def quitChatting():
     return 'ok'
 
 @app.route('/save', methods=['POST'])
+@mark_alive
 def save():
     try:
         g.user.save_character(request.form)

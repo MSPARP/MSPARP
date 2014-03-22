@@ -111,7 +111,7 @@ def save():
             g.user.save_pickiness(request.form)
         if 'create' in request.form:
             chat = request.form['chaturl']
-            if g.redis.exists('chat.'+chat):
+            if g.redis.exists('chat.'+chat+'.meta'):
                 raise ValueError('chaturl_taken')
             # USE VALIDATE_CHAT_URL
             if not validate_chat_url(chat):
