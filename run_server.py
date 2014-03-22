@@ -5,9 +5,9 @@ from gevent.wsgi import WSGIServer
 from gevent import monkey; monkey.patch_socket()
 
 try:
-    if sys.argv[1]=='main':
+    if sys.argv[1].startswith('main'):
         from main import app
-    elif sys.argv[1]=='chat':
+    elif sys.argv[1].startswith('chat'):
         from chat import app
 except ImportError:
     sys.exit("Usage: python run_server.py (main|chat) [--debug]")
