@@ -13,13 +13,13 @@ LONGPOLL_TIMEOUT_PERIOD = 175
 # Period in which saved chats are archived - 30 minutes.
 ARCHIVE_PERIOD = 1800
 
-# Time after which unsaved chats are deleted - 1 hour.
-DELETE_UNSAVED_PERIOD = 21600
+# Time after which unsaved chats are deleted - 7 days.
+DELETE_UNSAVED_PERIOD = 604800
 
-# NOT USED Time after which saved chats are deleted - 30 days.
+# Time after which saved chats are deleted - 30 days.
 DELETE_SAVED_PERIOD = 2592000
 
-# NOT USED Time after which chat session data is deleted - 30 days.
+# Time after which chat session data is deleted - 30 days.
 DELETE_CHAT_SESSION_PERIOD = 2592000
 
 # Time after which global session data is deleted - 30 days.
@@ -40,3 +40,5 @@ def validate_chat_url(url):
     if len(url)<=100:
         return chat_validator.match(url)
     return False
+
+session_validator = re.compile('^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$')

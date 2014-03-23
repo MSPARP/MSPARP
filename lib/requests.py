@@ -1,11 +1,10 @@
 from flask import g, request, abort
-from redis import ConnectionPool, Redis
+from redis import ConnectionPool, Redis, UnixDomainSocketConnection
 
-from lib import validate_chat_url
+from lib import validate_chat_url, session_validator
 from characters import CHARACTER_DETAILS
 from model import sm
 from sessions import Session
-import os
 
 # Connection pooling. This takes far too much effort.
 redis_pool = ConnectionPool(host=os.environ['REDIS_HOST'], port=int(os.environ['REDIS_PORT']), db=int(os.environ['REDIS_DB']))
@@ -40,6 +39,9 @@ def create_chat_session():
     session_id = request.cookies.get('session', None)
     # Don't accept chat requests if there's no cookie.
     if session_id is None:
+        abort(400)
+    # Validate session ID.
+    if session_validator.match(session_id) is None:
         abort(400)
     # Validate chat ID.
     if 'chat' in request.form and validate_chat_url(request.form['chat']):

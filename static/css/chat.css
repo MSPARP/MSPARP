@@ -4,7 +4,6 @@ body {
 	margin: 5px;
 	background-color: #cccccc;
 	background-attachment: fixed;
-	word-wrap: break-word;
 }
 
 body, button, input, select, optgroup, option {
@@ -88,7 +87,7 @@ p:hover .timestamp {
 /* Chat layout */
 
 #conversation {
-	position: absolute;
+	position: fixed;
 	top: 5px;
 	right: 5px;
 	bottom: 79px;
@@ -203,17 +202,6 @@ body #userListButton {
 
 body > #save {
 	display: none;
-}
-
-#exclaim {
-        display: none;
-        position: fixed;
-	top: 5px;
-	left: 5px;
-        background-color: #CCCCCC;
-        padding: 5px;
-        border: 1px solid #999999;
-        cursor: pointer;
 }
 
 /* Sidebars */

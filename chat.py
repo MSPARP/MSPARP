@@ -13,10 +13,6 @@ import os
 
 app = Flask(__name__)
 
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('404.html'), 404
-
 # Pre and post request stuff
 app.before_first_request(populate_all_chars)
 app.before_request(connect_redis)
@@ -39,7 +35,7 @@ def mark_alive(f):
 @mark_alive
 def postMessage():
     chat = request.form['chat']
-    if 'line' in request.form and (g.user.meta['group']=='user' or g.user.meta['group']=='mod3' or g.user.meta['group']=='mod2' or g.user.meta['group']=='mod' or g.user.meta['group']=='globalmod'):
+    if 'line' in request.form and g.user.meta['group']!='silent':
         # Remove linebreaks and truncate to 1500 characters.
         line = request.form['line'].replace('\n', ' ')[:1500]
         send_message(g.redis, chat, g.user.meta['counter'], 'message', line, g.user.character['color'], g.user.character['acronym'])
@@ -124,7 +120,7 @@ def postMessage():
                     their_session_acronym
                 ))
             # Don't ban people from the oubliette because that'll just put us in an infinite loop.
-            elif request.form['user_action']=='ip_ban':
+            elif request.form['user_action']=='ip_ban' and chat!='theoubliette':
                 cipher = XOR.new(os.environ['BAN_KEY'])
                 their_ip_address = g.redis.hget('session.'+their_session_id+'.meta', 'last_ip')
                 ban_id = chat+'/'+their_ip_address
@@ -219,6 +215,7 @@ def quitChatting():
     return 'ok'
 
 @app.route('/save', methods=['POST'])
+@mark_alive
 def save():
     try:
         g.user.save_character(request.form)
@@ -227,5 +224,5 @@ def save():
     return 'ok'
 
 if __name__ == "__main__":
-    app.run(port=8000, debug=True, host='0.0.0.0')
+    app.run(port=9000, debug=True)
 

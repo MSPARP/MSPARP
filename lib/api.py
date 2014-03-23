@@ -8,7 +8,7 @@ def ping(redis, chat, session, chat_type):
         # Check IP bans.
         if redis.zrank('ip-bans', chat+'/'+request.environ['HTTP_X_REAL_IP']) is not None:
             abort(403)
-	# The user isn't online already. Add them to the chat.
+        # The user isn't online already. Add them to the chat.
         # Remove the chat from the delete queue.
         redis.zrem('delete-queue', chat)
         # Add to the archive queue, but only if it's saved.
