@@ -10,8 +10,13 @@ from lib.requests import populate_all_chars, connect_redis, create_chat_session,
 from Crypto.Cipher import XOR
 import base64
 import os
+from werkzeug.contrib.fixers import ProxyFix
+
 
 app = Flask(__name__)
+app.debug = True
+app.wsgi_app = ProxyFix(app.wsgi_app)
+
 
 # Pre and post request stuff
 app.before_first_request(populate_all_chars)
@@ -212,6 +217,11 @@ def getMessages():
 def quitChatting():
     disconnect_message = '%s [%s] disconnected.' % (g.user.character['name'], g.user.character['acronym']) if g.user.meta['group']!='silent' else None
     disconnect(g.redis, request.form['chat'], g.user.session_id, disconnect_message)
+    return 'ok'
+
+@app.route('/health', methods=['GET'])
+def doHealthCheck():
+    # should probably actually DO a health check here
     return 'ok'
 
 @app.route('/save', methods=['POST'])

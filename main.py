@@ -16,7 +16,11 @@ from lib.model import Log, LogPage
 from lib.requests import populate_all_chars, connect_redis, connect_mysql, create_normal_session, set_cookie, disconnect_redis, disconnect_mysql
 from lib.sessions import CASE_OPTIONS
 
+from werkzeug.contrib.fixers import ProxyFix
+
 app = Flask(__name__)
+app.debug = True
+app.wsgi_app = ProxyFix(app.wsgi_app)
 
 # Pre and post request stuff
 app.before_first_request(populate_all_chars)
@@ -55,7 +59,7 @@ def chat(chat=None):
         existing_lines = []
         latest_num = -1
     else:
-        if g.redis.zrank('ip-bans', chat+'/'+request.environ['HTTP_X_REAL_IP']) is not None:
+        if g.redis.zrank('ip-bans', chat+'/'+request.environ['REMOTE_ADDR']) is not None:
             chat = OUBLIETTE_ID
         # Check if chat exists
         chat_meta = g.redis.hgetall('chat.'+chat+'.meta')
@@ -203,6 +207,11 @@ def view_log(chat=None):
         mode=mode,
         paginator=paginator
     )
+
+@app.route('/health', methods=['GET'])
+def doHealthCheck():
+    # should probably actually DO a health check here
+    return 'ok'
 
 # Home
 

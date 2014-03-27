@@ -6,6 +6,8 @@ from characters import CHARACTER_DETAILS
 from model import sm
 from sessions import Session
 
+import os
+
 # Connection pooling. This takes far too much effort.
 redis_pool = ConnectionPool(host=os.environ['REDIS_HOST'], port=int(os.environ['REDIS_PORT']), db=int(os.environ['REDIS_DB']))
 
@@ -37,6 +39,9 @@ def create_normal_session():
 def create_chat_session():
     # Create a user object, using session and chat IDs.
     session_id = request.cookies.get('session', None)
+    # If this is a health check let it pass
+    if request.path == '/health':
+        return
     # Don't accept chat requests if there's no cookie.
     if session_id is None:
         abort(400)

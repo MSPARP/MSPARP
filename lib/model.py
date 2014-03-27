@@ -4,6 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, ForeignKey, Integer, String, Unicode, UnicodeText, DateTime, Enum
 
 import datetime
+import os
 
 def now():
     return datetime.datetime.now()
@@ -31,7 +32,7 @@ class Log(Base):
 
 class LogPage(Base):
     __tablename__ = 'log_pages'
-    log_id = Column(Integer, ForeignKey('logs.id'), primary_key=True)
+    log_id = Column(Integer, ForeignKey('logs.id'), primary_key=True, autoincrement=False)
     number = Column(Integer, primary_key=True)
     content = Column(UnicodeText, nullable=False)
 

@@ -3,6 +3,7 @@
 from redis import Redis
 import time
 import datetime
+import os
 
 from lib import ARCHIVE_PERIOD, get_time
 from lib.api import disconnect

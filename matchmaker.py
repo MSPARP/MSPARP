@@ -2,6 +2,7 @@
 from redis import Redis
 import uuid
 import time
+import os
 
 OPTION_LABELS = {
     'para0': 'script style',
