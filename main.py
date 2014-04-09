@@ -59,7 +59,7 @@ def chat(chat=None):
         existing_lines = []
         latest_num = -1
     else:
-        if g.redis.zrank('ip-bans', chat+'/'+request.environ['REMOTE_ADDR']) is not None:
+        if g.redis.zrank('ip-bans', chat+'/'+request.headers['CF-Connecting-IP']) is not None:
             chat = OUBLIETTE_ID
         # Check if chat exists
         chat_meta = g.redis.hgetall('chat.'+chat+'.meta')
