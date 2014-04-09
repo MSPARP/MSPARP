@@ -149,7 +149,7 @@ $(document).ready(function() {
 				}
 			}, "json").complete(function() {
 				if (chatState=='chat') {
-					window.setTimeout(getMessages, 50);
+					window.setTimeout(getMessages, 1000);
 				} else if (chat_meta.type=='unsaved' || chat_meta.type=='saved') {
 					$('#save').appendTo(conversation);
 					$('#save input').removeAttr('disabled');

@@ -6,9 +6,10 @@ SEARCH_PERIOD = 1
 # Timeout period for chats.
 PING_PERIOD = 10
 
-# Period in which to send blank messages to avoid socket timeouts - 3 minutes.
-# (except a little under 3 minutes because the reaper rounds to the nearest minute)
-LONGPOLL_TIMEOUT_PERIOD = 175
+# Period in which to send blank messages to avoid socket timeouts - 1 minute.
+# (except a little under 1 minute because the reaper rounds to the nearest minute)
+# (this can't be longer because CloudFlare doesn't like super long polling)
+LONGPOLL_TIMEOUT_PERIOD = 45
 
 # Period in which saved chats are archived - 30 minutes.
 ARCHIVE_PERIOD = 1800
