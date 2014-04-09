@@ -61,7 +61,7 @@ def create_chat_session():
 # After request
 
 def set_cookie(response):
-    if request.cookies.get('session', None) is None:
+    if request.cookies.get('session', None) is None or request.cookies.get('session', None) == "":
         try:
             response.set_cookie('session', g.user.session_id, max_age=365*24*60*60)
         except AttributeError:
