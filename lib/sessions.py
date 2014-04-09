@@ -215,7 +215,7 @@ def get_or_create(redis, key, default):
 
 def new_chat_metadata(redis, chat, session_id):
     # This can be overloaded as a general hook for joining a chat for the first time.
-    if redis.sismember('global-mods', session_id):
+    if type(redis.sismember('global-mods', session_id)) == bool and redis.sismember('global-mods', session_id):
         metadata = { 'group': 'globalmod' }
     elif redis.hget('chat.'+chat+'.meta', 'autosilence')=='1':
         metadata = { 'group': 'silent' }
