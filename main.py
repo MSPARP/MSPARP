@@ -20,7 +20,7 @@ from werkzeug.contrib.fixers import ProxyFix
 
 app = Flask(__name__)
 app.debug = True
-app.wsgi_app = ProxyFix(app.wsgi_app)
+app.wsgi_app = ProxyFix(app.wsgi_app, 2)
 
 # Pre and post request stuff
 app.before_first_request(populate_all_chars)
