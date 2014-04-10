@@ -275,6 +275,29 @@ def manageMods(chat):
         page='mods',
     )
 
+@app.route("/admin/changemessages", methods=['GET', 'POST'])
+def change_messages():
+
+    if g.redis.sismember('global-mods', g.user.session_id):
+        pass
+    else:
+        return "<h1> Denied. </h1>"
+
+    if 'welcome_text' in request.form:
+        welcome_text = request.form['welcome_text']
+        g.redis.set('welcome_text', welcome_text)
+        updates_text = request.form['updates_text']
+        g.redis.set('updates_text', updates_text)
+
+    welcome_text = g.redis.get('welcome_text')
+    updates_text = g.redis.get('updates_text')
+
+    return render_template('admin_changemsg.html',
+        welcome_text=welcome_text,
+        updates_text=updates_text,
+        page="changemsg",
+    )
+
 @app.route('/health', methods=['GET'])
 def doHealthCheck():
     # should probably actually DO a health check here
