@@ -42,16 +42,16 @@ if __name__=='__main__':
             print 'reaping searcher', dead
             redis.zrem('searchers', dead)
 
+        # Send blank messages to avoid socket timeouts.
+        for chat in redis.zrangebyscore('longpoll-timeout', 0, get_time()):
+            send_message(redis, chat, -1, "message")
+
         new_time = datetime.datetime.now()
 
         # Every minute
         if new_time.minute!=current_time.minute:
             mysql = sm()
-
-            # Send blank messages to avoid socket timeouts.
-            for chat in redis.zrangebyscore('longpoll-timeout', 0, get_time()):
-                send_message(redis, chat, -1, "message")
-
+            
             # Expire IP bans.
             redis.zremrangebyscore('ip-bans', 0, get_time())
 
