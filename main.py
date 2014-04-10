@@ -10,7 +10,7 @@ from webhelpers import paginate
 
 from lib import SEARCH_PERIOD, ARCHIVE_PERIOD, OUBLIETTE_ID, get_time, validate_chat_url
 from lib.archive import archive_chat, get_or_create_log
-from lib.characters import CHARACTER_GROUPS, CHARACTERS
+from lib.characters import CHARACTER_GROUPS, CHARACTERS, CHARACTER_DETAILS
 from lib.messages import parse_line
 from lib.model import Log, LogPage
 from lib.requests import populate_all_chars, connect_redis, connect_mysql, create_normal_session, set_cookie, disconnect_redis, disconnect_mysql
