@@ -14,12 +14,11 @@
 <div class="online-notice">
 	{{users_searching+users_chatting}} users online ({{users_searching}} searching, {{users_chatting}} chatting)
 	<h1>Updates</h1>
-	In this space we're gonna put notifications about updates and/or scheduled downtime. Updates may result in your chats being cut off, so please remember to back up your logs if you're using the site when we're updating it. They will usually only happen between 7am and 10am US Eastern time.<br>
-	There are no updates scheduled at the moment.
+	{{updates_text}}
 </div>
 
 <div class="options">
-	Welcome to MSPARP. If you're not sure what to do, please read the <a href="/static/user-guide.html">user guide</a>.<br>
+	{{welcome_text}}<br>
 	<h1>Roleplay as </h1>
 	<div class="options-contents">
 	<select class="character-select" name="character">

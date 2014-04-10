@@ -45,7 +45,9 @@ def show_homepage(error):
         characters=CHARACTERS,
         default_char=g.user.character['character'],
         users_searching=g.redis.zcard('searchers'),
-        users_chatting=g.redis.scard('sessions-chatting')
+        users_chatting=g.redis.scard('sessions-chatting'),
+        updates_text=g.redis.get('updates_text'),
+        welcome_text=g.redis.get('welcome_text')
     )
 
 # Chat
