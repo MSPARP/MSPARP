@@ -14,11 +14,11 @@
 <div class="online-notice">
 	{{users_searching+users_chatting}} users online ({{users_searching}} searching, {{users_chatting}} chatting)
 	<h1>Updates</h1>
-	{{updates_text}}
+	{{updates_text|safe}}
 </div>
 
 <div class="options">
-	{{welcome_text}}<br>
+	{{welcome_text|safe}}<br>
 	<h1>Roleplay as </h1>
 	<div class="options-contents">
 	<select class="character-select" name="character">
