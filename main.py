@@ -76,6 +76,9 @@ def chat(chat=None):
         existing_lines = [parse_line(line, 0) for line in g.redis.lrange('chat.'+chat, 0, -1)]
         latest_num = len(existing_lines)-1
 
+        # *music* DUCT TAPE...
+        if g.user.meta['counter'] == "Redis is loading the dataset in memory":
+            abort(500)
     return render_template(
         'chat.html',
         user=g.user,
