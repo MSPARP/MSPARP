@@ -213,6 +213,68 @@ def view_log(chat=None):
         paginator=paginator
     )
 
+# Globalmod
+
+@app.route('/chat/<chat>/unban', methods=['GET', 'POST'])
+def unbanPage(chat=None):
+    if chat is None:
+        abort(403)
+
+    result = None
+
+    if g.redis.sismember('global-mods', g.user.session_id):
+        pass
+    else:
+        return render_template('admin_denied.html')
+
+    if "ip" in request.form:
+        unbanIP = request.form['ip']
+        banstring = "%s/%s" % (chat, unbanIP)
+        g.redis.hdel("ban-reasons", banstring)
+        g.redis.zrem("ip-bans", banstring)
+        result = "Unbanned %s!" % (unbanIP)
+
+    banlist = g.redis.zrange("ip-bans", "0", "-1")
+    bans = []
+    for x in banlist:
+        if x.split("/")[0] == chat:
+            bans.append(x)
+
+    return render_template('admin_unban.html',
+        lines=bans,
+        result=result,
+        chat=chat,
+        page='unban'
+    )
+
+@app.route('/chat/<chat>/mods')
+def manageMods(chat):
+    chat_session = g.redis.hgetall("session."+g.user.session_id+".meta."+chat)
+    if "group" not in chat_session or chat_session['group'] != 'globalmod':
+        return "Access Denied. Please load the chat first and make sure that you are a moderator before opening this page."
+    counters = g.redis.hgetall("chat."+chat+".counters")
+    mods = []
+    if request.args.get('showusers', None) is not None:
+        show = ('globalmod', 'mod', 'mod2', 'mod3', 'user')
+    else:
+        show = ('globalmod', 'mod', 'mod2', 'mod3')
+    for counter, session_id in counters.items():
+        group = g.redis.hget("session."+session_id+".meta."+chat, 'group')
+        if group in show:
+            data = g.redis.hgetall("session."+session_id+".chat."+chat)
+            name = data.get('name', CHARACTER_DETAILS[data['character']]['name'])
+            acronym = data.get('acronym', CHARACTER_DETAILS[data['character']]['acronym'])
+            is_you = session_id == g.user.session_id
+            #[0] = Counter [1] = Group [2] = Name [3] = Acronym [4] = is_you
+            mods.append((counter, group, name, acronym, is_you))
+    mods.sort(key=lambda tup: int(tup[0]))
+    return render_template(
+        'chatmods.html',
+        modstatus=mods,
+        chat=chat,
+        page='mods',
+    )
+
 @app.route('/health', methods=['GET'])
 def doHealthCheck():
     # should probably actually DO a health check here

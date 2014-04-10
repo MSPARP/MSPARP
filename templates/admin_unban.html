@@ -1,0 +1,43 @@
+{% include 'header_mod.html' %}
+
+<script>
+    $(document).ready(function(){
+        if (screen.width <= 699) {
+            $("td").css('font-size', '14px');
+            $(".btn").css("padding", "5px");
+        }
+    });
+</script>
+
+<div class="container">
+	<div class="alert alert-info">{{result if result != None else "space rulez (aka this is better than seeing just None \o/)"}}</div>
+    <h1> Unban for chat: <small>{{chat}}</small> </h1>
+    <table class="table table-striped table-bordered" id="usertable">
+        <thead>
+            <tr>
+                <th class="col-sm-2">Chat</th>
+                <th class="col-sm-2">IP</th>
+                <th class="col-sm-7">Reason</th>
+                <th class="col-sm-1">Unban</th>
+            </tr>
+        </thead>
+        <tbody>
+    {% for line in lines %}
+			<form name='{{lines.index(line)}}' action='/chat/{{chat}}/unban' method='post'>
+				<input type="hidden" name="ip" value="{{line.split('/')[1]}}"/>
+            <tr>
+                <td><a href="/chat/{{line.split('/')[0]}}"> {{line.split('/')[0]}} </a></td>
+                <td>{{line.split('/')[1]}}</td>
+                <td>Reason: {% if g.redis.hget("ban-reasons", line) != None %} {{g.redis.hget("ban-reasons", line).decode('utf-8')}} {% endif %}</td>
+                <td><button type="submit" class="btn btn-primary">Unban</button></td>
+                <!--<td><a href="javascript:document.forms['{{lines.index(line)}}'].submit();">Unban</a></td>-->
+            </tr>
+            </form>
+    {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+
+</html>

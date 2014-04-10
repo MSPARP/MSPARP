@@ -1,0 +1,54 @@
+{% include 'header_mod.html' %}
+
+<script>
+    $(document).ready(function(){
+        if (screen.width <= 699) {
+            $("#usertable").css('table-layout', 'auto');
+        }
+    });
+</script>
+
+
+<div class="container">
+    <h1> Mods for chat <br> <small>{{chat}}</small> </h1>
+    <table class="table table-striped table-bordered" id="usertable">
+        <thead>
+            <tr>
+                <th class="col-sm-1">Counter</th>
+                <th class="col-sm-1">Group</th>
+                <th>Name [Acronym]</th>
+                <th class="col-sm-1">Demod</th>
+                <th>Set</th>
+                <th>Set</th>
+                <th>Set</th>
+                <th>Set</th>
+            </tr>
+        </thead>
+        <tbody>
+    {% for x in modstatus %}
+            <tr>
+                <td>{{x[0]}}</td>
+                <td>{{x[1]}}</td>
+                <td>{{x[2].decode('utf-8')}} [{{x[3].decode('utf-8')}}] {% if x[4] == True %} (you!) {% endif %}</td>
+        		<td> <button class="mod{{x[0]}} btn btn-primary" {% if x[1] == "globalmod" or x[4] == True %} disabled {% endif %} value="user"> Demod </button> </td>
+        		<td> <button class="mod{{x[0]}} btn btn-primary" {% if x[1] == "globalmod" or x[4] == True %} disabled {% endif %} value="mod"> Pro Wet Blanket </button>
+        		<td> <button class="mod{{x[0]}} btn btn-primary" {% if x[1] == "globalmod" or x[4] == True %} disabled {% endif %} value="mod2"> Bum Rusher </button> </td>
+        		<td> <button class="mod{{x[0]}} btn btn-primary" {% if x[1] == "globalmod" or x[4] == True %} disabled {% endif %} value="mod3"> Gravel Slinger </button> </td>
+        		<td> <button class="mod{{x[0]}} btn btn-primary" {% if x[1] == "globalmod" or x[4] == True %} disabled {% endif %} value="silent"> Silence </button> </td>
+            </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+{% for x in modstatus %}
+$(".mod{{x[0]}}").click(function(){
+        $.post("/chat_ajax/post", {"chat": "{{chat}}", "set_group": $(this).attr("value"), "counter": "{{x[0]}}"}
+)});
+{% endfor %}
+</script>
+
+</body>
+
+</html>

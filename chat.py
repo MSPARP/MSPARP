@@ -233,6 +233,21 @@ def save():
         abort(400)
     return 'ok'
 
+# Globalmod stuff.
+
+@app.route('/ip_lookup', methods=['POST'])
+def ip_lookup():
+    if g.user.session_id in g.redis.smembers("global-admins"):
+        pass
+    else:
+        return "not a globaladmin. nice try if you're not a globalmod or KB."
+    chat = request.form['chat']
+    counter = request.form['counter']
+    theircookie = g.redis.hget("chat."+chat+".counters", counter)
+    ip = g.redis.hget("session."+theircookie+".meta", "last_ip")
+
+    return ip
+
 if __name__ == "__main__":
     app.run(port=9000, debug=True)
 

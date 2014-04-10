@@ -281,6 +281,10 @@ $(document).ready(function() {
 					$('<li />').text('Kick').appendTo(actionList).data({ action: 'kick' }).click(userAction);
 					$('<li />').text('IP Ban').appendTo(actionList).data({ action: 'ip_ban' }).click(userAction);
 				}
+				// Global mod actions. You can only do these if you're a global mod.
+                if (user.meta.group=="globalmod") {
+                    $('<li />').text('Look up IP').appendTo(actionList).click(ipLookup);
+                }
 				$(actionList).appendTo(this);
 				actionListUser = this;
 			} else {
@@ -312,6 +316,14 @@ $(document).ready(function() {
 				$.post(POST_URL, actionData);
 			}
 		}
+
+        function ipLookup() {
+            var counter = $(this).parent().parent().data().meta.counter;
+            $.post("/chat_ajax/ip_lookup", { 'chat': chat, 'counter': counter, }, function(ip) {
+                var msg = {counter: "-1", color: "000000", line: "[SYSTEM] user" +counter+ "'s IP: " + ip}
+                addLine(msg);
+            });
+        }
 
 		function highlightPosts(counter) {
 			$('.highlight').removeClass('highlight');

@@ -32,6 +32,10 @@
     <p id="topic">{{chat_meta.get('topic','')}}</p>
 	<ul id="metaOptions">
 		<li><button type="button" id="topicButton">Set topic</button></li>
+		{% if character_dict['meta']['group'] == 'globalmod' %}
+		<li>[GLOBAL] <a href="/chat/{{(chat)}}/unban">Unban</a></li>
+		<li>[GLOBAL] <a href="/chat/{{(chat)}}/mods">Moderators</a></li>
+		{% endif %}
 		<li><label><input type="checkbox" id="autosilence"> Auto-silence new users</label></li>
 	</ul>
 	<ul id="metaResults">
