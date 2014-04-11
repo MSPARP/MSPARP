@@ -278,3 +278,27 @@ body.mobile.withSidebar #conversation, body.mobile.withSidebar #controls {
 	margin: 5px 0;
 	padding: 2px 0;
 }
+
+/* BBCode */
+.padded {
+	padding: 5px;
+	border-radius: 5px;
+}
+
+.spoil {
+    border: dashed;
+    border-width: 1px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.spoiler{
+    opacity: 0;
+    cursor: pointer;
+}
+
+.userID {
+    display: block;
+    color: #000000;
+    font-size: 11px;
+}
