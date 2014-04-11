@@ -1,3 +1,26 @@
+function linkify(inputText) {
+    var replacedText, replacePattern1, replacePattern2;
+    if (inputText.indexOf("[img]") !=-1) {
+	return inputText;
+    }
+    //URLs starting with http://, https://, or ftp://
+    replacePattern1 = /]?=?https?:\/\/[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gim;
+    replacedText = inputText.replace(replacePattern1,
+    function(m) {
+        if (m.substr(0,1) == "=" || m.substr(0,1) == "]") {
+            return m;
+        } else {
+            return "[url]"+m+"[/url]";
+        }
+    });
+
+    //Change email addresses to mailto:: links.
+    replacePattern2 = /(\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,6})/gim;
+    replacedText = replacedText.replace(replacePattern2, '[email]$1[/email]');
+
+    return replacedText;
+}
+
 $(document).ready(function() {
 
 	var SEARCH_PERIOD = 1;
@@ -37,6 +60,33 @@ $(document).ready(function() {
 	var ORIGINAL_TITLE = document.title;
 	var conversation = $('#conversation');
 
+	var globals = [];
+	var bbset = 1;
+
+    $('#conversation p').each(function() {
+        if (bbset == 1) {
+            line = bbEncode(linkify($(this).html()));
+            $(this).html(line);
+        } else {
+            if ($(this).attr('class') == 'eMessages') {
+                line = bbEncode(linkify($(this).html()));
+            } else {
+                line = bbEncode(linkify(bbRemove($(this).html())));
+            }
+            $(this).html(line);
+        }
+    });
+
+    if ($('#topic').length != 0) {
+        if (bbset == 1) {
+            text = bbEncode(htmlEncode(linkify($('#topic').html())));
+            $('#topic').html(text);
+        } else {
+            text = bbEncode(htmlEncode(linkify(bbRemove($('#topic').html()))));
+            $('#topic').html(text);
+        }
+    }
+
 	$('input, select, button').attr('disabled', 'disabled');
 
 	if (document.cookie=="") {
@@ -71,16 +121,34 @@ $(document).ready(function() {
 		// Chatting
 
 		function addLine(msg){
+            var von = conversation.scrollTop()+conversation.height()+24;
+            var don = conversation[0].scrollHeight;
+            var lon = don-von;
+            if (lon <= 30){
+                flip = 1;
+            }
 			if (msg.counter==-1) {
 				msgClass = 'system';
 			} else {
 				msgClass = 'user'+msg.counter;
 			}
-			var mp = $('<p>').addClass(msgClass).css('color', '#'+msg.color).text(msg.line).appendTo('#conversation');
+
+			if ($.inArray(msg.counter, globals) != -1 || msg.counter == -123 || msg.counter == -1){
+				message = bbEncode(htmlEncode(linkify(msg.line)), true);
+			} else {
+				message = bbEncode(htmlEncode(linkify(msg.line)), false);
+			}
+
+			var mp = $('<p>').addClass(msgClass).attr('title',msgClass).css('color', '#'+msg.color).html(message).appendTo('#conversation');
+
 			if (highlightUser==msg.counter) {
 				mp.addClass('highlight');
 			}
-			conversation.scrollTop(conversation[0].scrollHeight);
+			if (flip == 1) {
+				conversation.scrollTop(conversation[0].scrollHeight);
+				flip = 0;
+			}
+			//conversation.scrollTop(conversation[0].scrollHeight);
 		}
 
 		function startChat() {
@@ -139,7 +207,7 @@ $(document).ready(function() {
 						}
 					}
 					if (typeof data.meta.topic!=='undefined') {
-						$('#topic').text(data.meta.topic);
+						$('#topic').html(bbEncode(htmlEncode(linkify(data.meta.topic))));
 					} else {
 						$('#topic').text('');
 					}
@@ -222,6 +290,9 @@ $(document).ready(function() {
 				// Name is a reserved word; this may or may not break stuff but whatever.
 				listItem.css('color', '#'+currentUser.character.color).text(currentUser.character['name']);
 				listItem.removeClass().addClass(currentUser.meta.group);
+				if (currentUser.meta.group == 'globalmod'){
+					globals.push(currentUser.meta.counter);
+				}
 				var currentGroup = GROUP_DESCRIPTIONS[currentUser.meta.group]
 				var userTitle = currentGroup.title
 				if (currentGroup.description!='') {
