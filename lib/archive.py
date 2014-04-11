@@ -8,7 +8,7 @@ def get_or_create_log(redis, mysql, chat):
     try:
         log = mysql.query(Log).filter(Log.url==chat).one()
         try:
-            latest_page_query = mysql.query(LogPage).filter(LogPage.log_id==log.id)
+            latest_page_query = mysql.query(LogPage).filter(LogPage.log_id==log.id).order_by(LogPage.number.asc())
             latest_page = latest_page_query[-1]
             # XXX Is IndexError the right exception?
         except IndexError:
