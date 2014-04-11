@@ -251,7 +251,7 @@ def unbanPage(chat=None):
 def manageMods(chat):
     chat_session = g.redis.hgetall("session."+g.user.session_id+".meta."+chat)
     if "group" not in chat_session or chat_session['group'] != 'globalmod':
-        return "Access Denied. Please load the chat first and make sure that you are a moderator before opening this page."
+        return render_template('admin_denied.html')
     counters = g.redis.hgetall("chat."+chat+".counters")
     mods = []
     if request.args.get('showusers', None) is not None:
@@ -278,10 +278,8 @@ def manageMods(chat):
 @app.route("/admin/changemessages", methods=['GET', 'POST'])
 def change_messages():
 
-    if g.redis.sismember('global-mods', g.user.session_id):
-        pass
-    else:
-        return "<h1> Denied. </h1>"
+    if not g.redis.sismember('global-admins', g.user.session_id):
+        return render_template('admin_denied.html')
 
     if 'welcome_text' in request.form:
         welcome_text = request.form['welcome_text']
@@ -296,6 +294,54 @@ def change_messages():
         welcome_text=welcome_text,
         updates_text=updates_text,
         page="changemsg",
+    )
+
+@app.route("/admin/broadcast", methods=['GET', 'POST'])
+def global_broadcast():
+    result = None
+
+    if not g.redis.sismember('global-admins', g.user.session_id):
+        return render_template('admin_denied.html')
+
+    if 'line' in request.form:
+        color = request.form.get('color', "000000")
+        line = request.form.get('line', None)
+        confirm = bool(request.form.get('confirm', False))
+
+        if confirm is True:
+            if line in ('\n', '\r\n', '', ' '):
+                result = '<div class="alert alert-danger"> <strong> Global cannot be blank! </strong> </div>'
+            else:
+                pipe = g.redis.pipeline()
+                chats = set()
+                chat_sessions = g.redis.zrange('chats-alive', 0, -1)
+                for chat_session in chat_sessions:
+                    chat, user = chat_session.split("/")
+                    chats.add(chat)
+                message = {
+                    "messages": [
+                        {
+                            "color": color,
+                            "timestamp": 0,
+                            "counter": -123,
+                            "type": "global",
+                            "line": line
+                        }
+                    ]
+                }
+
+                for chat in chats:
+                    message['messages'][0]['id'] = g.redis.llen("chat."+chat)-1
+                    pipe.publish("channel."+chat, json.dumps(message))
+
+                pipe.execute()
+                result = '<div class="alert alert-success"> <strong> Global sent! </strong> <br> %s </div>' % (line)
+        else:
+            result = '<div class="alert alert-danger"> <strong> Confirm checkbox not checked. </strong> </div>'
+
+    return render_template('admin_globalbroadcast.html',
+        result=result,
+        page="broadcast",
     )
 
 @app.route('/health', methods=['GET'])
