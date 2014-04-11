@@ -596,5 +596,6 @@ $(document).ready(function() {
 
 	}
 
+	$('#conversation').scrollTop($('#conversation')[0].scrollHeight);
 });
 
