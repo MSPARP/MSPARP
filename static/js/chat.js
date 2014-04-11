@@ -126,6 +126,8 @@ $(document).ready(function() {
             var lon = don-von;
             if (lon <= 30){
                 flip = 1;
+            } else {
+                flip = 0;
             }
 			if (msg.counter==-1) {
 				msgClass = 'system';
