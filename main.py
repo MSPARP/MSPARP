@@ -28,8 +28,8 @@ app.before_request(connect_redis)
 app.before_request(connect_mysql)
 app.before_request(create_normal_session)
 app.after_request(set_cookie)
-app.after_request(disconnect_redis)
-app.after_request(disconnect_mysql)
+app.teardown_request(disconnect_redis)
+app.teardown_request(disconnect_mysql)
 
 # Helper functions
 
