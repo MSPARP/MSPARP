@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 {% block title%}{% endblock %}
 {% block header %}
-<script src="../static/js/drag/jquery.kinetic.js" type="text/javascript" charset="utf-8"></script>
-
 <link rel="stylesheet" href="/static/css/chat.css?2212">
 <link rel="stylesheet" media="screen" type="text/css" href="/static/colorpicker/css/colorpicker.css" />
 <script type="text/javascript" src="/static/colorpicker/js/colorpicker.js"></script>
@@ -13,27 +11,13 @@
 	var chat = {{(chat)|tojson|safe}};
 	var chat_meta = {{chat_meta|tojson|safe}};
 	var latestNum = {{latest_num}};
-	
-	$(document).ready(function() {
-	    // Redirect iPhone/iPod visitors
-	    function isiPhone(){
-	        return (
-	            (navigator.platform.indexOf("iPhone") != -1) ||
-	            (navigator.platform.indexOf("iPod") != -1)
-	        );
-	    }
-	
-	    if(isiPhone() || $(window).width() <= 578) {
-	        $('meta[name=viewport]').attr('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />');
-	    }
-	});
 </script>
 <script src="/static/js/chat.js?2212"></script>
 {% endblock %}
 {% block content %}
 
 <div id="conversation">
-{% if chat_meta['type']!='unsaved' %}
+{% if chat_meta['type']!='unsaved' and lines|length>=50 %}
 	<p><a href="/chat/{{chat}}/log" target="_blank">View earlier messages</a></p>
 {% endif %}
 {% for line in lines %}
@@ -48,6 +32,10 @@
     <p id="topic">{{chat_meta.get('topic','')}}</p>
 	<ul id="metaOptions">
 		<li><button type="button" id="topicButton">Set topic</button></li>
+		{% if character_dict['meta']['group'] == 'globalmod' %}
+		<li>[GLOBAL] <a href="/chat/{{(chat)}}/unban">Unban</a></li>
+		<li>[GLOBAL] <a href="/chat/{{(chat)}}/mods">Moderators</a></li>
+		{% endif %}
 		<li><label><input type="checkbox" id="autosilence"> Auto-silence new users</label></li>
 	</ul>
 	<ul id="metaResults">
@@ -64,44 +52,34 @@
 <form id="settings" class="sidebar">
 	<a href="#" class="close">[close]</a>
 	<h1>Settings</h1>
-	<div id="characterSettings">
-		<p><select name="character">
-			{% for id in sorted_characters %}
-			<option value="{{id}}"{% if id==user.character['character'] %} selected="selected"{%endif%}>{{character_details[id]['option']}}</option>
+	<p><select name="character">
+		{% for group in groups %}
+		<optgroup label="{{group}}">
+			{% for char in characters[group] %}
+			<option value="{{char|lower}}"{% if char|lower==user.character['character'] %} selected="selected"{%endif%}>{{char}}</option>
 			{% endfor %}
-		</select></p>
-		<p><input type="text" name="name" value="{{user.character['name']}}" maxlength="50"></p>
-		<p><input type="text" size="15" name="acronym" value="{{user.character['acronym']}}" maxlength="15"> <input type="text" size="7" name="color" value="{{user.character['color']}}"></p>
-		<p><label>Prefix: <input type="text" size="8" name="quirk_prefix" value="{{user.character['quirk_prefix']}}" maxlength="50" /></label></p>
-		<p><label>Suffix: <input type="text" size="8" name="quirk_suffix" value="{{user.character['quirk_suffix']}}" maxlength="50" /></label></p>
-		<p><label>Case: <select name="case">
-			{% for case in case_options.items()|sort %}
-			<option value="{{case[0]}}"{% if case[0]==user.character['case'] %} selected="selected"{%endif%}>{{case[1]}}</option>
-			{% endfor %}
-		</select></label></p>
-	</div>
-	<p>Simple replacements:</p>
+		</optgroup>
+		{% endfor %}
+	</select></p>
+	<p><input type="text" name="name" value="{{user.character['name']}}" maxlength="50"></p>
+	<p><input type="text" size="15" name="acronym" value="{{user.character['acronym']}}" maxlength="15"> <input type="text" size="7" name="color" value="{{user.character['color']}}"></p>
+	<p><label>Prefix: <input type="text" size="8" name="quirk_prefix" value="{{user.character['quirk_prefix']}}" /></label></p>
+	<p><label>Case: <select name="case">
+		{% for case in case_options.items()|sort %}
+		<option value="{{case[0]}}"{% if case[0]==user.character['case'] %} selected="selected"{%endif%}>{{case[1]}}</option>
+		{% endfor %}
+	</select></label></p>
+	<p>Replacements:</p>
 	<ul id="replacementList">
 		{% if character_dict['character']['replacements']|length!=0 %}
 		{% for replacement in character_dict['character']['replacements'] %}
-		<li><input type="text" name="quirk_from" size="8" value="{{replacement[0]}}" maxlength="50"> to <input type="text" name="quirk_to" size="8" value="{{replacement[1]}}" maxlength="50"> <a href="#" class="deleteReplacement">x</a></li>
+		<li><input type="text" name="quirk_from" size="4" value="{{replacement[0]}}"> to <input type="text" name="quirk_to" size="4" value="{{replacement[1]}}"> <a href="#" class="deleteReplacement">x</a></li>
 		{% endfor %}
 		{% else %}
-		<li><input type="text" name="quirk_from" size="8" maxlength="50"> to <input type="text" name="quirk_to" size="8" maxlength="50"> <a href="#" class="deleteReplacement">x</a></li>
+		<li><input type="text" name="quirk_from" size="4"> to <input type="text" name="quirk_to" size="4"> <a href="#" class="deleteReplacement">x</a></li>
 		{% endif %}
 	</ul>
 	<p><a href="#" id="addReplacement">Add</a> <a href="#" id="clearReplacements">Clear</a></p>
-	<p>Regex replacements:</p>
-	<ul id="regexList">
-		{% if character_dict['character']['regexes']|length!=0 %}
-		{% for regex in character_dict['character']['regexes'] %}
-		<li><input type="text" name="regex_from" size="8" value="{{regex[0]}}" maxlength="50"> to <input type="text" name="regex_to" size="8" value="{{regex[1]}}" maxlength="50"> <a href="#" class="deleteReplacement">x</a></li>
-		{% endfor %}
-		{% else %}
-		<li><input type="text" name="regex_from" size="8" maxlength="50"> to <input type="text" name="regex_to" size="8" maxlength="50"> <a href="#" class="deleteReplacement">x</a></li>
-		{% endif %}
-	</ul>
-	<p><a href="#" id="addRegex">Add</a> <a href="#" id="clearRegexes">Clear</a></p>
 	<p><button type="submit">Apply</button> <button type="button" id="settingsCancelButton">Cancel</button></p>
 </form>
 
@@ -119,26 +97,12 @@
 </form>
 
 <div id="save">
-	<p>Did you enjoy that chat? If so, remember to save the log.</p>
+	<p>Did you enjoy that chat? If so, remember to save the log - the chat will be deleted from this URL in 7 days.</p>
 	<form action="/logs/save" method="post" target="_blank"><p>
 		<input type="hidden" name="chat" value="">
 		<input type="submit" name="save" value="Save log">
 		<input type="submit" name="tumblr" value="Save log and post to Tumblr">
 	</p></form>
 </div>
-
-<script type="text/javascript" charset="utf-8"  media="only screen and (max-width : 320px)">
-// Redirect iPhone/iPod visitors
-function isiPhone(){
-    return (
-        (navigator.platform.indexOf("iPhone") != -1) ||
-        (navigator.platform.indexOf("iPod") != -1)
-    );
-}
-
-if(isiPhone()) {
-$('#conversation').kinetic();
-}
-</script>
 
 {% endblock %}

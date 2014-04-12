@@ -1,0 +1,26 @@
+{% include 'header_admin.html' %}
+
+<div class="container">
+    <h1> Broadcast </h1>
+    {% if result is not none %} {{result|safe}}  {% endif %}
+    <form role="form" action="/admin/broadcast" method="post">
+  		<div class="form-group">
+    		<label for="inputColor">Color</label>
+    		<input type="text" class="form-control" id="welcome_text" value="000000" name="color" maxlength="6">
+  		</div>
+  		<div class="form-group">
+    		<label for="inputColor">Announcement</label>
+    		<input type="text" class="form-control" id="updates_text" placeholder="[GLOBAL] global announcement goes here" name="line">
+  		</div>
+  		<div class="form-group">
+    		<label for="inputColor">Confirm?</label>
+    		<input type="checkbox" class="form-control" id="updates_text" name="confirm" value="true">
+  		</div>
+  		<button type="submit" class="btn btn-default">Change</button>
+	</form>
+
+</div>
+
+</body>
+
+</html>

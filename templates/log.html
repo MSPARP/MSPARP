@@ -34,7 +34,7 @@
 	<p><a href="{{url_for('view_log', chat=chat, page=current_page, mode='normal' )}}">View as text</a></p>
 {% endif %}
 {% else %}
-	<p>There isn't a log for this chat - either it hasn't existed long enough to be archived or I've screwed up the archiving system yet again. Chats are archived after about half an hour, so if you're still seeing this message after that then please send a series of <em>very angry</em> asks to tehdragonfly.tumblr.com.</p>
+	<p>There isn't a log for this chat - either it hasn't existed long enough to be archived or I've screwed up the archiving system yet again. Chats are archived about half an hour after the chat reaches 50 lines, so if you're still seeing this message after that then please send a series of <em>very angry</em> asks to tehdragonfly.tumblr.com.</p>
 {% endif %}
 {% if continuable: %}
 	<p><a href="/chat/{{chat}}">Continue this chat</a></p>
@@ -42,5 +42,52 @@
 </div>
 
 {{ self.pager() }}
+
+<script>
+    function getURLParameter(name) {
+        return decodeURI(
+            (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
+        );
+    }
+    function linkify(inputText) {
+        var replacedText, replacePattern1, replacePattern2;
+
+        //URLs starting with http://, https://, or ftp://
+        replacePattern1 = /]?=?https?:\/\/[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gim;
+        replacedText = inputText.replace(replacePattern1,
+        function(m) {
+            if (m.substr(0,1) == "=" || m.substr(0,1) == "]") {
+                return m;
+            } else {
+                return "[url]"+m+"[/url]";
+            }
+        });
+
+        //Change email addresses to mailto:: links.
+        replacePattern2 = /(\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,6})/gim;
+        replacedText = replacedText.replace(replacePattern2, '[email]$1[/email]');
+
+        return replacedText;
+    }
+
+    if (getURLParameter('mode') == 'bbcode') {
+
+    } else if (getURLParameter('mode') == 'plaintext') {
+        $('#archiveConversation p').each(function() {
+            line = htmlEncode(bbRemoveAll($(this).html()));
+            $(this).html(line);
+        });
+    } else {
+        $('#archiveConversation p').each(function() {
+            if ($(this).attr('class')) {
+                linin = $(this).html();
+                BS = linin.substr(linin.length-39);
+                linin = linin.substr(0,linin.length-39);
+                line = bbEncodeA(linkify(linin));
+                $(this).html(line).append(BS);
+            }
+        });
+    }
+</script>
 
 {% endblock %}

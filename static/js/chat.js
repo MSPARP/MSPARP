@@ -1,37 +1,28 @@
-// Character settings stuff from characters.js.
+function linkify(inputText) {
+    var replacedText, replacePattern1, replacePattern2;
+    if (inputText.indexOf("[img]") !=-1) {
+	return inputText;
+    }
+    //URLs starting with http://, https://, or ftp://
+    replacePattern1 = /]?=?https?:\/\/[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gim;
+    replacedText = inputText.replace(replacePattern1,
+    function(m) {
+        if (m.substr(0,1) == "=" || m.substr(0,1) == "]") {
+            return m;
+        } else {
+            return "[url]"+m+"[/url]";
+        }
+    });
 
-var characterKeys = ['acronym', 'name', 'color', 'quirk_prefix', 'quirk_suffix', 'case'];
+    //Change email addresses to mailto:: links.
+    replacePattern2 = /(\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,6})/gim;
+    replacedText = replacedText.replace(replacePattern2, '[email]$1[/email]');
 
-function deleteReplacement(e) {
-	$(this.parentNode).remove();
-	return false;
-}
-
-function addReplacement(e, from, to) {
-	var newItem = $('<li><input type="text" name="quirk_from" size="8" maxlength="50"> to <input type="text" name="quirk_to" size="8" maxlength="50"> <a href="#" class="deleteReplacement">x</a></li>');
-	if (from && to) {
-		var inputs = $(newItem).find('input');
-		inputs[0].value = from;
-		inputs[1].value = to;
-	}
-	$(newItem).find('.deleteReplacement').click(deleteReplacement);
-	$(newItem).appendTo('#replacementList');
-	return false;
-}
-
-function addRegex(e, from, to) {
-	var newItem = $('<li><input type="text" name="regex_from" size="8" maxlength="50"> to <input type="text" name="regex_to" size="8" maxlength="50"> <a href="#" class="deleteReplacement">x</a></li>');
-	if (from && to) {
-		var inputs = $(newItem).find('input');
-		inputs[0].value = from;
-		inputs[1].value = to;
-	}
-	$(newItem).find('.deleteReplacement').click(deleteReplacement);
-	$(newItem).appendTo('#regexList');
-	return false;
+    return replacedText;
 }
 
 $(document).ready(function() {
+
 	var SEARCH_PERIOD = 1;
 	var PING_PERIOD = 10;
 
@@ -69,13 +60,32 @@ $(document).ready(function() {
 	var ORIGINAL_TITLE = document.title;
 	var conversation = $('#conversation');
 
-	// Redirect iPhone/iPod visitors
-        function isiPhone(){
-            return (
-                (navigator.platform.indexOf("iPhone") != -1) ||
-                (navigator.platform.indexOf("iPod") != -1)
-            );
+	var globals = [];
+	var bbset = 1;
+
+    $('#conversation p').each(function() {
+        if (bbset == 1) {
+            line = bbEncode(linkify($(this).html()));
+            $(this).html(line);
+        } else {
+            if ($(this).attr('class') == 'eMessages') {
+                line = bbEncode(linkify($(this).html()));
+            } else {
+                line = bbEncode(linkify(bbRemove($(this).html())));
+            }
+            $(this).html(line);
         }
+    });
+
+    if ($('#topic').length != 0) {
+        if (bbset == 1) {
+            text = bbEncode(htmlEncode(linkify($('#topic').html())));
+            $('#topic').html(text);
+        } else {
+            text = bbEncode(htmlEncode(linkify(bbRemove($('#topic').html()))));
+            $('#topic').html(text);
+        }
+    }
 
 	$('input, select, button').attr('disabled', 'disabled');
 
@@ -111,21 +121,36 @@ $(document).ready(function() {
 		// Chatting
 
 		function addLine(msg){
+            var von = conversation.scrollTop()+conversation.height()+24;
+            var don = conversation[0].scrollHeight;
+            var lon = don-von;
+            if (lon <= 30){
+                flip = 1;
+            } else {
+                flip = 0;
+            }
 			if (msg.counter==-1) {
 				msgClass = 'system';
 			} else {
 				msgClass = 'user'+msg.counter;
 			}
-			var mp = $('<p>').addClass(msgClass).css('color', '#'+msg.color).text(msg.line).appendTo('#conversation');
+
+			if ($.inArray(msg.counter, globals) != -1 || msg.counter == -123 || msg.counter == -1){
+				message = bbEncode(htmlEncode(linkify(msg.line)), true);
+			} else {
+				message = bbEncode(htmlEncode(linkify(msg.line)), false);
+			}
+
+			var mp = $('<p>').addClass(msgClass).attr('title',msgClass).css('color', '#'+msg.color).html(message).appendTo('#conversation');
+
 			if (highlightUser==msg.counter) {
 				mp.addClass('highlight');
 			}
-            var von = conversation.scrollTop()+conversation.height()+24;
-            var don = conversation[0].scrollHeight;
-            var lon = don-von;
-            if (lon <= 50){
-                  conversation.scrollTop(conversation[0].scrollHeight);
-            }
+			if (flip == 1) {
+				conversation.scrollTop(conversation[0].scrollHeight);
+				flip = 0;
+			}
+			//conversation.scrollTop(conversation[0].scrollHeight);
 		}
 
 		function startChat() {
@@ -184,7 +209,7 @@ $(document).ready(function() {
 						}
 					}
 					if (typeof data.meta.topic!=='undefined') {
-						$('#topic').text(data.meta.topic);
+						$('#topic').html(bbEncode(htmlEncode(linkify(data.meta.topic))));
 					} else {
 						$('#topic').text('');
 					}
@@ -194,7 +219,7 @@ $(document).ready(function() {
 				}
 			}, "json").complete(function() {
 				if (chatState=='chat') {
-					window.setTimeout(getMessages, 50);
+					window.setTimeout(getMessages, 1000);
 				} else if (chat_meta.type=='unsaved' || chat_meta.type=='saved') {
 					$('#save').appendTo(conversation);
 					$('#save input').removeAttr('disabled');
@@ -267,6 +292,9 @@ $(document).ready(function() {
 				// Name is a reserved word; this may or may not break stuff but whatever.
 				listItem.css('color', '#'+currentUser.character.color).text(currentUser.character['name']);
 				listItem.removeClass().addClass(currentUser.meta.group);
+				if (currentUser.meta.group == 'globalmod'){
+					globals.push(currentUser.meta.counter);
+				}
 				var currentGroup = GROUP_DESCRIPTIONS[currentUser.meta.group]
 				var userTitle = currentGroup.title
 				if (currentGroup.description!='') {
@@ -326,6 +354,10 @@ $(document).ready(function() {
 					$('<li />').text('Kick').appendTo(actionList).data({ action: 'kick' }).click(userAction);
 					$('<li />').text('IP Ban').appendTo(actionList).data({ action: 'ip_ban' }).click(userAction);
 				}
+				// Global mod actions. You can only do these if you're a global mod.
+                if (user.meta.group=="globalmod") {
+                    $('<li />').text('Look up IP').appendTo(actionList).click(ipLookup);
+                }
 				$(actionList).appendTo(this);
 				actionListUser = this;
 			} else {
@@ -358,6 +390,14 @@ $(document).ready(function() {
 			}
 		}
 
+        function ipLookup() {
+            var counter = $(this).parent().parent().data().meta.counter;
+            $.post("/chat_ajax/ip_lookup", { 'chat': chat, 'counter': counter, }, function(ip) {
+                var msg = {counter: "-1", color: "000000", line: "[SYSTEM] user" +counter+ "'s IP: " + ip}
+                addLine(msg);
+            });
+        }
+
 		function highlightPosts(counter) {
 			$('.highlight').removeClass('highlight');
 			if (counter!=null) {
@@ -388,8 +428,6 @@ $(document).ready(function() {
 			var textPreview = $('#textInput').val();
 			if (textPreview.substr(0,1)=='/') {
 				textPreview = jQuery.trim(textPreview.substr(1));
-			} else if (textPreview.substr(0,4)=='http') {
-				textPreview = jQuery.trim(textPreview);
 			} else {
 				textPreview = applyQuirks(jQuery.trim(textPreview));
 			}
@@ -413,7 +451,6 @@ $(document).ready(function() {
 			}
 			$('#conversation').css('bottom',($('#controls').height()+10)+'px');
 			previewHidden = !previewHidden;
-			$("#textInput").focus();
 			return false;
 		});
 
@@ -437,17 +474,14 @@ $(document).ready(function() {
 				if ($('#textInput').val()!='') {
 					if (pingInterval) {
 						window.clearTimeout(pingInterval);
+
 					}
 					$.post(POST_URL,{'chat': chat, 'line': $('#preview').text()}); // todo: check for for error
 					pingInterval = window.setTimeout(pingServer, PING_PERIOD*1000);
-                    if (user.character['case']=='alt-lines') {
-                        lastAlternatingLine = !lastAlternatingLine;
-                    }
 					$('#textInput').val('');
 					updateChatPreview();
 				}
 			}
-			$("#textInput").focus();
 			return false;
 		});
 
@@ -469,13 +503,12 @@ $(document).ready(function() {
 		});
 
 		$('#settings').submit(function() {
-			// Trim name and acronym first
-			formInputs = $('#characterSettings').find('input, select');
-			var nameInput = $('input[name="name"]')[0];
-			var acronymInput = $('input[name="acronym"]')[0];
-			nameInput.value = jQuery.trim(nameInput.value);
-			acronymInput.value = jQuery.trim(acronymInput.value);
-			if (nameInput.value=="") {
+			// Trim everything first
+			formInputs = $('#settings').find('input, select');
+			for (i=0; i<formInputs.length; i++) {
+				formInputs[i].value = jQuery.trim(formInputs[i].value)
+			}
+			if ($('input[name="name"]').val()=="") {
 				alert("You can't chat with a blank name!");
 			} else if ($('input[name="color"]').val().match(/^[0-9a-fA-F]{6}$/)==null) {
 				alert("You entered an invalid hex code. Try using the color picker.");
@@ -484,9 +517,11 @@ $(document).ready(function() {
 				formData.push({ name: 'chat', value: chat })
 				$.post(SAVE_URL, formData, function(data) {
 					$('#preview').css('color', '#'+$('input[name="color"]').val());
-					var formInputs = $('#characterSettings').find('input, select');
+					var formInputs = $('#settings').find('input, select');
 					for (i=0; i<formInputs.length; i++) {
-						user.character[formInputs[i].name] = formInputs[i].value;
+						if (formInputs[i].name!="quirk_from" && formInputs[i].name!="quirk_to") {
+							user.character[formInputs[i].name] = formInputs[i].value;
+						}
 					}
 					user.character.replacements = [];
 					var replacementsFrom = $('#settings').find('input[name="quirk_from"]');
@@ -494,14 +529,6 @@ $(document).ready(function() {
 					for (i=0; i<replacementsFrom.length; i++) {
 						if (replacementsFrom[i].value!="" && replacementsFrom[i].value!=replacementsTo[i].value) {
 							user.character.replacements.push([replacementsFrom[i].value, replacementsTo[i].value])
-						}
-					}
-					user.character.regexes = [];
-					var regexesFrom = $('#settings').find('input[name="regex_from"]');
-					var regexesTo = $('#settings').find('input[name="regex_to"]');
-					for (i=0; i<regexesFrom.length; i++) {
-						if (regexesFrom[i].value!="" && regexesFrom[i].value!=regexesTo[i].value) {
-							user.character.regexes.push([regexesFrom[i].value, regexesTo[i].value])
 						}
 					}
 					closeSettings();
@@ -512,7 +539,6 @@ $(document).ready(function() {
 
 		$('#settingsCancelButton').click(function() {
 			closeSettings();
-			$("#textInput").focus();
 		});
 
 		$('#metaOptions input').click(function() {
@@ -570,57 +596,18 @@ $(document).ready(function() {
 			startChat();
 		}
 
-		// Character settings stuff from characters.js.
-		$('.deleteReplacement').click(deleteReplacement);
-		$('#addReplacement').click(addReplacement);
-		$('#clearReplacements').click(function() { $('#replacementList').empty(); return false; });
-		$('#addRegex').click(addRegex);
-		$('#clearRegexes').click(function() { $('#regexList').empty(); return false; });
-
-		$('select[name="character"]').change(function() {
-			if (characters.characters[this.value]) {
-				var newCharacter = characters.characters[this.value];
-				for (i=0; i<characterKeys.length; i++) {
-					$('input[name="'+characterKeys[i]+'"], select[name="'+characterKeys[i]+'"]').val(newCharacter[characterKeys[i]]);
-				}
-				$('#replacementList').empty();
-				if (newCharacter['replacements'].length>0) {
-					for (i=0; i<newCharacter['replacements'].length; i++) {
-						addReplacement(null, newCharacter['replacements'][i][0], newCharacter['replacements'][i][1]);
-					}
-				} else {
-					addReplacement();
-				}
-				$('#regexList').empty();
-				if (newCharacter['regexes'].length>0) {
-					for (i=0; i<newCharacter['regexes'].length; i++) {
-						addRegex(null, newCharacter['regexes'][i][0], newCharacter['regexes'][i][1]);
-					}
-				} else {
-					addRegex();
-				}
-			}
-		});
-
-		var colorBox = $('input[name="color"]');
-		colorBox.ColorPicker({
-			onSubmit: function(hsb, hex, rgb, el) {
-				$(el).val(hex);
-				$(el).ColorPickerHide();
-			},
-			onBeforeShow: function () {
-				$(this).ColorPickerSetColor(this.value);
-			},
-			onChange: function (hsb, hex, rgb) {
-				colorBox.val(hex);
-				// This doesn't do anything in the chat window.
-				$('#color-preview').css('color', '#' + hex);
-			}
-		}).bind('keyup', function() {
-			$(this).ColorPickerSetColor(this.value);
-		});
-
 	}
-$('#conversation').scrollTop($('#conversation')[0].scrollHeight);
-$("#textInput").focus();
+
+	$('#conversation').scrollTop($('#conversation')[0].scrollHeight);
+	$("#textInput").focus();
+
+    $('.spoiler').live('click', function() {
+        if ($(this).css('opacity') == '0') {
+            $(this).css('opacity','1');
+        } else {
+            $(this).css('opacity','0');
+        }
+    });
+
 });
+

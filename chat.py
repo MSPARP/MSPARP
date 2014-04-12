@@ -7,8 +7,16 @@ from lib.characters import CHARACTER_DETAILS
 from lib.groups import MOD_GROUPS, GROUP_RANKS, MINIMUM_RANKS
 from lib.messages import send_message, get_userlists, parse_messages
 from lib.requests import populate_all_chars, connect_redis, create_chat_session, set_cookie, disconnect_redis
+from Crypto.Cipher import XOR
+import base64
+import os
+from werkzeug.contrib.fixers import ProxyFix
+
 
 app = Flask(__name__)
+app.debug = True
+app.wsgi_app = ProxyFix(app.wsgi_app, 2)
+
 
 # Pre and post request stuff
 app.before_first_request(populate_all_chars)
@@ -118,6 +126,7 @@ def postMessage():
                 ))
             # Don't ban people from the oubliette because that'll just put us in an infinite loop.
             elif request.form['user_action']=='ip_ban' and chat!='theoubliette':
+                cipher = XOR.new(os.environ['BAN_KEY'])
                 their_ip_address = g.redis.hget('session.'+their_session_id+'.meta', 'last_ip')
                 ban_id = chat+'/'+their_ip_address
                 if their_ip_address is not None:
@@ -125,11 +134,12 @@ def postMessage():
                 if 'reason' in request.form:
                     g.redis.hset('ban-reasons', ban_id, request.form['reason'])
                 g.redis.publish('channel.'+chat+'.'+their_session_id, '{"exit":"ban"}')
-                disconnect(g.redis, chat, their_session_id, "%s [%s] IP banned %s [%s]." % (
+                disconnect(g.redis, chat, their_session_id, "%s [%s] IP banned %s [%s]. ~ %s ~" % (
                     g.user.character['name'],
                     g.user.character['acronym'],
                     their_session_name,
-                    their_session_acronym
+                    their_session_acronym,
+                    base64.b64encode(cipher.encrypt(ban_id)),
                 ))
         if 'meta_change' in request.form:
             for flag in CHAT_FLAGS:
@@ -141,7 +151,7 @@ def postMessage():
             send_message(g.redis, chat, -1, 'meta_change')
         if 'topic' in request.form:
             if request.form['topic']!='':
-                truncated_topic = request.form['topic'][:1500]
+                truncated_topic = request.form['topic'].replace('\n', ' ')[:1500]
                 g.redis.hset('chat.'+chat+'.meta', 'topic', truncated_topic)
                 send_message(g.redis, chat, -1, 'meta_change', '%s changed the conversation topic to "%s".' % (
                     g.user.character['name'],
@@ -209,13 +219,34 @@ def quitChatting():
     disconnect(g.redis, request.form['chat'], g.user.session_id, disconnect_message)
     return 'ok'
 
+@app.route('/health', methods=['GET'])
+def doHealthCheck():
+    # should probably actually DO a health check here
+    return 'ok'
+
 @app.route('/save', methods=['POST'])
+@mark_alive
 def save():
     try:
         g.user.save_character(request.form)
     except ValueError as e:
         abort(400)
     return 'ok'
+
+# Globalmod stuff.
+
+@app.route('/ip_lookup', methods=['POST'])
+def ip_lookup():
+    if g.user.session_id in g.redis.smembers("global-admins"):
+        pass
+    else:
+        return "not a globaladmin. nice try if you're not a globalmod or KB."
+    chat = request.form['chat']
+    counter = request.form['counter']
+    theircookie = g.redis.hget("chat."+chat+".counters", counter)
+    ip = g.redis.hget("session."+theircookie+".meta", "last_ip")
+
+    return ip
 
 if __name__ == "__main__":
     app.run(port=9000, debug=True)

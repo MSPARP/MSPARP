@@ -1,0 +1,21 @@
+{% include 'header_admin.html' %}
+
+<div class="container">
+    <h1> Front Messages </h1>
+    <form role="form" action="/admin/changemessages" method="post">
+  		<div class="form-group">
+    		<label for="inputColor">Welcome Text</label>
+    		<input type="text" class="form-control" id="welcome_text" placeholder="Blame Nepeat" name="welcome_text" {% if welcome_text != None %}value="{{welcome_text}}"{% endif %}>
+  		</div>
+  		<div class="form-group">
+    		<label for="inputColor">Updates Text</label>
+    		<input type="text" class="form-control" id="updates_text" placeholder="Blame Nepeat" name="updates_text" {% if updates_text != None %}value="{{updates_text}}"{% endif %}>
+  		</div>
+  		<button type="submit" class="btn btn-default">Change</button>
+	</form>
+
+</div>
+
+</body>
+
+</html>

@@ -6,18 +6,21 @@ import datetime, urllib
 from flask import Flask, g, request, render_template, redirect, url_for, jsonify, abort
 from sqlalchemy import and_
 from sqlalchemy.orm.exc import NoResultFound
-from time import mktime
 from webhelpers import paginate
 
 from lib import SEARCH_PERIOD, ARCHIVE_PERIOD, OUBLIETTE_ID, get_time, validate_chat_url
 from lib.archive import archive_chat, get_or_create_log
-from lib.characters import CHARACTER_DETAILS, GROUP_DETAILS, SORTED_CHARACTERS, SORTED_GROUPS
+from lib.characters import CHARACTER_GROUPS, CHARACTERS, CHARACTER_DETAILS
 from lib.messages import parse_line
-from lib.model import Chat, ChatSession, Log, LogPage
+from lib.model import Log, LogPage
 from lib.requests import populate_all_chars, connect_redis, connect_mysql, create_normal_session, set_cookie, disconnect_redis, disconnect_mysql
 from lib.sessions import CASE_OPTIONS
 
+from werkzeug.contrib.fixers import ProxyFix
+
 app = Flask(__name__)
+app.debug = True
+app.wsgi_app = ProxyFix(app.wsgi_app, 2)
 
 # Pre and post request stuff
 app.before_first_request(populate_all_chars)
@@ -25,8 +28,8 @@ app.before_request(connect_redis)
 app.before_request(connect_mysql)
 app.before_request(create_normal_session)
 app.after_request(set_cookie)
-app.after_request(disconnect_redis)
-app.after_request(disconnect_mysql)
+app.teardown_request(disconnect_redis)
+app.teardown_request(disconnect_mysql)
 
 # Helper functions
 
@@ -35,89 +38,55 @@ def show_homepage(error):
         error=error,
         user=g.user,
         replacements=json.loads(g.user.character['replacements']),
-        regexes=json.loads(g.user.character['regexes']),
         picky=g.redis.smembers(g.user.prefix+'.picky') or set(),
-        picky_groups=g.redis.smembers(g.user.prefix+'.picky-groups') or set(),
-        picky_exclude=g.redis.smembers(g.user.prefix+'.picky-exclude') or set(),
-        picky_exclude_groups=g.redis.smembers(g.user.prefix+'.picky-exclude-groups') or set(),
         picky_options=g.redis.hgetall(g.user.prefix+'.picky-options') or {},
         case_options=CASE_OPTIONS,
-        character_details=CHARACTER_DETAILS,
-        group_details=GROUP_DETAILS,
-        sorted_characters=SORTED_CHARACTERS,
-        sorted_groups=SORTED_GROUPS,
+        groups=CHARACTER_GROUPS,
+        characters=CHARACTERS,
         default_char=g.user.character['character'],
         users_searching=g.redis.zcard('searchers'),
-        users_chatting=g.redis.scard('sessions-chatting')
+        users_chatting=g.redis.scard('sessions-chatting'),
+        updates_text=g.redis.get('updates_text'),
+        welcome_text=g.redis.get('welcome_text')
     )
 
 # Chat
 
 @app.route('/chat')
-@app.route('/chat/<chat_url>')
-def chat(chat_url=None):
+@app.route('/chat/<chat>')
+def chat(chat=None):
 
-    if chat_url is None:
+    if chat is None:
         chat_meta = { 'type': 'unsaved' }
         existing_lines = []
         latest_num = -1
     else:
-        if g.redis.zrank('ip-bans', chat_url+'/'+request.environ['HTTP_X_REAL_IP']) is not None:
-            chat_url = OUBLIETTE_ID
+        if g.redis.zrank('ip-bans', chat+'/'+request.headers['CF-Connecting-IP']) is not None:
+            chat = OUBLIETTE_ID
         # Check if chat exists
-        chat_meta = g.redis.hgetall('chat.'+chat_url+'.meta')
+        chat_meta = g.redis.hgetall('chat.'+chat+'.meta')
         # Convert topic to unicode.
         if 'topic' in chat_meta.keys():
             chat_meta['topic'] = unicode(chat_meta['topic'], encoding='utf8')
-        # Try to load the chat from mysql if it doesn't exist in redis.
         if len(chat_meta)==0:
-            try:
-                mysql_log = g.mysql.query(Log).filter(Log.url==chat_url).one()
-                mysql_chat = g.mysql.query(Chat).filter(Chat.log_id==mysql_log.id).one()
-                chat_meta = {
-                    "type": mysql_chat.type,
-                    "counter": mysql_chat.counter,
-                }
-                if mysql_chat.topic is not None and mysql_chat.topic!="":
-                    chat_meta["topic"] = mysql_chat.topic
-                g.redis.hmset('chat.'+chat_url+'.meta', chat_meta)
-                for mysql_session in g.mysql.query(ChatSession).filter(ChatSession.log_id==mysql_log.id):
-                    g.redis.hset('chat.'+chat_url+'.counters', mysql_session.counter, mysql_session.session_id)
-                    g.redis.hmset('session.'+mysql_session.session_id+'.meta.'+chat_url, {
-                        "counter": mysql_session.counter,
-                        "group": mysql_session.group,
-                    })
-                    g.redis.hmset('session.'+mysql_session.session_id+'.chat.'+chat_url, {
-                        "character": mysql_session.character,
-                        "name": mysql_session.name,
-                        "acronym": mysql_session.acronym,
-                        "color": mysql_session.color,
-                        "case": mysql_session.case,
-                        "replacements": mysql_session.replacements,
-                        "regexes": mysql_session.regexes,
-                        "quirk_prefix": mysql_session.quirk_prefix,
-                        "quirk_suffix": mysql_session.quirk_suffix,
-                    })
-                    g.redis.sadd('session.'+mysql_session.session_id+'.chats', chat_url)
-                    g.redis.zadd('chat-sessions', chat_url+'/'+mysql_session.session_id, mktime(mysql_session.expiry_time.timetuple()))
-            except NoResultFound:
-                abort(404)
-        # Make sure it's in the archive queue.
-        if g.redis.zscore('archive-queue', chat_url) is None:
-            g.redis.zadd('archive-queue', chat_url, get_time(ARCHIVE_PERIOD))
+            # XXX CREATE
+            abort(404)
         # Load chat-based session data.
-        g.user.set_chat(chat_url)
-        existing_lines = [parse_line(line, 0) for line in g.redis.lrange('chat.'+chat_url, 0, -1)]
+        g.user.set_chat(chat)
+        existing_lines = [parse_line(line, 0) for line in g.redis.lrange('chat.'+chat, 0, -1)]
         latest_num = len(existing_lines)-1
 
+        # *music* DUCT TAPE...
+        if g.user.meta['counter'] == "Redis is loading the dataset in memory":
+            abort(500)
     return render_template(
         'chat.html',
         user=g.user,
         character_dict=g.user.json_info(),
         case_options=CASE_OPTIONS,
-        character_details=CHARACTER_DETAILS,
-        sorted_characters=SORTED_CHARACTERS,
-        chat=chat_url,
+        groups=CHARACTER_GROUPS,
+        characters=CHARACTERS,
+        chat=chat,
         chat_meta=chat_meta,
         lines=existing_lines,
         latest_num=latest_num
@@ -145,11 +114,13 @@ def quitSearching():
 @app.route('/save', methods=['POST'])
 def save():
     try:
-        g.user.save_character(request.form)
-        g.user.save_pickiness(request.form)
+        if 'character' in request.form:
+            g.user.save_character(request.form)
+        if 'save_pickiness' in request.form:
+            g.user.save_pickiness(request.form)
         if 'create' in request.form:
             chat = request.form['chaturl']
-            if g.redis.exists('chat.'+chat):
+            if g.redis.exists('chat.'+chat+'.meta'):
                 raise ValueError('chaturl_taken')
             # USE VALIDATE_CHAT_URL
             if not validate_chat_url(chat):
@@ -158,12 +129,16 @@ def save():
             if g.user.meta['group']!='globalmod':
                 g.user.set_group('mod')
             g.redis.hset('chat.'+chat+'.meta', 'type', 'group')
-            get_or_create_log(g.redis, g.mysql, chat, 'group')
+            get_or_create_log(g.redis, g.mysql, chat)
             g.mysql.commit()
-            return redirect(url_for('chat', chat_url=chat))
+            return redirect(url_for('chat', chat=chat))
     except ValueError as e:
         return show_homepage(e.args[0])
-    return redirect(url_for('chat'))
+
+    if 'search' in request.form:
+        return redirect(url_for('chat'))
+    else:
+        return redirect(url_for('configure'))
 
 # Logs
 
@@ -237,6 +212,142 @@ def view_log(chat=None):
         mode=mode,
         paginator=paginator
     )
+
+# Globalmod
+
+@app.route('/chat/<chat>/unban', methods=['GET', 'POST'])
+def unbanPage(chat=None):
+    if chat is None:
+        abort(403)
+
+    result = None
+
+    if g.redis.sismember('global-mods', g.user.session_id):
+        pass
+    else:
+        return render_template('admin_denied.html')
+
+    if "ip" in request.form:
+        unbanIP = request.form['ip']
+        banstring = "%s/%s" % (chat, unbanIP)
+        g.redis.hdel("ban-reasons", banstring)
+        g.redis.zrem("ip-bans", banstring)
+        result = "Unbanned %s!" % (unbanIP)
+
+    banlist = g.redis.zrange("ip-bans", "0", "-1")
+    bans = []
+    for x in banlist:
+        if x.split("/")[0] == chat:
+            bans.append(x)
+
+    return render_template('admin_unban.html',
+        lines=bans,
+        result=result,
+        chat=chat,
+        page='unban'
+    )
+
+@app.route('/chat/<chat>/mods')
+def manageMods(chat):
+    chat_session = g.redis.hgetall("session."+g.user.session_id+".meta."+chat)
+    if "group" not in chat_session or chat_session['group'] != 'globalmod':
+        return render_template('admin_denied.html')
+    counters = g.redis.hgetall("chat."+chat+".counters")
+    mods = []
+    if request.args.get('showusers', None) is not None:
+        show = ('globalmod', 'mod', 'mod2', 'mod3', 'user')
+    else:
+        show = ('globalmod', 'mod', 'mod2', 'mod3')
+    for counter, session_id in counters.items():
+        group = g.redis.hget("session."+session_id+".meta."+chat, 'group')
+        if group in show:
+            data = g.redis.hgetall("session."+session_id+".chat."+chat)
+            name = data.get('name', CHARACTER_DETAILS[data['character']]['name'])
+            acronym = data.get('acronym', CHARACTER_DETAILS[data['character']]['acronym'])
+            is_you = session_id == g.user.session_id
+            #[0] = Counter [1] = Group [2] = Name [3] = Acronym [4] = is_you
+            mods.append((counter, group, name, acronym, is_you))
+    mods.sort(key=lambda tup: int(tup[0]))
+    return render_template(
+        'chatmods.html',
+        modstatus=mods,
+        chat=chat,
+        page='mods',
+    )
+
+@app.route("/admin/changemessages", methods=['GET', 'POST'])
+def change_messages():
+
+    if not g.redis.sismember('global-admins', g.user.session_id):
+        return render_template('admin_denied.html')
+
+    if 'welcome_text' in request.form:
+        welcome_text = request.form['welcome_text']
+        g.redis.set('welcome_text', welcome_text)
+        updates_text = request.form['updates_text']
+        g.redis.set('updates_text', updates_text)
+
+    welcome_text = g.redis.get('welcome_text')
+    updates_text = g.redis.get('updates_text')
+
+    return render_template('admin_changemsg.html',
+        welcome_text=welcome_text,
+        updates_text=updates_text,
+        page="changemsg",
+    )
+
+@app.route("/admin/broadcast", methods=['GET', 'POST'])
+def global_broadcast():
+    result = None
+
+    if not g.redis.sismember('global-admins', g.user.session_id):
+        return render_template('admin_denied.html')
+
+    if 'line' in request.form:
+        color = request.form.get('color', "000000")
+        line = request.form.get('line', None)
+        confirm = bool(request.form.get('confirm', False))
+
+        if confirm is True:
+            if line in ('\n', '\r\n', '', ' '):
+                result = '<div class="alert alert-danger"> <strong> Global cannot be blank! </strong> </div>'
+            else:
+                pipe = g.redis.pipeline()
+                chats = set()
+                chat_sessions = g.redis.zrange('chats-alive', 0, -1)
+                for chat_session in chat_sessions:
+                    chat, user = chat_session.split("/")
+                    chats.add(chat)
+                message = {
+                    "messages": [
+                        {
+                            "color": color,
+                            "timestamp": 0,
+                            "counter": -123,
+                            "type": "global",
+                            "line": line
+                        }
+                    ]
+                }
+
+                for chat in chats:
+                    message['messages'][0]['id'] = g.redis.llen("chat."+chat)-1
+                    pipe.publish("channel."+chat, json.dumps(message))
+
+                pipe.execute()
+                result = '<div class="alert alert-success"> <strong> Global sent! </strong> <br> %s </div>' % (line)
+        else:
+            result = '<div class="alert alert-danger"> <strong> Confirm checkbox not checked. </strong> </div>'
+
+    return render_template('admin_globalbroadcast.html',
+        result=result,
+        page="broadcast",
+    )
+
+@app.route('/health', methods=['GET'])
+def doHealthCheck():
+    # should probably actually DO a health check here
+    return 'ok'
 
 # Home
 
