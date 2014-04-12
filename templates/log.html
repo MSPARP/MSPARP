@@ -43,4 +43,51 @@
 
 {{ self.pager() }}
 
+<script>
+    function getURLParameter(name) {
+        return decodeURI(
+            (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
+        );
+    }
+    function linkify(inputText) {
+        var replacedText, replacePattern1, replacePattern2;
+
+        //URLs starting with http://, https://, or ftp://
+        replacePattern1 = /]?=?https?:\/\/[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gim;
+        replacedText = inputText.replace(replacePattern1,
+        function(m) {
+            if (m.substr(0,1) == "=" || m.substr(0,1) == "]") {
+                return m;
+            } else {
+                return "[url]"+m+"[/url]";
+            }
+        });
+
+        //Change email addresses to mailto:: links.
+        replacePattern2 = /(\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,6})/gim;
+        replacedText = replacedText.replace(replacePattern2, '[email]$1[/email]');
+
+        return replacedText;
+    }
+
+    if (getURLParameter('mode') == 'bbcode') {
+
+    } else if (getURLParameter('mode') == 'plaintext') {
+        $('#archiveConversation p').each(function() {
+            line = htmlEncode(bbRemoveAll($(this).html()));
+            $(this).html(line);
+        });
+    } else {
+        $('#archiveConversation p').each(function() {
+            if ($(this).attr('class')) {
+                linin = $(this).html();
+                BS = linin.substr(linin.length-39);
+                linin = linin.substr(0,linin.length-39);
+                line = bbEncodeA(linkify(linin));
+                $(this).html(line).append(BS);
+            }
+        });
+    }
+</script>
+
 {% endblock %}
