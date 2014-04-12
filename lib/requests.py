@@ -69,11 +69,11 @@ def set_cookie(response):
             pass
     return response
 
-def disconnect_redis(response):
+def disconnect_redis(response=None):
     del g.redis
     return response
 
-def disconnect_mysql(response):
+def disconnect_mysql(response=None):
     g.mysql.close()
     del g.mysql
     return response
