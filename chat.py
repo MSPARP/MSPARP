@@ -151,7 +151,7 @@ def postMessage():
             send_message(g.redis, chat, -1, 'meta_change')
         if 'topic' in request.form:
             if request.form['topic']!='':
-                truncated_topic = request.form['topic'][:1500]
+                truncated_topic = request.form['topic'].replace('\n', ' ')[:1500]
                 g.redis.hset('chat.'+chat+'.meta', 'topic', truncated_topic)
                 send_message(g.redis, chat, -1, 'meta_change', '%s changed the conversation topic to "%s".' % (
                     g.user.character['name'],
