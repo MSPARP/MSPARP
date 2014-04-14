@@ -140,8 +140,7 @@ def postMessage():
                 else:
                     g.redis.hset('ban-reasons', ban_id, "[Name: %s; Counter: %s]" % (
                         their_session_name,
-                        request.form['counter'],
-                        request.form['reason'][:1500]
+                        request.form['counter']
                     ))
                 g.redis.publish('channel.'+chat+'.'+their_session_id, '{"exit":"ban"}')
                 disconnect(g.redis, chat, their_session_id, "%s [%s] IP banned %s [%s]. ~ %s ~" % (
