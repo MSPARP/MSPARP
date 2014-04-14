@@ -7,6 +7,7 @@ from flask import Flask, g, request, render_template, redirect, url_for, jsonify
 from sqlalchemy import and_
 from sqlalchemy.orm.exc import NoResultFound
 from webhelpers import paginate
+from socket import inet_aton
 
 from lib import SEARCH_PERIOD, ARCHIVE_PERIOD, OUBLIETTE_ID, get_time, validate_chat_url
 from lib.archive import archive_chat, get_or_create_log
@@ -343,6 +344,45 @@ def global_broadcast():
         result=result,
         page="broadcast",
     )
+
+
+@app.route('/admin/allbans', methods=['GET', 'POST'])
+def admin_allbans():
+    sort = request.args.get('sort', None)
+    result = None
+
+    if g.redis.sismember('global-admins', g.user.session_id):
+        pass
+    else:
+        return render_template('admin_denied.html')
+
+    if "ip" in request.form and "chat" in request.form:
+        chat = request.form['chat']
+        unbanIP = request.form['ip']
+        banstring = "%s/%s" % (chat, unbanIP)
+        g.redis.hdel("ban-reasons", banstring)
+        g.redis.zrem("ip-bans", banstring)
+        result = "Unbanned %s!" % (unbanIP)
+
+    bans = g.redis.zrange("ip-bans", "0", "-1")
+
+    if sort == 'chat':
+        bans.sort(key=lambda tup: tup.split('/')[0])
+        sort = 'chat'
+    elif sort =='ip':
+        bans.sort(key=lambda tup: inet_aton(tup.split('/')[1]))
+        sort = 'ip'
+    else:
+        bans.sort(key=lambda tup: inet_aton(tup.split('/')[1]))
+        sort = 'ip'
+
+    return render_template('global_allbans.html',
+        lines=bans,
+        result=result,
+        page='allbans',
+        sort=sort
+    )
+
 
 @app.route('/health', methods=['GET'])
 def doHealthCheck():
