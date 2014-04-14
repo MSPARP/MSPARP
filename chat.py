@@ -132,7 +132,17 @@ def postMessage():
                 if their_ip_address is not None:
                     g.redis.zadd('ip-bans', ban_id, get_time(IP_BAN_PERIOD))
                 if 'reason' in request.form:
-                    g.redis.hset('ban-reasons', ban_id, request.form['reason'])
+                    g.redis.hset('ban-reasons', ban_id, "[Name: %s; Counter: %s] %s" % (
+                        their_session_name,
+                        request.form['counter'],
+                        request.form['reason'][:1500]
+                    ))
+                else:
+                    g.redis.hset('ban-reasons', ban_id, "[Name: %s; Counter: %s]" % (
+                        their_session_name,
+                        request.form['counter'],
+                        request.form['reason'][:1500]
+                    ))
                 g.redis.publish('channel.'+chat+'.'+their_session_id, '{"exit":"ban"}')
                 disconnect(g.redis, chat, their_session_id, "%s [%s] IP banned %s [%s]. ~ %s ~" % (
                     g.user.character['name'],

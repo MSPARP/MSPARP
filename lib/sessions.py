@@ -162,7 +162,7 @@ class Session(object):
                 if self.meta['group']=='silent':
                     user_change_message = None
                 else:
-                    user_change_message = '%s [%s] is now %s [%s]. ~~ 413 ~~' % (old_name, old_acronym, character['name'], character['acronym'])
+                    user_change_message = '%s [%s] is now %s [%s]. ~~ %s ~~' % (old_name, old_acronym, character['name'], character['acronym'], self.meta['counter'])
                 send_message(redis, request.form['chat'], -1, 'user_change', user_change_message)
             elif character['color']!=old_color:
                 send_message(redis, request.form['chat'], -1, 'user_change', None)
