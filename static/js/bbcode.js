@@ -37,7 +37,7 @@ function bbEncode(S, isglobal) {
     function P($0, $1, $2, $3) {
         if ($3 && $3.indexOf('[') > -1) $3 = R($3);
         var linkint = ($2||$3).trim();
-        while (linkint.toLowerCase().substr(0,11) == "javascript:") || linkint.toLowerCase().substr(0,12) == "javascript :") { linkint = linkint.substring(11); }
+        while (linkint.toLowerCase().substr(0,11) == "javascript:" || linkint.toLowerCase().substr(0,12) == "javascript :") { linkint = linkint.substring(11); }
         linkint = linkint.replace(/["';{}]/g, "");
         $2 = linkint;
         switch ($1) {
@@ -92,7 +92,7 @@ function bbEncodeA(S) {
     function P($0, $1, $2, $3) {
         if ($3 && $3.indexOf('[') > -1) $3 = R($3);
         var linkint = ($2||$3).trim();
-        while (linkint.toLowerCase().substr(0,11) == "javascript:") || linkint.toLowerCase().substr(0,12) == "javascript :") { linkint = linkint.substring(11); }
+        while (linkint.toLowerCase().substr(0,11) == "javascript:" || linkint.toLowerCase().substr(0,12) == "javascript :") { linkint = linkint.substring(11); }
         linkint = linkint.replace(/["';{}]/g, "");
         $2 = linkint;
         switch ($1) {
@@ -154,7 +154,7 @@ function bbRemoveAll(S) {
     function P($0, $1, $2, $3) {
         if ($3 && $3.indexOf('[') > -1) $3 = R($3);
         var linkint = ($2||$3).trim();
-        while (linkint.toLowerCase().substr(0,11) == "javascript:") || linkint.toLowerCase().substr(0,12) == "javascript :") { linkint = linkint.substring(11); }
+        while (linkint.toLowerCase().substr(0,11) == "javascript:" || linkint.toLowerCase().substr(0,12) == "javascript :") { linkint = linkint.substring(11); }
         linkint = linkint.replace(/["';{}]/g, "");
         $2 = linkint;
         switch ($1) {
