@@ -388,6 +388,20 @@ def admin_allbans():
 def doHealthCheck():
     # should probably actually DO a health check here
     return 'ok'
+    
+# Redirects 
+
+@app.route("/faq")
+def faq():
+    return requests.get("http://www.dlh-digital.com/msparpfaq.html").text
+
+@app.route("/bbcode")
+def faq():
+    return requests.get("http://www.dlh-digital.com/bbcode.html").text
+
+@app.route("/userguide")
+def faq():
+    return requests.get("http://www.dlh-digital.com/userguide.html").text
 
 # Home
 
