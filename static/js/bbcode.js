@@ -155,6 +155,7 @@ function bbRemoveAll(S) {
         if ($3 && $3.indexOf('[') > -1) $3 = R($3);
         var linkint = ($2||$3).trim();
         while (linkint.toLowerCase().substr(0,11) == "javascript:") || linkint.toLowerCase().substr(0,12) == "javascript :") { linkint = linkint.substring(11); }
+        linkint = linkint.replace(/["';{}]/g, "");
         $2 = linkint;
         switch ($1) {
             case 'pad': return $3;
