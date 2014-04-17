@@ -3,6 +3,7 @@ try:
 except:
     import json
 import datetime, urllib
+import requests
 from flask import Flask, g, request, render_template, redirect, url_for, jsonify, abort
 from sqlalchemy import and_
 from sqlalchemy.orm.exc import NoResultFound
