@@ -236,7 +236,17 @@ $(document).ready(function() {
 			if (confirm('Are you sure you want to disconnect?')) {
 				$.ajax(QUIT_URL, {'type': 'POST', data: {'chat': chat}});
 				clearChat();
+				if (chat_meta.type=='unsaved' || chat_meta.type=='saved') {
+					$("#disconnectButton").unbind( "click" );
+					$("#disconnectButton").removeAttr("disabled");
+					$("#disconnectButton").text("New chat" );
+					$('#disconnectButton').click(reconnect);
+				}
 			}
+		}
+
+		function reconnect() {
+			window.location.replace(document.location.origin + "/chat");
 		}
 
 		function clearChat() {
