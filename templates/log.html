@@ -74,7 +74,7 @@
 
     } else if (getURLParameter('mode') == 'plaintext') {
         $('#archiveConversation p').each(function() {
-            line = htmlEncode(bbRemoveAll($(this).html()));
+            line = htmlEncode(bbRemove($(this).html()));
             $(this).html(line);
         });
     } else {
@@ -83,7 +83,7 @@
                 linin = $(this).html();
                 BS = linin.substr(linin.length-39);
                 linin = linin.substr(0,linin.length-39);
-                line = bbEncodeA(linkify(linin));
+                line = bbEncode(linkify(linin));
                 $(this).html(line).append(BS);
             }
         });
