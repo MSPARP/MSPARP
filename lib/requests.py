@@ -14,7 +14,7 @@ redis_pool = ConnectionPool(host=os.environ['REDIS_HOST'], port=int(os.environ['
 # Application start
 
 def populate_all_chars():
-    redis = Redis(host=os.environ['REDIS_HOST'], port=int(os.environ['REDIS_PORT']), db=int(os.environ['REDIS_DB']))
+    redis = Redis(connection_pool=redis_pool)
     pipe = redis.pipeline()
     pipe.delete('all-chars')
     pipe.sadd('all-chars', *CHARACTER_DETAILS.keys())
