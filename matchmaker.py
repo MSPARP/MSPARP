@@ -27,6 +27,10 @@ def check_compatibility(first, second):
         elif second_option is not None:
             selected_options.append(option+second_option)
     compatible = first['char'] in second['wanted_chars'] and second['char'] in first['wanted_chars']
+     if first['lastmatched'] == None or second['lastmatched'] == None:
+        pass
+    elif first['lastmatched'] == second['id'] and second['lastmatched'] == first['id']:
+        return False, selected_options
     return compatible, selected_options
 
 if __name__=='__main__': 
@@ -44,6 +48,7 @@ if __name__=='__main__':
                 'char': redis.hget('session.'+session_id, 'character'),
                 'wanted_chars': redis.smembers('session.'+session_id+'.picky') or all_chars,
                 'options': redis.hgetall('session.'+session_id+'.picky-options'),
+                'lastmatched': redis.get('session.'+session_id+'.matched'),
             } for session_id in searchers]
 
             already_matched = set()
@@ -72,6 +77,8 @@ if __name__=='__main__':
                         redis.zrem('searchers', sessions[m]['id'])
                         already_matched.add(sessions[n]['id'])
                         already_matched.add(sessions[m]['id'])
+                        redis.setex('session.'+sessions[n]['id']+'.matched', sessions[m]['id'], 60)
+                        redis.setex('session.'+sessions[n]['id']+'.matched', sessions[n]['id'], 60)
 
         time.sleep(1)
 
