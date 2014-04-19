@@ -63,6 +63,8 @@ def chat(chat=None):
         existing_lines = []
         latest_num = -1
     else:
+        if request.headers['CF-Connecting-IP'] in g.redis.smembers('global-bans'):
+            return redirect("http://erigam.tk/")
         if g.redis.zrank('ip-bans', chat+'/'+request.headers['CF-Connecting-IP']) is not None:
             chat = OUBLIETTE_ID
         # Check if chat exists
@@ -384,6 +386,34 @@ def admin_allbans():
         sort=sort
     )
 
+@app.route('/admin/globalban', methods=['GET', 'POST'])
+def admin_globalban():
+    result = None
+
+    if g.redis.sismember('global-admins', g.user.session_id):
+        pass
+    else:
+        return render_template('admin_denied.html')
+
+    if "ip" in request.form:
+        banIP = request.form['ip']
+        banReason = request.form.get("reason", "No reason.")
+        action = request.form.get("action", None)
+
+        if action == "ban":
+            g.redis.sadd("global-bans", "%s/%s" % (banIP, banReason))
+            result = "Globally banned %s!" % (banIP)
+        elif action == "unban":
+            g.redis.srem("global-bans", "%s/%s" % (banIP, banReason))
+            result = "Globally unbanned %s!" % (banIP)
+
+    bans = g.redis.smembers('global-bans')
+
+    return render_template('global_globalban.html',
+        lines=bans,
+        result=result,
+        page="globalban"
+    )
 
 @app.route('/health', methods=['GET'])
 def doHealthCheck():
