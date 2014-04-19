@@ -27,7 +27,7 @@ def check_compatibility(first, second):
         elif second_option is not None:
             selected_options.append(option+second_option)
     compatible = first['char'] in second['wanted_chars'] and second['char'] in first['wanted_chars']
-     if first['lastmatched'] == None or second['lastmatched'] == None:
+    if first['lastmatched'] == None or second['lastmatched'] == None:
         pass
     elif first['lastmatched'] == second['id'] and second['lastmatched'] == first['id']:
         return False, selected_options
