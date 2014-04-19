@@ -11,5 +11,4 @@ ujson==1.23
 wsgiref==0.1.2
 gunicorn==18.0
 psycopg2==2.5.2
-hiredis==0.1.3
 requests==2.2.1
