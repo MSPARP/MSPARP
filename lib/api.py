@@ -5,6 +5,9 @@ from lib.messages import send_message
 def ping(redis, chat, session, chat_type):
     online_state = get_online_state(redis, chat, session.session_id)
     if online_state=='offline':
+        # Check for Redis loading.
+        if session.meta['counter'] == "Redis is loading the dataset in memory":
+            abort(500)
         # Check IP bans.
         if redis.zrank('ip-bans', chat+'/'+request.headers['CF-Connecting-IP']) is not None:
             abort(403)
