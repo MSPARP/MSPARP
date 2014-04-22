@@ -78,7 +78,7 @@ if __name__=='__main__':
                         already_matched.add(sessions[n]['id'])
                         already_matched.add(sessions[m]['id'])
                         redis.setex('session.'+sessions[n]['id']+'.matched', sessions[m]['id'], 60)
-                        redis.setex('session.'+sessions[n]['id']+'.matched', sessions[n]['id'], 60)
+                        redis.setex('session.'+sessions[m]['id']+'.matched', sessions[n]['id'], 60)
 
         time.sleep(1)
 
