@@ -44,7 +44,7 @@ def postMessage():
     if 'line' in request.form and g.user.meta['group']!='silent':
         # Remove linebreaks and truncate to 1500 characters.
         line = request.form['line'].replace('\n', ' ')[:1500]
-        if request.environ['HTTP_X_REAL_IP'] in g.redis.smembers("punish-scene"):
+        if request.environ['CF-Connecting-IP'] in g.redis.smembers("punish-scene"):
             line = scenify(g.redis, g.user.session_id, chat, line)
         send_message(g.redis, chat, g.user.meta['counter'], 'message', line, g.user.character['color'], g.user.character['acronym'])
     if 'state' in request.form and request.form['state'] in ['online', 'idle']:
