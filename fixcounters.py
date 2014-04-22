@@ -12,6 +12,8 @@ redis = Redis(connection_pool=redis_pool)
 
 chats = set()
 brokenChats = set()
+fixedLines = 0
+fixedCounters = 0
 
 a = redis.keys("chat.*.meta")
 for x in a:
@@ -22,14 +24,29 @@ pbar = ProgressBar(widgets=[Percentage(), Bar()], maxval=len(chats)).start()
 i = 0
 for chat in chats:
 	i += 1
-	#print chat
-	chat_meta = redis.hgetall('chat.'+chat+'.meta')
 	for line in redis.lrange('chat.'+chat, 0, -1):
 		try:
 			l = parse_line(line, 0)
 		except ValueError:
 			brokenChats.add(chat)
+			fixedLines += 1
+			redis.lrem('chat.' + chat, line, 0)
+	for counter in redis.hgetall('chat.' + chat + '.counters'):
+		if counter.isdigit():
+			pass
+		else:
+			fixedCounters += 1
+			cookie = redis.hget('chat.' + chat + '.counters',counter)
+			#print cookie
+			redis.hdel('chat.'+chat+'.counters',counter)
+			redis.delete('session.' + cookie + '.chat.' + chat)
+			redis.delete('session.' + cookie + '.meta.' + chat)
 	pbar.update(i)
 pbar.finish()
 
+print "-----"
+print "Chats repaired:"
 print brokenChats
+print "-----"
+print "Total fixed lines   : " + str(fixedLines)
+print "Total fixed counters: " + str(fixedCounters)
