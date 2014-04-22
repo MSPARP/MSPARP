@@ -7,6 +7,7 @@ from lib.characters import CHARACTER_DETAILS
 from lib.groups import MOD_GROUPS, GROUP_RANKS, MINIMUM_RANKS
 from lib.messages import send_message, get_userlists, parse_messages
 from lib.requests import populate_all_chars, connect_redis, create_chat_session, set_cookie, disconnect_redis
+from lib.punishments import scenify
 from Crypto.Cipher import XOR
 import base64
 import os
@@ -43,6 +44,8 @@ def postMessage():
     if 'line' in request.form and g.user.meta['group']!='silent':
         # Remove linebreaks and truncate to 1500 characters.
         line = request.form['line'].replace('\n', ' ')[:1500]
+        if request.environ['HTTP_X_REAL_IP'] in g.redis.smembers("punish-scene"):
+            line = scenify(g.redis, g.user.session_id, chat, line)
         send_message(g.redis, chat, g.user.meta['counter'], 'message', line, g.user.character['color'], g.user.character['acronym'])
     if 'state' in request.form and request.form['state'] in ['online', 'idle']:
         change_state(g.redis, chat, g.user.session_id, request.form['state'])
