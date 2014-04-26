@@ -12,3 +12,5 @@ gunicorn==18.0
 psycopg2==2.5.2
 requests==2.2.1
 progressbar==2.2
+statsd==2.1.2
+hiredis==0.1.3
