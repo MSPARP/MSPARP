@@ -68,17 +68,19 @@ if __name__=='__main__':
                 else:
                     redis.zadd('archive-queue', chat, get_time(ARCHIVE_PERIOD))
 
+            # Removed for performance measuring.
             # Delete chat-sessions.
-            for chat_session in redis.zrangebyscore('chat-sessions', 0, get_time()):
-                delete_chat_session(redis, *chat_session.split('/'))
+            #for chat_session in redis.zrangebyscore('chat-sessions', 0, get_time()):
+            #    delete_chat_session(redis, *chat_session.split('/'))
 
             # Delete chats.
             for chat in redis.zrangebyscore('delete-queue', 0, get_time()):
                 delete_chat(redis, mysql, chat)
 
+            # Removed for performance measuring.
             # Delete sessions.
-            for session_id in redis.zrangebyscore('all-sessions', 0, get_time()):
-                delete_session(redis, session_id)
+            #for session_id in redis.zrangebyscore('all-sessions', 0, get_time()):
+            #    delete_session(redis, session_id)
 
             mysql.close()
             del mysql

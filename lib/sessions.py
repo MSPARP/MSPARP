@@ -72,9 +72,10 @@ class Session(object):
         # Character encodings are stupid.
         self.unicodify()
 
-        redis.zadd('all-sessions', self.session_id, get_time(DELETE_SESSION_PERIOD))
-        if chat is not None:
-            redis.zadd('chat-sessions', self.chat+'/'+self.session_id, get_time(DELETE_SESSION_PERIOD))
+        # Removed for performance measuring.
+        #redis.zadd('all-sessions', self.session_id, get_time(DELETE_SESSION_PERIOD))
+        #if chat is not None:
+        #    redis.zadd('chat-sessions', self.chat+'/'+self.session_id, get_time(DELETE_SESSION_PERIOD))
 
     def unicodify(self):
         for key in self.meta.keys():
