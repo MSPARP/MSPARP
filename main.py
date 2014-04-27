@@ -170,6 +170,10 @@ def old_view_log(chat):
 
 @app.route('/logs/<log_id>')
 def view_log_by_id(log_id=None):
+    try:
+        log_id = int(log_id)
+    except ValueError:
+        abort(400)
     log = g.mysql.query(Log).filter(Log.id==log_id).one()
     if log.url is not None:
         return redirect(url_for('view_log', chat=log.url))
