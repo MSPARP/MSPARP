@@ -10,7 +10,7 @@ def now():
     return datetime.datetime.now()
 
 engine = create_engine(os.environ['MYSQL_URL'], convert_unicode=True, pool_recycle=3600)
-sm = sessionmaker(autocommit=False,
+sm = sessionmaker(autocommit=True,
                   autoflush=False,
                   bind=engine)
 
