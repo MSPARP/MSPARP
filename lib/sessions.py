@@ -106,9 +106,9 @@ class Session(object):
         redis = self.redis
         character = self.character
 
-        old_acronym = character['acronym']
-        old_name = character['name']
-        old_color = character['color']
+        old_acronym = character.get('acronym', '')
+        old_name = character.get('name', '')
+        old_color = character('color', '000000')
 
         # Truncate acronym to 15 characters.
         character['acronym'] = form['acronym'][:15]

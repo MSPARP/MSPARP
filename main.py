@@ -174,7 +174,10 @@ def view_log_by_id(log_id=None):
         log_id = int(log_id)
     except ValueError:
         abort(400)
-    log = g.mysql.query(Log).filter(Log.id==log_id).one()
+    try:
+        log = g.mysql.query(Log).filter(Log.id==log_id).one()
+    except NoResultFound:
+        abort(404)
     if log.url is not None:
         return redirect(url_for('view_log', chat=log.url))
     abort(404)
