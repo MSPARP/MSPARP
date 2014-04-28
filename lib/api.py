@@ -9,7 +9,7 @@ def ping(redis, chat, session, chat_type):
         if session.meta['counter'] == "Redis is loading the dataset in memory":
             abort(500)
         # Check IP bans.
-        if redis.zrank('ip-bans', chat+'/'+request.headers['CF-Connecting-IP']) is not None:
+        if redis.zscore('ip-bans', chat+'/'+request.headers['CF-Connecting-IP']) is not None:
             abort(403)
         # The user isn't online already. Add them to the chat.
         # Remove the chat from the delete queue.
