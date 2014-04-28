@@ -63,7 +63,7 @@ def chat(chat=None):
         existing_lines = []
         latest_num = -1
     else:
-        if request.headers['CF-Connecting-IP'] in g.redis.smembers('global-bans'):
+        if g.redis.sismember('global-bans', request.headers['CF-Connecting-IP']):
             return redirect("http://erigam.tk/")
         if g.redis.zrank('ip-bans', chat+'/'+request.headers['CF-Connecting-IP']) is not None:
             chat = OUBLIETTE_ID
