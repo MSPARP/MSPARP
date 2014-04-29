@@ -108,7 +108,7 @@ class Session(object):
 
         old_acronym = character.get('acronym', '')
         old_name = character.get('name', '')
-        old_color = character('color', '000000')
+        old_color = character.get('color', '000000')
 
         # Truncate acronym to 15 characters.
         character['acronym'] = form['acronym'][:15]
