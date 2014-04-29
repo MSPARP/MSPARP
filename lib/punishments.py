@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import re
 from lib.messages import send_message
 from random import randint
 
 def scenify(redis, cookie, chat, line):
+    bbcode_regex = re.compile("\[.+?\]")
     replacements = [
         ["color", "I AM BAD AND TRIED TO ESCAPE"],
         ["font", "I AM BAD AND TRIED TO ESCAPE"],
@@ -64,6 +66,8 @@ def scenify(redis, cookie, chat, line):
         ["is", "iz"],
         ["bad", "bed"],
         ["bulge", "hentai tentacles!"],
+        ["kill", "◖(◕◡◕)◗ huuuggggg ◖(◕◡◕)◗"],
+        ["murder", "◖(◕◡◕)◗ luving huggles ◖(◕◡◕)◗"]
     ]
 
     r = lambda: randint(0, 255)
@@ -71,6 +75,8 @@ def scenify(redis, cookie, chat, line):
 
     # Lower case quirk.
     line = line.lower()
+    # Strip BBCode to prevent sneakyness.
+    line = bbcode_regex.sub("", line)
 
     # Replacements.
     for replacement in replacements:
