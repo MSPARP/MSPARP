@@ -422,6 +422,34 @@ def admin_globalban():
         page="globalban"
     )
 
+@app.route('/admin/panda', methods=['GET', 'POST'])
+def admin_panda():
+    result = None
+
+    if g.redis.sismember('global-admins', g.user.session_id):
+        pass
+    else:
+        return render_template('admin_denied.html')
+
+    if "ip" in request.form:
+        ip = request.form['ip']
+        action = request.form.get("action", None)
+
+        if action == "add":
+            g.redis.sadd("punish-scene", "%s" % (ip))
+            result = "Panda added on %s!" % (ip)
+        elif action == "remove":
+            g.redis.srem("punish-scene", "%s" % (ip))
+            result = "Panda removed on %s!" % (ip)
+
+    pandas = g.redis.smembers('punish-scene')
+
+    return render_template('global_globalpanda.html',
+        lines=pandas,
+        result=result,
+        page="panda"
+    )
+
 @app.route('/health', methods=['GET'])
 def doHealthCheck():
     # should probably actually DO a health check here
