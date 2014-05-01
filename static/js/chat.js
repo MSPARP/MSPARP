@@ -328,6 +328,9 @@ $(document).ready(function() {
 					}
 					listItem.addClass('self').append(' (you)');
 				}
+				if (user.meta.group=="globalmod") {
+					listItem.append("<span class=\"userID\">user"+currentUser.meta.counter+"</span>"); 
+				}
 				listItem.removeData().data(currentUser).appendTo(listElement);
 			}
 		}
