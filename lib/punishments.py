@@ -67,7 +67,10 @@ def scenify(redis, cookie, chat, line):
         ["bad", "bed"],
         ["bulge", "hentai tentacles!"],
         ["kill", "◖(◕◡◕)◗ huuuggggg ◖(◕◡◕)◗"],
-        ["murder", "◖(◕◡◕)◗ luving huggles ◖(◕◡◕)◗"]
+        ["murder", "◖(◕◡◕)◗ luving huggles ◖(◕◡◕)◗"],
+        ["nigger", "◖(◕◡◕)◗ i am ignorant p4nda ◖(◕◡◕)◗"],
+        ["faggot", "◖(◕◡◕)◗ <censored> ◖(◕◡◕)◗"],
+        ["suicide", "◖(◕◡◕)◗ hug me now ◖(◕◡◕)◗"]
     ]
 
     r = lambda: randint(0, 255)
