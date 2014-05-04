@@ -15,7 +15,7 @@ from werkzeug.contrib.fixers import ProxyFix
 
 
 app = Flask(__name__)
-app.debug = True
+
 app.wsgi_app = ProxyFix(app.wsgi_app, 2)
 
 
