@@ -26,14 +26,13 @@
             </tr>
         </thead>
         <tbody>
-    {% for line in lines %}
-			<form name='{{line}}' action='/admin/globalban' method='post'>
-                <input type="hidden" name="ip" value="{{line.split('/')[0]}}">
-                <input type="hidden" name="reason" value="{{line.split('/')[1]}}">
+    {% for x in bans %}
+			<form name='{{x}}' action='/admin/globalban' method='post'>
+                <input type="hidden" name="ip" value="{{x}}">
                 <input type="hidden" name="action" value="unban">
                 <tr>
-                    <td>{{line.split('/')[0]}}</td>
-                    <td>{{line.split('/')[1]}}</td>
+                    <td>{{x}}</td>
+                    <td>{{bans[x]}}</td>
                     <td><button type="submit" class="btn btn-primary">Unban</button></td>
                 </tr>
             </form>
