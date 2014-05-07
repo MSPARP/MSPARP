@@ -63,7 +63,11 @@ def chat(chat=None):
         existing_lines = []
         latest_num = -1
     else:
+<<<<<<< HEAD
         if g.redis.sismember('global-bans', request.headers['CF-Connecting-IP']):
+=======
+        if g.redis.hexists("global-bans", request.headers['CF-Connecting-IP']):
+>>>>>>> fixing global bans
             return redirect("http://erigam.tk/")
         if g.redis.zrank('ip-bans', chat+'/'+request.headers['CF-Connecting-IP']) is not None:
             chat = OUBLIETTE_ID
@@ -397,9 +401,7 @@ def admin_allbans():
 def admin_globalban():
     result = None
 
-    if g.redis.sismember('global-admins', g.user.session_id):
-        pass
-    else:
+    if not g.redis.sismember('global-admins', g.user.session_id):
         return render_template('admin_denied.html')
 
     if "ip" in request.form:
@@ -408,16 +410,16 @@ def admin_globalban():
         action = request.form.get("action", None)
 
         if action == "ban":
-            g.redis.sadd("global-bans", "%s/%s" % (banIP, banReason))
+            g.redis.hset("global-bans", banIP, banReason)
             result = "Globally banned %s!" % (banIP)
         elif action == "unban":
-            g.redis.srem("global-bans", "%s/%s" % (banIP, banReason))
+            g.redis.hdel("global-bans", banIP)
             result = "Globally unbanned %s!" % (banIP)
 
-    bans = g.redis.smembers('global-bans')
+    bans = g.redis.hgetall('global-bans')
 
     return render_template('global_globalban.html',
-        lines=bans,
+        bans=bans,
         result=result,
         page="globalban"
     )
