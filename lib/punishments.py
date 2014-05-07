@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import re
-from lib.messages import send_message
 from random import randint
 
 def scenify(redis, cookie, chat, line):
@@ -90,12 +89,8 @@ def scenify(redis, cookie, chat, line):
 
     # Redis stuffs.
     datakey = 'session.%s.chat.%s' % (cookie, chat)
-    redis.hset(datakey, 'color', color)
     redis.hset(datakey, 'acronym', '')
     redis.hset(datakey, 'name', 'XxTEH PANDA KINGxX')
     redis.hset(datakey, 'quirk_prefix', '')
-
-    # Make sure the clients know about the changes.
-    send_message(redis, chat, -1, 'user_change')
 
     return line[:1500]
