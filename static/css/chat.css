@@ -137,7 +137,7 @@ body.withSidebar #conversation {
 	padding: 0 0 0 1.5em;
 }
 
-#online:empty:after, #idle:empty:after {
+#online:empty:after {
 	content: "(no-one)";
 	display: block;
 	padding: 2px 0;
@@ -149,7 +149,7 @@ body.withSidebar #conversation {
 	padding: 2px 0;
 }
 
-#online li, #idle li {
+#online li {
 	cursor: pointer;
 }
 

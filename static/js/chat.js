@@ -192,9 +192,8 @@ $(document).ready(function() {
 				if (typeof data.online!=="undefined") {
 					// Reload user lists.
 					actionListUser = null;
-					$("#online > li, #idle > li").appendTo(holdingList);
+					$("#online > li").appendTo(holdingList);
 					generateUserlist(data.online, $('#online')[0]);
-					generateUserlist(data.idle, $('#idle')[0]);
 				}
 				if (typeof data.meta!=='undefined') {
 					// Reload chat metadata.
@@ -499,17 +498,6 @@ $(document).ready(function() {
 		});
 
 		$('#disconnectButton').click(disconnect);
-
-		$('#idleButton').click(function() {
-			if (userState=='idle') {
-				newState = 'online';
-			} else {
-				newState = 'idle';
-			}
-			$.post(POST_URL, {'chat': chat, 'state': newState}, function(data) {
-				userState = newState;
-			});
-		});
 
 		$('#settingsButton').click(function() {
 			setSidebar('settings');
