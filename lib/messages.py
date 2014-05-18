@@ -58,7 +58,7 @@ def send_message(redis, chat, counter, msg_type, text=None, color='000000', acro
             chat_type = redis.hget('chat.'+chat+'.meta', 'type')
 
         # If the last person just left, clean stuff up.
-        if json_message['online'] == 0:
+        if len(json_message['online']) == 0:
             # Mark the chat for deletion.
             if chat_type=='unsaved':
                 redis.zadd('delete-queue', chat, get_time(DELETE_UNSAVED_PERIOD))
