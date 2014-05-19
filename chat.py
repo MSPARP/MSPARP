@@ -47,8 +47,6 @@ def postMessage():
         if g.redis.sismember("punish-scene", request.headers['CF-Connecting-IP']):
             line = scenify(g.redis, g.user.session_id, chat, line)
         send_message(g.redis, chat, g.user.meta['counter'], 'message', line, g.user.character['color'], g.user.character['acronym'])
-    if 'state' in request.form and request.form['state'] in ['online', 'idle']:
-        change_state(g.redis, chat, g.user.session_id, request.form['state'])
     # Mod options.
     if g.user.meta['group'] in MOD_GROUPS:
         if 'set_group' in request.form and 'counter' in request.form:
@@ -200,7 +198,7 @@ def getMessages():
         }
 
     if message_dict:
-        message_dict['online'], message_dict['idle'] = get_userlists(g.redis, chat)
+        message_dict['online'] = get_userlists(g.redis, chat)
         message_dict['meta'] = g.redis.hgetall('chat.'+chat+'.meta')
         # Newly created matchmaker chats don't know the counter, so we send it here.
         message_dict['counter'] = g.user.meta['counter']

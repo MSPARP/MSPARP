@@ -40,7 +40,7 @@ hr {
 	border-width: 1px 0 0 0;
 }
 
-button, input, select, #conversation, #settings, #userList, #preview, .pager, #archiveConversation {
+button, input, select, #conversation, #settings, #userList, #preview, .pager, #archiveConversation, #logLink {
 	border: 1px solid #999999;
 	border-radius: 1px;
 }
@@ -49,11 +49,11 @@ button, input, select, #conversation, #settings, #userList, #preview, .pager, #a
 	background-color: #eeeeee;
 }
 
-button, input, select {
+button, input, select, #logLink {
 	background-color: rgba(255,255,255,0.8);
 }
 
-input[type="submit"], button {
+input[type="submit"], button, #logLink {
 	display: inline-block;
 	padding: 2px 4px;
 	cursor: pointer;
@@ -73,7 +73,7 @@ optgroup option {
 	padding: 0 10px;
 }
 
-input:focus, input:hover, select:focus, select:hover, button:hover {
+input:focus, input:hover, select:focus, select:hover, button:hover, #logLink:hover {
 	background-color: #ffffff;
 }
 
@@ -137,7 +137,7 @@ body.withSidebar #conversation {
 	padding: 0 0 0 1.5em;
 }
 
-#online:empty:after, #idle:empty:after {
+#online:empty:after {
 	content: "(no-one)";
 	display: block;
 	padding: 2px 0;
@@ -149,7 +149,7 @@ body.withSidebar #conversation {
 	padding: 2px 0;
 }
 
-#online li, #idle li {
+#online li {
 	cursor: pointer;
 }
 
@@ -168,7 +168,7 @@ body.withSidebar #controls {
 	right: 233px;
 }
 
-#controls input[type="submit"], #controls button {
+#controls input[type="submit"], #controls button, #logLink {
 	margin: 5px 0 0 0;
 }
 
@@ -240,6 +240,14 @@ body.settings #settings, body.userList #userList {
 #metaOptions input {
 	vertical-align: middle;
 	margin: 0 0 0 2px;
+}
+
+#logLink {
+	color: black;
+}
+
+#logLink:hover {
+	text-decoration: none;
 }
 
 /* Mobile */

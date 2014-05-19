@@ -50,12 +50,7 @@ def disconnect(redis, chat, session_id, disconnect_message=None):
         send_message(redis, chat, -1, 'user_change', disconnect_message)
 
 def get_online_state(redis, chat, session_id):
-    pipeline = redis.pipeline()
-    pipeline.sismember('chat.'+chat+'.online', session_id)
-    pipeline.sismember('chat.'+chat+'.idle', session_id)
-    online, idle = pipeline.execute()
+    online = redis.sismember('chat.'+chat+'.online', session_id)
     if online:
         return 'online'
-    elif idle:
-        return 'idle'
     return 'offline'

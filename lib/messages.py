@@ -49,7 +49,7 @@ def send_message(redis, chat, counter, msg_type, text=None, color='000000', acro
     if msg_type=='user_change':
 
         # Generate user list.
-        json_message['online'], json_message['idle'] = get_userlists(redis, chat)
+        json_message['online'] = get_userlists(redis, chat)
 
         # g doesn't work in the reaper.
         try:
@@ -58,7 +58,7 @@ def send_message(redis, chat, counter, msg_type, text=None, color='000000', acro
             chat_type = redis.hget('chat.'+chat+'.meta', 'type')
 
         # If the last person just left, clean stuff up.
-        if len(json_message['online'])==0 and len(json_message['idle'])==0:
+        if len(json_message['online']) == 0:
             # Mark the chat for deletion.
             if chat_type=='unsaved':
                 redis.zadd('delete-queue', chat, get_time(DELETE_UNSAVED_PERIOD))
@@ -79,16 +79,10 @@ def send_message(redis, chat, counter, msg_type, text=None, color='000000', acro
     redis.publish('channel.'+chat, json.dumps(json_message))
 
 def get_userlists(redis, chat):
-
-    pipe = redis.pipeline()
-    pipe.smembers('chat.'+chat+'.online')
-    pipe.smembers('chat.'+chat+'.idle')
-    sessions_online, sessions_idle = pipe.execute()
-
+    sessions_online = redis.smembers('chat.'+chat+'.online')
     online = get_sublist(redis, chat, sessions_online)
-    idle = get_sublist(redis, chat, sessions_idle)
 
-    return online, idle
+    return online
 
 def get_sublist(redis, chat, sessions):
     sublist = []
