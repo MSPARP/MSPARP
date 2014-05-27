@@ -73,7 +73,14 @@ def scenify(redis, cookie, chat, line):
         ["nigga", "panda buddies <3"],
         ["proxy", "erigam is my otp"],
         ["proxies", "erigam is canon"],
-        ["hack", "i love ice cream"]
+        ["hack", "i love ice cream"],
+        ["bitch", "karry"],
+        ["bootyhole", "karry"],
+        ["yesterday", "yiff mehterday"],
+        ["gay", "rose"],
+        ["boob", "boobiehz XD"],
+        ["dick", "anusfly"],
+        ["cat", "nepeat"],
     ]
 
     r = lambda: randint(0, 255)
