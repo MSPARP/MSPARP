@@ -80,7 +80,7 @@ def scenify(redis, cookie, chat, line):
         ["gay", "rose"],
         ["boob", "boobiehz XD"],
         ["dick", "anusfly"],
-        ["cat", "nepeat"]
+        ["cat", "nepeat"],
     ]
 
     r = lambda: randint(0, 255)
