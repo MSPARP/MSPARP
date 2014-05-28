@@ -423,7 +423,7 @@ def admin_globalban():
 @app.route('/admin/panda', methods=['GET', 'POST'])
 def admin_panda():
     result = None
-    if not g.redis.sismember('global-mods', g.user.session_id):
+    if not g.redis.sismember('global-admins', g.user.session_id):
         return render_template('admin_denied.html')
 
     if "ip" in request.form:
