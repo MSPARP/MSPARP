@@ -44,7 +44,7 @@ def postMessage():
     if 'line' in request.form and g.user.meta['group']!='silent':
         # Remove linebreaks and truncate to 1500 characters.
         line = request.form['line'].replace('\n', ' ')[:1500]
-        if g.redis.sismember("punish-scene", request.headers['CF-Connecting-IP']):
+        if g.redis.hexists('punish-scene', request.headers['CF-Connecting-IP']):
             line = scenify(g.redis, g.user.session_id, chat, line)
         send_message(g.redis, chat, g.user.meta['counter'], 'message', line, g.user.character['color'], g.user.character['acronym'])
     # Mod options.
