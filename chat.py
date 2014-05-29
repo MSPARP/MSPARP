@@ -24,7 +24,7 @@ app.before_first_request(populate_all_chars)
 app.before_request(connect_redis)
 app.before_request(create_chat_session)
 app.after_request(set_cookie)
-app.after_request(disconnect_redis)
+app.teardown_request(disconnect_redis)
 
 # Decorators
 
