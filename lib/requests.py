@@ -35,6 +35,10 @@ def create_normal_session():
     # Create a user object, using session ID.
     session_id = request.cookies.get('session', None)
     g.user = Session(g.redis, session_id)
+    # Make sure we log the IP.
+    cf_connecting_ip = request.headers.get('CF-Connecting-IP')
+    if cf_connecting_ip is not None:
+        g.redis.hset('session.'+g.user.session_id+'.meta', 'last_ip', cf_connecting_ip)
 
 def create_chat_session():
     # Create a user object, using session and chat IDs.
