@@ -265,6 +265,7 @@ body.mobile .sidebar .close {
 
 body.mobile #conversation {
 	right: 5px !important;
+	-webkit-overflow-scrolling: touch;
 }
 
 body.mobile #controls {
