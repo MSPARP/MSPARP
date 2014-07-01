@@ -88,15 +88,18 @@ def get_sublist(redis, chat, sessions):
     sublist = []
     for session in sessions:
         session_character = redis.hgetall('session.'+session+'.chat.'+chat)
-        if len(session_character)<FULL_CHARACTER_LENGTH:
-            new_session_character = dict(CHARACTER_DETAILS[session_character['character']])
-            new_session_character.update(session_character)
-            session_character = new_session_character
-        session_meta = redis.hgetall('session.'+session+'.meta.'+chat)
-        sublist.append({
-            'character': session_character,
-            'meta': session_meta,
-        })
+        try:
+            if len(session_character)<FULL_CHARACTER_LENGTH:
+                new_session_character = dict(CHARACTER_DETAILS[session_character['character']])
+                new_session_character.update(session_character)
+                session_character = new_session_character
+            session_meta = redis.hgetall('session.'+session+'.meta.'+chat)
+            sublist.append({
+                'character': session_character,
+                'meta': session_meta,
+            })
+        except KeyError:
+            continue
     sublist.sort(key=lambda _: _['character']['name'].lower())
     return sublist
 
