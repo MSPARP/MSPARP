@@ -16,7 +16,6 @@ def scenify(redis, cookie, chat, line):
         ["omg", "ZOMGZ!!11"],
         ["omfg", "oh my freaking gog!! xD"],
         ["oh my god", "oh my gob"],
-        ["he", "him"],
         ["she", "her"],
         ["have", "has"],
         ["my", "mah"],
