@@ -10,7 +10,7 @@ def ping(redis, chat, session, chat_type):
         if redis.scard('chat.'+chat+'.online')>=30:
             abort(403)
         # Global bans
-        if g.redis.hexists("global-bans", request.headers['CF-Connecting-IP']):
+        if redis.hexists("global-bans", request.headers['CF-Connecting-IP']):
             abort(403)
         # Check for Redis loading.
         if session.meta['counter'] == "Redis is loading the dataset in memory":
