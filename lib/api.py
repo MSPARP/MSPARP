@@ -5,6 +5,13 @@ from lib.messages import send_message
 def ping(redis, chat, session, chat_type):
     online_state = get_online_state(redis, chat, session.session_id)
     if online_state=='offline':
+        # Don't let the user in if there are more than 30 people online already.
+        # XXX SHOW THEM A PROPER ERROR MESSAGE FOR THIS
+        if redis.scard('chat.'+chat+'.online')>=30:
+            abort(403)
+        # Global bans
+        if g.redis.hexists("global-bans", request.headers['CF-Connecting-IP']):
+            abort(403)
         # Check for Redis loading.
         if session.meta['counter'] == "Redis is loading the dataset in memory":
             abort(500)
