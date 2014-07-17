@@ -6,8 +6,8 @@ from random import randint
 def scenify(redis, cookie, chat, line):
     bbcode_regex = re.compile("\[.+?\]")
     replacements = [
-        ["color", "I AM BAD AND TRIED TO ESCAPE"],
-        ["font", "I AM BAD AND TRIED TO ESCAPE"],
+        ["color", "<BBCODE REMOVED xD>"],
+        ["font", "<BBCODE REMOVED xD>"],
         [":)", "xD"],
         [":(", "DX"],
         ["lol", "LOLZ o◖(≧∀≦)◗o"],
