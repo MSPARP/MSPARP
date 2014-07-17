@@ -47,7 +47,7 @@
                 <tbody>
             {% for line in lines %}
                     <form name='{{line}}' action='/admin/panda' method='post'>
-                        <input type="hidden" name="ip" value="{{line.split('/')[0]}}">
+                        <input type="hidden" name="ip" value="{{line}}">
                         <input type="hidden" name="action" value="remove">
                         <tr>
                             <td>{{line}}</td>
