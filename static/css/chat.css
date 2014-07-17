@@ -279,6 +279,10 @@ body.mobile.withSidebar #conversation, body.mobile.withSidebar #controls {
 	display: none;
 }
 
+body.mobile #conversation, body.mobile #userList, body.mobile #settings {
+    -webkit-overflow-scrolling: touch;
+}
+
 /* Archive */
 
 .pager {
