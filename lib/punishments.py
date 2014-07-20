@@ -35,7 +35,7 @@ def scenify(redis, cookie, chat, line):
         ["shit", "poopies~"],
         ["holy poopies~", "I'M SO RANDOM"],
         ["love", "LUrve"],
-        ["ban", "[O___________0]< AWKWARD WHALE HERE to ask: r u highs XD"]
+        ["ban", "[O___________0]< AWKWARD WHALE HERE to ask: r u highs XD"],
         ["me", "meh"],
         ["christ", "WHAT'S YOUR MYSPACE? XD maybe we can be bffs!!(warning i have a LOT of random music on mine."],
         ["fuck", "fudge"],
@@ -59,7 +59,7 @@ def scenify(redis, cookie, chat, line):
         ["later", "laterz!!1"],
         ["please", "plz"],
         [" oc ", "original character (mine dnt stealzies)"],
-        ["special", "speshul"]
+        ["special", "speshul"],
         ["stop", "staph"],
         ["its", "itz"],
         ["it's", "it'z"],
