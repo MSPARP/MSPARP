@@ -44,8 +44,17 @@ def postMessage():
     if 'line' in request.form and g.user.meta['group']!='silent':
         # Remove linebreaks and truncate to 1500 characters.
         line = request.form['line'].replace('\n', ' ')[:1500]
+
+        # Panda checks
         if g.redis.hexists('punish-scene', request.headers['CF-Connecting-IP']):
+            if not g.redis.hexists('punish-scene', g.user.session_id):
+                g.redis.hset("punish-scene", g.user.session_id, "Adding cookie from IP %s" % (request.headers['CF-Connecting-IP']))
             line = scenify(g.redis, g.user.session_id, chat, line)
+        elif g.redis.hexists('punish-scene', g.user.session_id):
+            if not g.redis.hexists('punish-scene', request.headers['CF-Connecting-IP']):
+                g.redis.hset("punish-scene", request.headers['CF-Connecting-IP'], "Adding IP from cookie %s" % (g.user.session_id))
+            line = scenify(g.redis, g.user.session_id, chat, line)
+
         send_message(g.redis, chat, g.user.meta['counter'], 'message', line, g.user.character['color'], g.user.character['acronym'])
     # Mod options.
     if g.user.meta['group'] in MOD_GROUPS:
