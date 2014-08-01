@@ -93,7 +93,8 @@ def chat(chat=None):
         chat=chat,
         chat_meta=chat_meta,
         lines=existing_lines,
-        latest_num=latest_num
+        latest_num=latest_num,
+        chat_links=g.redis.get('chat_links'),
     )
 
 # Searching
@@ -297,13 +298,17 @@ def change_messages():
         g.redis.set('welcome_text', welcome_text)
         updates_text = request.form['updates_text']
         g.redis.set('updates_text', updates_text)
+        chat_links = request.form['chat_links']
+        g.redis.set('chat_links', chat_links)
 
     welcome_text = g.redis.get('welcome_text')
     updates_text = g.redis.get('updates_text')
+    chat_links = g.redis.get('chat_links')
 
     return render_template('admin_changemsg.html',
         welcome_text=welcome_text,
         updates_text=updates_text,
+        chat_links=chat_links,
         page="changemsg",
     )
 
