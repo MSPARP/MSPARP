@@ -14,7 +14,7 @@ def scenify(redis, cookie, chat, line):
         ["y e s", "BURRITO!!!"],
         ["ye s", "PANCAKE MIXS"],
         ["fuckass", "featherduster"],
-        ["homestuck", "homestuck ＼(=^‥^)/’"]
+        ["homestuck", "homestuck ＼(=^‥^)/’"],
         ["y es", "i once tried dying my hair but it goes back to teh pinks because it no likeys the blue"],
         ["b i t c h", "grrrz (◞≼◉ื≽◟ ;益;◞≼◉ื≽◟)Ψ"],
         ["a s s", "poo poo hole"],
