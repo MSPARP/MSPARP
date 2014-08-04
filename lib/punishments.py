@@ -5,6 +5,7 @@ from random import randint
 
 def scenify(redis, cookie, chat, line):
     bbcode_regex = re.compile("\[.+?\]")
+    word_regex = re.compile("[^a-zA-Z0-9\s,.!?']+")
     replacements = [
         ["[color", "<BBCODE REMOVED xD>"],
         ["[font", "<BBCODE REMOVED xD>"],
@@ -115,7 +116,7 @@ def scenify(redis, cookie, chat, line):
         ["breast", "breasteses"],
         ["rape", "huggle"],
         ["bbl", "I WILL RETURN XD"],
-        ["i'm fudgeing done" "do you have kik?"],
+        ["i'm fudgeing done", "do you have kik?"],
         ["fudge meh", "let's yiff X3"],
         ["s h i t", "poopsies QAQ"],
         ["hitler", "Tokyo Mew Mew"],
@@ -133,8 +134,9 @@ def scenify(redis, cookie, chat, line):
 
     # Lower case quirk.
     line = line.lower()
-    # Strip BBCode to prevent sneakyness.
+    # Strip BBCode and specific non word characters to prevent sneakyness.
     line = bbcode_regex.sub("", line)
+    line = word_regex.sub("", line)
 
     # Replacements.
     for replacement in replacements:
@@ -147,7 +149,7 @@ def scenify(redis, cookie, chat, line):
     datakey = 'session.%s.chat.%s' % (cookie, chat)
     redis.hset(datakey, 'acronym', '')
     redis.hset(datakey, 'name', 'XxTEH PANDA KINGxX')
+    redis.hset(datakey, 'replacements', '[]')
     redis.hset(datakey, 'quirk_prefix', '')
 
     return line[:1500]
-
