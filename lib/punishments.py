@@ -4,7 +4,7 @@ import re
 from random import randint
 
 def scenify(redis, cookie, chat, line):
-    word_regex = re.compile("[^a-zA-Z0-9\s,.!?']+")
+    word_regex = re.compile("[^a-zA-Z\s,.!?']+")
     bbcode_regex = re.compile("\[.+?\]")
     replacements = [
         ["[color", "<BBCODE REMOVED xD>"],
