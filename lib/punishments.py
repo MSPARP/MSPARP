@@ -4,6 +4,7 @@ import re
 from random import randint
 
 def scenify(redis, cookie, chat, line):
+    word_regex = re.compile("[^a-zA-Z\s,.!?']+")
     bbcode_regex = re.compile("\[.+?\]")
     replacements = [
         ["[color", "<BBCODE REMOVED xD>"],
@@ -12,13 +13,16 @@ def scenify(redis, cookie, chat, line):
         ["colour", "coularz"],
         ["y e s", "BURRITO!!!"],
         ["ye s", "PANCAKE MIXS"],
+        ["fuckass", "featherduster"],
+        ["homestuck", "homestuck ＼(=^‥^)/’"],
         ["y es", "i once tried dying my hair but it goes back to teh pinks because it no likeys the blue"],
-        ["b i t c h", "grrrz"],
+        ["b i t c h", "grrrz (◞≼◉ื≽◟ ;益;◞≼◉ื≽◟)Ψ"],
         ["a s s", "poo poo hole"],
         ["stink", "stinkay"],
         [":)", "xD"],
         [":(", "DX"],
         ["them", "thems"],
+        ["like", "likeys"],
         ["f u c k", "FIDDLY DIDDLY!"],
         ["lol", "LOLZ o◖(≧∀≦)◗o"],
         [":3", "x3"],
@@ -43,7 +47,6 @@ def scenify(redis, cookie, chat, line):
         ["me", "meh"],
         ["christ", "WHAT'S YOUR MYSPACE? XD maybe we can be bffs!!(warning i have a LOT of random music on mine."],
         ["fuck", "fudge"],
-        ["hell", "heck"],
         ["damn", "darn"],
         ["ass", "booty"],
         ["haha", "mwahahaha!!!111"],
@@ -51,6 +54,7 @@ def scenify(redis, cookie, chat, line):
         ["bye", "baiiii XD"],
         ["hello", "hallo! xD"],
         ["hate", "LOVE"],
+        ["hell", "heck"],
         ["help", "halpz me"],
         ["jfc", "jegus fudging crust"],
         ["admins", "those cool guys"],
@@ -59,12 +63,13 @@ def scenify(redis, cookie, chat, line):
         ["im sawwy", "I apologize to the MSPARP staff for being a little shit. Please don't ban me. [color=#eeeeee] haha your pain is funny[/color]"],
         ["okay", "otay"],
         ["ok", "okayz"],
+        ["idk", "i dun knoes"],
         ["brb", "AHLL BE BAC >:DDDD MWAHAHAHA"],
         ["later", "laterz!!1"],
         ["please", "plz"],
-        ["oc ", "original character (mine dnt stealzies)"],
+        ["oc ", "original character (mine dnt stealzies)ლ(=ↀωↀ=)ლ"],
         ["special", "speshul"],
-        ["stop", "staph"],
+        ["stop", "staph "],
         ["its", "itz"],
         ["it's", "it'z"],
         ["wow", "wowzers"],
@@ -78,11 +83,15 @@ def scenify(redis, cookie, chat, line):
         ["yes", "yiff meh"],
         ["wait", "w8"],
         ["is", "iz"],
+        ["thrust", "pee"],
+        ["want", "wantzies"],
+        ["eheh", "pee on the floor"],
+        ["hehe", "TEHEHEHE X3"],
         ["bad", "badzies o-O"],
-        ["bulge", "hentai tentacles!"],
-        ["kill", "huuuggggg"],
+        ["bulge", "hentai tentacles! ༼ꉺ౪ꉺ༽"],
+        ["kill", "huuuggggg (ﾉ≧∀≦)ﾉ"],
         ["murder", "tickle"],
-        ["die", "be my bff"],
+        ["die", "be my bff (ﾉ´ヮ´)ﾉ*:･ﾟ✧"],
         ["ddos", "poo aggresively on"],
         ["nigger", "awesome people"],
         ["trans scum", "i am so sorry for everything i've said"],
@@ -115,7 +124,7 @@ def scenify(redis, cookie, chat, line):
         ["breast", "breasteses"],
         ["rape", "huggle"],
         ["bbl", "I WILL RETURN XD"],
-        ["i'm fudgeing done" "do you have kik?"],
+        ["i'm fudgeing done", "do you have kik?"],
         ["fudge meh", "let's yiff X3"],
         ["s h i t", "poopsies QAQ"],
         ["hitler", "Tokyo Mew Mew"],
@@ -133,8 +142,9 @@ def scenify(redis, cookie, chat, line):
 
     # Lower case quirk.
     line = line.lower()
-    # Strip BBCode to prevent sneakyness.
+    # Strip BBCode and specific non word characters to prevent sneakyness.
     line = bbcode_regex.sub("", line)
+    line = word_regex.sub("", line)
 
     # Replacements.
     for replacement in replacements:
@@ -147,7 +157,7 @@ def scenify(redis, cookie, chat, line):
     datakey = 'session.%s.chat.%s' % (cookie, chat)
     redis.hset(datakey, 'acronym', '')
     redis.hset(datakey, 'name', 'XxTEH PANDA KINGxX')
+    redis.hset(datakey, 'replacements', '[]')
     redis.hset(datakey, 'quirk_prefix', '')
 
     return line[:1500]
-
