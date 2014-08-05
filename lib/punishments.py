@@ -135,6 +135,7 @@ def scenify(redis, cookie, chat, line):
         ["whore", "big meanie"],
         ["skank", "big doo doo head XO"],
         ["titties", "no no zone"],
+        ["own", "pwn"],
     ]
 
     r = lambda: randint(0, 255)
