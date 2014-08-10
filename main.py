@@ -379,7 +379,7 @@ def admin_allbans():
         g.redis.zrem("ip-bans", banstring)
         result = "Unbanned %s!" % (unbanIP)
 
-    raw_bans = g.redis.zrange("ip-bans", "0", "-1", withscores=True)
+    raw_bans = g.redis.zrange("ip-bans", 0, -1, withscores=True)
     ban_reasons = g.redis.hgetall('ban-reasons')
 
     bans = []

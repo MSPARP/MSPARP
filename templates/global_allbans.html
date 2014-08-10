@@ -36,7 +36,7 @@
             </tr>
         </thead>
         <tbody>
-    {% for for chat, ip, date, reason in bans %}
+    {% for chat, ip, date, reason in bans %}
 			<form action='/admin/allbans' method='post'>
                 <input type="hidden" name="chat" value="{{chat}}"/>
 				<input type="hidden" name="ip" value="{{ip}}"/>
