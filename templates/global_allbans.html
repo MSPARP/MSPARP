@@ -20,6 +20,7 @@
     <form name="input" action="/admin/allbans" method="get">
     Sort by
     <select name="sort" onchange="this.form.submit()">
+      <option value="date"{% if sort == 'date' %} selected="selected" {% endif %}>Date</option>
       <option value="ip"{% if sort == 'ip' %} selected="selected" {% endif %}>IP</option>
       <option value="chat"{% if sort == 'chat' %} selected="selected" {% endif %}>Chat</option>
     </select>
@@ -29,21 +30,22 @@
             <tr>
                 <th class="col-sm-2">Chat</th>
                 <th class="col-sm-2">IP</th>
-                <th class="col-sm-7">Reason</th>
+                <th class="col-sm-2">Date</th>
+                <th class="col-sm-5">Reason</th>
                 <th class="col-sm-1">Unban</th>
             </tr>
         </thead>
         <tbody>
-    {% for line in lines %}
-			<form name='{{lines.index(line)}}' action='/admin/allbans' method='post'>
-                <input type="hidden" name="chat" value="{{line.split('/')[0]}}"/>
-				<input type="hidden" name="ip" value="{{line.split('/')[1]}}"/>
+    {% for for chat, ip, date, reason in bans %}
+			<form action='/admin/allbans' method='post'>
+                <input type="hidden" name="chat" value="{{chat}}"/>
+				<input type="hidden" name="ip" value="{{ip}}"/>
             <tr>
-                <td><a href="/chat/{{line.split('/')[0]}}"> {{line.split('/')[0]}} </a></td>
-                <td>{{line.split('/')[1]}}</td>
-                <td>Reason: {% if g.redis.hget("ban-reasons", line) != None %} {{g.redis.hget("ban-reasons", line).decode('utf-8')}} {% endif %}</td>
+                <td><a href="/chat/{{chat}}"> {{chat}} </a></td>
+                <td>{{ip}}</td>
+                <td>{{date}}</td>
+                <td>Reason: {{reason}}</td>
                 <td><button type="submit" class="btn btn-primary">Unban</button></td>
-                <!--<td><a href="javascript:document.forms['{{lines.index(line)}}'].submit();">Unban</a></td>-->
             </tr>
             </form>
     {% endfor %}
