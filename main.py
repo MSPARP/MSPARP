@@ -379,20 +379,29 @@ def admin_allbans():
         g.redis.zrem("ip-bans", banstring)
         result = "Unbanned %s!" % (unbanIP)
 
-    bans = g.redis.zrange("ip-bans", "0", "-1")
+    raw_bans = g.redis.zrange("ip-bans", 0, -1, withscores=True)
+    ban_reasons = g.redis.hgetall('ban-reasons')
+
+    bans = []
+    for chat_ip, expiry in raw_bans:
+        chat, ip = chat_ip.split('/')
+        bans.append((
+            chat, ip,
+            datetime.datetime.fromtimestamp(expiry - 2592000),
+            ban_reasons.get(chat_ip, '').decode('utf-8'),
+        ))
 
     if sort == 'chat':
-        bans.sort(key=lambda tup: tup.split('/')[0])
+        bans.sort(key=lambda tup: tup[0])
         sort = 'chat'
-    elif sort =='ip':
-        bans.sort(key=lambda tup: inet_aton(tup.split('/')[1]))
+    elif sort == 'ip':
+        bans.sort(key=lambda tup: inet_aton(tup[1]))
         sort = 'ip'
     else:
-        bans.sort(key=lambda tup: inet_aton(tup.split('/')[1]))
-        sort = 'ip'
+        sort = 'date'
 
     return render_template('global_allbans.html',
-        lines=bans,
+        bans=bans,
         result=result,
         page='allbans',
         sort=sort
