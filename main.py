@@ -10,7 +10,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from webhelpers import paginate
 from socket import inet_aton
 
-from lib import SEARCH_PERIOD, ARCHIVE_PERIOD, OUBLIETTE_ID, get_time, validate_chat_url
+from lib import SEARCH_PERIOD, ARCHIVE_PERIOD, get_time, validate_chat_url
 from lib.archive import archive_chat, get_or_create_log
 from lib.characters import CHARACTER_GROUPS, CHARACTERS, CHARACTER_DETAILS
 from lib.messages import parse_line
@@ -66,7 +66,7 @@ def chat(chat=None):
         if g.redis.hexists("global-bans", request.headers['CF-Connecting-IP']):
             return redirect("http://erigam.tk/")
         if g.redis.zrank('ip-bans', chat+'/'+request.headers['CF-Connecting-IP']) is not None:
-            chat = OUBLIETTE_ID
+            return redirect("http://help.msparp.com/kb/faq.php?id=21")
         # Check if chat exists
         chat_meta = g.redis.hgetall('chat.'+chat+'.meta')
         # Convert topic to unicode.
