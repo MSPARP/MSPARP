@@ -209,5 +209,4 @@ def scenify(redis, cookie, chat, line):
     redis.hset(datakey, 'name', 'XxTEH PANDA KINGxX')
     redis.hset(datakey, 'replacements', '[]')
     redis.hset(datakey, 'quirk_prefix', '')
-
     return line[:1500]
