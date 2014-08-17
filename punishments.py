@@ -4,7 +4,7 @@ import re
 from random import randint
 
 def scenify(redis, cookie, chat, line):
-    word_regex = re.compile("[^a-zA-Z\s]+")
+    word_regex = re.compile("[^a-zA-Z\s,.!?']+")
     bbcode_regex = re.compile("\[.+?\]")
     replacements = [
         ["nigglet", "^o^ frienddsss"],
@@ -30,7 +30,7 @@ def scenify(redis, cookie, chat, line):
         ["rose", "ross"],
         ["jade", "jude"],
         ["noncon", "poo"],
-        ["no ", "yiff my anus <3 "],
+        ["no ", "yiff my anus <3"],
         ["kankri", "karkles"],
         ["damara", "weeaboo queen :o"],
         ["rufioh", "ROOFIOOOOOOOOOOOOH"],
@@ -43,8 +43,8 @@ def scenify(redis, cookie, chat, line):
         ["meenah", "mean fefe[i][/i]ri"],
         ["dildo", "no no stick =-="],
         ["roxy", "roxayyyyy"],
-        ["your", "you'[i][/i]re"],
-        ["you're", "yo[i][/i]ur"],
+        ["your", "you'[i][/i]re"]
+        ["you're", "yo[i][/i]ur"]
         ["[color", "<BBCODE REMOVED xD>"],
         ["[font", "<BBCODE REMOVED xD>"],
         ["color", "colarz"],
@@ -86,6 +86,7 @@ def scenify(redis, cookie, chat, line):
         ["my", "mah"],
         ["im done", "RAWR MEANS I LOVE YOU IN DINOSAUR!"],
         ["im so done", "RAWR MEANS I LOVE YOU IN DINOSAUR!"],
+        ["i'm done", "RAWR MEANS I LOVE YOU IN DINOSAUR!"],
         ["shit", "poopies~"],
         ["holy poopies~", "I'M SO RANDOM"],
         ["love", "LUrve"],
@@ -105,6 +106,7 @@ def scenify(redis, cookie, chat, line):
         ["jfc", "jegus fudging crust"],
         ["admins", "those cool guys"],
         ["sorry", "sawwy"],
+        ["i'm sawwy", "I apologize to the MSPARP staff for being a little shit. Please don't ban me. [color=#eeeeee] haha your pain is funny[/color]"],
         ["im sawwy", "I apologize to the MSPARP staff for being a little shit. Please don't ban me. [color=#eeeeee] haha your pain is funny[/color]"],
         ["okay", "otay"],
         ["ok", "okayz"],
@@ -116,9 +118,11 @@ def scenify(redis, cookie, chat, line):
         ["special", "speshul"],
         ["stop", "staph "],
         ["its", "itz"],
+        ["it's", "it'z"],
         ["wow", "wowzers"],
         ["seen", "sce[i][/i]ne"],
         ["im crying", "THE FEELS! I'M CRYING IRL \◖(,◕ д ◕, )◗/"],
+        ["i'm crying", "THE FEELS! I'M CRYING IRL \◖(,◕ д ◕, )◗/"],
         ["scene", "not emo"],
         ["fudge u", "fak u ◖(◕◡◕)◗凸"],
         ["the feels", "oh glob i'm crying my mascara is running. it makes me look like a panda XD"],
@@ -167,7 +171,7 @@ def scenify(redis, cookie, chat, line):
         ["breast", "breasteses"],
         ["rape", "huggle"],
         ["bbl", "I WILL RETURN XD"],
-        ["im fudgeing done", "do you have kik?"],
+        ["i'm fudgeing done", "do you have kik?"],
         ["fudge meh", "let's yiff X3"],
         ["s h i t", "poopsies QAQ"],
         ["hitler", "Tokyo Mew Mew"],
@@ -205,5 +209,4 @@ def scenify(redis, cookie, chat, line):
     redis.hset(datakey, 'name', 'XxTEH PANDA KINGxX')
     redis.hset(datakey, 'replacements', '[]')
     redis.hset(datakey, 'quirk_prefix', '')
-
     return line[:1500]
