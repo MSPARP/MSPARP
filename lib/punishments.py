@@ -4,7 +4,7 @@ import re
 from random import randint
 
 def scenify(redis, cookie, chat, line):
-    word_regex = re.compile("[^a-zA-Z\s,.!?']+")
+    word_regex = re.compile("[^a-zA-Z\s]+")
     bbcode_regex = re.compile("\[.+?\]")
     replacements = [
         ["nigglet", "^o^ frienddsss"],
@@ -30,7 +30,7 @@ def scenify(redis, cookie, chat, line):
         ["rose", "ross"],
         ["jade", "jude"],
         ["noncon", "poo"],
-        ["no ", "yiff my anus <3"],
+        ["no ", "yiff my anus <3 "],
         ["kankri", "karkles"],
         ["damara", "weeaboo queen :o"],
         ["rufioh", "ROOFIOOOOOOOOOOOOH"],
