@@ -43,8 +43,8 @@ def scenify(redis, cookie, chat, line):
         ["meenah", "mean fefe[i][/i]ri"],
         ["dildo", "no no stick =-="],
         ["roxy", "roxayyyyy"],
-        ["your", "you'[i][/i]re"]
-        ["you're", "yo[i][/i]ur"]
+        ["your", "you'[i][/i]re"],
+        ["you're", "yo[i][/i]ur"],
         ["[color", "<BBCODE REMOVED xD>"],
         ["[font", "<BBCODE REMOVED xD>"],
         ["color", "colarz"],
