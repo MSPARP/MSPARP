@@ -31,7 +31,7 @@ def ping(redis, chat, session, chat_type):
         if session.meta['group']=='silent':
             join_message = None
         elif session.meta['group']=='globalmod':
-            join_message = '%s [%s] joined chat. ~~ %s ~~ [u]MSPARP STAFF[/u]' % (session.character['name'], session.character['acronym'], session.meta['counter'])
+            join_message = '%s [%s] joined chat. ~~ %s ~~ [tshadow= 1px 1px 0px #000000, -1px 1px 0px #000000, 1px -1px 0px #000000, -1px -1px 0px #000000, 1px 0px 0px #000000, -1px 0px 0px #000000, 0px -1px 0px #000000, 0px 1px 0px #000000; color:#FFFFFF; background-image: url(//upload.wikimedia.org/wikipedia/commons/2/22/Animated_fire_by_nevit.gif); padding: 6px; border-radius: 5px; background-position: left bottom; line-height:0px; font-size:12px][u]MSPARP STAFF[/u][/tshadow]' % (session.character['name'], session.character['acronym'], session.meta['counter'])
         else:
             join_message = '%s [%s] joined chat. ~~ %s ~~' % (session.character['name'], session.character['acronym'], session.meta['counter'])
         send_message(redis, chat, -1, 'user_change', join_message)
