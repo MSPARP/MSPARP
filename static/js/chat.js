@@ -147,6 +147,10 @@ $(document).ready(function() {
 				mp.addClass('highlight');
 			}
 			
+			if ($('#userList #user'+msg.counter).hasClass('globalmod')) {
+				mp.addClass('globalmod');
+			}
+			
 			if (flip == 1) {
 				conversation.scrollTop(conversation[0].scrollHeight);
 				flip = 0;
