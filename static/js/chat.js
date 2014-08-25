@@ -146,6 +146,7 @@ $(document).ready(function() {
 			if (highlightUser==msg.counter) {
 				mp.addClass('highlight');
 			}
+			
 			if (flip == 1) {
 				conversation.scrollTop(conversation[0].scrollHeight);
 				flip = 0;
@@ -194,6 +195,7 @@ $(document).ready(function() {
 					actionListUser = null;
 					$("#online > li").appendTo(holdingList);
 					generateUserlist(data.online, $('#online')[0]);
+					$(".globalmod").burn();
 				}
 				if (typeof data.meta!=='undefined') {
 					// Reload chat metadata.
