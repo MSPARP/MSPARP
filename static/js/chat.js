@@ -148,8 +148,7 @@ $(document).ready(function() {
 			}
 			
 			if ($('#userList #user'+msg.counter).hasClass('globalmod')) {
-				mp.addClass('staffmessage').prepend("<img src="//forums.msparp.com/images/on.png">");
-				$(".staffmessage").burn({
+				mp.addClass('staffmessage').prepend('<img src="//forums.msparp.com/images/on.png">').burn({
 					flames : [{
 							  x: 0,
 							  hsla: [300, 100, 80, .1],
