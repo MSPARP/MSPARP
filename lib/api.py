@@ -7,7 +7,7 @@ def ping(redis, chat, session, chat_type):
     if online_state=='offline':
         # Don't let the user in if there are more than 30 people online already.
         # XXX SHOW THEM A PROPER ERROR MESSAGE FOR THIS
-        if redis.scard('chat.'+chat+'.online')>=30:
+        if redis.sismember("global-mods", session.session_id) is False and redis.scard('chat.'+chat+'.online')>=50:
             abort(403)
         # Global bans
         if redis.hexists("global-bans", request.headers['CF-Connecting-IP']):
