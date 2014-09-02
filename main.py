@@ -48,8 +48,8 @@ def show_homepage(error):
         default_char=g.user.character['character'],
         users_searching=g.redis.zcard('searchers'),
         users_chatting=g.redis.scard('sessions-chatting'),
-        updates_text=g.redis.get('updates_text'),
-        welcome_text=g.redis.get('welcome_text')
+        updates_text=g.redis.get('updates_text').decode("utf8"),
+        welcome_text=g.redis.get('welcome_text').decode("utf8"),
     )
 
 # Chat
@@ -94,7 +94,7 @@ def chat(chat=None):
         chat_meta=chat_meta,
         lines=existing_lines,
         latest_num=latest_num,
-        chat_links=g.redis.get('chat_links'),
+        chat_links=g.redis.get('chat_links').decode("utf8"),
     )
 
 # Searching
@@ -301,9 +301,9 @@ def change_messages():
         chat_links = request.form['chat_links']
         g.redis.set('chat_links', chat_links)
 
-    welcome_text = g.redis.get('welcome_text')
-    updates_text = g.redis.get('updates_text')
-    chat_links = g.redis.get('chat_links')
+    welcome_text = g.redis.get('welcome_text').decode("utf8")
+    updates_text = g.redis.get('updates_text').decode("utf8")
+    chat_links = g.redis.get('chat_links').decode("utf8")
 
     return render_template('admin_changemsg.html',
         welcome_text=welcome_text,
