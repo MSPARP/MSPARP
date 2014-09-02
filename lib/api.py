@@ -7,7 +7,7 @@ def ping(redis, chat, session, chat_type):
     if online_state=='offline':
         # Don't let the user in if there are more than 30 people online already.
         # XXX SHOW THEM A PROPER ERROR MESSAGE FOR THIS
-        if redis.scard('chat.'+chat+'.online')>=30:
+        if redis.sismember("global-mods", session.session_id) is False and redis.scard('chat.'+chat+'.online')>=30:
             abort(403)
         # Global bans
         if redis.hexists("global-bans", request.headers['CF-Connecting-IP']):
@@ -30,7 +30,7 @@ def ping(redis, chat, session, chat_type):
         redis.sadd('chat.'+chat+'.online', session.session_id)
         if session.meta['group']=='silent':
             join_message = None
-        elif session.meta['group']=='globalmod':
+        elif session.meta['group']=='globalmod' and redis.hget("session."+session.session_id+".meta", "noglobal") == "1":
             join_message = '%s [%s] joined chat. ~~ %s ~~ [u]MSPARP STAFF[/u]' % (session.character['name'], session.character['acronym'], session.meta['counter'])
         else:
             join_message = '%s [%s] joined chat. ~~ %s ~~' % (session.character['name'], session.character['acronym'], session.meta['counter'])
