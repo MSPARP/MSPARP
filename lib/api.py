@@ -30,7 +30,7 @@ def ping(redis, chat, session, chat_type):
         redis.sadd('chat.'+chat+'.online', session.session_id)
         if session.meta['group']=='silent':
             join_message = None
-        elif session.meta['group']=='globalmod' and redis.hget("session."+session.session_id+".meta", "noglobal") == "1":
+        elif session.meta['group']=='globalmod' and redis.hget("session."+session.session_id+".meta", "noglobal") != "1":
             join_message = '%s [%s] joined chat. ~~ %s ~~ [u]MSPARP STAFF[/u]' % (session.character['name'], session.character['acronym'], session.meta['counter'])
         else:
             join_message = '%s [%s] joined chat. ~~ %s ~~' % (session.character['name'], session.character['acronym'], session.meta['counter'])
