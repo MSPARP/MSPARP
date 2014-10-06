@@ -232,14 +232,7 @@ $(document).ready(function() {
 		}
 
 		function pingServer() {
-			$.post(PING_URL, {'chat': chat})
-				.done(function() {
-    				$.failsafe.onOnline();
-  				})
-  				.fail(function() {
-   					$.failsafe.onOffline();
-  		});
-		
+			$.post(PING_URL, {'chat': chat});
 			pingInterval = window.setTimeout(pingServer, PING_PERIOD*1000);
 		}
 
