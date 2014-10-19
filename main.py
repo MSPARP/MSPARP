@@ -470,18 +470,15 @@ def doHealthCheck():
 
 @app.route("/faq")
 def faq():
-    #return requests.get("http://www.dlh-digital.com/msparpfaq.html").text
-    abort(404)
+    return requests.get("http://www.dlh-digital.com/msparpfaq.html").text
 
 @app.route("/bbcode")
 def bbcode():
-    #return requests.get("http://www.dlh-digital.com/bbcode.html").text
-    abort(404)
+    return requests.get("http://www.dlh-digital.com/bbcode.html").text
 
 @app.route("/userguide")
 def userguide():
-    #return requests.get("http://www.dlh-digital.com/userguide.html").text
-    abort(404)
+    return requests.get("http://www.dlh-digital.com/userguide.html").text
 
 # Home
 
