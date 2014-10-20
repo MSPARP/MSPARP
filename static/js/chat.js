@@ -205,10 +205,10 @@ $(document).ready(function() {
 					var chat_meta = data.meta;
 					for (i=0; i<CHAT_FLAGS.length; i++) {
 						if (typeof data.meta[CHAT_FLAGS[i]]!=='undefined') {
-							$('#'+CHAT_FLAGS[i]).attr('checked', 'checked');
+							$('#'+CHAT_FLAGS[i]).addClass('active');
 							$('#'+CHAT_FLAGS[i]+'Result').show();
 						} else {
-							$('#'+CHAT_FLAGS[i]).removeAttr('checked');
+							$('#'+CHAT_FLAGS[i]).removeClass('active');
 							$('#'+CHAT_FLAGS[i]+'Result').hide();
 						}
 					}
@@ -552,10 +552,16 @@ $(document).ready(function() {
 			closeSettings();
 		});
 
-		$('#metaOptions input').click(function() {
+		$('.metatog').click(function() {
 			var data = {'chat': chat, 'meta_change': ''}
 			// Convert to integer then string.
-			data[this.id] = +this.checked+'';
+            if ($(this).hasClass("active")) {
+                data[this.id] = '0';
+                $(this).removeClass('active');
+            } else {
+                data[this.id] = '1';
+                $(this).addClass('active');
+            }
 			$.post(POST_URL, data);
 		});
 
