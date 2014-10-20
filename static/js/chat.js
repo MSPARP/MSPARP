@@ -62,6 +62,22 @@ $(document).ready(function() {
 
 	var globals = [];
 	var bbset = 1;
+	var sysnot = 0;
+
+	// LocalStorage stuff
+	if (localStorage.getItem(chat+"sysnot") == 'undefined' || localStorage.getItem(chat+"sysnot") === null) {
+        if (!localStorage.sysnot) {
+            localStorage.sysnot = 0;
+        }
+        localStorage.setItem(chat+"sysnot",localStorage.sysnot);
+    }
+
+    sysnot = localStorage.getItem(chat+"sysnot");
+
+    if (sysnot == 1) {
+        $('#sysnot').attr('checked','checked');
+        $('.system').hide();
+    }
 
     $('#conversation p').each(function() {
         if (bbset == 1) {
@@ -146,6 +162,10 @@ $(document).ready(function() {
 			if (highlightUser==msg.counter) {
 				mp.addClass('highlight');
 			}
+			
+            if (sysnot == 1 && msgClass == 'system') {
+                $('.system').hide();
+            }
 			
 			if ($('#userList #user'+msg.counter).hasClass('globalmod')) {
 				mp.addClass('staffmessage').prepend('<img src="/static/img/spirograph.png" width="16" height="16">');
@@ -633,6 +653,22 @@ $(document).ready(function() {
             } else {
                 $("#menu").addClass('showmenu');
             }
+        }
+    });
+
+    $("#sysnot").click(function(){
+    	if (this.checked) {
+    		localStorage.setItem(chat+"sysnot",1);
+            localStorage.sysnot = 1;
+        }
+            sysnot = 1;
+            $('.system').hide();
+        } else {
+            localStorage.setItem(chat+"sysnot",0);
+            localStorage.sysnot = 0;
+            sysnot = 0;
+            $('.system').show();
+            conversation.scrollTop(conversation[0].scrollHeight);
         }
     });
 
