@@ -29,17 +29,20 @@
 <div id="userList" class="sidebar">
 	<a href="#" class="close">[close]</a>
 {% if chat_meta['type']=='group' %}
-	<h1>{{chat.replace('_', ' ')}}</h1>
-    <p id="topic">{{chat_meta.get('topic','')}}</p>
-      <ul id="metaOptions">
-		<li><button type="button" id="topicButton">Set topic</button></li>
-		{% if character_dict['meta']['group'] == 'globalmod' %}
-		<li>[GLOBAL] <a href="/chat/{{(chat)}}/unban" target="_blank">Unban</a></li>
-		<li>[GLOBAL] <a href="/chat/{{(chat)}}/mods" target="_blank">Moderators</a></li>
-		{% endif %}
-		
-		<li><label><input type="checkbox" id="autosilence"> Auto-silence new users</label></li>
-	</ul>
+	<h1 id="chatName">{{chat.replace('_', ' ')}}</h1>
+	<div id="menu">
+		<hr>
+		<h1 id="modSettings">&#9660; Mod Settings &#9660;</h1>
+      	<div id="metaOptions">
+			<button type="button" class="button" id="topicButton">Change Topic</button>
+			<button type="button" class="button metatog" id="autosilence"> Auto-silence new users </button>
+			{% if character_dict['meta']['group'] == 'globalmod' %}
+			<form action="/chat/{{chat}}/unban" target="_blank"><button type="submit" class="button metapwb" id="unban" value="Unban">Unban</button></form>
+			<form action="/chat/{{chat}}/mods" target="_blank"><button type="submit" class="button metapwb" id="unban" value="Unban">Moderators</button></form>
+			{% endif %}
+		</div>
+	</div>
+	<p id="topic">{{chat_meta.get('topic','')}}</p>
 	<ul id="metaResults">
 		<li id="autosilenceResult">New users are auto-silenced.</li>
 	</ul>
@@ -91,7 +94,7 @@
 	<button type="button" id="disconnectButton">Disconnect</button>
 	<button type="button" id="userListButton">User list</button>
 	<button type="button" id="settingsButton">Settings</button>
-	<a id="logLink" target="_blank"> View log</a>
+	<a id="logLink" class="aButton" target="_blank"> View log</a>
 	<button type="submit">Send</button>
 </form>
 

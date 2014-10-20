@@ -24,10 +24,6 @@ h1 {
 	word-wrap: break-word;
 }
 
-h1 {
-	margin: 5px;
-}
-
 p {
 	margin: 0;
 	padding: 2px 5px;
@@ -40,7 +36,7 @@ hr {
 	border-width: 1px 0 0 0;
 }
 
-button, input, select, #conversation, #settings, #userList, #preview, .pager, #archiveConversation, #logLink {
+button, input, select, #conversation, #settings, #userList, #preview, .pager, #archiveConversation, .aButton {
 	border: 1px solid #999999;
 	border-radius: 1px;
 }
@@ -49,11 +45,17 @@ button, input, select, #conversation, #settings, #userList, #preview, .pager, #a
 	background-color: #eeeeee;
 }
 
-button, input, select, #logLink {
+button, .aButton {
+	background-color: rgba(83,83,83,0.8);
+	color: #eeeeee;
+}
+
+input, select {
 	background-color: rgba(255,255,255,0.8);
 }
 
-input[type="submit"], button, #logLink {
+input[type="submit"], button, .aButton {
+	margin: 1px;
 	display: inline-block;
 	padding: 2px 4px;
 	cursor: pointer;
@@ -73,8 +75,16 @@ optgroup option {
 	padding: 0 10px;
 }
 
-input:focus, input:hover, select:focus, select:hover, button:hover, #logLink:hover {
+input:focus, input:hover, select:focus, select:hover, button:hover, .aButton:hover {
 	background-color: #ffffff;
+}
+
+button:hover, .aButton:hover {
+	background-color: #666666;
+}
+
+.aButton:hover {
+	text-decoration: none;
 }
 
 .timestamp {
@@ -134,10 +144,10 @@ body.withSidebar #conversation {
 
 .sidebar ul {
 	margin: 0;
-	padding: 0 0 0 1.5em;
+	padding: 0 0 0 2em;
 }
 
-#online:empty:after {
+#online:empty:after, #idle:empty:after {
 	content: "(no-one)";
 	display: block;
 	padding: 2px 0;
@@ -149,7 +159,7 @@ body.withSidebar #conversation {
 	padding: 2px 0;
 }
 
-#online li {
+#online li, #idle li {
 	cursor: pointer;
 }
 
@@ -168,7 +178,7 @@ body.withSidebar #controls {
 	right: 233px;
 }
 
-#controls input[type="submit"], #controls button, #logLink {
+#controls input[type="submit"], #controls button, .aButton {
 	margin: 5px 0 0 0;
 }
 
@@ -200,7 +210,7 @@ body #userListButton {
 }
 
 .highlight {
-	background-color: #ffffff;
+	background-color: rgba(255, 255, 255, 0.75);
 }
 
 body > #save {
@@ -233,22 +243,11 @@ body.settings #settings, body.userList #userList {
 	display: none;
 }
 
-.modPowers #metaOptions {
-	display: block;
-}
-
 #metaOptions input {
 	vertical-align: middle;
 	margin: 0 0 0 2px;
 }
 
-#logLink {
-	color: black;
-}
-
-#logLink:hover {
-	text-decoration: none;
-}
 
 /* Mobile */
 
@@ -279,10 +278,6 @@ body.mobile.withSidebar #conversation, body.mobile.withSidebar #controls {
 	display: none;
 }
 
-body.mobile #conversation, body.mobile #userList, body.mobile #settings {
-    -webkit-overflow-scrolling: touch;
-}
-
 /* Archive */
 
 .pager {
@@ -301,19 +296,63 @@ body.mobile #conversation, body.mobile #userList, body.mobile #settings {
 }
 
 .spoil {
-    border: dashed;
-    border-width: 1px;
-    padding-left: 2px;
-    padding-right: 2px;
+	border: dashed;
+	border-width: 1px;
+	padding-left: 2px;
+	padding-right: 2px;
 }
 
 .spoiler{
-    opacity: 0;
-    cursor: pointer;
+	opacity: 0;
+	cursor: pointer;
 }
 
 .userID {
-    display: block;
-    color: #000000;
-    font-size: 11px;
+	display: block;
+	color: #000000;
+	font-size: 11px;
+}
+
+/* Sidebar Menu */
+
+#chatName {
+	text-align: center;
+}
+
+#menu, #unban {
+	display: none;
+}
+
+.modPowers #menu {
+	display: block;
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+.pwbPowers #unban {
+	display: inline-block;
+}
+
+#chatName {
+	padding: 5px;
+}
+
+#menu.showmenu #metaOptions {
+	display: block;
+}
+
+#menu:hover, .showmenu {
+	color: rgb(238, 238, 238);
+	background-color: rgb(153, 153, 153);
+}
+
+.button {
+	border: 1px solid rgba(0,0,0,0.0);
+	height: 25px;
+	width: 200px;
+	margin-bottom: 10px;
+}
+
+.active {
+	background-color: #333333;
 }

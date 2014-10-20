@@ -330,6 +330,11 @@ $(document).ready(function() {
 					} else {
 						$(document.body).addClass('modPowers');
 					}
+                    if (GROUP_RANKS[user.meta.group] >= GROUP_RANKS['mod']) {
+                        $(document.body).addClass('pwbPowers');
+                    } else {
+                        $(document.body).removeClass('pwbPowers');
+                    }
 					listItem.addClass('self').append(' (you)');
 				}
 				if (user.meta.group=="globalmod") {
@@ -612,6 +617,16 @@ $(document).ready(function() {
             $(this).css('opacity','1');
         } else {
             $(this).css('opacity','0');
+        }
+    });
+
+    $('#modSettings').click(function() {
+        if ($(".modPowers").length){
+            if ($('#menu.showmenu').length) {
+                $("#menu").removeClass('showmenu');
+            } else {
+                $("#menu").addClass('showmenu');
+            }
         }
     });
 
