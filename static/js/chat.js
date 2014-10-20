@@ -166,7 +166,7 @@ $(document).ready(function() {
             if (sysnot == 1 && msgClass == 'system') {
                 $('.system').hide();
             }
-			
+
 			if ($('#userList #user'+msg.counter).hasClass('globalmod')) {
 				mp.addClass('staffmessage').prepend('<img src="/static/img/spirograph.png" width="16" height="16">');
 			}
@@ -660,7 +660,6 @@ $(document).ready(function() {
     	if (this.checked) {
     		localStorage.setItem(chat+"sysnot",1);
             localStorage.sysnot = 1;
-        }
             sysnot = 1;
             $('.system').hide();
         } else {
