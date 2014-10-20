@@ -248,7 +248,7 @@ body.settings #settings, body.userList #userList {
 	margin: 0 0 0 2px;
 }
 
-.settings h1 {
+#settings h1 {
 	padding: 0 0 0 5px;
 }
 
