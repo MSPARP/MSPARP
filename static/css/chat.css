@@ -333,10 +333,6 @@ body.mobile.withSidebar #conversation, body.mobile.withSidebar #controls {
 	display: inline-block;
 }
 
-#chatName {
-	padding: 5px;
-}
-
 #menu.showmenu #metaOptions {
 	display: block;
 }
