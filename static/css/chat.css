@@ -357,3 +357,6 @@ h1 {
 	padding: 0 0 0 5px;
 }
 
+#topic:not(:empty) {
+	border-bottom: 1px solid #999999;
+}
