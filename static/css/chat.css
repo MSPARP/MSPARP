@@ -248,9 +248,6 @@ body.settings #settings, body.userList #userList {
 	margin: 0 0 0 2px;
 }
 
-#settings h1 {
-	padding: 0 0 0 5px;
-}
 
 /* Mobile */
 
@@ -355,3 +352,8 @@ body.mobile.withSidebar #conversation, body.mobile.withSidebar #controls {
 .active {
 	background-color: #333333;
 }
+
+h1 {
+	padding: 0 0 0 5px;
+}
+
