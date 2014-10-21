@@ -261,10 +261,7 @@ $(document).ready(function() {
 				$.ajax(QUIT_URL, {'type': 'POST', data: {'chat': chat}});
 				clearChat();
 				if (chat_meta.type=='unsaved' || chat_meta.type=='saved') {
-					$("#disconnectButton").unbind( "click" );
-					$("#disconnectButton").removeAttr("disabled");
-					$("#disconnectButton").text("New chat" );
-					$('#disconnectButton').click(reconnect);
+					$("#disconnectButton").unbind("click").removeAttr("disabled").text("New chat").click(reconnect);
 				}
 			}
 		}
