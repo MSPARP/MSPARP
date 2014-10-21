@@ -68,6 +68,8 @@ def set_cookie(response):
     if request.cookies.get('session', None) is None or request.cookies.get('session', None) == "":
         try:
             response.set_cookie('session', g.user.session_id, max_age=365*24*60*60)
+            # Domain wide cookies
+            response.set_cookie('session', g.user.session_id, max_age=365*24*60*60, domain="."+os.environ["DOMAIN"])
         except AttributeError:
             # That isn't gonna work if we don't have a user object, just ignore it.
             pass
