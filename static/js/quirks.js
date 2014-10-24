@@ -42,7 +42,7 @@ function applyQuirks(text) {
 
 	// Prefix
 	if (user.character.quirk_prefix!='') {
-		text = user.character.quirk_prefix+' '+text;
+		text = user.character.quirk_prefix+' '+text+' '+user.character.quirk_suffix;
 	}
 
 	return text

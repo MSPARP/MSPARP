@@ -1,4 +1,4 @@
-var characterKeys = ['acronym', 'name', 'color', 'quirk_prefix', 'case'];
+var characterKeys = ['acronym', 'name', 'color', 'quirk_suffix', 'quirk_prefix', 'case'];
 
 var characters = {
 	'anonymous/other': {
@@ -6,6 +6,7 @@ var characters = {
 		'name': 'anonymous',
 		'color': '000000',
 		'quote': "some random text for previewing purposes",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -15,6 +16,7 @@ var characters = {
 		'name': 'Original Character',
 		'color': 'FF00FF',
 		'quote': "I am too awesome for hussie to include in the canon",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -25,6 +27,7 @@ var characters = {
 		'name': 'Ancestor',
 		'color': '000000',
 		'quote': "I saw the look he gave. He's so secure in knowing I can't feel what's in his mind he forgets the tr8torous ways of his own face.",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -34,6 +37,7 @@ var characters = {
 		'name': 'Guardian',
 		'color': '000000',
 		'quote': "NOW BE A GOOD GIRL, PUT THE FRIDGE DOWN, AND STAY INSIDE.",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -43,6 +47,7 @@ var characters = {
 		'name': 'Guardian',
 		'color': '000000',
 		'quote': "Farmin' all these goddamn horses. Fuckin' pain in the ass.",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -53,6 +58,7 @@ var characters = {
 		'name': 'Trickster',
 		'color': 'FFAC9F',
 		'quote': "Are you serious?",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -62,6 +68,7 @@ var characters = {
 		'name': 'Doc Scratch',
 		'color': 'FFFFFF',
 		'quote': "You know you're going to anyway. You won't be able to help yourself.",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -71,6 +78,7 @@ var characters = {
 		'name': 'uranianUmbra',
 		'color': '929292',
 		'quote': "i am jUst astonished. not at the gUile of yoUr little ploy, bUt by the fact that yoU actUally seem to think this was a clever rUse.",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'lower',
 		'replacements': [['u', 'U']]
@@ -80,6 +88,7 @@ var characters = {
 		'name': 'undyingUmbrage',
 		'color': '323232',
 		'quote': "YOu CAN'T. ESCAPE. THE MIIIIIIIIIIILES.",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'upper',
 		'replacements': [['U', 'u']]
@@ -89,6 +98,7 @@ var characters = {
 		'name': 'Other (canon)',
 		'color': 'ff83fb',
 		'quote': "NEIGH",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -98,6 +108,7 @@ var characters = {
 		'name': 'ectoBiologist',
 		'color': '0715CD',
 		'quote': "i don't know, maybe! what do i do!",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -107,6 +118,7 @@ var characters = {
 		'name': 'tentacleTherapist',
 		'color': 'B536DA',
 		'quote': "You know you like the mannequin dick. Accept it.",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -116,6 +128,7 @@ var characters = {
 		'name': 'turntechGodhead',
 		'color': 'E00707',
 		'quote': "you dont seem to harbor any sympathy for the fact that ive burrowed fuck deep into lively, fluffy muppet buttock",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -125,6 +138,7 @@ var characters = {
 		'name': 'gardenGnostic',
 		'color': '4AC925',
 		'quote': "i am never going to sleep again!",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -134,6 +148,7 @@ var characters = {
 		'name': 'gutsyGumshoe',
 		'color': '00D5F2',
 		'quote': "If the chats and surplus dinners were truly important, I wouldn't want to interrupt.",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -143,6 +158,7 @@ var characters = {
 		'name': 'tipsyGnostalgic',
 		'color': 'FF6FF2',
 		'quote': "it seems 2 me that there is a (MATHS) % chance of you bein a huge tightass",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -152,6 +168,7 @@ var characters = {
 		'name': 'timaeusTestified',
 		'color': 'F2A400',
 		'quote': "It's not 4 you jackass, it's fucking nothing. There is no end.",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -161,6 +178,7 @@ var characters = {
 		'name': 'golgothasTerror',
 		'color': '1F9400',
 		'quote': "Jesus christofer kringlefucker and here i thought i was rugged!",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -170,6 +188,7 @@ var characters = {
 		'name': 'apocalypseArisen',
 		'color': 'A10000',
 		'quote': "maybe if i say st0p en0ugh s0mething else will happen instead 0f the thing that d0es",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'lower',
 		'replacements': [['o', '0']]
@@ -179,6 +198,7 @@ var characters = {
 		'name': 'adiosToreador',
 		'color': 'A15000',
 		'quote': "i THINK i AM PERFECTLY CAPABLE OF MANUFACTURING THESE ALLEGED \"dope\" HUMAN RHYMES",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'inverted',
 		'replacements': [['.', ',']]
@@ -188,6 +208,7 @@ var characters = {
 		'name': 'twinArmageddons',
 		'color': 'A1A100',
 		'quote': "do me a favor and 2pare me your 2pooky conundrum2 twoniight, youre kiind of pii22iing me off.",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': [["I", "II"], ["i", "ii"], ["S", "2"], ["s", "2"]]
@@ -197,6 +218,7 @@ var characters = {
 		'name': 'carcinoGeneticist',
 		'color': '626262',
 		'quote': "NO. MORE LIKE TWITCHY EYED PROJECTILE VOMITING IN UTTER DISGUST FRIENDS, WHILE I PERFORATE MY BONE BULGE WITH A CULLING FORK.",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'upper',
 		'replacements': []
@@ -206,6 +228,7 @@ var characters = {
 		'name': 'arsenicCatnip',
 		'color': '416600',
 		'quote': ":33 < but do you think you could purrhaps please spare your computer for just the most fl33ting of moments?",
+		'quirk_suffix': '',
 		'quirk_prefix': ':33 <',
 		'case': 'lower',
 		'replacements': [['ee', '33']]
@@ -215,6 +238,7 @@ var characters = {
 		'name':'grimAuxiliatrix',
 		'color':'008141',
 		'quote':"So You Are Destined To Edit It No Matter What And What You Submit Will Be What I Once Read Regardless",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'title',
 		'replacements': []
@@ -224,6 +248,7 @@ var characters = {
 		'name': 'gallowsCalibrator',
 		'color': '008282',
 		'quote': "JOHN W3 AR3 SO MUCH B3TT3R TH4N YOU IN 3V3RY R3SP3CT 1TS R1D1CULOUS",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'upper',
 		'replacements': [["A", "4"], ["E", "3"], ["I", "1"]]
@@ -233,6 +258,7 @@ var characters = {
 		'name': 'arachnidsGrip',
 		'color': '005682',
 		'quote': "It is 8ight groups of 8ight. I specifically counted them.",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': [["B", "8"], ["b", "8"]]
@@ -242,6 +268,7 @@ var characters = {
 		'name': 'centaursTesticle',
 		'color': '000056',
 		'quote': "D --> How do you know about my perspiration problem",
+		'quirk_suffix': '',
 		'quirk_prefix': 'D -->',
 		'case': 'normal',
 		'replacements': [["X", "%"], ["x", "%"], ["loo", "100"], ["ool", "001"]]
@@ -251,6 +278,7 @@ var characters = {
 		'name': 'terminallyCapricious',
 		'color': '2B0057',
 		'quote': "ThIs sOuNdS AmAzInG, i cAn't sEe hOw i wOuLdN'T Be aLl kIcKiNg tHe wIcKeD ShIt oUt Of sUcH KiNdS Of oPpOrTuNiTiEs",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'alternating',
 		'replacements': []
@@ -260,6 +288,7 @@ var characters = {
 		'name': 'caligulasAquarium',
 		'color': '6A006A',
 		'quote': "wwho are you tryin to convvince wwith this ludicrous poppycock",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': [["V", "VV"], ["v", "vv"], ["W", "WW"], ["w", "ww"]]
@@ -269,6 +298,7 @@ var characters = {
 		'name': 'cuttlefishCuller',
 		'color': '77003C',
 		'quote': ")(oly mackerel, looks like SOM-EON-E woke up on t)(e wrong side of t)(e absurd )(uman bed!",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': [["E", "-E"], ["H", ")("], ["h", ")("]]
@@ -278,6 +308,7 @@ var characters = {
 		'name': 'Damara',
 		'color': 'A10000',
 		'quote': "私が覚えている。 時々私は、そのメモリに自慰行為。",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'upper',
 		'replacements': []
@@ -287,6 +318,7 @@ var characters = {
 		'name': 'Rufioh',
 		'color': 'A15000',
 		'quote': "really, 1 thought 1t would be alr1ght, just flapp1ng w1ngs around... 1 could st1ll fly and just hang there l1mp... m1ght have been a dope look!",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'lower',
 		'replacements': [["i", "1"]]
@@ -296,6 +328,7 @@ var characters = {
 		'name': 'Mituna',
 		'color': 'A1A100',
 		'quote': "K17H5 MY CH4GR1N 7UNK3L Y0U 5N4NK 4ZZ CHUM8UCK357",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'upper',
 		'replacements': [["A", "4"], ["B", "8"], ["E", "3"], ["I", "1"], ["O", "0"], ["S", "5"], ["T", "7"]]
@@ -305,6 +338,7 @@ var characters = {
 		'name': 'Kankri',
 		'color': 'FF0000',
 		'quote': "",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': [["B", "6"], ["b", "6"], ["O", "9"], ["o", "9"]]
@@ -314,6 +348,7 @@ var characters = {
 		'name': 'Meulin',
 		'color': '416600',
 		'quote': "(=；ェ；=)  < YOU DON'T UNDERSTAND, M33NAH. THE F33LS. THE F333333333LS!!!!!!!!!",
+		'quirk_suffix': '',
 		'quirk_prefix': '(=｀ω´=) <',
 		'case': 'upper',
 		'replacements': [["EE", "33"]]
@@ -323,6 +358,7 @@ var characters = {
 		'name':'Porrim',
 		'color':'008141',
 		'quote':" No+ o+ne quite prepares yo+u fo+r the fact that o+n the o+ther side o+f death is an infinite echo+ chamber o+f teen drama.",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': [["o", "o+"]]
@@ -332,6 +368,7 @@ var characters = {
 		'name': 'Latula',
 		'color': '008282',
 		'quote': "do you 3v3n know how l4m3 of 4 sc3n3 1t 1s b31ng th3 only l3g1t 1n your f4c3 pow3rg4m1ng grl 1n 4 bunch of bubbl3s full of brut4l pos3rz???",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': [["A", "4"], ["a", "4"], ["E", "3"], ["e", "3"], ["I", "1"], ["i", "1"]]
@@ -341,6 +378,7 @@ var characters = {
 		'name': 'Aranea',
 		'color': '005682',
 		'quote': "You couldn't even wait a few minutes while I retrieved one last guest? I have to come 8ack to THIS????????",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': [["B", "8"], ["b", "8"]]
@@ -350,6 +388,7 @@ var characters = {
 		'name': 'Horuss',
 		'color': '000056',
 		'quote': "8=========D < Why the long face?",
+		'quirk_suffix': '',
 		'quirk_prefix': '8=D <',
 		'case': 'normal',
 		'replacements': [["X", "%"], ["x", "%"], ["loo", "100"], ["ool", "001"]]
@@ -359,6 +398,7 @@ var characters = {
 		'name': 'Kurloz',
 		'color': '2B0057',
 		'quote': "",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'upper',
 		'replacements': []
@@ -368,6 +408,7 @@ var characters = {
 		'name': 'Cronus',
 		'color': '6A006A',
 		'quote': "i just sawv you strutting in my direction, vwith all of your impressivwe moxy and confidence, for the first time in, howv long?",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'lower',
 		'replacements': [["B", "8"], ["v", ""], ["w", "wv"], ["", "vw"]]
@@ -377,6 +418,7 @@ var characters = {
 		'name': 'Meenah',
 		'color': '77003C',
 		'quote': "sayin fish puns is obviously kind of this thing i do stupid G-ET WIT)( T)(-E PROGRAM",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': [["E", "-E"], ["H", ")("]]
@@ -386,6 +428,7 @@ var characters = {
 		'name': 'Dad',
 		'color': '4B4B4B',
 		'quote': "YES. THIS WILL BE THE CASE REGARDLESS OF THE HAT'S ORIENTATION.",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'upper',
 		'replacements': []
@@ -395,6 +438,7 @@ var characters = {
 		'name': 'Nanna',
 		'color': '000000',
 		'quote': "some random text for previewing purposes",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -404,6 +448,7 @@ var characters = {
 		'name': 'Mom',
 		'color': '000000',
 		'quote': "some random text for previewing purposes",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -413,6 +458,7 @@ var characters = {
 		'name': 'Bro',
 		'color': '000000',
 		'quote': "some random text for previewing purposes",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -422,6 +468,7 @@ var characters = {
 		'name': 'Grandpa',
 		'color': '000000',
 		'quote': "some random text for previewing purposes",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -431,6 +478,7 @@ var characters = {
 		'name': 'Poppop',
 		'color': '000000',
 		'quote': "some random text for previewing purposes",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -440,6 +488,7 @@ var characters = {
 		'name': 'Mom',
 		'color': '000000',
 		'quote': "some random text for previewing purposes",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -449,6 +498,7 @@ var characters = {
 		'name': 'Bro',
 		'color': '000000',
 		'quote': "some random text for previewing purposes",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -458,6 +508,7 @@ var characters = {
 		'name': 'Grandma',
 		'color': '000000',
 		'quote': "some random text for previewing purposes",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -467,6 +518,7 @@ var characters = {
 		'name': 'Nannasprite',
 		'color': '00D5F2',
 		'quote': "Hoo hoo hoo! Of course I know what a computer is, John! I was just pulling your leg!",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -476,6 +528,7 @@ var characters = {
 		'name': 'Jaspersprite',
 		'color': 'F141EF',
 		'quote': "Maybe you can win his affection by rubbing your cheek against him thats what i would do.",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -485,6 +538,7 @@ var characters = {
 		'name': 'Calsprite',
 		'color': 'F2A400',
 		'quote': "HAA HAA HEE HEE HOO HOO",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'upper',
 		'replacements': [["A", "<"], ["B", ">"], ["C", "?"], ["D", "<"], ["E", ">"], ["F", "?"], ["G", "<"], ["H", ">"], ["I", "?"], ["J", "<"], ["K", ">"], ["L", "?"], ["M", "<"], ["N", ">"], ["O", "?"], ["P", "<"], ["Q", ">"], ["R", "?"], ["S", "<"], ["T", ">"], ["U", "?"], ["V", "<"], ["W", ">"], ["X", "?"], ["Y", "<"], ["Z", ">"], ["<", "HAA "], [">", "HEE "], ["?", "HOO "]]
@@ -494,6 +548,7 @@ var characters = {
 		'name': 'Davesprite',
 		'color': 'F2A400',
 		'quote': "thats the best fucking question anybody ever asked",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'lower',
 		'replacements': []
@@ -503,6 +558,7 @@ var characters = {
 		'name': 'Jadesprite',
 		'color': '1F9400',
 		'quote': "yes i figured shenanigans were probably involved",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -512,6 +568,7 @@ var characters = {
 		'name': 'Tavrisprite',
 		'color': '0715CD',
 		'quote': "eEEEEEEEAAAAAAAAUUUUUUUURRRRRRRRUUUUUUUUEEEEEEEEGGGGGGGGHHHHHHHH,,,,,,,,.",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -521,6 +578,7 @@ var characters = {
 		'name': 'Fefetasprite',
 		'color': 'B536DA',
 		'quote': "3833 < 383",
+		'quirk_suffix': '',
 		'quirk_prefix': '3833 <',
 		'case': 'normal',
 		'replacements': [["E", "-E"], ["ee", "33"], ["H", ")("], ["h", ")("]]
@@ -530,6 +588,7 @@ var characters = {
 		'name': 'Erisolsprite',
 		'color': '4AC925',
 		'quote': "wwoww, iit2 cool ii amu2e you, that really giivve2 meaniing to my joke of an exii2tence, ii mean WWOWW, thank2.",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': [["I", "II"], ["i", "ii"], ["S", "2"], ["s", "2"], ["V", "VV"], ["v", "vv"], ["W", "WW"], ["w", "ww"]]
@@ -539,6 +598,7 @@ var characters = {
 		'name': 'The Handmaid',
 		'color': 'A10000',
 		'quote': "some random text for previewing purposes",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -548,6 +608,7 @@ var characters = {
 		'name': 'The Summoner',
 		'color': 'A15000',
 		'quote': "some random text for previewing purposes",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -557,6 +618,7 @@ var characters = {
 		'name': 'The Ψiioniic',
 		'color': 'A1A100',
 		'quote': "some random text for previewing purposes",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -566,6 +628,7 @@ var characters = {
 		'name': 'The Signless',
 		'color': '626262',
 		'quote': "some random text for previewing purposes",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -575,6 +638,7 @@ var characters = {
 		'name': 'The Disciple',
 		'color': '416600',
 		'quote': "some random text for previewing purposes",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -584,6 +648,7 @@ var characters = {
 		'name': 'The Dolorosa',
 		'color': '008141',
 		'quote': "some random text for previewing purposes",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -593,6 +658,7 @@ var characters = {
 		'name': 'Neophyte Redglare',
 		'color': '008282',
 		'quote': "some random text for previewing purposes",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -602,6 +668,7 @@ var characters = {
 		'name': 'Marquise Spinneret Mindfang',
 		'color': '005682',
 		'quote': "some random text for previewing purposes",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -611,6 +678,7 @@ var characters = {
 		'name': 'E%ecutor Darkleer',
 		'color': '000056',
 		'quote': "some random text for previewing purposes",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -620,6 +688,7 @@ var characters = {
 		'name': 'The Grand Highblood',
 		'color': '2B0057',
 		'quote': "some random text for previewing purposes",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -629,6 +698,7 @@ var characters = {
 		'name': 'Orphaner Dualscar',
 		'color': '6A006A',
 		'quote': "some random text for previewing purposes",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -638,6 +708,7 @@ var characters = {
 		'name': 'Her Imperious Condescension',
 		'color': '77003C',
 		'quote': "this is what i get for lettin all proper dudes run shit instead of nasty clowns",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -647,6 +718,7 @@ var characters = {
 		'name': 'Spades Slick',
 		'color': '000000',
 		'quote': "some random text for previewing purposes",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -656,6 +728,7 @@ var characters = {
 		'name': 'Clubs Deuce',
 		'color': '000000',
 		'quote': "some random text for previewing purposes",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -665,6 +738,7 @@ var characters = {
 		'name': 'Diamonds Droog',
 		'color': '000000',
 		'quote': "some random text for previewing purposes",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []
@@ -674,6 +748,7 @@ var characters = {
 		'name': 'Hearts Boxcars',
 		'color': '000000',
 		'quote': "some random text for previewing purposes",
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': []

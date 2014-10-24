@@ -110,6 +110,7 @@ CHARACTER_DETAILS = {
 		'acronym': '??',
 		'name': 'anonymous',
 		'color': '000000',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -118,6 +119,7 @@ CHARACTER_DETAILS = {
 		'acronym': '**',
 		'name': 'Original Character',
 		'color': 'FF00FF',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -128,6 +130,7 @@ CHARACTER_DETAILS = {
 		'acronym': '??',
 		'name': 'Ancestor',
 		'color': '000000',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -136,6 +139,7 @@ CHARACTER_DETAILS = {
 		'acronym': '??',
 		'name': 'Guardian',
 		'color': '000000',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -144,6 +148,7 @@ CHARACTER_DETAILS = {
 		'acronym': '??',
 		'name': 'Guardian',
 		'color': '000000',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -153,6 +158,7 @@ CHARACTER_DETAILS = {
 		'acronym': '??',
 		'name': 'Trickster',
 		'color': 'FFAC9F',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -161,6 +167,7 @@ CHARACTER_DETAILS = {
 		'acronym': '',
 		'name': 'Doc Scratch',
 		'color': 'FFFFFF',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -169,6 +176,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'UU',
 		'name': 'uranianUmbra',
 		'color': '929292',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'lower',
 		'replacements': '[["u", "U"]]'
@@ -177,6 +185,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'uu',
 		'name': 'undyingUmbrage',
 		'color': '323232',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'upper',
 		'replacements': '[["U", "u"]]'
@@ -185,6 +194,7 @@ CHARACTER_DETAILS = {
 		'acronym': '??',
 		'name': 'Other (canon)',
 		'color': 'ff83fb',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -193,6 +203,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'EB',
 		'name': 'ectoBiologist',
 		'color': '0715CD',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -201,6 +212,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'TT',
 		'name': 'tentacleTherapist',
 		'color': 'B536DA',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -209,6 +221,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'TG',
 		'name': 'turntechGodhead',
 		'color': 'E00707',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -217,6 +230,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'GG',
 		'name': 'gardenGnostic',
 		'color': '4AC925',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -225,6 +239,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'GG',
 		'name': 'gutsyGumshoe',
 		'color': '00D5F2',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -233,6 +248,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'TG',
 		'name': 'tipsyGnostalgic',
 		'color': 'FF6FF2',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -241,6 +257,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'TT',
 		'name': 'timaeusTestified',
 		'color': 'F2A400',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -249,6 +266,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'GT',
 		'name': 'golgothasTerror',
 		'color': '1F9400',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -257,6 +275,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'AA',
 		'name': 'apocalypseArisen',
 		'color': 'A10000',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'lower',
 		'replacements': '[["o", "0"]]'
@@ -265,6 +284,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'AT',
 		'name': 'adiosToreador',
 		'color': 'A15000',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'inverted',
 		'replacements': '[[".", ","]]'
@@ -273,6 +293,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'TA',
 		'name': 'twinArmageddons',
 		'color': 'A1A100',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[["I", "II"], ["i", "ii"], ["S", "2"], ["s", "2"]]'
@@ -281,6 +302,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'CG',
 		'name': 'carcinoGeneticist',
 		'color': '626262',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'upper',
 		'replacements': '[]'
@@ -289,6 +311,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'AC',
 		'name': 'arsenicCatnip',
 		'color': '416600',
+		'quirk_suffix': '',
 		'quirk_prefix': ':33 <',
 		'case': 'lower',
 		'replacements': '[["ee", "33"]]'
@@ -297,6 +320,7 @@ CHARACTER_DETAILS = {
 		'acronym':'GA',
 		'name':'grimAuxiliatrix',
 		'color':'008141',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'title',
 		'replacements': '[]'
@@ -305,6 +329,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'GC',
 		'name': 'gallowsCalibrator',
 		'color': '008282',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'upper',
 		'replacements': '[["A", "4"], ["E", "3"], ["I", "1"]]'
@@ -313,6 +338,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'AG',
 		'name': 'arachnidsGrip',
 		'color': '005682',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[["B", "8"], ["b", "8"]]'
@@ -321,6 +347,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'CT',
 		'name': 'centaursTesticle',
 		'color': '000056',
+		'quirk_suffix': '',
 		'quirk_prefix': 'D -->',
 		'case': 'normal',
 		'replacements': '[["X", "%"], ["x", "%"], ["loo", "100"], ["ool", "001"]]'
@@ -330,6 +357,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'TC',
 		'name': 'terminallyCapricious',
 		'color': '2B0057',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'alternating',
 		'replacements': '[]'
@@ -338,6 +366,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'CA',
 		'name': 'caligulasAquarium',
 		'color': '6A006A',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[["V", "VV"], ["v", "vv"], ["W", "WW"], ["w", "ww"]]'
@@ -346,6 +375,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'CC',
 		'name': 'cuttlefishCuller',
 		'color': '77003C',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[["E", "-E"], ["H", ")("], ["h", ")("]]'
@@ -354,6 +384,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'DAMARA',
 		'name': 'Damara',
 		'color': 'A10000',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'upper',
 		'replacements': '[]'
@@ -362,6 +393,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'RUFIOH',
 		'name': 'Rufioh',
 		'color': 'A15000',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'lower',
 		'replacements': '[["i", "1"]]'
@@ -370,6 +402,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'MITUNA',
 		'name': 'Mituna',
 		'color': 'A1A100',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'upper',
 		'replacements': '[["A", "4"], ["B", "8"], ["E", "3"], ["I", "1"], ["O", "0"], ["S", "5"], ["T", "7"]]'
@@ -378,6 +411,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'KANKRI',
 		'name': 'Kankri',
 		'color': 'FF0000',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[["B", "6"], ["b", "6"], ["O", "9"], ["o", "9"]]'
@@ -386,6 +420,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'MEULIN',
 		'name': 'Meulin',
 		'color': '416600',
+		'quirk_suffix': '',
 		'quirk_prefix': '(=｀ω´=) <',
 		'case': 'upper',
 		'replacements': '[["EE", "33"]]'
@@ -394,6 +429,7 @@ CHARACTER_DETAILS = {
 		'acronym':'PORRIM',
 		'name':'Porrim',
 		'color':'008141',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[["o", "o+"]]'
@@ -402,6 +438,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'LATULA',
 		'name': 'Latula',
 		'color': '008282',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[["A", "4"], ["a", "4"], ["E", "3"], ["e", "3"], ["I", "1"], ["i", "1"]]'
@@ -410,6 +447,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'ARANEA',
 		'name': 'Aranea',
 		'color': '005682',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[["B", "8"], ["b", "8"]]'
@@ -418,6 +456,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'HORUSS',
 		'name': 'Horuss',
 		'color': '000056',
+		'quirk_suffix': '',
 		'quirk_prefix': '8=D <',
 		'case': 'normal',
 		'replacements': '[["X", "%"], ["x", "%"], ["loo", "100"], ["ool", "001"]]'
@@ -426,6 +465,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'KURLOZ',
 		'name': 'Kurloz',
 		'color': '2B0057',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'upper',
 		'replacements': '[]'
@@ -434,6 +474,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'CRONUS',
 		'name': 'Cronus',
 		'color': '6A006A',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'lower',
 		'replacements': '[["B", "8"], ["v", ""], ["w", "wv"], ["", "vw"]]'
@@ -442,6 +483,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'MEENAH',
 		'name': 'Meenah',
 		'color': '77003C',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[["E", "-E"], ["H", ")("]]'
@@ -450,6 +492,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'pipefan413',
 		'name': 'Dad',
 		'color': '4B4B4B',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'upper',
 		'replacements': '[]'
@@ -458,6 +501,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'NANNA',
 		'name': 'Nanna',
 		'color': '000000',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -466,6 +510,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'MOM',
 		'name': 'Mom',
 		'color': '000000',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -474,6 +519,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'BRO',
 		'name': 'Bro',
 		'color': '000000',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -482,6 +528,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'GRANDPA',
 		'name': 'Grandpa',
 		'color': '000000',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -490,6 +537,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'POPPOP',
 		'name': 'Poppop',
 		'color': '000000',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -498,6 +546,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'MOM',
 		'name': 'Mom',
 		'color': '000000',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -506,6 +555,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'BRO',
 		'name': 'Bro',
 		'color': '000000',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -514,6 +564,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'GRANDMA',
 		'name': 'Grandma',
 		'color': '000000',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -522,6 +573,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'NANNASPRITE',
 		'name': 'Nannasprite',
 		'color': '00D5F2',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -530,6 +582,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'JASPERSPRITE',
 		'name': 'Jaspersprite',
 		'color': 'F141EF',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -538,6 +591,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'CALSPRITE',
 		'name': 'Calsprite',
 		'color': 'F2A400',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'upper',
 		'replacements': '[["A", "<"], ["B", ">"], ["C", "?"], ["D", "<"], ["E", ">"], ["F", "?"], ["G", "<"], ["H", ">"], ["I", "?"], ["J", "<"], ["K", ">"], ["L", "?"], ["M", "<"], ["N", ">"], ["O", "?"], ["P", "<"], ["Q", ">"], ["R", "?"], ["S", "<"], ["T", ">"], ["U", "?"], ["V", "<"], ["W", ">"], ["X", "?"], ["Y", "<"], ["Z", ">"], ["<", "HAA "], [">", "HEE "], ["?", "HOO "]]'
@@ -546,6 +600,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'DAVESPRITE',
 		'name': 'Davesprite',
 		'color': 'F2A400',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'lower',
 		'replacements': '[]'
@@ -554,6 +609,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'JADESPRITE',
 		'name': 'Jadesprite',
 		'color': '1F9400',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -562,6 +618,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'TAVRISPRITE',
 		'name': 'Tavrisprite',
 		'color': '0715CD',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -570,6 +627,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'FEFETASPRITE',
 		'name': 'Fefetasprite',
 		'color': 'B536DA',
+		'quirk_suffix': '',
 		'quirk_prefix': '3833 <',
 		'case': 'normal',
 		'replacements': '[["E", "-E"], ["ee", "33"], ["H", ")("], ["h", ")("]]'
@@ -578,6 +636,7 @@ CHARACTER_DETAILS = {
 		'acronym': 'ERISOLSPRITE',
 		'name': 'Erisolsprite',
 		'color': '4AC925',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[["I", "II"], ["i", "ii"], ["S", "2"], ["s", "2"], ["V", "VV"], ["v", "vv"], ["W", "WW"], ["w", "ww"]]'
@@ -586,6 +645,7 @@ CHARACTER_DETAILS = {
 		'acronym': '♈',
 		'name': 'The Handmaid',
 		'color': 'A10000',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -594,6 +654,7 @@ CHARACTER_DETAILS = {
 		'acronym': '♉',
 		'name': 'The Summoner',
 		'color': 'A15000',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -602,6 +663,7 @@ CHARACTER_DETAILS = {
 		'acronym': '♊',
 		'name': 'The Ψiioniic',
 		'color': 'A1A100',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -610,6 +672,7 @@ CHARACTER_DETAILS = {
 		'acronym': '♋',
 		'name': 'The Signless',
 		'color': '626262',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -618,6 +681,7 @@ CHARACTER_DETAILS = {
 		'acronym': '♌',
 		'name': 'The Disciple',
 		'color': '416600',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -626,6 +690,7 @@ CHARACTER_DETAILS = {
 		'acronym': '♍',
 		'name': 'The Dolorosa',
 		'color': '008141',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -634,6 +699,7 @@ CHARACTER_DETAILS = {
 		'acronym': '♎',
 		'name': 'Neophyte Redglare',
 		'color': '008282',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -642,6 +708,7 @@ CHARACTER_DETAILS = {
 		'acronym': '♏',
 		'name': 'Marquise Spinneret Mindfang',
 		'color': '005682',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -650,6 +717,7 @@ CHARACTER_DETAILS = {
 		'acronym': '♐',
 		'name': 'E%ecutor Darkleer',
 		'color': '000056',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -658,6 +726,7 @@ CHARACTER_DETAILS = {
 		'acronym': '♑',
 		'name': 'The Grand Highblood',
 		'color': '2B0057',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -666,6 +735,7 @@ CHARACTER_DETAILS = {
 		'acronym': '♒',
 		'name': 'Orphaner Dualscar',
 		'color': '6A006A',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -674,6 +744,7 @@ CHARACTER_DETAILS = {
 		'acronym': '♓',
 		'name': 'Her Imperious Condescension',
 		'color': '77003C',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -682,6 +753,7 @@ CHARACTER_DETAILS = {
 		'acronym': '♠',
 		'name': 'Spades Slick',
 		'color': '000000',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -690,6 +762,7 @@ CHARACTER_DETAILS = {
 		'acronym': '♣',
 		'name': 'Clubs Deuce',
 		'color': '000000',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -698,6 +771,7 @@ CHARACTER_DETAILS = {
 		'acronym': '♦',
 		'name': 'Diamonds Droog',
 		'color': '000000',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
@@ -706,6 +780,7 @@ CHARACTER_DETAILS = {
 		'acronym': '♥',
 		'name': 'Hearts Boxcars',
 		'color': '000000',
+		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': '[]'
