@@ -41,7 +41,7 @@ function applyQuirks(text) {
 	}
 
 	// Prefix
-	if (user.character.quirk_prefix!='') {
+	if (user.character.quirk_prefix!='' || user.character.quirk_suffix!='') {
 		text = user.character.quirk_prefix+' '+text+' '+user.character.quirk_suffix;
 	}
 
