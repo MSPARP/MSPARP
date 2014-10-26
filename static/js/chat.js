@@ -724,7 +724,7 @@ $(document).ready(function() {
 
         for (var x=0; x < counterstyping.length; x++) {
             if ($("#user"+counterstyping[x]).length) {
-                var name = $("#user"+counterstyping[x])[0].firstChild.nodeValue;
+                var name = $("#user"+counterstyping[x]).data()['character']['name']
                 if (counterstyping.length === 1) {
                     typingString = name;
                 } else {
