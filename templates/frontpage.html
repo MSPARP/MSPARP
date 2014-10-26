@@ -47,6 +47,7 @@
 	<h1>Typing quirks</h1><button data-target="typing-quirks" class="show-button">...</button>
 	<div class="options-contents defaults-off" id="typing-quirks">
 		<label>Prefix: <input type="text" name="quirk_prefix" value="{{user.character['quirk_prefix']}}" /></label><br />
+		<label>Suffix: <input type="text" name="quirk_suffix" value="{{user.character['quirk_suffix']}}" /></label><br />
 		<label>Case:
 			<select name="case">
 				{% for case in case_options.items()|sort %}
