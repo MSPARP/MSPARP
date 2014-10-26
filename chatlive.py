@@ -6,10 +6,11 @@ from tornado.gen import engine, Task
 import ujson as json
 from tornadoredis import Client
 import redis
+import os
 
 print "WS Server started!"
 
-r = redis.Redis()
+r = redis.Redis(host=os.environ['REDIS_HOST'], port=int(os.environ['REDIS_PORT']), db=int(os.environ['REDIS_DB']))
 wsclients = set()
 
 class WSHandler(tornado.websocket.WebSocketHandler):
@@ -55,7 +56,7 @@ class WSHandler(tornado.websocket.WebSocketHandler):
 
     @engine
     def redis_listen(self, channel):
-        self.redis_client = Client()
+        self.redis_client = Client(host=os.environ['REDIS_HOST'], port=int(os.environ['REDIS_PORT']), db=int(os.environ['REDIS_DB']))
         yield Task(self.redis_client.subscribe, channel)
         self.redis_client.listen(self.on_redis_message, self.on_redis_unsubscribe)
 
