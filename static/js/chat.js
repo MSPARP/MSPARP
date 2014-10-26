@@ -64,6 +64,12 @@ $(document).ready(function() {
 	var bbset = 1;
 	var sysnot = 0;
 
+	// WebSocket
+    var typing, typing_timeout;
+    var counterintervals = {};
+    var counterstyping = [];
+    ws = null;
+
 	// LocalStorage stuff
 	if (localStorage.getItem(chat+"sysnot") == 'undefined' || localStorage.getItem(chat+"sysnot") === null) {
         if (!localStorage.sysnot) {
@@ -188,6 +194,7 @@ $(document).ready(function() {
 			closeSettings();
 			getMessages();
 			pingInterval = window.setTimeout(pingServer, PING_PERIOD*1000);
+			window.setTimeout(typingNotifications, 500);
 		}
 
 		function getMessages() {
@@ -667,6 +674,117 @@ $(document).ready(function() {
             conversation.scrollTop(conversation[0].scrollHeight);
         }
     });
+
+    /* WebSocket stuff */
+
+    function removeItem(item, array) {
+        array.splice($.inArray(item, array), 1);
+    }
+
+    function startedTyping() {
+        if (ws == null || ws.readyState !== 1) {return;}
+        window.clearTimeout(typing_timeout);
+        if ($('#textInput').val().length < 5 || $('#textInput').val().length % 5 === 0) {
+            typing = true;
+            ws.send(JSON.stringify({a: 'typing', c: user.meta.counter}));
+        }
+        typing_timeout = window.setTimeout(stoppedTyping, 2000);
+    }
+
+    function stoppedTyping() {
+        window.clearTimeout(typing_timeout);
+        if (ws == null || ws.readyState !== 1) {return;}
+        typing = false;
+        ws.send(JSON.stringify({a: 'stopped_typing', c: user.meta.counter}));
+    }
+
+    function typingNotifications() { // what the fuck
+
+        if (counterstyping.length === 0) {
+            if ($("#istyping").length) {
+                $("#istyping").fadeOut(1000, function(){
+                    $(this).remove();
+                });
+            }
+            window.setTimeout(typingNotifications, 500);
+            return;
+        } else if (chatState == "inactive") {
+            return;
+        }
+
+        var typingString = " ";
+
+        for (var x=0; x < counterstyping.length; x++) {
+            if ($("#user"+counterstyping[x]).length) {
+                var name = $("#user"+counterstyping[x])[0].firstChild.nodeValue;
+                if (counterstyping.length === 1) {
+                    typingString = name;
+                } else {
+                    typingString = typingString + name + ", ";
+                }
+            }
+        }
+
+        if (!$("#istyping").length) {
+            $('<p>').addClass("message").attr('title', 'system').css('color', '#000000').attr('id', 'istyping').html(typingString + " is typing...").appendTo("#conversation");
+        } else {
+            $("#istyping").text(typingString + " is typing...");
+        }
+
+        var von = conversation.scrollTop()+conversation.height()+24;
+        var don = conversation[0].scrollHeight;
+        var lon = don-von;
+        if (lon <= 30){
+            flip = 1;
+        } else {
+            flip = 0;
+        }
+        if (flip == 1) {
+            conversation.scrollTop(conversation[0].scrollHeight);
+            flip = 0;
+        }
+        if (chatState != 'inactive') {
+            window.setTimeout(typingNotifications, 500);
+        };
+    }
+
+    if (window.WebSocket) {
+        function start(reason){
+            if (reason == 'auto'){
+                if (ws.readyState == 1){return;}
+            }
+            ws = new WebSocket('ws://'+location.host+"/live/"+chat);
+
+            ws.onmessage = function(msg){
+                message = JSON.parse(msg.data);
+                var wsaction = message.a
+                var wscounter = message.c;
+                if (wsaction=="typing") {
+                    // what the f*ck
+                    if ($.inArray(wscounter, counterstyping) !== -1) {
+                        window.clearTimeout(counterintervals[wscounter]);
+                        counterintervals[wscounter] = window.setTimeout(function(){
+                            removeItem(wscounter, counterstyping);
+                        }, 8000);
+                    } else {
+                        counterstyping.push(wscounter)
+                        counterintervals[wscounter] = window.setTimeout(function(){
+                            removeItem(wscounter, counterstyping);
+                        }, 8000);
+                    }
+                } else if (wsaction=="stopped_typing") {
+                    removeItem(wscounter, counterstyping);
+                    window.clearTimeout(counterintervals[wscounter]);
+                }
+            }
+
+            ws.onclose = function(){
+                if (chatState != 'inactive'){setTimeout(function(){start('auto')}, 10000);}
+            }  
+        }
+        start('manual');
+
+    } else {}
 
 });
 
