@@ -1,9 +1,7 @@
 $(document).ready(function() {
 
 	if (document.cookie=="") {
-
-		$('<p class="error">').text("It seems you have cookies disabled. Unfortunately cookies are essential for MSPARP to work, so you'll need to either enable them or add an exception in order to use MSPARP.").appendTo(document.body);
-
+		$(".error").append("It seems you have cookies disabled. Unfortunately cookies are essential for MSPARP to work, so you'll need to either enable them or add an exception in order to use MSPARP.");
 	}
 
 	var settingUp = true;
@@ -45,6 +43,16 @@ $(document).ready(function() {
 		});
 	}
 
+	$('input[name="astext"]').change(function() {
+			if($(this).is(':checked')) {
+				$('#picky-icon').hide();
+				$('#picky-text').show();
+			} else {
+				$('#picky-icon').show();
+				$('#picky-text').hide();
+			}
+		}).change();
+	
 	$('input[name="picky"]').change(function() {
 		if($(this).is(':checked')) {
 			$('#picky-matches').show();
@@ -61,7 +69,7 @@ $(document).ready(function() {
 	});
 
 	$('label.picky-header input').click(function() {
-		var checks = $(this.parentNode).next('div.picky-group').find('input');
+		var checks = $(this.parentNode.parentNode).next('div.picky-group').find('input');
 		if (this.checked) {
 			checks.attr('checked','checked');
 		} else {

@@ -1,0 +1,600 @@
+html {
+    overflow-y: auto;
+    height: 100%;
+margin: 0px auto;
+padding:0px;
+}
+
+body {
+height: 100%;
+background-color: #535353;
+color: #000;
+font-size: 12px;
+overflow:auto;
+margin: 0px auto;
+padding:0px;
+}
+
+#container {
+background:#cccccc;
+box-sizing: border-box;
+width:97%;
+max-width:1500px;
+position:relative;
+min-height:94%;
+overflow:hidden;
+padding: 20px;
+border-radius:10px;
+font-family: 'Courier New', courier, monospace;
+font-weight:bold;
+margin: 1.5% auto .5% auto;
+}
+
+.blockwrapper {width:100%;padding-bottom:30px;box-sizing: border-box;}
+
+noscript, .error {
+	color: #ff0000;
+	padding:12px;
+	display:block;
+}
+
+/* Header */
+div.logo {
+	float:none;padding:0; margin: 0
+}
+
+div.logo .image {width:511px;padding:0; margin: 0;max-width:100%;background:url('../img/logo.gif') 0px bottom no-repeat;background-size:contain;}
+
+
+/* Typography */
+a {
+  color: #0072bc;
+  text-decoration: none;
+}
+h1 {
+  color: #535353;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+.options  h1:before {content:'> '}
+
+h3 {
+  font-size: 1em;
+}
+h2, .subject {
+  font-size: 1em;
+  color: black;
+}
+
+p {
+	margin:.2em 0 0 0;
+}
+
+/* Form */ 
+
+div.options {
+	overflow:visible;
+	padding: 0 0 1em 1em;
+}
+
+
+div.options h1 {
+	margin:0 .5em 0 0;
+	display: inline-block;
+	padding-bottom:5px;
+}
+
+
+div.options button {
+	background-color: #626262;
+	border-radius:1px;
+	color: #f4f4f4;
+	font-size:1em;
+	padding: 2px 8px 2px 8px;
+	cursor:pointer;
+}
+
+div.options-contents {
+	padding:5px;
+}
+
+div.tableForm {
+	display: table;
+}
+
+div.inputContainer {
+	display: table-row;
+}
+
+div.tableForm div.inputContainer {height:30px}
+
+div.inputContainer label {
+	padding:.2em;
+}
+
+div.inputContainer label, div.inputContainer input, div.inputContainer select {
+	display: table-cell;
+}
+
+input, select {
+	margin:2px;
+}
+
+select {
+	margin:0 .2em;
+}
+
+select.character-select {
+	font-size: 12pt;
+}
+
+.picky-header {color:#535353}
+
+.pester-line {
+	font-family: 'Courier New', courier,monospace;
+	font-weight: bold;
+	font-size: 12px;
+	background-color: #eee;
+	display:block;
+	margin-top:10px;
+}
+
+#color-preview {
+	padding: 4px;
+}
+
+label.quirk {
+	display: block;
+
+}
+
+.picky-group {
+	margin: 5px;
+	margin-left: 0.5em;
+}
+
+.picky-header {
+	font-weight: bold;
+}
+
+.optionswrap {text-align:left;}
+
+#saveOptions {
+	margin-left: 0;
+	padding: 0 1.5em;
+}
+
+#saveOptions li {
+	margin: 5px 0; display:inline-block;margin-right:6px;
+}
+
+#saveOptions input {
+	font-size: 1.2em;
+}
+
+#saveOptions input[type="submit"]{cursor:pointer;}
+
+a.linkButton {
+	display: inline-block;
+	padding: .2em .7em;
+}
+
+/* Navigation */
+
+ul,
+ol {
+  margin:0em 0 .5em 0;
+}
+
+#charbar{
+width:100%;
+display:block;
+overflow:hidden;
+height:10px;
+padding:0px;margin:0px;
+margin-bottom:-1px;
+background:#626262;
+clip-path:url(../img/clip.svg#chararrow);  
+-webkit-clip-path: polygon(0 50%, 96% 50%, 96% 0, 97% 0, 97% 25%, 98% 25%, 98% 50%, 99% 50%, 99% 75%, 100% 75%, 100% 150%, 0% 150%);
+}
+
+#charbar span {height:10px; display:inline-block;padding:0px;margin:0px;}
+
+
+/* Character colour codes go here, feel free to change names  */
+#character1 { background:#000}
+#character2 { background:#f0ff00}
+
+
+@media (min-width: 900px) {
+#charbar{
+clip-path:url(../img/clip.svg#charnarrow);  
+-webkit-clip-path: polygon(0 50%, 98% 50%, 98% 0, 98.5% 0, 98.5% 25%, 99% 25%, 99% 50%, 99.5% 50%, 99.5% 75%, 100% 75%, 100% 150%, 0% 150%);
+}
+}
+
+
+#nav, #navbar {
+    background:#626262;
+	color: #f5f5f5;
+	width: 100%;
+	min-height: 20px;
+	margin:0;
+	display:block;
+	padding-top:1px;
+}
+
+#navbar, #nav .menubutton  {display:none}	
+
+
+#nav li {
+    display: inline-block;
+	background-color:#626262;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+ }
+
+#nav li a {
+  display: block;
+  font-weight:bold;
+  width: auto;
+  float: left;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  padding: 0 10px 0 32px;
+  margin-left: 10px;
+  color: #f5f5f5;
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  background-position: 10px 50%;
+  background-repeat: no-repeat;
+}
+
+#nav li a:before {content:'> ';color:transparent}
+
+#nav li a.active,
+#nav li a:hover {
+  background-color: transparent;
+}
+
+#nav li a.active{
+  text-decoration:underline;
+}
+
+#nav li a.active:before,
+#nav li a:hover:before {content:'> ';color:#f5f5f5}
+
+#nav li a:hover {
+  background-color: transparent;
+} 
+
+#numberUsers {
+	text-align:left;
+}
+
+.number-of-users {
+width:50%;
+display:inline-block;
+  margin:0;}
+
+.bigtext {font-size:1.2em}
+
+#serverstatus .ok {color:#2d441e}
+#serverstatus .warn {color:#be790d}
+#serverstatus .down {color:#ff0000}
+
+  .noticeblock {
+text-align:left;
+width:49%;
+display:inline-block;
+margin-left: 7px;
+}
+.noticeblock h1 {margin-bottom:3px}
+
+.leftblock {display:inline-block;margin:0;width:50%;}
+.rightblock {display:inline-block;vertical-align:top;width:49%;}
+
+/* Button Styles */ 
+
+input[type="button"], input[type="submit"], button, a.linkButton {
+	background-color: #5e5e5e;
+	color: #f4f4f4;
+	border:none;
+	padding: 4px 15px 4px 15px;
+	border-radius: 1px;
+	font-family:'Courier New', courier, monospace;
+	font-weight:bold;
+	font-size:1.2em;
+}
+
+img {
+	max-width:100%;
+}
+
+/* checkbox style */
+
+.checkbox_outer * {height:27px;vertical-align:middle}
+.checkbox_outer label{vertical-align:baseline;line-height:27px;margin:0px;padding:0}
+
+.boxy {background:none; cursor:pointer;opacity:0;width:16px;height:16px;overflow:hidden;display:inline-block;margin:0 ;padding:0}
+.checkbox_outer {position:relative;top:0px;display:inline; margin:0 ;padding:0;margin-right: 5px}
+.boxy + .checky {position:absolute; margin:0;top:0; left:0; background-image: url('../img/controls.png'); background-repeat: no-repeat;width:16px;height:16px;overflow:hidden;display:inline;}
+.boxy, .checkbox_outer {height: 16px; width: 16px; position: relative; z-index: 10;}
+
+.checkbutton_outer {display:inline}
+.butty {opacity:0;width:28px;height:28px;cursor:pointer}
+.charbut {display:inline-block;position:relative;margin-left:-30px;width:28px;height:28px; background: url('../img/active.png') no-repeat 0px -28px, url('../img/char_sprite.png') 0px -28px;cursor:pointer}
+
+.mobiletip {display:none}
+
+/* hdpi style needs to go here */
+
+#nav li.hdpion, #nav li.hdpioff {display:none;cursor:pointer}
+
+@media 
+(-webkit-min-device-pixel-ratio: 1.1), (min-device-pixel-ratio: 1.1),  
+(min-resolution: 100dpi){ 
+#container:not(.hdpi-disabled) .boxy + .checky {background-image: url('../img/controls.svg');}
+
+#container:not(.hdpi-disabled) div.logo .image {background:url('../img/logo.svg') 0px bottom no-repeat;background-size:contain;}
+
+#container:not(.hdpi-disabled) #nav li.hdpion {display:inline-block}
+#container.hdpi-disabled #nav li.hdpioff {display:inline-block}
+
+#replacementList input, div.inputContainer input, div.inputContainer select {
+	font-size:16px;
+}
+
+ div.inputContainer input, div.inputContainer select {
+	display:inline;
+	width:98%;	
+}
+
+a.deleteReplacement {padding:7px}
+
+.astext:checked + br {display:none}
+
+
+#container:not(.hdpi-disabled) .charbut {background-image: url('../img/active.svg'), url('../img/char_sprite.svg')}
+}
+
+/* Character icons and tooltips are being styled here */
+
+.checkbutton_outer {position:relative}
+.butty  ~ .chartip {z-index:-5;user-select: none;-moz-user-select: none; -ms-user-select: none; -webkit-user-select: none;display:block;opacity:0;position:absolute;top:-6120px;left:-4130px;height:1px;width:1px; background:transparent; }
+.butty:active ~ .chartip{white-space:nowrap;z-index:5000;display:block;height:auto;width:auto;position:absolute;top:-56px;left:-3px;background:#fefefe;color:#626262;padding:8px 12px 8px 12px;border:1px solid #999999; border-radius:5px; }
+.butty:active ~ .chartip{display:block;}
+.butty ~ .chartip {transition: opacity 250ms; transition-delay: 0.15s;}
+.butty:active ~ .chartip {opacity:1; transition: opacity 0.5s; transition-delay: 0.15s;}
+
+
+.charanonymousother{background-position: 0px -28px, 0px -28px }
+.butty:checked + .charanonymousother {background-position: 0px 0px, 0px -28px}
+.charoriginalcharacter{background-position: 0px -28px,  0px -56px }
+.butty:checked + .charoriginalcharacter {background-position: 0px 0px,  0px -56px}
+.chartrickster{background-position: 0px -28px,  0px -84px }
+.butty:checked + .chartrickster {background-position: 0px 0px,  0px -84px}
+.chardocscratch{background-position: 0px -28px,  0px -112px }
+.butty:checked + .chardocscratch {background-position: 0px 0px,  0px -112px}
+.charcalliope{background-position: 0px -28px,  0px -140px }
+.butty:checked + .charcalliope {background-position: 0px 0px,  0px -140px}
+.charcaliborn{background-position: 0px -28px,  0px -168px }
+.butty:checked + .charcaliborn {background-position: 0px 0px,  0px -168px}
+.charother{background-position: 0px -28px,  0px 0px }
+.butty:checked + .charother {background-position: 0px 0px,  0px 0px}
+
+.charjohn {background-position: 0px -28px,  -28px -308px }
+.butty:checked + .charjohn {background-position: 0px 0px,  -28px -308px}
+.charrose {background-position: 0px -28px,  -28px -336px }
+.butty:checked + .charrose {background-position: 0px 0px,  -28px -336px}
+.chardave {background-position: 0px -28px,  -28px -364px }
+.butty:checked + .chardave {background-position: 0px 0px,  -28px -364px}
+.charjade {background-position: 0px -28px,  -28px -392px }
+.butty:checked + .charjade {background-position: 0px 0px,  -28px -392px}
+.charjane {background-position: 0px -28px,  -28px -420px }
+.butty:checked + .charjane {background-position: 0px 0px,  -28px -420px}
+.charroxy {background-position: 0px -28px,  -28px -448px }
+.butty:checked + .charroxy {background-position: 0px 0px,  -28px -448px}
+.chardirk {background-position: 0px -28px,  -28px -476px }
+.butty:checked + .chardirk {background-position: 0px 0px,  -28px -476px}
+.charjake {background-position: 0px -28px,  -28px -504px }
+.butty:checked + .charjake {background-position: 0px 0px,  -28px -504px}
+
+.chararadia{background-position: 0px -28px,  0px -196px }
+.butty:checked + .chararadia {background-position: 0px 0px,  0px -196px}
+.chartavros{background-position: 0px -28px,  0px -224px }
+.butty:checked + .chartavros{background-position: 0px 0px,  0px -224px}
+.charsollux{background-position: 0px -28px,  0px -252px }
+.butty:checked + .charsollux {background-position: 0px 0px,  0px -252px}
+.charkarkat{background-position: 0px -28px,  0px -280px }
+.butty:checked + .charkarkat {background-position: 0px 0px,  0px -280px}
+.charnepeta{background-position: 0px -28px,  0px -308px }
+.butty:checked + .charnepeta {background-position: 0px 0px,  0px -308px}
+.charkanaya{background-position: 0px -28px,  0px -336px }
+.butty:checked + .charkanaya{background-position: 0px 0px,  0px -336px}
+.charterezi{background-position: 0px -28px,  0px -364px }
+.butty:checked + .charterezi {background-position: 0px 0px,  0px -364px}
+.charvriska{background-position: 0px -28px,  0px -392px }
+.butty:checked + .charvriska {background-position: 0px 0px,  0px -392px}
+.charequius{background-position: 0px -28px,  0px -420px }
+.butty:checked + .charequius {background-position: 0px 0px,  0px -420px}
+.chargamzee{background-position: 0px -28px,  0px -448px }
+.butty:checked + .chargamzee {background-position: 0px 0px,  0px -448px}
+.chareridan{background-position: 0px -28px,  0px -476px }
+.butty:checked + .chareridan {background-position: 0px 0px,  0px -476px}
+.charfeferi{background-position: 0px -28px,  0px -504px }
+.butty:checked + .charfeferi {background-position: 0px 0px,  0px -504px}
+
+.chardamara{background-position: 0px -28px,  0px -532px }
+.butty:checked + .chardamara {background-position: 0px 0px,  0px -532px}
+.charrufioh{background-position: 0px -28px,  0px -560px }
+.butty:checked + .charrufioh{background-position: 0px 0px,  0px -560px}
+.charmituna{background-position: 0px -28px,  0px -588px }
+.butty:checked + .charmituna {background-position: 0px 0px,  0px -588px}
+.charkankri{background-position: 0px -28px,  0px -616px }
+.butty:checked + .charkankri {background-position: 0px 0px,  0px -616px}
+.charmeulin{background-position: 0px -28px,  0px -644px }
+.butty:checked + .charmeulin {background-position: 0px 0px,  0px -644px}
+.charporrim{background-position: 0px -28px,  0px -672px }
+.butty:checked + .charporrim{background-position: 0px 0px,  0px -672px}
+.charlatula{background-position: 0px -28px,  0px -700px }
+.butty:checked + .charlatula {background-position: 0px 0px,  0px -700px}
+.chararanea{background-position: 0px -28px,  0px -728px }
+.butty:checked + .chararanea {background-position: 0px 0px,  0px -728px}
+.charhoruss{background-position: 0px -28px,  0px -756px }
+.butty:checked + .charhoruss {background-position: 0px 0px,  0px -756px}
+.charkurloz{background-position: 0px -28px,  0px -784px }
+.butty:checked + .charkurloz {background-position: 0px 0px,  0px -784px}
+.charcronus{background-position: 0px -28px,  0px -812px }
+.butty:checked + .charcronus {background-position: 0px 0px,  0px -812px}
+.charmeenah{background-position: 0px -28px,  0px -840px }
+.butty:checked + .charmeenah {background-position: 0px 0px,  0px -840px}
+
+.charthehandmaid{background-position: 0px -28px,  -28px -532px }
+.butty:checked + .charthehandmaid {background-position: 0px 0px,  -28px -532px}
+.charthesummoner{background-position: 0px -28px,  -28px -560px }
+.butty:checked + .charthesummoner{background-position: 0px 0px,  -28px -560px}
+.charthepsiioniic{background-position: 0px -28px,  -28px -588px }
+.butty:checked + .charthepsiioniic {background-position: 0px 0px,  -28px -588px}
+.charthesignless{background-position: 0px -28px,  -28px -616px }
+.butty:checked + .charthesignless {background-position: 0px 0px,  -28px -616px}
+.charthedisciple{background-position: 0px -28px,  -28px -644px }
+.butty:checked + .charthedisciple {background-position: 0px 0px,  -28px -644px}
+.charthedolorosa{background-position: 0px -28px,  -28px -672px }
+.butty:checked + .charthedolorosa{background-position: 0px 0px,  -28px -672px}
+.charredglare{background-position: 0px -28px,  -28px -700px }
+.butty:checked + .charredglare {background-position: 0px 0px,  -28px -700px}
+.charmindfang{background-position: 0px -28px,  -28px -728px }
+.butty:checked + .charmindfang {background-position: 0px 0px,  -28px -728px}
+.chardarkleer{background-position: 0px -28px,  -28px -756px }
+.butty:checked + .chardarkleer {background-position: 0px 0px,  -28px -756px}
+.chargrandhighblood{background-position: 0px -28px,  -28px -784px }
+.butty:checked + .chargrandhighblood {background-position: 0px 0px,  -28px -784px}
+.chardualscar{background-position: 0px -28px,  -28px -812px }
+.butty:checked + .chardualscar {background-position: 0px 0px,  -28px -812px}
+.charthecondesce{background-position: 0px -28px,  -28px -840px }
+.butty:checked + .charthecondesce {background-position: 0px 0px,  -28px -840px}
+
+.chardad{background-position: 0px -28px,  -28px -924px }
+.butty:checked + .chardad {background-position: 0px 0px,  -28px -924px}
+.charnanna{background-position: 0px -28px,  0px -980px }
+.butty:checked + .charnanna {background-position: 0px 0px,  0px -980px}
+.charmom{background-position: 0px -28px,  -28px -980px }
+.butty:checked + .charmom {background-position: 0px 0px,  -28px -980px}
+.charbro{background-position: 0px -28px,  0px -952px }
+.butty:checked + .charbro {background-position: 0px 0px,  0px -952px}
+.chargrandpa{background-position: 0px -28px,  -28px -1008px }
+.butty:checked + .chargrandpa{background-position: 0px 0px,  -28px -1008px}
+.charpoppop{background-position: 0px -28px,  0px -1036px }
+.butty:checked + .charpoppop {background-position: 0px 0px,  0px -1036px}
+.charalphamom{background-position: 0px -28px,  0px -1008px }
+.butty:checked + .charalphamom{background-position: 0px 0px,  0px -1008px}
+.charalphabro{background-position: 0px -28px,  -28px -952px }
+.butty:checked + .charalphabro {background-position: 0px 0px,  -28px -952px}
+.chargrandma{background-position: 0px -28px,  -28px -1036px }
+.butty:checked + .chargrandma {background-position: 0px 0px,  -28px -1036px}
+
+.charnannasprite{background-position: 0px -28px,  -28px 0px }
+.butty:checked + .charnannasprite {background-position: 0px 0px,  -28px 0px}
+.charjaspersprite{background-position: 0px -28px,  -28px -28px }
+.butty:checked + .charjaspersprite {background-position: 0px 0px,  -28px -28px}
+.charcalsprite{background-position: 0px -28px,  -28px -56px }
+.butty:checked + .charcalsprite {background-position: 0px 0px,  -28px -56px}
+.chardavesprite{background-position: 0px -28px,  -28px -84px }
+.butty:checked + .chardavesprite {background-position: 0px 0px,  -28px -84px}
+.charjadesprite{background-position: 0px -28px,  -28px -112px }
+.butty:checked + .charjadesprite {background-position: 0px 0px,  -28px -112px}
+.chartavrisprite{background-position: 0px -28px,  -28px -140px }
+.butty:checked + .chartavrisprite {background-position: 0px 0px,  -28px -140px}
+.charfefetasprite{background-position: 0px -28px,  -28px -168px }
+.butty:checked + .charfefetasprite {background-position: 0px 0px,  -28px -168px}
+.charerisolsprite{background-position: 0px -28px,  -28px -196px }
+.butty:checked + .charerisolsprite {background-position: 0px 0px,  -28px -196px}
+
+.charspadesslick{background-position: 0px -28px,  -28px -868px }
+.butty:checked + .charspadesslick {background-position: 0px 0px,  -28px -868px}
+.charclubsdeuce{background-position: 0px -28px,  0px -896px }
+.butty:checked + .charclubsdeuce {background-position: 0px 0px,  0px -896px}
+.chardiamondsdroog{background-position: 0px -28px,  -28px -896px }
+.butty:checked + .chardiamondsdroog {background-position: 0px 0px,  -28px -896px}
+.charheartsboxcars{background-position: 0px -28px,  0px -924px }
+.butty:checked + .charheartsboxcars {background-position: 0px 0px,  0px -924px}
+
+/* Checkbox options */
+
+.boxy:checked + .checky{ background-position: -16px 0; }
+.boxy:hover:checked + .checky,
+.boxy:focus:checked + .checky { background-position: -16px -16px; }
+.boxy:hover + .checky,
+.boxy:focus + .checky { background-position: 0 -16px; }
+.boxy:active + .checky { background-position: 0 -48px; }
+.boxy:disabled + .checky{ background-position: 0 -32px; }
+.boxy:disabled:checked + .checky { background-position: -16px -32px; }
+.boxy:hover:disabled + .checky,
+.boxy:focus:disabled + .checky { background-position: 0 -32px; }
+.boxy:hover:disabled:checked + .checky ,
+.boxy:focus:disabled:checked + .checky { background-position: -16px -32px; }
+.boxy:active:checked + .checky { background-position: -16px -48px; }
+
+/* Layout adjustments for smaller window sizes and mobile are here */
+
+ @media handheld, only screen and (max-width: 885px), only screen and (max-device-width: 885px) {
+ 
+ .leftblock {display:block;width:100%;}
+.rightblock {display:block;width:100%;}
+div.options {padding-left:0px;padding-right:0px}
+
+ div.inputContainer input, div.inputContainer select {
+	display:inline;
+	width:98%;	
+}
+
+div.tableForm div.inputContainer {height:38px}
+
+ }
+ 
+ @media handheld, only screen and (max-width: 782px), only screen and (max-device-width: 782px) {
+ 
+.number-of-users {
+width:100%;
+display:block;
+  margin:0;}
+  
+  .noticeblock {
+text-align:left;
+width:100%;
+display:block;
+margin: 0px;
+margin-top:20px;
+}
+
+.blockwrapper {padding-bottom:5px}
+ 
+ #navbar {display:block;height:23px}
+ #nav {position:absolute;width:180px;height:20px;overflow:hidden;font-size:14px;margin-top:-23px;border:1px solid #626262;margin-left:2px}
+  #nav .menubutton {display:block;padding-left:6px;padding-top:1px;padding-bottom:7px;margin-top:-1px;margin-bottom:18px}
+  #nav li {display:block;position:relative;width:auto;text-align:left;}
+  #nav li.hdpion, #nav li.hdpioff {background:transparent}
+ #nav li a {display:block;height:38px;padding-top:9px;width:100%;font-size:12px;text-align:left;margin-left:0px;padding-left:10px;box-sizing:border-box;color:#363636}
+ #nav li a:hover {color:#525252}
+  #nav li a:active, #nav li a:focus {color:#626262}
+ #nav li a:before, #nav li a.active:before, #nav li a:hover:before {content:'· ';color:#626262}
+ #nav:hover, #nav:active,#nav:focus {height:auto; background: #f5f5f5}
+ 
+ }
+ 
+ @media handheld, only screen and (max-width: 782px) and (-webkit-min-device-pixel-ratio: 1.1), (min-device-pixel-ratio: 1.1) {
+ 
+#picky-icon .checkbox_outer:first-child label:after  {content:'(tap and hold for tooltip)';padding-left:4em;display:inline;font-size:9px;font-weight:normal}
+ 
+ }
+ 
+ /* prevent ugly click boxes on mobile chrome */
+ 
+  @media handheld, only screen and (max-width: 885px), only screen and (max-device-width: 885px) and (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3) {
+  a.linkButton, .charbut, div.options button, #saveOptions input[type="submit"], .boxy, .butty {cursor:default}
+  a.linkButton:active, #saveOptions input[type="submit"]:active, div.options button:active {background:#797979}
+  }

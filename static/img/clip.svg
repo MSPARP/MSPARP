@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+    <clipPath id="chararrow" clipPathUnits="objectBoundingBox">
+		<polygon points="0 .5, .96 .5, .96 0, .97 0, .97 .25, .98 .25, .98 .5, .99 .5, .99 .75, 1 .75, 1 1, 0 1"/>
+    </clipPath>
+	<clipPath id="charnarrow" clipPathUnits="objectBoundingBox">
+		<polygon points="0 .5, .98 .5, .98 0, .985 0, .985 .25, .99 .25, .99 .5, .995 .5, .995 .75, 1 .75, 1 1, 0 1"/>
+    </clipPath>
+</svg>
