@@ -205,7 +205,7 @@ add the status as a <span class="..."></span>; class "ok" will be GREEN, class "
 		<div class="picky-group">
 		{% for char in characters[group] %}
 		<div class="checkbutton_outer"><label><input type="checkbox" class="butty" name="picky-{{char|lower}}" {% if char|lower in picky %}
-				checked="checked" {% endif %} title="{{char}}"><span class="charbut char{{char|lower|cut:" "|cut:"/"|cut:"("|cut:")"}}" title="{{char}}"></span><span class="chartip">{{char}}</span></label></div>
+				checked="checked" {% endif %} title="{{char}}"><span class="charbut char{{char.replace(" ", "").replace("(", "").replace(")", "")|lower}}" title="{{char}}"></span><span class="chartip">{{char}}</span></label></div>
 		{% endfor %} 
 		</div>
 	{% endfor %}

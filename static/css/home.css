@@ -383,8 +383,8 @@ a.deleteReplacement {padding:7px}
 .butty:checked + .charcalliope {background-position: 0px 0px,  0px -140px}
 .charcaliborn{background-position: 0px -28px,  0px -168px }
 .butty:checked + .charcaliborn {background-position: 0px 0px,  0px -168px}
-.charother{background-position: 0px -28px,  0px 0px }
-.butty:checked + .charother {background-position: 0px 0px,  0px 0px}
+.charothercanon{background-position: 0px -28px,  0px 0px }
+.butty:checked + .charothercanon {background-position: 0px 0px,  0px 0px}
 
 .charjohn {background-position: 0px -28px,  -28px -308px }
 .butty:checked + .charjohn {background-position: 0px 0px,  -28px -308px}
