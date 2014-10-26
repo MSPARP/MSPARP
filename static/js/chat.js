@@ -484,8 +484,10 @@ $(document).ready(function() {
 				textPreview = applyQuirks(jQuery.trim(textPreview));
 			}
 			if (textPreview.length>0) {
+				startedTyping();
 				$('#preview').text(textPreview);
 			} else {
+				stoppedTyping();
 				$('#preview').html('&nbsp;');
 			}
 			$('#conversation').css('bottom',($('#controls').height()+10)+'px');
