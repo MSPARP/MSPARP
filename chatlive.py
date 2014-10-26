@@ -56,7 +56,7 @@ class WSHandler(tornado.websocket.WebSocketHandler):
 
     @engine
     def redis_listen(self, channel):
-        self.redis_client = Client(host=os.environ['REDIS_HOST'], port=int(os.environ['REDIS_PORT']), db=int(os.environ['REDIS_DB']))
+        self.redis_client = Client(host=os.environ['REDIS_HOST'], port=int(os.environ['REDIS_PORT']), selected_db=int(os.environ['REDIS_DB']))
         yield Task(self.redis_client.subscribe, channel)
         self.redis_client.listen(self.on_redis_message, self.on_redis_unsubscribe)
 

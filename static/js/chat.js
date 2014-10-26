@@ -165,6 +165,12 @@ $(document).ready(function() {
 
 			var mp = $('<p>').addClass(msgClass).attr('title',msgClass).css('color', '#'+msg.color).html(message).appendTo('#conversation');
 
+            if ($("#istyping").length) {
+                mp.insertBefore("#istyping");
+            } else {
+                mp.appendTo('#conversation');
+            }
+
 			if (highlightUser==msg.counter) {
 				mp.addClass('highlight');
 			}
