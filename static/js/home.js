@@ -43,19 +43,33 @@ $(document).ready(function() {
 		});
 	}
 
+	if (localStorage.pstyle == 'text'){
+			$('input[name="astext"]').prop('checked',true);
+			$('#picky-icon').hide();
+			$('#picky-text').show();
+			} else {
+			$('#picky-icon').show();
+			$('#picky-text').hide();
+			}
+	
 	$('input[name="astext"]').change(function() {
 			if($(this).is(':checked')) {
 				$('#picky-icon').hide();
 				$('#picky-text').show();
+				localStorage.setItem('pstyle', 'text');
 			} else {
 				$('#picky-icon').show();
 				$('#picky-text').hide();
+				localStorage.setItem('pstyle', 'icon');
 			}
 		}).change();
 	
 	$('input[name="picky"]').change(function() {
 		if($(this).is(':checked')) {
 			$('#picky-matches').show();
+			if (localStorage.pstyle == 'text'){
+				$('input[name="astext"]').prop('checked',true);
+				}
 		} else {
 			$('#picky-matches').hide();
 			$('#picky-matches input').removeAttr('checked').removeAttr('indeterminate');
@@ -77,6 +91,18 @@ $(document).ready(function() {
 		}
 	});
 
+	$('#container').addClass(localStorage.hdpi);
+	
+	$('.hdpidisable').click(function() {
+		$('#container').addClass('hdpi-disabled');
+		localStorage.setItem('hdpi', 'hdpi-disabled');
+	});
+	
+	$('.hdpienable').click(function() {
+		$('#container').removeClass('hdpi-disabled');
+		localStorage.setItem('hdpi', '');
+	});
+	
 	function setGroupInput(groupDiv) {
 		var label = $(groupDiv).prev('label.picky-header').find('input')[0];
 		var group = $(groupDiv).find('input');
