@@ -88,6 +88,20 @@ p:hover .timestamp {
 
 /* Chat layout */
 
+#topbar {
+	background-color: #eee;
+	height: 25px;
+	left: 5px;
+	position: absolute;
+	right: 230px;
+	top: 5px;
+	line-height: 25px;
+}
+
+#topbar h1 {
+	float: left;
+}
+
 #conversation {
 	position: fixed;
 	top: 5px;
@@ -98,13 +112,17 @@ p:hover .timestamp {
 	padding: 2px 0;
 }
 
+#topbar + #conversation {
+	top: 35px;
+}
+
 #conversation.search {
 	background-image: url('/static/img/throbber-big.gif');
 	background-repeat: no-repeat;
 	background-position: center;
 }
 
-body.withSidebar #conversation {
+body.withSidebar #topbar, body.withSidebar #conversation {
 	right: 230px;
 }
 

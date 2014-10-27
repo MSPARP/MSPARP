@@ -17,6 +17,13 @@
 {% endblock %}
 {% block content %}
 
+{% if chat_meta['type']=='group' %}
+<div id="topbar">
+  <h1>{{chat.replace('_', ' ')}}</h1>
+  <p id="topic">{{chat_meta.get('topic','')}}</p>
+</div>
+{% endif %}
+
 <div id="conversation">
 {% if chat_meta['type']!='unsaved' and lines|length>=50 %}
 	<p><a href="/chat/{{chat}}/log" target="_blank">View earlier messages</a></p>
@@ -29,8 +36,6 @@
 <div id="userList" class="sidebar">
 	<a href="#" class="close">[close]</a>
 {% if chat_meta['type']=='group' %}
-	<h1>{{chat.replace('_', ' ')}}</h1>
-    <p id="topic">{{chat_meta.get('topic','')}}</p>
       <ul id="metaOptions">
 		<li><button type="button" id="topicButton">Set topic</button></li>
 		{% if character_dict['meta']['group'] == 'globalmod' %}
