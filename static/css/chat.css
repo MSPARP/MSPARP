@@ -40,13 +40,12 @@ hr {
 	border-width: 1px 0 0 0;
 }
 
-button, input, select, #conversation, #settings, #userList, #preview, .pager, #archiveConversation, #logLink {
-	border: 1px solid #999999;
-	border-radius: 1px;
-}
-
 #conversation, #settings, #userList, #preview, .pager, #archiveConversation {
 	background-color: #eeeeee;
+}
+
+button, input, select {
+	border: 0;
 }
 
 button, input, select, #logLink {
@@ -115,7 +114,7 @@ body.withSidebar #conversation {
 	top: 5px;
 	right: 5px;
 	bottom: 5px;
-	width: 218px;
+	width: 220px;
 	overflow: auto;
 }
 
@@ -159,13 +158,13 @@ body.withSidebar #conversation {
 
 #controls {
 	position: fixed;
-	right: 8px;
+	right: 5px;
 	bottom: 5px;
-	left: 8px;
+	left: 5px;
 }
 
 body.withSidebar #controls {
-	right: 233px;
+	right: 230px;
 }
 
 #controls input[type="submit"], #controls button, #logLink {
@@ -179,7 +178,6 @@ body.withSidebar #controls {
 }
 
 #preview {
-	margin: 0 -3px -1px -3px;
 	padding: 2px;
 	overflow: hidden;
 }
@@ -187,7 +185,7 @@ body.withSidebar #controls {
 #textInput {
 	display: block;
 	width: 100%;
-	margin: 0 -3px;
+	width: calc(100% - 4px);
 	padding: 2px;
 }
 
