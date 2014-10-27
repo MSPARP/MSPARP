@@ -100,7 +100,7 @@ p:hover .timestamp {
 }
 
 #conversation.search {
-	background-image: url('/static/img/throbber-big.gif');
+	background-image: url('/static/img/spinner-big.gif');
 	background-repeat: no-repeat;
 	background-position: center;
 }
@@ -227,6 +227,12 @@ body.settings #settings, body.userList #userList {
 	text-decoration: line-through;
 }
 
+.globalicon, .spiroicon {vertical-align:middle;margin-right:6px;display:inline-block;width:16px;height:16px;}
+
+.globalicon {background: url('/static/img/sburb.png') no-repeat;}
+
+.spiroicon {background: url('/static/img/spirograph.png') no-repeat;}
+
 /* Moderation */
 
 #metaOptions, .modPowers #metaResults, #metaResults li {
@@ -316,4 +322,20 @@ body.mobile #conversation, body.mobile #userList, body.mobile #settings {
     display: block;
     color: #000000;
     font-size: 11px;
+}
+
+/* hdpi */
+
+@media 
+(-webkit-min-device-pixel-ratio: 1.1), (min-device-pixel-ratio: 1.1),  
+(min-resolution: 100dpi){ 
+
+body:not(.hdpi-disabled) .globalicon {background: url('/static/img/sburb.svg') no-repeat;}
+
+body:not(.hdpi-disabled) .spiroicon {background: url('/static/img/spirograph.svg') no-repeat;}
+
+body:not(.hdpi-disabled) #conversation.search {
+	background-size: 75px 75px;
+}
+
 }

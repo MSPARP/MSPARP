@@ -574,7 +574,7 @@ margin-top:20px;
 .blockwrapper {padding-bottom:5px}
  
  #navbar {display:block;height:23px}
- #nav {position:absolute;width:180px;height:20px;overflow:hidden;font-size:14px;margin-top:-23px;border:1px solid #626262;margin-left:2px}
+ #nav {position:absolute;width:180px;height:20px;overflow:hidden;font-size:14px;margin-top:-23px;border:1px solid #626262;margin-left:2px;z-index:10;}
   #nav .menubutton {display:block;padding-left:6px;padding-top:1px;padding-bottom:7px;margin-top:-1px;margin-bottom:18px}
   #nav li {display:block;position:relative;width:auto;text-align:left;}
   #nav li.hdpion, #nav li.hdpioff {background:transparent}

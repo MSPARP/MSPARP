@@ -63,6 +63,8 @@ $(document).ready(function() {
 	var globals = [];
 	var bbset = 1;
 
+	$('body').addClass(localStorage.hdpi);
+	
     $('#conversation p').each(function() {
         if (bbset == 1) {
             line = bbEncode(linkify($(this).html()));
@@ -148,7 +150,7 @@ $(document).ready(function() {
 			}
 			
 			if ($('#userList #user'+msg.counter).hasClass('globalmod')) {
-				mp.addClass('staffmessage').prepend('<img src="/static/img/spirograph.png" width="16" height="16">');
+				mp.addClass('staffmessage').prepend('<span class="spiroicon"></span>');
 			}
 			
 			if (flip == 1) {
@@ -198,7 +200,7 @@ $(document).ready(function() {
 					actionListUser = null;
 					$("#online > li").appendTo(holdingList);
 					generateUserlist(data.online, $('#online')[0]);
-					$(".globalmod").prepend('<img src="/static/img/sburb.png" width="16" height="16">');
+					$(".globalmod").prepend('<span class="globalicon"></span>');
 				}
 				if (typeof data.meta!=='undefined') {
 					// Reload chat metadata.
