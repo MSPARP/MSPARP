@@ -99,7 +99,22 @@ p:hover .timestamp {
 }
 
 #topbar h1 {
+	background-color: #fff;
 	float: left;
+	margin: 0;
+	padding: 0 5px;
+}
+
+#topic {
+	height: 25px;
+	overflow: hidden;
+	padding: 0 5px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+#topic:empty {
+	display: none;
 }
 
 #conversation {
@@ -137,15 +152,6 @@ body.withSidebar #topbar, body.withSidebar #conversation {
 }
 
 .sidebar .close {
-	display: none;
-}
-
-#topic {
-	padding: 0 5px 5px;
-	word-wrap: break-word;
-}
-
-#topic:empty {
 	display: none;
 }
 
