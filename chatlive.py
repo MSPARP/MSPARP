@@ -68,7 +68,6 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         self.redis_client.disconnect()
 
 settings = dict(
-    debug=True,
     gzip=True,
 )
 
@@ -78,6 +77,8 @@ application = tornado.web.Application([
 
 
 if __name__ == "__main__":
+    if 'DEBUG' in os.environ:
+        application.debug = True
     application.autoreload = True
     http_server = tornado.httpserver.HTTPServer(application)
     http_server.listen(8000)
