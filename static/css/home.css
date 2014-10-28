@@ -368,7 +368,7 @@ a.deleteReplacement {padding:7px}
 .butty:active ~ .chartip{white-space:nowrap;z-index:5000;display:block;height:auto;width:auto;position:absolute;top:-56px;left:-3px;background:#fefefe;color:#626262;padding:8px 12px 8px 12px;border:1px solid #999999; border-radius:5px; }
 .butty:active ~ .chartip{display:block;}
 .butty ~ .chartip {transition: opacity 250ms; transition-delay: 0.15s;}
-.butty:active ~ .chartip {opacity:1; transition: opacity 0.5s; transition-delay: 0.15s;}
+.butty:active ~ .chartip {opacity:1; transition: opacity 0.5s; transition-delay: 0.2s;}
 
 
 .charanonymousother{background-position: 0px -28px, 0px -28px }
