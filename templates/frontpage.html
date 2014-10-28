@@ -7,9 +7,7 @@
 <script src="/static/js/home.js?p"></script>
 {% endblock %}
 {% block content %}
-<!-- ### make this <div id="container {{blub}}">
- where {{blub}} is hdpi-disabled if the menu option has been set.
--->
+
 <div id="container">
 <form method="post" action="{{url_for('save')}}" >
 <div class="logo">
@@ -193,10 +191,8 @@ add the status as a <span class="..."></span>; class "ok" will be GREEN, class "
 <input type="hidden" name="save_pickiness" value="true">
 <div class="checkbox_outer"><label><input type="checkbox" class="boxy" name="picky" {% if picky|length!=0 %}checked="checked" {%endif%}	/><span class="checky"></span> Look for or exclude specific characters</label></div>
 <div id="picky-matches">
-<!-- ### Make sure to save the astext option and have it checked if so here --v -->
 <div class="checkbox_outer"><label><input type="checkbox" class="boxy showtext" name="astext" /><span class="checky"></span> Show as text</label></div><br>
-<!-- ### new character picker is here; make sure string is cut properly for CSS class and saving character choices works with
-         both pickers. Also make sure the js properly toggles between the text/icon one. They should never be visible at the same time. -->
+
 <div id="picky-icon">
 {% for group in groups %}
 		<div class="checkbox_outer"><label class="picky-header"><input type="checkbox" class="boxy" id="group-{{group|lower}}" name="group-{{group|lower}}"><span class="checky"></span> {{group}}</label></div>
@@ -208,7 +204,7 @@ add the status as a <span class="..."></span>; class "ok" will be GREEN, class "
 		</div>
 	{% endfor %}
 </div>
-<!-- ### old/text character picker is here -->
+
 <div id="picky-text">
 {% for group in groups %}
 		<div class="checkbox_outer"><label class="picky-header"><input type="checkbox" id="group-{{group|lower}}" class="boxy" name="group-{{group|lower}}"><span class="checky"></span> {{group}}:</label></div>
