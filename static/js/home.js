@@ -87,6 +87,17 @@ $(document).ready(function() {
 		}
 	}
 	
+	$('#picky-matches input').change(function() {
+		var pickySync = $('input[name="'+ $(this).attr('name') +'"]')
+		if($(this).is(':checked')) {
+			for (i=0; i<pickySync.length; i++) {
+				$(pickySync[i]).prop('checked', true);}
+		} else {
+			for (i=0; i<pickySync.length; i++) {
+				$(pickySync[i]).prop('checked', false);}
+				}
+	}).change();
+	
 	$('input[name="picky"]').change(function() {
 		if($(this).is(':checked')) {
 			$('#picky-matches').show();
@@ -108,9 +119,16 @@ $(document).ready(function() {
 	$('label.picky-header input').click(function() {
 		var checks = $(this.parentNode.parentNode).next('div.picky-group').find('input');
 		if (this.checked) {
-			checks.attr('checked','checked');
-		} else {
-			checks.val([]);
+			for (i=0; i<checks.length; i++) {
+			var pickySync = $('input[name="'+ $(checks[i]).attr('name') +'"]')
+			pickySync.attr('checked','checked');
+			}
+		}
+		 else {
+			for (i=0; i<checks.length; i++) {
+			var pickySync = $('input[name="'+ $(checks[i]).attr('name') +'"]')
+			pickySync.val([]);
+			}
 		}
 	});
 
