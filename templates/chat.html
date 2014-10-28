@@ -17,6 +17,13 @@
 {% endblock %}
 {% block content %}
 
+{% if chat_meta['type']=='group' %}
+<div id="topbar">
+  <h1 class="chatName">{{chat.replace('_', ' ')}}</h1>
+  <p id="topicPreview">{{chat_meta.get('topic','')}}</p>
+</div>
+{% endif %}
+
 <div id="conversation">
 {% if chat_meta['type']!='unsaved' and lines|length>=50 %}
 	<p><a href="/chat/{{chat}}/log" target="_blank">View earlier messages</a></p>
@@ -29,7 +36,6 @@
 <div id="userList" class="sidebar">
 	<a href="#" class="close">[close]</a>
 {% if chat_meta['type']=='group' %}
-	<h1 id="chatName">{{chat.replace('_', ' ')}}</h1>
 	<div id="menu">
 		<hr>
 		<h1 id="modSettings">&#9660; Mod Settings &#9660;</h1>
@@ -43,7 +49,6 @@
 		</div>
 		<hr>
 	</div>
-	<p id="topic">{{chat_meta.get('topic','')}}</p>
 	<ul id="metaResults">
 		<li id="autosilenceResult">New users are auto-silenced.</li>
 	</ul>
@@ -111,5 +116,13 @@
 		<input type="submit" name="tumblr" value="Save log and post to Tumblr">
 	</p></form>
 </div>
+
+{% if chat_meta['type']=='group' %}
+<div id="topicContainer">
+  <a href="#" class="close">[close]</a>
+  <h1 class="chatName">{{chat.replace('_', ' ')}}</h1>
+  <p id="topic">{{chat_meta.get('topic','')}}</p>
+</div>
+{% endif %}
 
 {% endblock %}

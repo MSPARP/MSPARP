@@ -36,13 +36,12 @@ hr {
 	border-width: 1px 0 0 0;
 }
 
-button, input, select, #conversation, #settings, #userList, #preview, .pager, #archiveConversation, .aButton {
-	border: 1px solid #999999;
-	border-radius: 1px;
-}
-
 #conversation, #settings, #userList, #preview, .pager, #archiveConversation {
 	background-color: #eeeeee;
+}
+
+button, input {
+	border: 0;
 }
 
 button, .aButton {
@@ -99,6 +98,61 @@ p:hover .timestamp {
 
 /* Chat layout */
 
+#topbar {
+	background-color: #eee;
+	height: 25px;
+	left: 5px;
+	position: absolute;
+	right: 5px;
+	top: 5px;
+	line-height: 25px;
+}
+
+#topbar h1 {
+	background-color: #fff;
+	float: left;
+	margin: 0;
+	padding: 0 5px;
+}
+
+#topicPreview {
+	height: 25px;
+	overflow: hidden;
+	padding: 0 5px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	cursor: pointer;
+}
+
+#topicPreview:empty {
+	display: none;
+}
+
+#topicContainer {
+	display: none;
+	position: fixed;
+	top: 35px;
+	right: 5px;
+	bottom: 5px;
+	left: 5px;
+	overflow: auto;
+	padding: 0 0 2px 0;
+	background-color: #eee;
+}
+
+body.fullTopic #topicContainer {
+	display: block;
+}
+
+#topicContainer .close {
+	float: right;
+	margin: 5px;
+}
+
+#topicContainer h1 {
+	margin-top: 3px;
+}
+
 #conversation {
 	position: fixed;
 	top: 5px;
@@ -109,13 +163,17 @@ p:hover .timestamp {
 	padding: 2px 0;
 }
 
+#topbar + #conversation {
+	top: 35px;
+}
+
 #conversation.search {
 	background-image: url('/static/img/throbber-big.gif');
 	background-repeat: no-repeat;
 	background-position: center;
 }
 
-body.withSidebar #conversation {
+body.withSidebar #topbar, body.withSidebar #topicContainer, body.withSidebar #conversation {
 	right: 230px;
 }
 
@@ -125,20 +183,11 @@ body.withSidebar #conversation {
 	top: 5px;
 	right: 5px;
 	bottom: 5px;
-	width: 218px;
+	width: 220px;
 	overflow: auto;
 }
 
 .sidebar .close {
-	display: none;
-}
-
-#topic {
-	padding: 0 5px 5px;
-	word-wrap: break-word;
-}
-
-#topic:empty {
 	display: none;
 }
 
@@ -169,13 +218,13 @@ body.withSidebar #conversation {
 
 #controls {
 	position: fixed;
-	right: 8px;
+	right: 5px;
 	bottom: 5px;
-	left: 8px;
+	left: 5px;
 }
 
 body.withSidebar #controls {
-	right: 233px;
+	right: 230px;
 }
 
 #controls input[type="submit"], #controls button, .aButton {
@@ -189,7 +238,6 @@ body.withSidebar #controls {
 }
 
 #preview {
-	margin: 0 -3px -1px -3px;
 	padding: 2px;
 	overflow: hidden;
 }
@@ -197,7 +245,7 @@ body.withSidebar #controls {
 #textInput {
 	display: block;
 	width: 100%;
-	margin: 0 -3px;
+	width: calc(100% - 4px);
 	padding: 2px;
 }
 
@@ -260,6 +308,14 @@ body.mobile .sidebar .close {
 	display: block;
 	margin: 5px;
 	float: right;
+}
+
+body.mobile #topbar h1 {
+	display: none;
+}
+
+body.mobile #topicPreview:before {
+	content: "Topic: "
 }
 
 body.mobile #conversation {
@@ -357,6 +413,4 @@ h1 {
 	padding: 0 0 0 5px;
 }
 
-#topic:not(:empty) {
-	border-bottom: 1px solid #999999;
-}
+
