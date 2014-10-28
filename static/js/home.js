@@ -76,14 +76,14 @@ $(document).ready(function() {
 	function disablePicky(pickyid) {
 		var pickyInputs = $(pickyid + ' input');
 		for (i=0; i<pickyInputs.length; i++) {
-				$(pickyInputs[i]).prop('type','disabled');
+				$(pickyInputs[i]).prop('disabled', true);
 		}
 	}
 	
 	function enablePicky(pickyid) {
 		var pickyInputs = $(pickyid + ' input');
 		for (i=0; i<pickyInputs.length; i++) {
-				$(pickyInputs[i]).prop('type','checkbox');
+				$(pickyInputs[i]).prop('disabled', false);
 		}
 	}
 	
