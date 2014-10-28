@@ -77,6 +77,16 @@ $(document).ready(function() {
         }
     });
 
+    if ($('#topicPreview').length != 0) {
+        if (bbset == 1) {
+            text = bbEncode(htmlEncode(linkify($('#topicPreview').html())));
+            $('#topicPreview').html(text);
+        } else {
+            text = bbEncode(htmlEncode(linkify(bbRemove($('#topicPreview').html()))));
+            $('#topicPreview').html(text);
+        }
+    }
+
     if ($('#topic').length != 0) {
         if (bbset == 1) {
             text = bbEncode(htmlEncode(linkify($('#topic').html())));
@@ -180,7 +190,7 @@ $(document).ready(function() {
 					} else if (data.exit=='ban') {
 						latestNum = -1;
 						chat = 'theoubliette'
-						$('#userList h1')[0].innerHTML = 'theoubliette';
+						$('.chatName').text('theoubliette');
 						$('#conversation').empty();
 					}
 					return true;
@@ -213,8 +223,10 @@ $(document).ready(function() {
 						}
 					}
 					if (typeof data.meta.topic!=='undefined') {
+						$('#topicPreview').html(bbEncode(htmlEncode(linkify(data.meta.topic))));
 						$('#topic').html(bbEncode(htmlEncode(linkify(data.meta.topic))));
 					} else {
+						$('#topicPreview').text('');
 						$('#topic').text('');
 					}
 				}
@@ -440,6 +452,15 @@ $(document).ready(function() {
 		}
 
 		// Event listeners
+
+		$('#topicPreview').click(function() {
+			$(document.body).addClass('fullTopic');
+		});
+
+		$('#topicContainer .close').click(function() {
+			$(document.body).removeClass('fullTopic');
+			return false;
+		});
 
 		function updateChatPreview(){
 			var textPreview = $('#textInput').val();
