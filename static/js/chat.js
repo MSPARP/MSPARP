@@ -200,7 +200,6 @@ $(document).ready(function() {
 					actionListUser = null;
 					$("#online > li").appendTo(holdingList);
 					generateUserlist(data.online, $('#online')[0]);
-					$(".globalmod").prepend('<span class="globalicon"></span>');
 				}
 				if (typeof data.meta!=='undefined') {
 					// Reload chat metadata.
@@ -334,6 +333,16 @@ $(document).ready(function() {
 					}
 					listItem.addClass('self').append(' (you)');
 				}
+
+				// Character icons + Globalmod icons
+				if (currentUser.meta.group == 'globalmod') {
+					listItem.prepend($("<span/>").addClass('globalicon'));
+				} else {
+					filteredchar = currentUser.character['character'].replace(/[()/\s]/g, '').toLowerCase();
+					listItem.prepend($("<span/>").addClass("charbut").addClass('char'+filteredchar));
+				}
+
+				// Extra info for globalmods
 				if (user.meta.group=="globalmod") {
 					listItem.append("<span class=\"userID\">user"+currentUser.meta.counter+"</span>"); 
 				}
