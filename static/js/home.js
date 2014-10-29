@@ -72,6 +72,25 @@ $(document).ready(function() {
 			}
 		}).change();
 		
+		if (localStorage.wopt == 'wrapopt'){
+			$('input[name="wrapbutton"]').prop('checked',true);
+			}
+		else {}
+	
+		$('.optionswrap').addClass(localStorage.wopt);
+	
+	
+	$('input[name="wrapbutton"]').change(function() {
+			if($(this).is(':checked')) {
+				$('.optionswrap').addClass('wrapopt');
+				localStorage.setItem('wopt', 'wrapopt');
+				} else {
+				$('.optionswrap').removeClass('wrapopt');
+				localStorage.setItem('wopt', '');
+				}
+		}).change();
+		
+		
 		
 	function disablePicky(pickyid) {
 		var pickyInputs = $(pickyid + ' input');

@@ -157,7 +157,8 @@ label.quirk {
 	font-weight: bold;
 }
 
-.optionswrap {text-align:left; width:50%;float:left;position:relative;margin-top:30px;}
+.optionswrap {text-align:left;clear:both}
+.optionswrap.wrapopt {width:50%;float:left;position:relative;margin-top:30px;clear:none}
 
 #saveOptions {
 	margin-left: 0;
@@ -546,7 +547,7 @@ a.deleteReplacement {padding:7px}
  .leftblock {display:block;width:100%;}
 .rightblock {display:block;width:100%;}
 div.options {padding-left:0px;padding-right:0px}
-.optionswrap {float:none;width:100%;}
+.optionswrap, .optionswrap.wrapopt {float:none;width:100%;}
 
  div.inputContainer input, div.inputContainer select {
 	display:inline;
