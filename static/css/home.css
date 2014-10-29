@@ -158,12 +158,17 @@ label.quirk {
 }
 
 .optionswrap {text-align:left;clear:both}
-.optionswrap.wrapopt {width:50%;float:left;position:relative;margin-top:30px;clear:none}
+.optionswrap.wrapopt {width:50%;float:left;position:relative;margin-top:10px;clear:none;}
 
 #saveOptions {
 	margin-left: 0;
-	padding: 0 1.5em;
+	padding: 0 16px;
+	margin:0 auto 0 auto;
+	width:500px;
+	
 }
+
+.optionswrap.wrapopt #saveOptions {width:auto;margin-left:0px}
 
 #saveOptions li {
 	margin: 5px 0; display:inline-block;margin-right:6px;
@@ -171,9 +176,14 @@ label.quirk {
 
 #saveOptions input {
 	font-size: 1.2em;
+	width:170px;
 }
 
-#saveOptions input[type="submit"]{cursor:pointer;}
+#saveOptions input[type="submit"]{cursor:pointer;margin-bottom:6px;}
+
+
+#saveOptions li {float:left;clear:right;}
+#saveOptions .redbutton {float:none;height:60px;margin-left:0px;width:auto;}
 
 a.linkButton {
 	display: inline-block;
@@ -542,10 +552,16 @@ a.deleteReplacement {padding:7px}
 
 /* Layout adjustments for smaller window sizes and mobile are here */
 
+ @media (max-width: 1140px){
+.optionswrap.wrapopt #saveOptions .gname {display:block}
+.optionswrap.wrapopt #saveOptions li input {width:200px}
+ }
+
  @media handheld, only screen and (max-width: 885px), only screen and (max-device-width: 885px) {
  
  .leftblock {display:block;width:100%;}
 .rightblock {display:block;width:100%;}
+#saveOptions {width:auto}
 div.options {padding-left:0px;padding-right:0px}
 .optionswrap, .optionswrap.wrapopt {float:none;width:100%;}
 
