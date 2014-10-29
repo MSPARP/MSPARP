@@ -325,7 +325,7 @@ body.mobile #conversation, body.mobile #userList, body.mobile #settings {
 }
 
 #userList #online {list-style:none;margin-left:0px;padding-left:8px}
-#userList .charbut {vertical-align:middle;margin:-3px;margin-left:-6px;margin-right:1px;display:inline-block;width:28px;height:28px; -webkit-transform: scale(0.85);transform: scale(0.85)}
+#userList .charbut {vertical-align:middle;margin:-3px;margin-left:-6px;margin-right:1px;display:inline-block;width:28px;height:28px; -ms-transform: scale(0.85);-webkit-transform: scale(0.85);transform: scale(0.85)}
 
 
 /* hdpi */

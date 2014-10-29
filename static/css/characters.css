@@ -1,5 +1,7 @@
 /* Character icons */
 
+.charbut {display:inline-block;position:relative;margin-left:-30px;width:28px;height:28px; background: url('../img/active.png') no-repeat 0px -28px, url('../img/char_sprite.png') 0px -28px;cursor:pointer}
+
 .charanonymousother{background-position: 0px -28px, 0px -28px }
 .butty:checked + .charanonymousother {background-position: 0px 0px, 0px -28px}
 .charoriginalcharacter{background-position: 0px -28px,  0px -56px }

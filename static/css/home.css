@@ -338,7 +338,6 @@ img {
 
 .checkbutton_outer {display:inline}
 .butty {opacity:0;width:28px;height:28px;cursor:pointer}
-.charbut {display:inline-block;position:relative;margin-left:-30px;width:28px;height:28px; background: url('../img/active.png') no-repeat 0px -28px, url('../img/char_sprite.png') 0px -28px;cursor:pointer}
 
 .mobiletip {display:none}
 
