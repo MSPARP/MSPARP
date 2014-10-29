@@ -30,15 +30,31 @@ function applyQuirks(text) {
 	        text = buffer.join('');
 			break;
 	}
-
+	
 	// Replacements
-	for (i=0; i<user.character.replacements.length; i++) {
+
+	for (var i=0; i < user.character.replacements.length; i++) {
 		var replacement = user.character.replacements[i];
-		// We're doing it like this because regular expressions pick up slashes
-		// and stuff as control characters, and string replacement only picks up
-		// the first occurence in Chrome.
-		text = text.split(replacement[0]).join(replacement[1])
+		if (replacement[0].match(/\/.*?\//)) {
+		 str1 = replacement[0]
+		  str1 = str1.replace(/^\/(.*?)\//g, '$1');
+		  str2 = replacement[1]
+			  try {
+		   var re = new RegExp(str1, "g"); 
+		text = text.replace(re, str2);}
+		catch (e) {console.log("A young person stands in their bedroom. They don't know Regexp.")}
+		}
+		else {
+		 RegExp.quote = function(str) {
+			 return str.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
+		 };
+		 str1 = replacement[0] 
+		  str2 = replacement[1]
+		var re = new RegExp(RegExp.quote(str1), "g"); 
+		text = text.replace(re, str2);
+		}
 	}
+
 
 	// Prefix
 	if (user.character.quirk_prefix!='') {
