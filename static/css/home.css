@@ -347,7 +347,7 @@ img {
 
 @media 
 (-webkit-min-device-pixel-ratio: 1.2), (min-device-pixel-ratio: 1.1),  
-(min-resolution: 100dpi){ 
+(min-resolution: 106dpi), (min-resolution: 100dpi) and (-moz-images-in-menus: 1), (min-resolution: 100dpi) and (-moz-images-in-menus: 0) { 
 #container:not(.hdpi-disabled) .boxy + .checky {background-image: url('../img/controls.svg');}
 
 #container:not(.hdpi-disabled) div.logo .image {background:url('../img/logo.svg') 0px bottom no-repeat;background-size:contain;}
@@ -608,7 +608,7 @@ margin-top:20px;
  
  }
  
- @media handheld, only screen and (max-width: 782px) and (-webkit-min-device-pixel-ratio: 1.1), (min-device-pixel-ratio: 1.1) {
+ @media handheld, only screen and (max-width: 782px) and (-webkit-min-device-pixel-ratio: 1.2), (min-device-pixel-ratio: 1.1) {
  
 #picky-icon .checkbox_outer:first-child label:after  {content:'(tap and hold for tooltip)';padding-left:4em;display:inline;font-size:9px;font-weight:normal}
  
