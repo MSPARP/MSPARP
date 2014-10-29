@@ -576,6 +576,10 @@ div.tableForm div.inputContainer {height:38px}
  
  @media handheld, only screen and (max-width: 782px), only screen and (max-device-width: 782px) {
  
+ html {height:auto}
+ body {height:auto}
+ #container{height:auto;}
+ 
 .number-of-users {
 width:100%;
 display:block;
