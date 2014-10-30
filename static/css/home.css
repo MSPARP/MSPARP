@@ -306,7 +306,7 @@ margin-left: 7px;
 }
 .noticeblock h1 {margin-bottom:3px}
 
-.leftblock {display:inline-block;margin:0;width:50%;}
+.leftblock {display:inline-block;margin:0;width:50%;overflow:hidden}
 .rightblock {display:inline-block;vertical-align:top;width:49%;float:right;}
 
 /* Button Styles */ 
