@@ -98,7 +98,7 @@ var characters = {
 		'quote': "you dont seem to harbor any sympathy for the fact that ive burrowed fuck deep into lively, fluffy muppet buttock",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [["'", " "]]
 	},
 	'jade': {
 		'acronym': 'GG',
@@ -107,7 +107,7 @@ var characters = {
 		'quote': "i am never going to sleep again!",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [["'", " "]]
 	},
 	'jane': {
 		'acronym': 'GG',
@@ -125,7 +125,7 @@ var characters = {
 		'quote': "it seems 2 me that there is a (MATHS) % chance of you bein a huge tightass",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [["'", " "]]
 	},
 	'dirk': {
 		'acronym': 'TT',
@@ -152,7 +152,7 @@ var characters = {
 		'quote': "maybe if i say st0p en0ugh s0mething else will happen instead 0f the thing that d0es",
 		'quirk_prefix': '',
 		'case': 'lower',
-		'replacements': [['o', '0']]
+		'replacements': [['o', '0'], ["'", " "]]
 	},
 	'aradiasprite': {
 		'acronym': 'ARADIASPRITE',
@@ -161,7 +161,7 @@ var characters = {
 		'quote': "ribbit",
 		'quirk_prefix': '',
 		'case': 'lower',
-		'replacements': [["o", "0"]]
+		'replacements': [["o", "0"], ["'", " "]]
 	},
 	'aradiabot': {
 		'acronym': 'AA',
@@ -170,7 +170,7 @@ var characters = {
 		'quote': "and the best part ab0ut being d00med is y0u 0nly have t0 put up with it until y0u die",
 		'quirk_prefix': '',
 		'case': 'lower',
-		'replacements': [["o", "0"]]
+		'replacements': [["o", "0"], ["'", " "]]
 	},
 	'aradia': {
 		'acronym': 'AA',
@@ -178,8 +178,8 @@ var characters = {
 		'color': 'A10000',
 		'quote': "theres no better time and there are so many corpses here to work with",
 		'quirk_prefix': '',
-		'case': 'normal',
-		'replacements': []
+		'case': 'lower',
+		'replacements': [[":d", ":D"], ["d:", "D:"], ["'", " "]]
 	},
 	'tavros': {
 		'acronym': 'AT',
@@ -224,7 +224,7 @@ var characters = {
 		'quote': ":33 < but do you think you could purrhaps please spare your computer for just the most fl33ting of moments?",
 		'quirk_prefix': ':33 <',
 		'case': 'normal',
-		'replacements': [['ee', '33']]
+		'replacements': [['ee', '33'], ["'", " "]]
 	},
 	'kanaya':{
 		'acronym':'GA',
@@ -233,7 +233,7 @@ var characters = {
 		'quote':"So You Are Destined To Edit It No Matter What And What You Submit Will Be What I Once Read Regardless",
 		'quirk_prefix': '',
 		'case': 'title',
-		'replacements': []
+		'replacements': [["'", " "]]
 	},
 	'terezi': {
 		'acronym': 'GC',
@@ -242,7 +242,7 @@ var characters = {
 		'quote': "JOHN W3 AR3 SO MUCH B3TT3R TH4N YOU IN 3V3RY R3SP3CT 1TS R1D1CULOUS",
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': [["A", "4"], ["E", "3"], ["I", "1"]]
+		'replacements': [["A", "4"], ["E", "3"], ["I", "1"], ["/(\\w)'(\\w)/", "$1$2"]]
 	},
 	'vriska': {
 		'acronym': 'AG',
@@ -251,7 +251,7 @@ var characters = {
 		'quote': "It is 8ight groups of 8ight. I specifically counted them.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["B", "8"], ["b", "8"]]
+		'replacements': [["B", "8"], ["b", "8"], ["(m)", "♏"]]
 	},
 	'equius': {
 		'acronym': 'CT',
@@ -278,7 +278,7 @@ var characters = {
 		'quote': "it rots you. RUSTS YOUR MOTHERFUCKIN THINK PAN.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [[":O", ":o"], ["DO:", "Do:"], [";O", ";o"]]
+		'replacements': []
 	},
 	'eridan': {
 		'acronym': 'CA',
@@ -350,7 +350,7 @@ var characters = {
 		'quote':" No+ o+ne quite prepares yo+u fo+r the fact that o+n the o+ther side o+f death is an infinite echo+ chamber o+f teen drama.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["o", "o+"]]
+		'replacements': [["o", "o+"], ["0", "0+"], ["/(^|\\s)[pP]lus(\\W|$)/", "$1+$2"], ["/(^|\\s)PLUS(\\W|$)/", "$1+$2"]]
 	},
 	'latula': {
 		'acronym': 'LATULA',
@@ -359,7 +359,7 @@ var characters = {
 		'quote': "do you 3v3n know how l4m3 of 4 sc3n3 1t 1s b31ng th3 only l3g1t 1n your f4c3 pow3rg4m1ng grl 1n 4 bunch of bubbl3s full of brut4l pos3rz???",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["A", "4"], ["a", "4"], ["E", "3"], ["e", "3"], ["I", "1"], ["i", "1"]]
+		'replacements': [["A", "4"], ["a", "4"], ["E", "3"], ["e", "3"], ["I", "1"], ["i", "1"], ["'", " "]]
 	},
 	'aranea': {
 		'acronym': 'ARANEA',
@@ -368,7 +368,7 @@ var characters = {
 		'quote': "You couldn't even wait a few minutes while I retrieved one last guest? I have to come 8ack to THIS????????",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["B", "8"], ["b", "8"]]
+		'replacements': [["B", "8"], ["b", "8"], ["(m)", "♏"]]
 	},
 	'horuss': {
 		'acronym': 'HORUSS',
@@ -377,7 +377,7 @@ var characters = {
 		'quote': "8=========D < Why the long face?",
 		'quirk_prefix': '8=D <',
 		'case': 'normal',
-		'replacements': [["X", "%"], ["x", "%"], ["loo", "100"], ["ool", "001"], ["LOO", "100"], ["OOL", "001"]]
+		'replacements': [["X", "%"], ["x", "%"], ["loo", "100"], ["ool", "001"], ["LOO", "100"], ["OOL", "001"], ["strong", "STRONG"], ["strength", "STRENGTH"]]
 	},
 	'kurloz': {
 		'acronym': 'KURLOZ',
@@ -404,7 +404,7 @@ var characters = {
 		'quote': "sayin fish puns is obviously kind of this thing i do stupid G-ET WIT)( T)(-E PROGRAM",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["E", "-E"], ["H", ")("]]
+		'replacements': [["E", "-E"], ["H", ")("], ["'", " "]]
 	},
 	'dad': {
 		'acronym': 'pipefan413',
@@ -503,7 +503,7 @@ var characters = {
 		'quote': "Maybe you can win his affection by rubbing your cheek against him thats what i would do.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [["'", " "]]
 	},
 	// XXX GOTTA REMOVE THIS AT SOME POINT
 	'calsprite': {
@@ -523,7 +523,7 @@ var characters = {
 		'quote': "thats the best fucking question anybody ever asked",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [["'", " "]]
 	},
 	'jadesprite': {
 		'acronym': 'JADESPRITE',
@@ -532,7 +532,7 @@ var characters = {
 		'quote': "yes i figured shenanigans were probably involved",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [["'", " "]]
 	},
 	'tavrisprite': {
 		'acronym': 'TAVRISPRITE',
@@ -550,7 +550,7 @@ var characters = {
 		'quote': "3833 < 383",
 		'quirk_prefix': '3833 <',
 		'case': 'normal',
-		'replacements': [["E", "-E"], ["ee", "33"], ["H", ")("], ["h", ")("]]
+		'replacements': [["E", "-E"], ["ee", "33"], ["H", ")("], ["h", ")("], ["'", " "]]
 	},
 	'erisolsprite': {
 		'acronym': 'ERISOLSPRITE',
@@ -658,7 +658,7 @@ var characters = {
 		'quote': "Less has acceler8ted meeker than I to homicide, and the viol8tion would hold me aghast, again, if his misgivings did not complement his so endearing arsenal of qu8nt flaws. It is impossi8le to stifle this grin even now as I write.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [["B", "8"], ["b", "8"], ["(m)", "♏"]]
 	},
 	'darkleer': {
 		'acronym': '♐',
@@ -730,7 +730,7 @@ var characters = {
 		'quote': "GET UP ON THOSE GODDAM JELLY LEGS OF YERS",
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': []
+		'replacements': [["'", " "]]
 	}
 }
 
