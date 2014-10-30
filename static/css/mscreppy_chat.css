@@ -1,0 +1,216 @@
+ /* CHAT styles */
+
+body {
+background-color: #050613;
+color: #d4540b;
+}
+
+body.downfall {
+animation: thunder 30s infinite;
+-webkit-animation: thunder 30s infinite;
+}
+ 
+ hr {
+	border-color: #3c4152;
+}
+
+ul {
+    list-style-type: none;
+	padding-left:0px !important
+} 
+
+ul li {background: url('../img/candycorn.png') 3px 2px no-repeat;padding-left:23px !important;}
+
+#userList #online li, #metaOptions li {background:none !important;}
+
+h1 {color: #e6e6e6}
+
+a {color: #e6e6e6}
+a:hover {color:#d4540b}
+
+body{
+  scrollbar-base-color: #3c4152;
+  scrollbar-base-color: #3c4152;
+  scrollbar-3dlight-color: #3c4152;
+  scrollbar-highlight-color: #3c4152;
+  scrollbar-track-color: #1d1f2c;
+  scrollbar-arrow-color: #3c4152;
+  scrollbar-shadow-color: #3c4152;
+  scrollbar-dark-shadow-color: #3c4152;
+}
+
+::-webkit-scrollbar {
+width: 15px;
+height: 15px;
+}
+::-webkit-scrollbar-track-piece  {
+background-color: #1d1f2c;
+}
+
+::-webkit-scrollbar-thumb {
+height: 30px;
+background-color: #3c4152;
+}
+  
+.pager, #preview
+  {background: #1d1f2c;border:1px solid #2c3142; border-radius:1px;color:#d37d17}
+
+.pager a {color:#e6e6e6}
+
+.timestamp, #online:empty:after, .userID {color:#3c4152 !important} 
+
+.highlight {
+	background-color: #1d1f2c;
+} 
+
+
+
+#textInput 
+  {background: #3c4152;border:1px solid #42485a; border-radius:1px;color:#d37d17}
+
+#topicButton, button[type="submit"], #settingsCancelButton, #controls button, #controls #logLink {
+    background:#d4540b;
+	color: #11121f;
+	border:none;
+	border-radius:1px;
+}
+  
+ #disconnectButton, #settingsButton, #userListButton, #controls #logLink, button[type="submit"]
+ {font-weight:bold;line-height:14px;padding: 4px 10px;}
+ 
+#archiveConversation,  #conversation,#userList, #settings {
+background:none;
+background: transparent url('../img/horrorterrors.png') repeat;
+background-attachment: fixed;
+animation: ringscroll 1340s linear infinite;
+-webkit-animation: ringscroll 1340s linear infinite;
+border:none;
+color:#d37d17;
+}
+
+
+
+.sidebar input, .sidebar select {background: #3c4152;border:1px solid #42485a; border-radius:1px;color:#d37d17}
+
+
+/* override character colours */
+
+*[style*="color: #000000"], *[style*="color: rgb(0, 0, 0)"]{color: #d37d17 !important}
+*[style*="color: #000056"],*[style*="color: rgb(0, 0, 86)"]{color: #0021CB !important}
+*[style*="color: #2B0057"],*[style*="color: rgb(43, 0, 87)"]{color: #4200b0 !important}
+
+
+@keyframes thunder {
+    0% {background-color: #91a2b2;}
+	2.15% {background-color: #01020f;}
+    2.17% {background-color: #ecf4ff;}
+	3.5% {background-color: #01020f;}
+	3.6% {background-color: #01020f;}
+    3.61% {background-color: #91a2b2;}
+	5% {background-color: #01020f;}
+	9.6% {background-color: #01020f;}
+    9.68% {background-color: #11121f;}
+	9.8% {background-color: #01020f;}
+	22.5% {background-color: #01020f;}
+    22.51% {background-color: #91a2b2;}
+	24.16% {background-color: #01020f;}
+	57.5% {background-color: #01020f;}
+	57.53% {background-color: #11121f;}
+	58.83% {background-color: #01020f;}
+	99.6% {background-color: #01020f;}
+	99.8% {background-color: #ecf4ff;}
+} 
+
+@-webkit-keyframes thunder {
+    0% {background-color: #91a2b2;}
+	2.15% {background-color: #01020f;}
+    2.17% {background-color: #ecf4ff;}
+	3.5% {background-color: #01020f;}
+	3.6% {background-color: #01020f;}
+    3.61% {background-color: #91a2b2;}
+	5% {background-color: #01020f;}
+	9.6% {background-color: #01020f;}
+    9.68% {background-color: #11121f;}
+	9.8% {background-color: #01020f;}
+	22.5% {background-color: #01020f;}
+    22.51% {background-color: #91a2b2;}
+	24.16% {background-color: #01020f;}
+	57.5% {background-color: #01020f;}
+	57.53% {background-color: #11121f;}
+	58.83% {background-color: #01020f;}
+	99.6% {background-color: #01020f;}
+	99.8% {background-color: #ecf4ff;}
+} 
+
+@keyframes ringscroll {
+	0% { background-position: 0 0; }
+	10%{ background-position: 58px 148px; }
+	20%{ background-position: 291px 75px; }
+	30%{ background-position: 583px 37px; }
+	40%{ background-position: 408px 111px; }
+	50%{ background-position: 350px 185px; }
+	60%{ background-position: 290px 168px; }
+	70%{ background-position: 116px 334px; }
+	80%{ background-position: 60px 296px; }
+	90%{ background-position: 70px 75px; }
+	100%{ background-position: 0 0; }
+}
+
+@-webkit-keyframes ringscroll {
+	0% { background-position: 0 0; }
+	10%{ background-position: 10% 40%; }
+	20%{ background-position: 50% 20%; }
+	30%{ background-position: 100% 10%; }
+	40%{ background-position: 70% 30%; }
+	50%{ background-position: 60% 50%; }
+	60%{ background-position: 50% 50%; }
+	70%{ background-position: 20% 90%; }
+	80%{ background-position: 10% 80%; }
+	90%{ background-position: 10% 20%; }
+	100%{ background-position: 0 0; }
+}
+
+.boxy + .checky {background-image: url('../img/controls_creppy.png');}
+
+.globalicon {vertical-align:middle;margin-right:6px;display:inline-block;width:16px;height:16px; background: url('../img/controls_creppy.png') -16px -16px no-repeat;}
+.spiroicon {vertical-align:middle;margin-right:6px;display:inline-block;width:16px;height:16px; background: url('../img/controls_creppy.png') 0px -16px no-repeat;}
+
+
+@media 
+(-webkit-min-device-pixel-ratio: 1.2), (min-device-pixel-ratio: 1.1),  
+(min-resolution: 106dpi), (min-resolution: 100dpi) and (-moz-images-in-menus: 1), (min-resolution: 100dpi) and (-moz-images-in-menus: 0) {  
+
+body:not(.hdpi-disabled) .boxy + .checky {background-image: url('../img/controls_creppy.svg');}
+
+body:not(.hdpi-disabled) .globalicon {background: url('../img/controls_creppy.svg') -16px -16px no-repeat;}
+
+body:not(.hdpi-disabled) .spiroicon {background: url('../img/controls_creppy.svg') 0px -16px no-repeat;}
+
+body:not(.hdpi-disabled) ul li {background: url('../img/candycorn.svg') 3px 1px no-repeat;}
+
+body:not(.hdpi-disabled) #metaOptions li {background:none !important;}
+
+}
+
+
+ @media handheld, only screen and (max-width: 885px) and (min-device-pixel-ratio: 1.3), only screen and (max-device-width: 885px) and (-webkit-min-device-pixel-ratio: 1.3) {
+  #topicButton, button[type="submit"], #settingsCancelButton, #controls button, #controls #logLink {
+    cursor:default;
+}
+#topicButton:active, button[type="submit"]:active, #settingsCancelButton:active, #controls button:active, #controls #logLink:active {
+	background:#e6e6e6;
+}
+#archiveConversation,  #conversation,#userList, #settings {
+background-size:291px 186px;
+}
+  }
+  
+  
+ @media (min-height: 558px){
+
+ .sidebar *{z-index:1;position:relative;}
+
+.sidebar:before { content: url('../img/mutini.gif');z-index:0;position:absolute;bottom:0px;right:0px; }
+
+ 
+  }

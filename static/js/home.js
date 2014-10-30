@@ -72,10 +72,27 @@ $(document).ready(function() {
 			}
 		}).change();
 		
+		
+		if (localStorage.dfall == 'downfall'){
+			$('input[name="toggledownfall"]').prop('checked',true);
+			}
+		
+	$('body').addClass(localStorage.dfall);
+		
+	$('input[name="toggledownfall"]').change(function() {
+			if($(this).is(':checked')) {
+				$('body').addClass('downfall');
+				localStorage.setItem('dfall', 'downfall');
+				} else {
+				$('body').removeClass('downfall');
+				localStorage.setItem('dfall', '');
+			}
+		}).change();
+		
 		if (localStorage.wopt == 'wrapopt'){
 			$('input[name="wrapbutton"]').prop('checked',true);
 			}
-		else {}
+		
 	
 		$('.optionswrap').addClass(localStorage.wopt);
 	

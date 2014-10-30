@@ -300,6 +300,35 @@ body.mobile #conversation, body.mobile #userList, body.mobile #settings {
 	padding: 2px 0;
 }
 
+/* checkbox style */
+
+.checkbox_outer * {height:27px;vertical-align:middle}
+.checkbox_outer label{vertical-align:baseline;line-height:27px;margin:0px;padding:0}
+
+.boxy {background:none; cursor:pointer;opacity:0;width:16px;height:16px;overflow:hidden;display:inline-block;margin:0 ;padding:0}
+.checkbox_outer {position:relative;top:0px;display:inline; margin:0 ;padding:0;margin-right: 5px}
+.boxy + .checky {position:absolute; margin:0;top:0; left:0; background-image: url('/static/img/controls.png'); background-repeat: no-repeat;width:16px;height:16px;overflow:hidden;display:inline;}
+.boxy, .checkbox_outer {height: 16px; width: 16px; position: relative; z-index: 10;}
+
+.checkbutton_outer {display:inline}
+
+
+/* Checkbox options */
+
+.boxy:checked + .checky{ background-position: -16px 0; }
+.boxy:hover:checked + .checky,
+.boxy:focus:checked + .checky { background-position: -16px -16px; }
+.boxy:hover + .checky,
+.boxy:focus + .checky { background-position: 0 -16px; }
+.boxy:active + .checky { background-position: 0 -48px; }
+.boxy:disabled + .checky{ background-position: 0 -32px; }
+.boxy:disabled:checked + .checky { background-position: -16px -32px; }
+.boxy:hover:disabled + .checky,
+.boxy:focus:disabled + .checky { background-position: 0 -32px; }
+.boxy:hover:disabled:checked + .checky ,
+.boxy:focus:disabled:checked + .checky { background-position: -16px -32px; }
+.boxy:active:checked + .checky { background-position: -16px -48px; }
+
 /* BBCode */
 .padded {
 	padding: 5px;
@@ -331,8 +360,10 @@ body.mobile #conversation, body.mobile #userList, body.mobile #settings {
 /* hdpi */
 
 @media 
-(-webkit-min-device-pixel-ratio: 1.1), (min-device-pixel-ratio: 1.1),  
-(min-resolution: 100dpi){ 
+(-webkit-min-device-pixel-ratio: 1.2), (min-device-pixel-ratio: 1.1),  
+(min-resolution: 106dpi), (min-resolution: 100dpi) and (-moz-images-in-menus: 1), (min-resolution: 100dpi) and (-moz-images-in-menus: 0) { 
+
+body:not(.hdpi-disabled) .boxy + .checky {background-image: url('/static/img/controls.svg');}
 
 body:not(.hdpi-disabled) .globalicon {background: url('/static/img/sburb.svg') no-repeat;}
 

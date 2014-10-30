@@ -3,6 +3,7 @@
 {% block header %}
 <link rel="stylesheet" type="text/css" href="/static/css/characters.css" />
 <link rel="stylesheet" href="/static/css/chat.css?2212">
+<link rel="stylesheet" href="/static/css/mscreppy_chat.css">
 <link rel="stylesheet" media="screen" type="text/css" href="/static/colorpicker/css/colorpicker.css" />
 <script src="/static/js/jquery.min.js"></script>
 <script type="text/javascript" src="/static/colorpicker/js/colorpicker.js"></script>
@@ -39,7 +40,7 @@
 		<li>[GLOBAL] <a href="/chat/{{(chat)}}/mods" target="_blank">Moderators</a></li>
 		{% endif %}
 		
-		<li><label><input type="checkbox" id="autosilence"> Auto-silence new users</label></li>
+		<li><div class="checkbox_outer"><label><input type="checkbox" class="boxy" id="autosilence"/><span class="checky"></span> Auto-silence new users</label></div></li>
 	</ul>
 	<ul id="metaResults">
 		<li id="autosilenceResult">New users are auto-silenced.</li>
@@ -54,6 +55,7 @@
 <form id="settings" class="sidebar">
 	<a href="#" class="close">[close]</a>
 	<h1>Settings</h1>
+	<div class="checkbox_outer"><label><input type="checkbox" class="boxy toggledown" name="toggledownfall"/><span class="checky"></span> /toggledownfall</label></div><br>	
 	<p><select name="character">
 		{% for group in groups %}
 		<optgroup label="{{group}}">
