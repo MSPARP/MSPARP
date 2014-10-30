@@ -381,7 +381,7 @@ CHARACTER_DETAILS = {
         'color': '2B0057',
         'quirk_prefix': '',
         'case': 'alternating',
-        'replacements': '[["/.*", "$L"], ["/([\w\s]|[\w\'\w])([\w\'\w]|[\w\s])?/", "$U"], ["/:O\)/", ":o)"], ["/;O\)/", ";o)"], ["/:O\(", ":o("]]'
+        'replacements': '[["/.*/", "$L"], ["/([\w\s]|[\w\'\w])([\w\'\w]|[\w\s])?/", "$U"], ["/:O\)/", ":o)"], ["/;O\)/", ";o)"], ["/:O\(", ":o("]]'
     },
     'gamzee (sober)': {
         'acronym': 'TC',

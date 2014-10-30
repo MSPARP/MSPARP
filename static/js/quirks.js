@@ -51,11 +51,21 @@ function applyQuirks(text) {
 		catch (e) {console.log("A young person stands in their bedroom. They don't know Regexp.")}
 		if (str2 == "$L")
 				{
-				text = text.replace(re, function(a){ return a.replace(a,a.toLowerCase()); });
+					try {
+					text = text.replace(re, function(a,x){ return a.replace(x,x.toLowerCase()); });
+					}
+					catch (e) {
+					text = text.replace(re, function(a){ return a.replace(a,a.toLowerCase()); });
+					}
 				}
 		else if (str2 == "$U")
 				{
-				text = text.replace(re, function(a){ return a.replace(a,a.toUpperCase()); });
+					try {
+					text = text.replace(re, function(a,x){ return a.replace(x,x.toUpperCase()); });
+					}
+					catch (e) {
+					text = text.replace(re, function(a){ return a.replace(a,a.toUpperCase()); });
+					}
 				}
 		else {
 			  text = text.replace(re, str2);
