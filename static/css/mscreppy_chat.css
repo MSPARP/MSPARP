@@ -23,7 +23,20 @@ ul {
 
 ul li {background: url('../img/candycorn.png') 3px 2px no-repeat;padding-left:23px !important;}
 
-#userList #online li, #metaOptions li {background:none !important;}
+#conversation.search {
+	background-image: url('/static/img/spinner-creppy.gif');
+	background-position: center !important;
+}
+
+#userList #online li, #metaOptions li {background:none !important;padding-left:10px !important;}
+
+ optgroup {
+	color: #e6e6e6;
+}
+
+#actionList li, optgroup option {
+	color: #d37d17;
+}
 
 h1 {color: #e6e6e6}
 
@@ -76,9 +89,6 @@ background-color: #3c4152;
 	border:none;
 	border-radius:1px;
 }
-  
- #disconnectButton, #settingsButton, #userListButton, #controls #logLink, button[type="submit"]
- {font-weight:bold;line-height:14px;padding: 4px 10px;}
  
 #archiveConversation,  #conversation,#userList, #settings {
 background:none;
@@ -98,9 +108,10 @@ color:#d37d17;
 /* override character colours */
 
 *[style*="color: #000000"], *[style*="color: rgb(0, 0, 0)"]{color: #d37d17 !important}
-*[style*="color: #000056"],*[style*="color: rgb(0, 0, 86)"]{color: #0021CB !important}
-*[style*="color: #2B0057"],*[style*="color: rgb(43, 0, 87)"]{color: #4200b0 !important}
-
+*[style*="color: #000000"].system, *[style*="color: rgb(0, 0, 0)"].system{color: #3c4152 !important}
+*[style*="color: #000056"],*[style*="color: rgb(0, 0, 86)"]{color: #2323ed !important}
+*[style*="color: #2B0057"],*[style*="color: rgb(43, 0, 87)"]{color: #6d03de !important}
+*[style*="color: #0715CD"],*[style*="color: rgb(7, 20, 205)"]{color: #172aff !important}
 
 @keyframes thunder {
     0% {background-color: #91a2b2;}

@@ -102,7 +102,7 @@ p:hover .timestamp {
 #conversation.search {
 	background-image: url('/static/img/spinner-big.gif');
 	background-repeat: no-repeat;
-	background-position: center;
+	background-position: center !important;
 }
 
 body.withSidebar #conversation {
@@ -207,6 +207,9 @@ body > #save {
 	display: none;
 }
 
+ #disconnectButton, #settingsButton, #userListButton, #controls #logLink, button[type="submit"]
+ {font-weight:bold;line-height:14px;padding: 4px 10px;}
+
 /* Sidebars */
 
 body.settings #settings, body.userList #userList {
@@ -262,6 +265,9 @@ body.mobile .sidebar {
 	left: 5px;
 	width: auto;
 }
+
+body.mobile #disconnectButton, body.mobile #settingsButton, body.mobile #userListButton, body.mobile #controls #logLink, body.mobile button[type="submit"]
+ {font-weight:bold;line-height:1em;padding: 2px;}
 
 body.mobile .sidebar .close {
 	display: block;
