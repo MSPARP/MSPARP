@@ -65,6 +65,11 @@ $(document).ready(function() {
 
 	$('body').addClass(localStorage.hdpi);
 	
+	
+	if (localStorage.nocreppy == 'nocreppy'){
+		    document.styleSheets.item(3).disabled=true;
+			}
+	
 	if (localStorage.dfall == 'downfall'){
 			$('input[name="toggledownfall"]').prop('checked',true);
 			}

@@ -72,6 +72,21 @@ $(document).ready(function() {
 			}
 		}).change();
 		
+		if (localStorage.nocreppy == 'nocreppy'){
+		    document.styleSheets.item(4).disabled=true;
+			$('input[name="disablecreppy"]').prop('checked',true);
+			}
+		
+		$('input[name="disablecreppy"]').change(function() {
+			if($(this).is(':checked')) {
+				document.styleSheets.item(4).disabled=true;
+				localStorage.setItem('nocreppy', 'nocreppy');
+				} else {
+				document.styleSheets.item(4).disabled=false;
+				localStorage.setItem('nocreppy', '');
+			}
+		}).change();
+		
 		
 		if (localStorage.dfall == 'downfall'){
 			$('input[name="toggledownfall"]').prop('checked',true);
