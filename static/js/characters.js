@@ -19,35 +19,6 @@ var characters = {
 		'case': 'normal',
 		'replacements': []
 	},
-	// XXX GOTTA REMOVE THIS AT SOME POINT
-	'ancestor': {
-		'acronym': '??',
-		'name': 'Ancestor',
-		'color': '000000',
-		'quote': "I saw the look he gave. He's so secure in knowing I can't feel what's in his mind he forgets the tr8torous ways of his own face.",
-		'quirk_prefix': '',
-		'case': 'normal',
-		'replacements': []
-	},
-	'guardian': {
-		'acronym': '??',
-		'name': 'Guardian',
-		'color': '000000',
-		'quote': "NOW BE A GOOD GIRL, PUT THE FRIDGE DOWN, AND STAY INSIDE.",
-		'quirk_prefix': '',
-		'case': 'normal',
-		'replacements': []
-	},
-	'midnight crew': {
-		'acronym': '??',
-		'name': 'Guardian',
-		'color': '000000',
-		'quote': "Farmin' all these goddamn horses. Fuckin' pain in the ass.",
-		'quirk_prefix': '',
-		'case': 'normal',
-		'replacements': []
-	},
-	// XXX END STUFF THAT NEEDS REMOVING
 	'trickster': {
 		'acronym': '??',
 		'name': 'Trickster',
@@ -64,7 +35,7 @@ var characters = {
 		'quote': "You know you're going to anyway. You won't be able to help yourself.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"]]
+		'replacements': []
 	},
 	'calliope': {
 		'acronym': 'UU',
@@ -73,7 +44,7 @@ var characters = {
 		'quote': "i am jUst astonished. not at the gUile of yoUr little ploy, bUt by the fact that yoU actUally seem to think this was a clever rUse.",
 		'quirk_prefix': '',
 		'case': 'lower',
-		'replacements': [["/u_(\\S)/", "£_$1"], ["/(\\S)_u/", "$1_£"], ["u", "U"], ["_£", "_u"], ["£_", "u_"]]
+		'replacements': [["u", "U"], ["U_", "u_"], ["_U", "_u"]]
 	},
 	'caliborn': {
 		'acronym': 'uu',
@@ -82,7 +53,7 @@ var characters = {
 		'quote': "YOu CAN'T. ESCAPE. THE MIIIIIIIIIIILES.",
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': [["U", "u"]]
+		'replacements': [['U', 'u']]
 	},
 	'lord english': {
 		'acronym': 'LE',
@@ -109,7 +80,7 @@ var characters = {
 		'quote': "i don't know, maybe! what do i do!",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/([A-Z][a-z]+\\b)/", "$L"], ["/(\\b)([A-Z][A-Z]+)(\\b)/", "¥$2¥"], ["/(\\b)([A-Z]'[A-Z]+)(\\b)/", "¥$2¥"], ["/.*/", "$L"], ["/¥([\\w|']+)¥/", "$U"], ["¥", " "], ["/([A-Z]\\W[a-z]\\W[A-Z])/", "$U"], ["/([A-Z]'[a-z])/", "$U"], ["/[\\s|^]([:;]d)/", "$U"], ["[\\s|^](d[:;])", "$U"]]
+		'replacements': []
 	},
 	'rose': {
 		'acronym': 'TT',
@@ -118,7 +89,7 @@ var characters = {
 		'quote': "You know you like the mannequin dick. Accept it.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"]]
+		'replacements': []
 	},
 	'dave': {
 		'acronym': 'TG',
@@ -127,7 +98,7 @@ var characters = {
 		'quote': "you dont seem to harbor any sympathy for the fact that ive burrowed fuck deep into lively, fluffy muppet buttock",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/([A-Z][a-z]+\\b)/", "$L"], ["/(\\b)([A-Z][A-Z]+)(\\b)/", "¥$2¥"], ["/(\\b)([A-Z]'[A-Z]+)(\\b)/", "¥$2¥"], ["/.*/", "$L"], ["/¥([\\w|']+)¥/", "$U"], ["¥", " "], ["/([A-Z]\\W[a-z]\\W[A-Z])/", "$U"], ["/([A-Z]'[a-z])/", "$U"], ["/(\\w)'(\\w)/", "$1$2"], ["/(\\w)\\.$/", "$1"], ["/[\\s|^]([:;]d)/", "$U"], ["/[\\s|^](d[:;])/", "$U"]]
+		'replacements': []
 	},
 	'jade': {
 		'acronym': 'GG',
@@ -136,7 +107,7 @@ var characters = {
 		'quote': "i am never going to sleep again!",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/([A-Z][a-z]+\\b)/", "$L"], ["/(\\b)([A-Z][A-Z]+)(\\b)/", "¥$2¥"], ["/(\\b)([A-Z]'[A-Z]+)(\\b)/", "¥$2¥"], ["/.*/", "$L"], ["/¥([\\w|']+)¥/", "$U"], ["¥", " "], ["/([A-Z]\\W[a-z]\\W[A-Z])/", "$U"], ["/([A-Z]'[a-z])/", "$U"], ["/(\\w)'(\\w)/", "$1$2"], ["/(\\w)\\.$/", "$1"], ["/[\\s|^]([:;]d)/", "$U"], ["/[\\s|^](d[:;])/", "$U"], ["/[\\s|^]([:;]b)/", "$U"]]
+		'replacements': []
 	},
 	'jane': {
 		'acronym': 'GG',
@@ -145,7 +116,7 @@ var characters = {
 		'quote': "If the chats and surplus dinners were truly important, I wouldn't want to interrupt.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"]]
+		'replacements': []
 	},
 	'roxy': {
 		'acronym': 'TG',
@@ -154,7 +125,7 @@ var characters = {
 		'quote': "it seems 2 me that there is a (MATHS) % chance of you bein a huge tightass",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/([A-Z][a-z]+\\b)/", "$L"], ["/(\\b)([A-Z][A-Z]+)(\\b)/", "¥$2¥"], ["/(\\b)([A-Z]'[A-Z]+)(\\b)/", "¥$2¥"], ["/.*/", "$L"], ["/¥([\\w|']+)¥/", "$U"], ["¥", " "], ["/([A-Z]\\W[a-z]\\W[A-Z])/", "$U"], ["/([A-Z]'[a-z])/", "$U"], ["/(\\w)'(\\w)/", "$1$2"], ["/(\\w)\\.$/", "$1"], ["/[\\s|^]([:;]d)/", "$U"], ["/[\\s|^](d[:;])/", "$U"]]
+		'replacements': []
 	},
 	'dirk': {
 		'acronym': 'TT',
@@ -163,7 +134,7 @@ var characters = {
 		'quote': "It's not 4 you jackass, it's fucking nothing. There is no end.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"]]
+		'replacements': []
 	},
 	'jake': {
 		'acronym': 'GT',
@@ -172,7 +143,7 @@ var characters = {
 		'quote': "Jesus christofer kringlefucker and here i thought i was rugged!",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["'", " "], ["/.*/", "$L"], ["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^]([:;]d)/", "$U"], ["/[\\s|^]([:;]p)/", "$U"]]
+		'replacements': []
 	},
 	'aradia (dead)': {
 		'acronym': 'AA',
@@ -181,7 +152,7 @@ var characters = {
 		'quote': "maybe if i say st0p en0ugh s0mething else will happen instead 0f the thing that d0es",
 		'quirk_prefix': '',
 		'case': 'lower',
-		'replacements': [["o", "0"], ["/(\\w)'(\\w)/", "$1$2"], ["/(\\w)\\.$/", "$1"]]
+		'replacements': [['o', '0']]
 	},
 	'aradiasprite': {
 		'acronym': 'ARADIASPRITE',
@@ -190,7 +161,7 @@ var characters = {
 		'quote': "ribbit",
 		'quirk_prefix': '',
 		'case': 'lower',
-		'replacements': [["o", "0"], ["/(\\w)'(\\w)/", "$1$2"], ["/(\\w)\\.$/", "$1"]]
+		'replacements': [["o", "0"]]
 	},
 	'aradiabot': {
 		'acronym': 'AA',
@@ -199,7 +170,7 @@ var characters = {
 		'quote': "and the best part ab0ut being d00med is y0u 0nly have t0 put up with it until y0u die",
 		'quirk_prefix': '',
 		'case': 'lower',
-		'replacements': [["o", "0"], ["/(\\w)'(\\w)/", "$1$2"], ["/(\\w)\\.$/", "$1"]]
+		'replacements': [["o", "0"]]
 	},
 	'aradia': {
 		'acronym': 'AA',
@@ -207,8 +178,8 @@ var characters = {
 		'color': 'A10000',
 		'quote': "theres no better time and there are so many corpses here to work with",
 		'quirk_prefix': '',
-		'case': 'lower',
-		'replacements': [["/(\\w)'(\\w)/", "$1$2"], ["/(\\w)\\.$/", "$1"], ["/[\\s|^]([:;][dop])/", "$U"], ["/[\\s|^](d[:;])/", "$U"]]
+		'case': 'normal',
+		'replacements': []
 	},
 	'tavros': {
 		'acronym': 'AT',
@@ -216,8 +187,8 @@ var characters = {
 		'color': 'A15000',
 		'quote': "i THINK i AM PERFECTLY CAPABLE OF MANUFACTURING THESE ALLEGED \"dope\" HUMAN RHYMES",
 		'quirk_prefix': '',
-		'case': 'normal',
-		'replacements': [["/(?:^|¦¤¤¦¦)(.*?)(?:$|¦¤¤¤¦)/", "$U"], ["/^(\\w)/", "$L"], ["/([iI])\\b/", "$L"], ["/[\\.\\?!]/", ","], ["/(,\\s?\\w)/", "$L"], ["/[\\s|^|}](:O)/", "$L"], ["/[\\s|^|}](:[dp])/", "$U"]]
+		'case': 'inverted',
+		'replacements': [['.', ',']]
 	},
 	'sollux':{
 		'acronym': 'TA',
@@ -226,7 +197,7 @@ var characters = {
 		'quote': "do me a favor and 2pare me your 2pooky conundrum2 twoniight, youre kiind of pii22iing me off.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/([A-Z][a-z]+\\b)/", "$L"], ["/(\\b)([A-Z][A-Z]+)(\\b)/", "¥$2¥"], ["/(\\b)([A-Z]'[A-Z]+)(\\b)/", "¥$2¥"], ["/.*/", "$L"], ["/¥([\\w|']+)¥/", "$U"], ["¥", " "], ["/([A-Z]\\W[a-z]\\W[A-Z])/", "$U"], ["/([A-Z]'[a-z])/", "$U"], ["/(^|\\s)to(\\W|$)/", "$1two$2"], ["/(^|\\s)TO(\\W|$)/", "$1TWO$2"], ["/(^|\\s)too(\\W|$)/", "$1two$2"], ["/(^|\\s)TOO(\\W|$)/", "$1TWO$2"], ["/(^|\\s)together(\\W|$)/", "$1twogether$2"], ["/(^|\\s)TOGETHER(\\W|$)/", "$1TWOGETHER$2"], ["/(^|\\s)tonight(\\W|$)/", "$1twonight$2"], ["/(^|\\s)TONIGHT(\\W|$)/", "$1TWONIGHT$2"], ["/(^|\\s)today(\\W|$)/", "$1twoday$2"], ["/(^|\\s)TODAY(\\W|$)/", "$1TWODAY$2"], ["/(^|\\s)tomorrow(\\W|$)/", "$1twomorrow$2"], ["/(^|\\s)TOMORROW(\\W|$)/", "$1TWOMORROW$2"], ["/([iI])/", "$1$1"], ["/([sS])/", "2"]]
+		'replacements': [["/(^|\\s)to(\\W|$)/", "$1two$2"], ["/(^|\\s)TO(\\W|$)/", "$1TWO$2"], ["/(^|\\s)too(\\W|$)/", "$1two$2"], ["/(^|\\s)TOO(\\W|$)/", "$1TWO$2"], ["/(^|\\s)together(\\W|$)/", "$1twogether$2"], ["/(^|\\s)TOGETHER(\\W|$)/", "$1TWOGETHER$2"], ["/(^|\\s)tonight(\\W|$)/", "$1twonight$2"], ["/(^|\\s)TONIGHT(\\W|$)/", "$1TWONIGHT$2"], ["/(^|\\s)today(\\W|$)/", "$1twoday$2"], ["/(^|\\s)TODAY(\\W|$)/", "$1TWODAY$2"], ["/(^|\\s)tomorrow(\\W|$)/", "$1twomorrow$2"], ["/(^|\\s)TOMORROW(\\W|$)/", "$1TWOMORROW$2"], ["/([iI])/", "$1$1"], ["/([sS])/", "2"]]
 	},
 	'sollux (blind)':{
 		'acronym': 'TA',
@@ -235,7 +206,7 @@ var characters = {
 		'quote': "h0nestly i'm 0k with it th0ugh, i'm fine, i mean, aside fr0m the part ab0ut n0t being able t0 see g0d damn squat.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/([A-Z][a-z]+\\b)/", "$L"], ["/(\\b)([A-Z][A-Z]+)(\\b)/", "¥$2¥"], ["/(\\b)([A-Z]'[A-Z]+)(\\b)/", "¥$2¥"], ["/.*/", "$L"], ["/¥([\\w|']+)¥/", "$U"], ["¥", " "], ["/([A-Z]\\W[a-z]\\W[A-Z])/", "$U"], ["/([A-Z]'[a-z])/", "$U"], ["/([oO])/", "0"]]
+		'replacements': [["o", "0"]]
 	},
 	'karkat':{
 		'acronym': 'CG',
@@ -244,7 +215,7 @@ var characters = {
 		'quote': "NO. MORE LIKE TWITCHY EYED PROJECTILE VOMITING IN UTTER DISGUST FRIENDS, WHILE I PERFORATE MY BONE BULGE WITH A CULLING FORK.",
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': [["/¦¤¤¤¦(.*?)¦¤¤¦¦/", "$L"]]
+		'replacements': []
 	},
 	'nepeta': {
 		'acronym': 'AC',
@@ -253,7 +224,7 @@ var characters = {
 		'quote': ":33 < but do you think you could purrhaps please spare your computer for just the most fl33ting of moments?",
 		'quirk_prefix': ':33 <',
 		'case': 'normal',
-		'replacements': [["/([A-Z][a-z]+\\b)/", "$L"], ["/(\\b)([A-Z][A-Z]+)(\\b)/", "¥$2¥"], ["/(\\b)([A-Z]'[A-Z]+)(\\b)/", "¥$2¥"], ["/.*/", "$L"], ["/¥([\\w|']+)¥/", "$U"], ["¥", " "], ["/([A-Z]\\W[a-z]\\W[A-Z])/", "$U"], ["/([A-Z]'[a-z])/", "$U"], ["/(\\w)'(\\w)/", "$1$2"], ["/(\\w)\\.$/", "$1"], ["/[eE][eE]/", "33"], ["/[\\s|^]([:;][dp][dp])/", "$U"], ["/[\\s|^](dd[:;])/", "$U"]]
+		'replacements': [['ee', '33']]
 	},
 	'kanaya':{
 		'acronym':'GA',
@@ -261,8 +232,8 @@ var characters = {
 		'color':'008141',
 		'quote':"So You Are Destined To Edit It No Matter What And What You Submit Will Be What I Once Read Regardless",
 		'quirk_prefix': '',
-		'case': 'normal',
-		'replacements': [["'", " "], ["/(^[a-z])/", "$U"], ["/(\\s[a-z])/", "$U"], ["/(-[a-z])/", "$U"], ["/(\\w)\\.$/", "$1"], ["/(\\w),(\\s\\w)/", "$1$2"]]
+		'case': 'title',
+		'replacements': []
 	},
 	'terezi': {
 		'acronym': 'GC',
@@ -271,7 +242,7 @@ var characters = {
 		'quote': "JOHN W3 AR3 SO MUCH B3TT3R TH4N YOU IN 3V3RY R3SP3CT 1TS R1D1CULOUS",
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': [["/[aA]/", "4"], ["/[iI]/", "1"], ["/[eE]/", "3"], ["/(\\w)'(\\w)/", "$1$2"], ["/\\w)\\.$/", "$1"], ["/¦¤¤¤¦(.*?)¦¤¤¦¦/", "$L"]]
+		'replacements': [["A", "4"], ["E", "3"], ["I", "1"]]
 	},
 	'vriska': {
 		'acronym': 'AG',
@@ -280,7 +251,7 @@ var characters = {
 		'quote': "It is 8ight groups of 8ight. I specifically counted them.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/[bB]/", "8"], ["(m)", "♏"], ["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"]]
+		'replacements': [["B", "8"], ["b", "8"]]
 	},
 	'equius': {
 		'acronym': 'CT',
@@ -289,7 +260,7 @@ var characters = {
 		'quote': "D --> How do you know about my perspiration problem",
 		'quirk_prefix': 'D -->',
 		'case': 'normal',
-		'replacements': [["/[lL][oO][oO]/", "100"], ["/[xX]/", "%"], ["/(\\b[sS][tT][rR][oO][nN][gG]\\w*)/", "$U"], ["/[oO][oO][lL]/", "001"], ["/(\\w)\\.$/", "$1"], ["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"]]
+		'replacements': [["X", "%"], ["x", "%"], ["loo", "100"], ["ool", "001"], ["LOO", "100"], ["OOL", "001"], ["strong", "STRONG"], ["strength", "STRONGNESS"]]
 	},
 	'gamzee': {
 		'acronym': 'TC',
@@ -298,7 +269,7 @@ var characters = {
 		'quote': "ThIs sOuNdS AmAzInG, i cAn't sEe hOw i wOuLdN'T Be aLl kIcKiNg tHe wIcKeD ShIt oUt Of sUcH KiNdS Of oPpOrTuNiTiEs",
 		'quirk_prefix': '',
 		'case': 'alternating',
-		'replacements': [["/.*/", "$L"], ["/([\\w\\s]|[\\w'\\w])([\\w'\\w]|[\\w\\s])?/", "$U"], ["/:O\\)/", ":o)"], ["/;O\\)/", ";o)"], ["/:O\\(", ":o("]]
+		'replacements': [[":O", ":o"], ["DO:", "Do:"], [";O", ";o"]]
 	},
 	'gamzee (sober)': {
 		'acronym': 'TC',
@@ -307,7 +278,7 @@ var characters = {
 		'quote': "it rots you. RUSTS YOUR MOTHERFUCKIN THINK PAN.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [[":O", ":o"], ["DO:", "Do:"], [";O", ";o"]]
 	},
 	'eridan': {
 		'acronym': 'CA',
@@ -316,7 +287,7 @@ var characters = {
 		'quote': "wwho are you tryin to convvince wwith this ludicrous poppycock",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/([A-Z][a-z]+\\b)/", "$L"], ["/(\\b)([A-Z][A-Z]+)(\\b)/", "¥$2¥"], ["/(\\b)([A-Z]'[A-Z]+)(\\b)/", "¥$2¥"], ["/.*/", "$L"], ["/¥([\\w|']+)¥/", "$U"], ["¥", " "], ["/([A-Z]\\W[a-z]\\W[A-Z])/", "$U"], ["/([A-Z]'[a-z])/", "$U"], ["/(\\w)'(\\w)/", "$1$2"], ["/(\\w)\\.$/", "$1"], ["/([vVwW])/", "$1$1"], ["/[\\s|^]([:;][dop])/", "$U"], ["/[\\s|^](d[:;])/", "$U"]]
+		'replacements': [["V", "VV"], ["v", "vv"], ["W", "WW"], ["w", "ww"]]
 	},
 	'feferi': {
 		'acronym': 'CC',
@@ -325,7 +296,7 @@ var characters = {
 		'quote': ")(oly mackerel, looks like SOM-EON-E woke up on t)(e wrong side of t)(e absurd )(uman bed!",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"], ["/[hH]/", ")("], ["E", "-E"]]
+		'replacements': [["E", "-E"], ["H", ")("], ["h", ")("]]
 	},
 	'damara': {
 		'acronym': 'DAMARA',
@@ -352,7 +323,7 @@ var characters = {
 		'quote': "K17H5 MY CH4GR1N 7UNK3L Y0U 5N4NK 4ZZ CHUM8UCK357",
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': [["A", "4"], ["B", "8"], ["E", "3"], ["I", "1"], ["O", "0"], ["S", "5"], ["T", "7"], ["/(\\w)'(\\w)/", "$1$2"], ["/(\\w)\\.$/", "$1"]]
+		'replacements': [["A", "4"], ["B", "8"], ["E", "3"], ["I", "1"], ["O", "0"], ["S", "5"], ["T", "7"]]
 	},
 	'kankri':{
 		'acronym': 'KANKRI',
@@ -361,7 +332,7 @@ var characters = {
 		'quote': "",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/[bB]/", "6"], ["/[oO]/", "9"], ["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"]]
+		'replacements': [["B", "6"], ["b", "6"], ["O", "9"], ["o", "9"]]
 	},
 	'meulin': {
 		'acronym': 'MEULIN',
@@ -379,7 +350,7 @@ var characters = {
 		'quote':" No+ o+ne quite prepares yo+u fo+r the fact that o+n the o+ther side o+f death is an infinite echo+ chamber o+f teen drama.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"], ["o", "o+"], ["0", "0+"], ["/(^|\\s)[pP]lus(\\W|$)/", "$1+$2"], ["/(^|\\s)PLUS(\\W|$)/", "$1+$2"]]
+		'replacements': [["o", "o+"]]
 	},
 	'latula': {
 		'acronym': 'LATULA',
@@ -388,7 +359,7 @@ var characters = {
 		'quote': "do you 3v3n know how l4m3 of 4 sc3n3 1t 1s b31ng th3 only l3g1t 1n your f4c3 pow3rg4m1ng grl 1n 4 bunch of bubbl3s full of brut4l pos3rz???",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/([A-Z][a-z]+\\b)/", "$L"], ["/(\\b)([A-Z][A-Z]+)(\\b)/", "¥$2¥"], ["/(\\b)([A-Z]'[A-Z]+)(\\b)/", "¥$2¥"], ["/.*/", "$L"], ["/¥([\\w|']+)¥/", "$U"], ["¥", " "], ["/([A-Z]\\W[a-z]\\W[A-Z])/", "$U"], ["/([A-Z]'[a-z])/", "$U"], ["/(\\w)'(\\w)/", "$1$2"], ["/[aA]/", "4"], ["/[iI]/", "1"], ["/[eE]/", "3"], ["/[\\s|^|>|&gt;]([:;8x]d)/", "$U"], ["/[\\s|^|>|&gt;]([:;8x]o)/", "$U"], ["/[\\s|^|>|&gt;]([:;8x]p)/", "$U"]]
+		'replacements': [["A", "4"], ["a", "4"], ["E", "3"], ["e", "3"], ["I", "1"], ["i", "1"]]
 	},
 	'aranea': {
 		'acronym': 'ARANEA',
@@ -397,7 +368,7 @@ var characters = {
 		'quote': "You couldn't even wait a few minutes while I retrieved one last guest? I have to come 8ack to THIS????????",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/[bB]/", "8"], ["(m)", "♏"], ["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"]]
+		'replacements': [["B", "8"], ["b", "8"]]
 	},
 	'horuss': {
 		'acronym': 'HORUSS',
@@ -406,7 +377,7 @@ var characters = {
 		'quote': "8=========D < Why the long face?",
 		'quirk_prefix': '8=D <',
 		'case': 'normal',
-		'replacements': [["/[lL][oO][oO]/", "100"],["/[xX]/", "%"], ["/(\\b[sS][tT][rR][oO][nN][gG]\\w*)/", "$U"], ["/(\\b[sS][tT][rR][eE][nN][gG][tT][hH]\\w*)/", "$U"], ["/[oO][oO][lL]/", "001"], ["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"]]
+		'replacements': [["X", "%"], ["x", "%"], ["loo", "100"], ["ool", "001"], ["LOO", "100"], ["OOL", "001"]]
 	},
 	'kurloz': {
 		'acronym': 'KURLOZ',
@@ -415,7 +386,7 @@ var characters = {
 		'quote': "",
 		'quirk_prefix': 'SIGNS: <',
 		'case': 'upper',
-		'replacements': []
+		'replacements': [[":O", ":o"], ["DO:", "Do:"], [";O", ";o"]]
 	},
 	'cronus': {
 		'acronym': 'CRONUS',
@@ -424,7 +395,7 @@ var characters = {
 		'quote': "i just sawv you strutting in my direction, vwith all of your impressivwe moxy and confidence, for the first time in, howv long?",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/([A-Z][a-z]+\\b)/", "$L"], ["/(\\b)([A-Z][A-Z]+)(\\b)/", "¥$2¥"], ["/(\\b)([A-Z]'[A-Z]+)(\\b)/", "¥$2¥"], ["/.*/", "$L"], ["/¥([\\w|']+)¥/", "$U"], ["¥", " "], ["/([A-Z]\\W[a-z]\\W[A-Z])/", "$U"], ["/([A-Z]'[a-z])/", "$U"], ["/(\\w)'(\\w)/", "$1$2"], ["/([^|\\s])v/", "$1w"], ["/([^|\\s])V/", "$1W"], ["/\\bv|w\\b/", "α"], ["/w|v/", "φ"], ["α", "wv"], ["φ", "vw"], ["/\\bV|W\\b/", "Ά"], ["/W|V/", "Á"], ["Ά", "WV"], ["Á", "VW"], ["B", "8"], ["/(\\w)vws(\\s|\\.|!|\\?|$)/", "$1wvs$2"], ["/(\\w)VWS(\\s|\\.|!|\\?|$)/", "$1WVS$2"], ["/(\\w)\\.(\\w)/", "$1$2"], ["/[\\s|^]([:;]d)/", "$U"], ["/[\\s|^](d[:;])", "$U"]]
+		'replacements': [["'", " "], ["/([^|\\s])v/", "$1w"], ["/([^|\\s])V/", "$1W"], ["/\\bv|w\\b/", "α"], ["/w|v/", "φ"], ["α", "wv"], ["φ", "vw"], ["/\\bV|W\\b/", "Ά"], ["/W|V/", "Á"], ["Ά", "WV"], ["Á", "VW"], ["B", "8"], ["/(\\w)vws(\\s|\\.|!|\\?|$)/", "$1wvs$2"], ["/(\\w)VWS(\\s|\\.|!|\\?|$)/", "$1WVS$2"], ["/(\\w)\\.(\\w)/", "$1$2"], ["/[\\s|^]([:;]d)/", "$U"], ["/[\\s|^](d[:;])", "$U"]]
 	},
 	'meenah': {
 		'acronym': 'MEENAH',
@@ -433,7 +404,7 @@ var characters = {
 		'quote': "sayin fish puns is obviously kind of this thing i do stupid G-ET WIT)( T)(-E PROGRAM",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/([A-Z][a-z]+\\b)/", "$L"], ["/(\\b)([A-Z][A-Z]+)(\\b)/", "¥$2¥"], ["/(\\b)([A-Z]'[A-Z]+)(\\b)/", "¥$2¥"], ["/.*/", "$L"], ["/¥([\\w|']+)¥/", "$U"], ["¥", " "], ["/([A-Z]\\W[a-z]\\W[A-Z])/", "$U"], ["/([A-Z]'[a-z])/", "$U"], ["/(\\w)'(\\w)/", "$1$2"], ["/(\\w)\\.$/", "$1"], ["E", "-E"], ["H", ")("], ["/[\\s|^](3[8x][odp])/", "$U"]]
+		'replacements': [["E", "-E"], ["H", ")("]]
 	},
 	'dad': {
 		'acronym': 'pipefan413',
@@ -451,7 +422,7 @@ var characters = {
 		'quote': "How I wish I could have delivered this heirloom to you in the flesh. But I am afraid it wasn't in the cards!",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"]]
+		'replacements': []
 	},
 	'mom': {
 		'acronym': 'MOM',
@@ -460,7 +431,7 @@ var characters = {
 		'quote': "www www www www",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/([A-Z][a-z]+\\b)/", "$L"], ["/(\\b)([A-Z][A-Z]+)(\\b)/", "¥$2¥"], ["/(\\b)([A-Z]'[A-Z]+)(\\b)/", "¥$2¥"], ["/.*/", "$L"], ["/¥([\\w|']+)¥/", "$U"], ["¥", " "], ["/([A-Z]\\W[a-z]\\W[A-Z])/", "$U"], ["/([A-Z]'[a-z])/", "$U"], ["/(\\w)'(\\w)/", "$1$2"], ["/(\\w)\\.$/", "$1"], ["/[\\s|^]([:;]d)/", "$U"], ["/[\\s|^](d[:;])/", "$U"]]
+		'replacements': []
 	},
 	'bro': {
 		'acronym': 'BRO',
@@ -469,7 +440,7 @@ var characters = {
 		'quote': "roof. now. bring cal. ",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"]]
+		'replacements': []
 	},
 	'grandpa': {
 		'acronym': 'GRANDPA',
@@ -478,7 +449,7 @@ var characters = {
 		'quote': "Jade, study hard and keep your rifle at the ready. When adventure summons, I know you will rise to the task and take your rightful place among the DAUGHTERS OF ECLECTICA.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["'", " "], ["/.*/", "$L"], ["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^]([:;]d)/", "$U"], ["/[\\s|^]([:;]p)/", "$U"]]
+		'replacements': []
 	},
 	'poppop': {
 		'acronym': 'POPPOP',
@@ -487,7 +458,7 @@ var characters = {
 		'quote': "DEAD.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/([A-Z][a-z]+\\b)/", "$L"], ["/(\\b)([A-Z][A-Z]+)(\\b)/", "¥$2¥"], ["/(\\b)([A-Z]'[A-Z]+)(\\b)/", "¥$2¥"], ["/.*/", "$L"], ["/¥([\\w|']+)¥/", "$U"], ["¥", " "], ["/([A-Z]\\W[a-z]\\W[A-Z])/", "$U"], ["/([A-Z]'[a-z])/", "$U"], ["/[\\s|^]([:;]d)/", "$U"], ["[\\s|^](d[:;])", "$U"]]
+		'replacements': []
 	},
 	'alpha mom': {
 		'acronym': 'MOM',
@@ -496,7 +467,7 @@ var characters = {
 		'quote': "Zazzerpan inspected the clue. A single piece of evidence cradled in his coriaceous old man palms.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"]]
+		'replacements': []
 	},
 	'alpha bro': {
 		'acronym': 'BRO',
@@ -505,7 +476,7 @@ var characters = {
 		'quote': "the selection has too many PRICES and VALUES",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/([A-Z][a-z]+\\b)/", "$L"], ["/(\\b)([A-Z][A-Z]+)(\\b)/", "¥$2¥"], ["/(\\b)([A-Z]'[A-Z]+)(\\b)/", "¥$2¥"], ["/.*/", "$L"], ["/¥([\\w|']+)¥/", "$U"], ["¥", " "], ["/([A-Z]\\W[a-z]\\W[A-Z])/", "$U"], ["/([A-Z]'[a-z])/", "$U"], ["/(\\w)'(\\w)/", "$1$2"], ["/(\\w)\\.$/", "$1"], ["/[\\s|^]([:;]d)/", "$U"], ["/[\\s|^](d[:;])/", "$U"]]
+		'replacements': []
 	},
 	'grandma': {
 		'acronym': 'GRANDMA',
@@ -514,7 +485,7 @@ var characters = {
 		'quote': "dead.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/([A-Z][a-z]+\\b)/", "$L"], ["/(\\b)([A-Z][A-Z]+)(\\b)/", "¥$2¥"], ["/(\\b)([A-Z]'[A-Z]+)(\\b)/", "¥$2¥"], ["/.*/", "$L"], ["/¥([\\w|']+)¥/", "$U"], ["¥", " "], ["/([A-Z]\\W[a-z]\\W[A-Z])/", "$U"], ["/([A-Z]'[a-z])/", "$U"], ["/(\\w)'(\\w)/", "$1$2"], ["/(\\w)\\.$/", "$1"], ["/[\\s|^]([:;]d)/", "$U"], ["/[\\s|^](d[:;])/", "$U"], ["/[\\s|^]([:;]b)/", "$U"]]
+		'replacements': []
 	},
 	'nannasprite': {
 		'acronym': 'NANNASPRITE',
@@ -523,7 +494,7 @@ var characters = {
 		'quote': "Hoo hoo hoo! Of course I know what a computer is, John! I was just pulling your leg!",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"]]
+		'replacements': []
 	},
 	'jaspersprite': {
 		'acronym': 'JASPERSPRITE',
@@ -532,8 +503,9 @@ var characters = {
 		'quote': "Maybe you can win his affection by rubbing your cheek against him thats what i would do.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"], ["/(\\w)'(\\w)/", "$1$2"]]
+		'replacements': []
 	},
+	// XXX GOTTA REMOVE THIS AT SOME POINT
 	'calsprite': {
 		'acronym': 'CALSPRITE',
 		'name': 'Calsprite',
@@ -543,6 +515,7 @@ var characters = {
 		'case': 'upper',
 		'replacements': [["A", "<"], ["B", ">"], ["C", "?"], ["D", "<"], ["E", ">"], ["F", "?"], ["G", "<"], ["H", ">"], ["I", "?"], ["J", "<"], ["K", ">"], ["L", "?"], ["M", "<"], ["N", ">"], ["O", "?"], ["P", "<"], ["Q", ">"], ["R", "?"], ["S", "<"], ["T", ">"], ["U", "?"], ["V", "<"], ["W", ">"], ["X", "?"], ["Y", "<"], ["Z", ">"], ["<", "HAA "], [">", "HEE "], ["?", "HOO "]]
 	},
+	// XXX END STUFF THAT NEEDS REMOVING
 	'davesprite': {
 		'acronym': 'DAVESPRITE',
 		'name': 'Davesprite',
@@ -550,7 +523,7 @@ var characters = {
 		'quote': "thats the best fucking question anybody ever asked",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/([A-Z][a-z]+\\b)/", "$L"], ["/(\\b)([A-Z][A-Z]+)(\\b)/", "¥$2¥"], ["/(\\b)([A-Z]'[A-Z]+)(\\b)/", "¥$2¥"], ["/.*/", "$L"], ["/¥([\\w|']+)¥/", "$U"], ["¥", " "], ["/([A-Z]\\W[a-z]\\W[A-Z])/", "$U"], ["/([A-Z]'[a-z])/", "$U"], ["/(\\w)'(\\w)/", "$1$2"], ["/(\\w)\\.$/", "$1"], ["/[\\s|^]([:;]d)/", "$U"], ["/[\\s|^](d[:;])/", "$U"]]
+		'replacements': []
 	},
 	'jadesprite': {
 		'acronym': 'JADESPRITE',
@@ -559,7 +532,7 @@ var characters = {
 		'quote': "yes i figured shenanigans were probably involved",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/([A-Z][a-z]+\\b)/", "$L"], ["/(\\b)([A-Z][A-Z]+)(\\b)/", "¥$2¥"], ["/(\\b)([A-Z]'[A-Z]+)(\\b)/", "¥$2¥"], ["/.*/", "$L"], ["/¥([\\w|']+)¥/", "$U"], ["¥", " "], ["/([A-Z]\\W[a-z]\\W[A-Z])/", "$U"], ["/([A-Z]'[a-z])/", "$U"], ["/(\\w)'(\\w)/", "$1$2"], ["/(\\w)\\.$/", "$1"], ["/[\\s|^]([:;]d)/", "$U"], ["/[\\s|^](d[:;])/", "$U"], ["/[\\s|^]([:;]b)/", "$U"]]
+		'replacements': []
 	},
 	'tavrisprite': {
 		'acronym': 'TAVRISPRITE',
@@ -577,7 +550,7 @@ var characters = {
 		'quote': "3833 < 383",
 		'quirk_prefix': '3833 <',
 		'case': 'normal',
-		'replacements': [["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"], ["/(\\w)'(\\w)/", "$1$2"], ["/(\\w)\\.$/", "$1"], ["/[eE][eE]/", "33"], ["/[hH]/", ")("], ["E", "-E"]]
+		'replacements': [["E", "-E"], ["ee", "33"], ["H", ")("], ["h", ")("]]
 	},
 	'erisolsprite': {
 		'acronym': 'ERISOLSPRITE',
@@ -586,7 +559,7 @@ var characters = {
 		'quote': "wwoww, iit2 cool ii amu2e you, that really giivve2 meaniing to my joke of an exii2tence, ii mean WWOWW, thank2.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/([A-Z][a-z]+\\b)/", "$L"], ["/(\\b)([A-Z][A-Z]+)(\\b)/", "¥$2¥"], ["/(\\b)([A-Z]'[A-Z]+)(\\b)/", "¥$2¥"], ["/.*/", "$L"], ["/¥([\\w|']+)¥/", "$U"], ["¥", " "], ["/([A-Z]\\W[a-z]\\W[A-Z])/", "$U"], ["/([A-Z]'[a-z])/", "$U"], ["/(\\w)'(\\w)/", "$1$2"], ["/([iI])/", "$1$1"], ["/[sS]/", "2"], ["/([vVwW])/", "$1$1"], ["/[\\s|^]([:;][dop])/", "$U"], ["/[\\s|^](d[:;])/", "$U"]]
+		'replacements': [["I", "II"], ["i", "ii"], ["S", "2"], ["s", "2"], ["V", "VV"], ["v", "vv"], ["W", "WW"], ["w", "ww"]]
 	},
 	'arquiusprite': {
 		'acronym': 'ARQUIUSPRITE',
@@ -604,7 +577,7 @@ var characters = {
 		'quote': "I refuse to believe my statement has left you unconvinced. The very notion is absurd. Now hurry up and kiss me.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"]]
+		'replacements': []
 	},
 	'the handmaid': {
 		'acronym': '♈',
@@ -613,7 +586,7 @@ var characters = {
 		'quote': "skip tØ the end",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/([A-Z][a-z]+\\b)/", "$L"], ["/(\\b)([A-Z][A-Z]+)(\\b)/", "¥$2¥"], ["/(\\b)([A-Z]'[A-Z]+)(\\b)/", "¥$2¥"], ["/.*/", "$L"], ["/¥([\\w|']+)¥/", "$U"], ["¥", " "], ["/([A-Z]\\W[a-z]\\W[A-Z])/", "$U"], ["/([A-Z]'[a-z])/", "$U"], ["/(\\w)'(\\w)/", "$1$2"], ["/(\\w)\\.$/", "$1"], ["/[oO]/", "Ø"]]
+		'replacements': []
 	},
 	'the summoner': {
 		'acronym': '♉',
@@ -622,7 +595,7 @@ var characters = {
 		'quote': "And ne1ther hell, or h1gh water, w1ll stop the f1re of our revolut1on,",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"], [".", ","], ["/[iI]/", "1"]]
+		'replacements': []
 	},
 	'the psiioniic':{
 		'acronym': '♊',
@@ -631,7 +604,7 @@ var characters = {
 		'quote': "Tho2e of u2 wiith ψiioniic2 wiill alway2 be iin danger of the fate II wiill face per2onally.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"], ["/(\\w)'(\\w)/", "$1$2"], ["/psi|psy/", "ψi"], ["/Psi|Psy/", "Ψi"], ["/PSI|PSY/", "Ψi"], ["/([iI])/", "$1$1"], ["/[sS]/", "2"]]
+		'replacements': []
 	},
 	'the helmsman':{
 		'acronym': '♊',
@@ -640,7 +613,7 @@ var characters = {
 		'quote': "84 77 L3 5H 1P C0 ND 35 C3 N5 10 NN .. PL 34 53 .. 1D 3N 71 FY .. 53 LF",
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': [["'", " "], ["/(\\w\\w)/", "-$1"], ["/(\\w\\w)(\\.$)/", "$1-.."],["/(\\w\\w)(!$)/", "$1-!!"],["/(\\w\\w)(\\?$)/", "$1-??"], ["/(\\w\\w)(\\w$)/", "$1-$2$2"],["/(-\\w)\\.(?=$|\\s)/", "$10-.."],["/(-\\w\\w)\\.(?=$|\\s)/", "$1-.."],["/(-\\w)!(?=$|\\s)/", "$10-!!"], ["/(-\\w\\w)!(?=$|\\s)/", "$1-!!"],["/(-\\w)\\?(?=$|\\s)/", "$10-??"],["/(-\\w\\w)\\?(?=$|\\s)/", "$1-??"],["/(-\\w)(?=\\s)/", "$10"],["/(\\w\\w)(\\w)\\./", "$1-$2$2-.."],["/(\\w\\w)(\\w)!/", "$1-$2$2-!!"],["/(\\w\\w)(\\w)\\?/", "$1-$2$2-??"],["/(\\w\\w)(\\w)/", "$1-$2$2"], ["/(^|\\W)(\\w)\\./", "$1-$2$2-.."], ["/(^|\\S)-(\\S|$)/", "$1 $2"], ["-", " "], ["/[oO]/", "0"], ["/[iI]/", "1"], ["/[eE]/", "3"], ["/[aA]/", "4"], ["/[gG]/", "6"], ["/[zZ]/", "2"], ["/[sS]/", "5"], ["/[tT]/", "7"], ["/[bB]/", "8"]]
+		'replacements': []
 	},
 	'the signless':{
 		'acronym': '♋',
@@ -649,7 +622,7 @@ var characters = {
 		'quote': "I don't begrudge you your power, but know its abuse will be your downfall.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"]]
+		'replacements': []
 	},
 	'the disciple': {
 		'acronym': '♌',
@@ -658,7 +631,7 @@ var characters = {
 		'quote': "Take h33d, and behold the Righteous Leggings.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/[eE][eE]/", "33"], ["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"], ["/(\\w)'(\\w)/", "$1$2"]]
+		'replacements': []
 	},
 	'the dolorosa':{
 		'acronym': '♍',
@@ -667,7 +640,7 @@ var characters = {
 		'quote': "I agree it is not always what is said that matters but how it is said",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"], ["/(\\w)'(\\w)/", "$1$2"], ["/(\\w)\\.$/", "$1"], ["/(\\w),(\\s\\w)/", "$1$2"]]
+		'replacements': []
 	},
 	'redglare': {
 		'acronym': '♎',
@@ -676,7 +649,7 @@ var characters = {
 		'quote': "Oh, 1ts b33n 4 wond3rful d4y for just1c3, wouldnt you s4y? >:]",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/[aA]/", "4"], ["/[eE]", "3"], ["/[iI]/", "1"],  ["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"], ["/(\\w)'(\\w)/", "$1$2"]]
+		'replacements': []
 	},
 	'mindfang': {
 		'acronym': '♏',
@@ -685,7 +658,7 @@ var characters = {
 		'quote': "Less has acceler8ted meeker than I to homicide, and the viol8tion would hold me aghast, again, if his misgivings did not complement his so endearing arsenal of qu8nt flaws. It is impossi8le to stifle this grin even now as I write.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/[bB]/", "8"], ["(m)", "♏"], ["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"]]
+		'replacements': []
 	},
 	'darkleer': {
 		'acronym': '♐',
@@ -694,7 +667,7 @@ var characters = {
 		'quote': "-+-> I STRONGLY suggest you e%tend a closer 100k.",
 		'quirk_prefix': '-+->',
 		'case': 'normal',
-		'replacements': [["/[lL][oO][oO]/", "100"],["/[xX]/", "%"], ["/(\\b[sS][tT][rR][oO][nN][gG]\\w*)/", "$U"], ["/(\\b[sS][tT][rR][eE][nN][gG][tT][hH]\\w*)/", "$U"], ["/[oO][oO][lL]/", "001"], ["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"]]
+		'replacements': []
 	},
 	'grand highblood': {
 		'acronym': '♑',
@@ -703,7 +676,7 @@ var characters = {
 		'quote': "I've spilt enough motherfuckin blood to know how it comes out, sister.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"]]
+		'replacements': []
 	},
 	'dualscar': {
 		'acronym': '♒',
@@ -712,7 +685,7 @@ var characters = {
 		'quote': "vwhatre you evwen lookin at serket this is NONE A YOUR 8USINESS.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/([A-Z][a-z]+\\b)/", "$L"], ["/(\\b)([A-Z][A-Z]+)(\\b)/", "¥$2¥"], ["/(\\b)([A-Z]'[A-Z]+)(\\b)/", "¥$2¥"], ["/.*/", "$L"], ["/¥([\\w|']+)¥/", "$U"], ["¥", " "], ["/([A-Z]\\W[a-z]\\W[A-Z])/", "$U"], ["/([A-Z]'[a-z])/", "$U"], ["/(\\w)'(\\w)/", "$1$2"], ["/([^|\\s])v/", "$1w"], ["/([^|\\s])V/", "$1W"], ["/\\bv|w\\b/", "α"], ["/w|v/", "φ"], ["α", "wv"], ["φ", "vw"], ["/\\bV|W\\b/", "Ά"], ["/W|V/", "Á"], ["Ά", "WV"], ["Á", "VW"], ["B", "8"], ["/(\\w)vws(\\s|\\.|!|\\?|$)/", "$1wvs$2"], ["/(\\w)VWS(\\s|\\.|!|\\?|$)/", "$1WVS$2"], ["/(\\w)\\.(\\w)/", "$1$2"], ["/[\\s|^]([:;]d)/", "$U"], ["/[\\s|^](d[:;])", "$U"]]
+		'replacements': []
 	},
 	'the condesce': {
 		'acronym': '♓',
@@ -721,7 +694,7 @@ var characters = {
 		'quote': "this is what i get for lettin all proper dudes run shit instead of nasty clowns",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/([A-Z][a-z]+\\b)/", "$L"], ["/(\\b)([A-Z][A-Z]+)(\\b)/", "¥$2¥"], ["/(\\b)([A-Z]'[A-Z]+)(\\b)/", "¥$2¥"], ["/.*/", "$L"], ["/¥([\\w|']+)¥/", "$U"], ["¥", " "], ["/([A-Z]\\W[a-z]\\W[A-Z])/", "$U"], ["/([A-Z]'[a-z])/", "$U"], ["/(\\w)'(\\w)/", "$1$2"], ["/(\\w)\\.$/", "$1"], ["E", "-E"], ["H", ")("], ["/[\\s|^](3[8x][odp])/", "$U"]]
+		'replacements': []
 	},
 	'spades slick': {
 		'acronym': '♠',
@@ -748,7 +721,7 @@ var characters = {
 		'quote': "Make her pay.",
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': [["/^(\\w)/", "$U"], ["/[!|\\?|\\.](\\s\\w)/", "$U"], ["/[\\s|^](i)['|\\W|$]/", "$U"]]
+		'replacements': []
 	},
 	'hearts boxcars': {
 		'acronym': '♥',
@@ -757,7 +730,7 @@ var characters = {
 		'quote': "GET UP ON THOSE GODDAM JELLY LEGS OF YERS",
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': [["/(\\w)'(\\w)/", "$1$2"], ["/(\\w),(\\s\\w)/", "$1$2"], ["/(\\w)\\.(\\s\\w)/", "$1$2"], ["/(\\w)\\.$/", "$1"], ["/(^|\\s)YOURE(\\W|$)/", "$1YER$2"], ["/(^|\\s)FOR(\\W|$)/", "$1FER$2"], ["/(^|\\s)YOURS(\\W|$)/", "$1YERS$2"], ["/(^|\\s)YOUR(\\W|$)/", "$1YER$2"], ["/(^|\\s)THEM(\\W|$)/", "$1EM$2"] ]
+		'replacements': []
 	}
 }
 

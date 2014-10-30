@@ -79,7 +79,6 @@ CHARACTERS = {
     'Sprites': [
         'Nannasprite',
         'Jaspersprite',
-        'Calsprite',
         'Davesprite',
         'Jadesprite',
         'Aradiasprite',
@@ -131,33 +130,6 @@ CHARACTER_DETAILS = {
         'case': 'normal',
         'replacements': '[]'
     },
-    # XXX GOTTA REMOVE THIS AT SOME POINT.
-    # needs conversion though otherwise we're gonna get a raft of 500s
-    'ancestor': {
-        'acronym': '??',
-        'name': 'Ancestor',
-        'color': '000000',
-        'quirk_prefix': '',
-        'case': 'normal',
-        'replacements': '[]'
-    },
-    'guardian': {
-        'acronym': '??',
-        'name': 'Guardian',
-        'color': '000000',
-        'quirk_prefix': '',
-        'case': 'normal',
-        'replacements': '[]'
-    },
-    'midnight crew': {
-        'acronym': '??',
-        'name': 'Guardian',
-        'color': '000000',
-        'quirk_prefix': '',
-        'case': 'normal',
-        'replacements': '[]'
-    },
-    # XXX END STUFF THAT NEEDS REMOVING
     'trickster': {
         'acronym': '??',
         'name': 'Trickster',
@@ -291,7 +263,7 @@ CHARACTER_DETAILS = {
         'name': 'apocalypseArisen',
         'color': 'A10000',
         'quirk_prefix': '',
-        'case': 'lower',
+        'case': 'normal',
         'replacements': '[]'
 	},
     'aradiabot': {
@@ -307,7 +279,7 @@ CHARACTER_DETAILS = {
         'name': 'adiosToreador',
         'color': 'A15000',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'inverted',
         'replacements': '[]'
 	},
     'sollux': {
@@ -347,7 +319,7 @@ CHARACTER_DETAILS = {
         'name': 'grimAuxiliatrix',
         'color': '008141',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'title',
         'replacements': '[]'
 	},
     'terezi': {
@@ -590,6 +562,7 @@ CHARACTER_DETAILS = {
         'case': 'normal',
         'replacements': '[]'
 	},
+	# XXX GOTTA REMOVE THIS AT SOME POINT
     'calsprite': {
         'acronym': 'CALSPRITE',
         'name': 'Calsprite',
@@ -598,6 +571,7 @@ CHARACTER_DETAILS = {
         'case': 'upper',
         'replacements': '[]'
 	},
+	# XXX END STUFF THAT NEEDS REMOVING
     'davesprite': {
         'acronym': 'DAVESPRITE',
         'name': 'Davesprite',
