@@ -17,8 +17,10 @@ CHARACTERS = {
         'Original Character',
         'Trickster',
         'Doc Scratch',
+		'AR/Hal',
         'Calliope',
         'Caliborn',
+		'Lord English',
         'Other (canon)',
     ],
     'Humans': [
@@ -32,9 +34,12 @@ CHARACTERS = {
         'Jake',
     ],
     'Post-scratch Trolls': [
-        'Aradia',
+        'Aradia (dead)',
+		'Aradia',
+		'Aradiabot',
         'Tavros',
         'Sollux',
+		'Sollux (blind)',
         'Karkat',
         'Nepeta',
         'Kanaya',
@@ -42,6 +47,7 @@ CHARACTERS = {
         'Vriska',
         'Equius',
         'Gamzee',
+		'Gamzee (sober)',
         'Eridan',
         'Feferi',
     ],
@@ -76,14 +82,17 @@ CHARACTERS = {
         'Calsprite',
         'Davesprite',
         'Jadesprite',
+		'Aradiasprite',
         'Tavrisprite',
         'Fefetasprite',
         'Erisolsprite',
+		'ARquiusprite',
     ],
     'Ancestors': [
         'The Handmaid',
         'The Summoner',
         'The Psiioniic',
+		'The Helmsman',
         'The Signless',
         'The Disciple',
         'The Dolorosa',
@@ -163,7 +172,16 @@ CHARACTER_DETAILS = {
 		'color': 'FFFFFF',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"]]'
+	
+	},
+	'ar/hal': {
+		'acronym': 'TT',
+		'name': 'Lil Hal',
+		'color': 'E00707',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"]]'
 	},
 	'calliope': {
 		'acronym': 'UU',
@@ -171,7 +189,7 @@ CHARACTER_DETAILS = {
 		'color': '929292',
 		'quirk_prefix': '',
 		'case': 'lower',
-		'replacements': '[["u", "U"]]'
+		'replacements': '[["u_(\S)", "£_$1"], ["/(\S)_u/", "$1_£"], ["u", "U"], ["_£", "_u"], ["£_", "u_"]]'
 	},
 	'caliborn': {
 		'acronym': 'uu',
@@ -180,6 +198,14 @@ CHARACTER_DETAILS = {
 		'quirk_prefix': '',
 		'case': 'upper',
 		'replacements': '[["U", "u"]]'
+	},
+	'lord english': {
+		'acronym': 'LE',
+		'name': 'Lord English',
+		'color': '2ED73A',
+		'quirk_prefix': '',
+		'case': 'upper',
+		'replacements': '[]'
 	},
 	'other (canon)': {
 		'acronym': '??',
@@ -195,7 +221,7 @@ CHARACTER_DETAILS = {
 		'color': '0715CD',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/([A-Z][a-z]+\b)/", "$L"], ["/(\b)([A-Z][A-Z]+)(\b)/", "ª$2ª"], ["/(\b)([A-Z]\'[A-Z]+)(\b)/", "ª$2ª"], ["/.*/", "$L"], ["/ª([\w|\']+)ª/", "$U"], ["ª", ""], ["/([A-Z]\W[a-z]\W[A-Z])/", "$U"], ["/([A-Z]\'[a-z])/", "$U"], ["/[\s|^]([:;]d)/", "$U"], ["[\s|^](d[:;])", "$U"]]'
 	},
 	'rose': {
 		'acronym': 'TT',
@@ -203,7 +229,7 @@ CHARACTER_DETAILS = {
 		'color': 'B536DA',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"]]'
 	},
 	'dave': {
 		'acronym': 'TG',
@@ -211,7 +237,7 @@ CHARACTER_DETAILS = {
 		'color': 'E00707',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/([A-Z][a-z]+\b)/", "$L"], ["/(\b)([A-Z][A-Z]+)(\b)/", "ª$2ª"], ["/(\b)([A-Z]\'[A-Z]+)(\b)/", "ª$2ª"], ["/.*/", "$L"], ["/ª([\w|\']+)ª/", "$U"], ["ª", ""], ["/([A-Z]\W[a-z]\W[A-Z])/", "$U"], ["/([A-Z]\'[a-z])/", "$U"], ["/(\w)\'(\w)/", "$1$2"], ["/(\w)\.$/", "$1"], ["/[\s|^]([:;]d)/", "$U"], ["/[\s|^](d[:;])/", "$U"]]'
 	},
 	'jade': {
 		'acronym': 'GG',
@@ -219,7 +245,7 @@ CHARACTER_DETAILS = {
 		'color': '4AC925',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/([A-Z][a-z]+\b)/", "$L"], ["/(\b)([A-Z][A-Z]+)(\b)/", "ª$2ª"], ["/(\b)([A-Z]\'[A-Z]+)(\b)/", "ª$2ª"], ["/.*/", "$L"], ["/ª([\w|\']+)ª/", "$U"], ["ª", ""], ["/([A-Z]\W[a-z]\W[A-Z])/", "$U"], ["/([A-Z]\'[a-z])/", "$U"], ["/(\w)\'(\w)/", "$1$2"], ["/(\w)\.$/", "$1"], ["/[\s|^]([:;]d)/", "$U"], ["/[\s|^](d[:;])/", "$U"], ["/[\s|^]([:;]b)/", "$U"]]'
 	},
 	'jane': {
 		'acronym': 'GG',
@@ -227,7 +253,7 @@ CHARACTER_DETAILS = {
 		'color': '00D5F2',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"]]'
 	},
 	'roxy': {
 		'acronym': 'TG',
@@ -235,7 +261,7 @@ CHARACTER_DETAILS = {
 		'color': 'FF6FF2',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/([A-Z][a-z]+\b)/", "$L"], ["/(\b)([A-Z][A-Z]+)(\b)/", "ª$2ª"], ["/(\b)([A-Z]\'[A-Z]+)(\b)/", "ª$2ª"], ["/.*/", "$L"], ["/ª([\w|\']+)ª/", "$U"], ["ª", ""], ["/([A-Z]\W[a-z]\W[A-Z])/", "$U"], ["/([A-Z]\'[a-z])/", "$U"], ["/(\w)\'(\w)/", "$1$2"], ["/(\w)\.$/", "$1"], ["/[\s|^]([:;]d)/", "$U"], ["/[\s|^](d[:;])/", "$U"]]'
 	},
 	'dirk': {
 		'acronym': 'TT',
@@ -243,7 +269,7 @@ CHARACTER_DETAILS = {
 		'color': 'F2A400',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"]]'
 	},
 	'jake': {
 		'acronym': 'GT',
@@ -251,7 +277,15 @@ CHARACTER_DETAILS = {
 		'color': '1F9400',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["\'", ""], ["/.*/", "$L"], ["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^]([:;]d)/", "$U"], ["/[\s|^]([:;]p)/", "$U"]]'
+	},
+	'aradia (dead)': {
+		'acronym': 'AA',
+		'name': 'apocalypseArisen',
+		'color': 'A10000',
+		'quirk_prefix': '',
+		'case': 'lower',
+		'replacements': '[["o", "0"], ["/(\w)\'(\w)/", "$1$2"], ["/(\w)\.$/", "$1"]]'
 	},
 	'aradia': {
 		'acronym': 'AA',
@@ -259,15 +293,23 @@ CHARACTER_DETAILS = {
 		'color': 'A10000',
 		'quirk_prefix': '',
 		'case': 'lower',
-		'replacements': '[["o", "0"]]'
+		'replacements': '[["/(\w)\'(\w)/", "$1$2"], ["/(\w)\.$/", "$1"], ["/[\s|^]([:;][dop])/", "$U"], ["/[\s|^](d[:;])/", "$U"]]'
+	},
+	'aradiabot': {
+		'acronym': 'AA',
+		'name': 'apocalypseArisen',
+		'color': '000056',
+		'quirk_prefix': '',
+		'case': 'lower',
+		'replacements': '[["o", "0"], ["/(\w)\'(\w)/", "$1$2"], ["/(\w)\.$/", "$1"]]'
 	},
 	'tavros': {
 		'acronym': 'AT',
 		'name': 'adiosToreador',
 		'color': 'A15000',
 		'quirk_prefix': '',
-		'case': 'inverted',
-		'replacements': '[[".", ","]]'
+		'case': 'normal',
+		'replacements': '[["/(?:^|¦¤¤¦¦)(.*?)(?:$|¦¤¤¤¦)/", "$U"], ["/^(\w)/", "$L"], ["/([iI])\b/", "$L"], ["/[\.\?!]/", ","], ["/(,\s?\w)/", "$L"], ["/[\s|^|}](:O)/", "$L"], ["/[\s|^|}](:[dp])/", "$U"]]'
 	},
 	'sollux':{
 		'acronym': 'TA',
@@ -275,7 +317,15 @@ CHARACTER_DETAILS = {
 		'color': 'A1A100',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[["I", "II"], ["i", "ii"], ["S", "2"], ["s", "2"]]'
+		'replacements': '[["/([A-Z][a-z]+\b)/", "$L"], ["/(\b)([A-Z][A-Z]+)(\b)/", "ª$2ª"], ["/(\b)([A-Z]\'[A-Z]+)(\b)/", "ª$2ª"], ["/.*/", "$L"], ["/ª([\w|\']+)ª/", "$U"], ["ª", ""], ["/([A-Z]\W[a-z]\W[A-Z])/", "$U"], ["/([A-Z]\'[a-z])/", "$U"], ["/(^|\s)to(\W|$)/", "$1two$2"], ["/(^|\s)TO(\W|$)/", "$1TWO$2"], ["/(^|\s)too(\W|$)/", "$1two$2"], ["/(^|\s)TOO(\W|$)/", "$1TWO$2"], ["/(^|\s)together(\W|$)/", "$1twogether$2"], ["/(^|\s)TOGETHER(\W|$)/", "$1TWOGETHER$2"], ["/(^|\s)tonight(\W|$)/", "$1twonight$2"], ["/(^|\s)TONIGHT(\W|$)/", "$1TWONIGHT$2"], ["/(^|\s)today(\W|$)/", "$1twoday$2"], ["/(^|\s)TODAY(\W|$)/", "$1TWODAY$2"], ["/(^|\s)tomorrow(\W|$)/", "$1twomorrow$2"], ["/(^|\s)TOMORROW(\W|$)/", "$1TWOMORROW$2"], ["/([iI])/", "$1$1"], ["/([sS])/", "2"]]'
+	},
+	'sollux (blind)':{
+		'acronym': 'TA',
+		'name': 'twinArmageddons',
+		'color': 'A1A100',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': '[["/([A-Z][a-z]+\b)/", "$L"], ["/(\b)([A-Z][A-Z]+)(\b)/", "ª$2ª"], ["/(\b)([A-Z]\'[A-Z]+)(\b)/", "ª$2ª"], ["/.*/", "$L"], ["/ª([\w|\']+)ª/", "$U"], ["ª", ""], ["/([A-Z]\W[a-z]\W[A-Z])/", "$U"], ["/([A-Z]\'[a-z])/", "$U"], ["/([oO])/", "0"]]'
 	},
 	'karkat':{
 		'acronym': 'CG',
@@ -283,23 +333,23 @@ CHARACTER_DETAILS = {
 		'color': '626262',
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': '[]'
+		'replacements': '[["/¦¤¤¤¦(.*?)¦¤¤¦¦/", "$L"]]'
 	},
 	'nepeta': {
 		'acronym': 'AC',
 		'name': 'arsenicCatnip',
 		'color': '416600',
 		'quirk_prefix': ':33 <',
-		'case': 'lower',
-		'replacements': '[["ee", "33"]]'
+		'case': 'normal',
+		'replacements': '[["/([A-Z][a-z]+\b)/", "$L"], ["/(\b)([A-Z][A-Z]+)(\b)/", "ª$2ª"], ["/(\b)([A-Z]\'[A-Z]+)(\b)/", "ª$2ª"], ["/.*/", "$L"], ["/ª([\w|\']+)ª/", "$U"], ["ª", ""], ["/([A-Z]\W[a-z]\W[A-Z])/", "$U"], ["/([A-Z]\'[a-z])/", "$U"], ["/(\w)\'(\w)/", "$1$2"], ["/(\w)\.$/", "$1"], ["/[eE][eE]/", "33"], ["/[\s|^]([:;][dp][dp])/", "$U"], ["/[\s|^](dd[:;])/", "$U"]]'
 	},
 	'kanaya':{
 		'acronym':'GA',
 		'name':'grimAuxiliatrix',
 		'color':'008141',
 		'quirk_prefix': '',
-		'case': 'title',
-		'replacements': '[]'
+		'case': 'normal',
+		'replacements': '[["\'", ""], ["/(^[a-z])/", "$U"], ["/(\s[a-z])/", "$U"], ["/(-[a-z])/", "$U"], ["/(\w)\.$/", "$1"], ["/(\w),(\s\w)/", "$1$2"]]'
 	},
 	'terezi': {
 		'acronym': 'GC',
@@ -307,7 +357,7 @@ CHARACTER_DETAILS = {
 		'color': '008282',
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': '[["A", "4"], ["E", "3"], ["I", "1"]]'
+		'replacements': '[["/[aA]/", "4"], ["/[iI]/", "1"], ["/[eE]/", "3"], ["/(\w)\'(\w)/", "$1$2"], ["/\w)\.$/", "$1"], ["/¦¤¤¤¦(.*?)¦¤¤¦¦/", "$L"]]'
 	},
 	'vriska': {
 		'acronym': 'AG',
@@ -315,7 +365,7 @@ CHARACTER_DETAILS = {
 		'color': '005682',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[["B", "8"], ["b", "8"]]'
+		'replacements': '[["/[bB]/", "8"], ["/\(m\)/", "♏"], ["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"]]'
 	},
 	'equius': {
 		'acronym': 'CT',
@@ -323,8 +373,7 @@ CHARACTER_DETAILS = {
 		'color': '000056',
 		'quirk_prefix': 'D -->',
 		'case': 'normal',
-		'replacements': '[["X", "%"], ["x", "%"], ["loo", "100"], ["ool", "001"]]'
-		
+		'replacements': '[["/[lL][oO][oO]/", "100"], ["/[xX]/", "%"], ["/(\b[sS][tT][rR][oO][nN][gG]\w*)/", "$U"], ["/[oO][oO][lL]/", "001"], ["/(\w)\.$/", "$1"], ["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", '$U'], ["/[\s|^](i)[\'|\W|$]/", "$U"]]'
 	},
 	'gamzee': {
 		'acronym': 'TC',
@@ -332,7 +381,15 @@ CHARACTER_DETAILS = {
 		'color': '2B0057',
 		'quirk_prefix': '',
 		'case': 'alternating',
-		'replacements': '[]'
+		'replacements': '[["/.*", "$L"], ["/([\w\s]|[\w\'\w])([\w\'\w]|[\w\s])?/", "$U"], ["/:O\)/", ":o)"], ["/;O\)/", ";o)"], ["/:O\(", ":o("]]'
+	},
+	'gamzee (sober)': {
+		'acronym': 'TC',
+		'name': 'terminallyCapricious',
+		'color': '2B0057',
+		'quirk_prefix': '',
+		'case': 'normal',
+		'replacements': []
 	},
 	'eridan': {
 		'acronym': 'CA',
@@ -340,7 +397,7 @@ CHARACTER_DETAILS = {
 		'color': '6A006A',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[["V", "VV"], ["v", "vv"], ["W", "WW"], ["w", "ww"]]'
+		'replacements': '[["/([A-Z][a-z]+\b)/", "$L"], ["/(\b)([A-Z][A-Z]+)(\b)/", "ª$2ª"], ["/(\b)([A-Z]\'[A-Z]+)(\b)/", "ª$2ª"], ["/.*/", "$L"], ["/ª([\w|\']+)ª/", "$U"], ["ª", ""], ["/([A-Z]\W[a-z]\W[A-Z])/", "$U"], ["/([A-Z]\'[a-z])/", "$U"], ["/(\w)\'(\w)/", "$1$2"], ["/(\w)\.$/", "$1"], ["/([vVwW]/", "$1$1"], ["/[\s|^]([:;][dop])/", "$U"], ["/[\s|^](d[:;])/", "$U"]]'
 	},
 	'feferi': {
 		'acronym': 'CC',
@@ -348,7 +405,7 @@ CHARACTER_DETAILS = {
 		'color': '77003C',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[["E", "-E"], ["H", ")("], ["h", ")("]]'
+		'replacements': '[["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"], ["/[hH]/", ")("], ["E", "-E"]]'
 	},
 	'damara': {
 		'acronym': 'DAMARA',
@@ -364,7 +421,7 @@ CHARACTER_DETAILS = {
 		'color': 'A15000',
 		'quirk_prefix': '',
 		'case': 'lower',
-		'replacements': '[["i", "1"]]'
+		'replacements': '[["i", "1"], ["/(^|\s)ass(\W|$)/", "$1*ss$2"], ["/(^|\s)cripple(\W|$)/", "$1cr*pple$2"], ["damn", "d*mn"], ["/(^|\s)fuck1ng(\W|$)/", "$1f***1ng$2"], ["fuck", "f*ck"], ["/(^|\s)hell(\W|$)/", "$1h*ll$2"], ["/(^|\s)mutant(\W|$)/", "$1m*tant$2"], ["/(^|\s)sh1t(\W|$)/", "$1sh*t$2"], ["/[\s|^|}](:O)/", "$L"], ["/[\s|^|}](:[dp])/", "$U"]]'
 	},
 	'mituna':{
 		'acronym': 'MITUNA',
@@ -372,7 +429,7 @@ CHARACTER_DETAILS = {
 		'color': 'A1A100',
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': '[["A", "4"], ["B", "8"], ["E", "3"], ["I", "1"], ["O", "0"], ["S", "5"], ["T", "7"]]'
+		'replacements': '[["A", "4"], ["B", "8"], ["E", "3"], ["I", "1"], ["O", "0"], ["S", "5"], ["T", "7"], ["/(\w)\'(\w)", "$1$2"], ["/(\w)\.$/", "$1"]]'
 	},
 	'kankri':{
 		'acronym': 'KANKRI',
@@ -380,13 +437,13 @@ CHARACTER_DETAILS = {
 		'color': 'FF0000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[["B", "6"], ["b", "6"], ["O", "9"], ["o", "9"]]'
+		'replacements': '[["/[bB]/", "6"], ["/[oO]/", "9"], ["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"]]'
 	},
 	'meulin': {
 		'acronym': 'MEULIN',
 		'name': 'Meulin',
 		'color': '416600',
-		'quirk_prefix': '(=｀ω´=) <',
+		'quirk_prefix': '(^･ω･^) <',
 		'case': 'upper',
 		'replacements': '[["EE", "33"]]'
 	},
@@ -396,7 +453,7 @@ CHARACTER_DETAILS = {
 		'color':'008141',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[["o", "o+"]]'
+		'replacements': '[["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"], ["o", "o+"], ["0", "0+"], ["/(^|\s)[pP]lus(\W|$)/", "$1+$2"], ["/(^|\s)PLUS(\W|$)/", "$1+$2"]]'
 	},
 	'latula': {
 		'acronym': 'LATULA',
@@ -404,7 +461,7 @@ CHARACTER_DETAILS = {
 		'color': '008282',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[["A", "4"], ["a", "4"], ["E", "3"], ["e", "3"], ["I", "1"], ["i", "1"]]'
+		'replacements': '[["/([A-Z][a-z]+\b)/", "$L"], ["/(\b)([A-Z][A-Z]+)(\b)/", "ª$2ª"], ["/(\b)([A-Z]\'[A-Z]+)(\b)/", "ª$2ª"], ["/.*/", "$L"], ["/ª([\w|\']+)ª/", "$U"], ["ª", ""], ["/([A-Z]\W[a-z]\W[A-Z])/", "$U"], ["/([A-Z]\'[a-z])/", "$U"], ["/(\w)\'(\w)/", "$1$2"], ["/[aA]/", "4"], ["/[iI]/", "1"], ["/[eE]/", "3"], ["/[\s|^|>|&gt;]([:;8x]d)/", "$U"], ["/[\s|^|>|&gt;]([:;8x]o)/", "$U"], ["/[\s|^|>|&gt;]([:;8x]p)/", "$U"]]'
 	},
 	'aranea': {
 		'acronym': 'ARANEA',
@@ -412,7 +469,7 @@ CHARACTER_DETAILS = {
 		'color': '005682',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[["B", "8"], ["b", "8"]]'
+		'replacements': '[["/[bB]/", "8"], ["/\(m\)/", "♏"], ["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"]]'
 	},
 	'horuss': {
 		'acronym': 'HORUSS',
@@ -420,13 +477,13 @@ CHARACTER_DETAILS = {
 		'color': '000056',
 		'quirk_prefix': '8=D <',
 		'case': 'normal',
-		'replacements': '[["X", "%"], ["x", "%"], ["loo", "100"], ["ool", "001"]]'
+		'replacements': '[["/[lL][oO][oO]/", "100"],["/[xX]/", "%"], ["/(\b[sS][tT][rR][oO][nN][gG]\w*)/", "$U"], ["/(\b[sS][tT][rR][eE][nN][gG][tT][hH]\w*)/", "$U"], ["/[oO][oO][lL]/", "001"], ["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"]]'
 	},
 	'kurloz': {
 		'acronym': 'KURLOZ',
 		'name': 'Kurloz',
 		'color': '2B0057',
-		'quirk_prefix': '',
+		'quirk_prefix': 'SIGNS: <',
 		'case': 'upper',
 		'replacements': '[]'
 	},
@@ -435,8 +492,8 @@ CHARACTER_DETAILS = {
 		'name': 'Cronus',
 		'color': '6A006A',
 		'quirk_prefix': '',
-		'case': 'lower',
-		'replacements': '[["B", "8"], ["v", ""], ["w", "wv"], ["", "vw"]]'
+		'case': 'normal',
+		'replacements': '[["/([A-Z][a-z]+\b)/", "$L"], ["/(\b)([A-Z][A-Z]+)(\b)/", "ª$2ª"], ["/(\b)([A-Z]\'[A-Z]+)(\b)/", "ª$2ª"], ["/.*/", "$L"], ["/ª([\w|\']+)ª/", "$U"], ["ª", ""], ["/([A-Z]\W[a-z]\W[A-Z])/", "$U"], ["/([A-Z]\'[a-z])/", "$U"], ["/(\w)\'(\w)/", "$1$2"], ["/([^|\s])v/", "$1w"], ["/([^|\s])V/", "$1W"], ["/\bv|w\b/", "α"], ["/w|v/", "φ"], ["α", "wv"], ["φ", "vw"], ["/\bV|W\b/", "Ά"], ["/W|V/", "Á"], ["Ά", "WV"], ["Á", "VW"], ["B", "8"], ["/(\w)vws(\s|\.|!|\?|$)/", "$1wvs$2"], ["/(\w)VWS(\s|\.|!|\?|$)/", "$1WVS$2"], ["/(\w)\.(\w)/", "$1$2"], ["/[\s|^]([:;]d)/", "$U"], ["/[\s|^](d[:;])", "$U"]]'
 	},
 	'meenah': {
 		'acronym': 'MEENAH',
@@ -444,7 +501,7 @@ CHARACTER_DETAILS = {
 		'color': '77003C',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[["E", "-E"], ["H", ")("]]'
+		'replacements': '[["/([A-Z][a-z]+\b)/", "$L"], ["/(\b)([A-Z][A-Z]+)(\b)/", "ª$2ª"], ["/(\b)([A-Z]\'[A-Z]+)(\b)/", "ª$2ª"], ["/.*/", "$L"], ["/ª([\w|\']+)ª/", "$U"], ["ª", ""], ["/([A-Z]\W[a-z]\W[A-Z])/", "$U"], ["/([A-Z]\'[a-z])/", "$U"], ["/(\w)\'(\w)/", "$1$2"], ["/(\w)\.$/", "$1"], ["E", "-E"], ["H", ")("], ["/[\s|^](3[8x][odp])/", "$U"]]'
 	},
 	'dad': {
 		'acronym': 'pipefan413',
@@ -460,7 +517,7 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"]]'
 	},
 	'mom': {
 		'acronym': 'MOM',
@@ -468,7 +525,7 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/([A-Z][a-z]+\b)/", "$L"], ["/(\b)([A-Z][A-Z]+)(\b)/", "ª$2ª"], ["/(\b)([A-Z]\'[A-Z]+)(\b)/", "ª$2ª"], ["/.*/", "$L"], ["/ª([\w|\']+)ª/", "$U"], ["ª", ""], ["/([A-Z]\W[a-z]\W[A-Z])/", "$U"], ["/([A-Z]\'[a-z])/", "$U"], ["/(\w)\'(\w)/", "$1$2"], ["/(\w)\.$/", "$1"], ["/[\s|^]([:;]d)/", "$U"], ["/[\s|^](d[:;])/", "$U"]]'
 	},
 	'bro': {
 		'acronym': 'BRO',
@@ -476,7 +533,7 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"]]'
 	},
 	'grandpa': {
 		'acronym': 'GRANDPA',
@@ -484,7 +541,7 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["\'", ""], ["/.*/", "$L"], ["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^]([:;]d)/", "$U"], ["/[\s|^]([:;]p)/", "$U"]]'
 	},
 	'poppop': {
 		'acronym': 'POPPOP',
@@ -492,7 +549,7 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/([A-Z][a-z]+\b)/", "$L"], ["/(\b)([A-Z][A-Z]+)(\b)/", "ª$2ª"], ["/(\b)([A-Z]\'[A-Z]+)(\b)/", "ª$2ª"], ["/.*/", "$L"], ["/ª([\w|\']+)ª/", "$U"], ["ª", ""], ["/([A-Z]\W[a-z]\W[A-Z])/", "$U"], ["/([A-Z]\'[a-z])/", "$U"], ["/[\s|^]([:;]d)/", "$U"], ["[\s|^](d[:;])", "$U"]]'
 	},
 	'alpha mom': {
 		'acronym': 'MOM',
@@ -500,7 +557,7 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"]]'
 	},
 	'alpha bro': {
 		'acronym': 'BRO',
@@ -508,7 +565,7 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/([A-Z][a-z]+\b)/", "$L"], ["/(\b)([A-Z][A-Z]+)(\b)/", "ª$2ª"], ["/(\b)([A-Z]\'[A-Z]+)(\b)/", "ª$2ª"], ["/.*/", "$L"], ["/ª([\w|\']+)ª/", "$U"], ["ª", ""], ["/([A-Z]\W[a-z]\W[A-Z])/", "$U"], ["/([A-Z]\'[a-z])/", "$U"], ["/(\w)\'(\w)/", "$1$2"], ["/(\w)\.$/", "$1"], ["/[\s|^]([:;]d)/", "$U"], ["/[\s|^](d[:;])/", "$U"]]'
 	},
 	'grandma': {
 		'acronym': 'GRANDMA',
@@ -516,7 +573,7 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/([A-Z][a-z]+\b)/", "$L"], ["/(\b)([A-Z][A-Z]+)(\b)/", "ª$2ª"], ["/(\b)([A-Z]\'[A-Z]+)(\b)/", "ª$2ª"], ["/.*/", "$L"], ["/ª([\w|\']+)ª/", "$U"], ["ª", ""], ["/([A-Z]\W[a-z]\W[A-Z])/", "$U"], ["/([A-Z]\'[a-z])/", "$U"], ["/(\w)\'(\w)/", "$1$2"], ["/(\w)\.$/", "$1"], ["/[\s|^]([:;]d)/", "$U"], ["/[\s|^](d[:;])/", "$U"], ["/[\s|^]([:;]b)/", "$U"]]'
 	},
 	'nannasprite': {
 		'acronym': 'NANNASPRITE',
@@ -524,7 +581,7 @@ CHARACTER_DETAILS = {
 		'color': '00D5F2',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"]]'
 	},
 	'jaspersprite': {
 		'acronym': 'JASPERSPRITE',
@@ -532,7 +589,7 @@ CHARACTER_DETAILS = {
 		'color': 'F141EF',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"], ["/(\w)\'(\w)/", "$1$2"]]'
 	},
 	'calsprite': {
 		'acronym': 'CALSPRITE',
@@ -548,7 +605,7 @@ CHARACTER_DETAILS = {
 		'color': 'F2A400',
 		'quirk_prefix': '',
 		'case': 'lower',
-		'replacements': '[]'
+		'replacements': '[["/([A-Z][a-z]+\b)/", "$L"], ["/(\b)([A-Z][A-Z]+)(\b)/", "ª$2ª"], ["/(\b)([A-Z]\'[A-Z]+)(\b)/", "ª$2ª"], ["/.*/", "$L"], ["/ª([\w|\']+)ª/", "$U"], ["ª", ""], ["/([A-Z]\W[a-z]\W[A-Z])/", "$U"], ["/([A-Z]\'[a-z])/", "$U"], ["/(\w)\'(\w)/", "$1$2"], ["/(\w)\.$/", "$1"], ["/[\s|^]([:;]d)/", "$U"], ["/[\s|^](d[:;])/", "$U"]]'
 	},
 	'jadesprite': {
 		'acronym': 'JADESPRITE',
@@ -556,7 +613,15 @@ CHARACTER_DETAILS = {
 		'color': '1F9400',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/([A-Z][a-z]+\b)/", "$L"], ["/(\b)([A-Z][A-Z]+)(\b)/", "ª$2ª"], ["/(\b)([A-Z]\'[A-Z]+)(\b)/", "ª$2ª"], ["/.*/", "$L"], ["/ª([\w|\']+)ª/", "$U"], ["ª", ""], ["/([A-Z]\W[a-z]\W[A-Z])/", "$U"], ["/([A-Z]\'[a-z])/", "$U"], ["/(\w)\'(\w)/", "$1$2"], ["/(\w)\.$/", "$1"], ["/[\s|^]([:;]d)/", "$U"], ["/[\s|^](d[:;])/", "$U"], ["/[\s|^]([:;]b)/", "$U"]]'
+	},
+	'aradiasprite': {
+		'acronym': 'ARADIASPRITE',
+		'name': 'Aradiasprite',
+		'color': 'A10000',
+		'quirk_prefix': '',
+		'case': 'lower',
+		'replacements': '[["o", "0"], ["/(\w)\'(\w)/", "$1$2"], ["/(\w)\.$/", "$1"]]'
 	},
 	'tavrisprite': {
 		'acronym': 'TAVRISPRITE',
@@ -564,7 +629,7 @@ CHARACTER_DETAILS = {
 		'color': '0715CD',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["b", "8"]]'
 	},
 	'fefetasprite': {
 		'acronym': 'FEFETASPRITE',
@@ -572,7 +637,7 @@ CHARACTER_DETAILS = {
 		'color': 'B536DA',
 		'quirk_prefix': '3833 <',
 		'case': 'normal',
-		'replacements': '[["E", "-E"], ["ee", "33"], ["H", ")("], ["h", ")("]]'
+		'replacements': '[["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"], ["/(\w)\'(\w)/", "$1$2"], ["/(\w)\.$/", "$1"], ["/[eE][eE]/", "33"], ["/[hH]/", ")("], ["E", "-E"]]'
 	},
 	'erisolsprite': {
 		'acronym': 'ERISOLSPRITE',
@@ -580,7 +645,15 @@ CHARACTER_DETAILS = {
 		'color': '4AC925',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[["I", "II"], ["i", "ii"], ["S", "2"], ["s", "2"], ["V", "VV"], ["v", "vv"], ["W", "WW"], ["w", "ww"]]'
+		'replacements': '[["/([A-Z][a-z]+\b)/", "$L"], ["/(\b)([A-Z][A-Z]+)(\b)/", "ª$2ª"], ["/(\b)([A-Z]\'[A-Z]+)(\b)/", "ª$2ª"], ["/.*/", "$L"], ["/ª([\w|\']+)ª/", "$U"], ["ª", ""], ["/([A-Z]\W[a-z]\W[A-Z])/", "$U"], ["/([A-Z]\'[a-z])/", "$U"], ["/(\w)\'(\w)/", "$1$2"], ["/[iI]/", "$1$1"], ["/[sS]/", "2"], ["/([vVwW]/", "$1$1"], ["/[\s|^]([:;][dop])/", "$U"], ["/[\s|^](d[:;])/", "$U"]]'
+	},
+	'arquiusprite': {
+		'acronym': 'ARQUIUSPRITE',
+		'name': 'ARquiusprite',
+		'color': 'e00707',
+		'quirk_prefix': '◥▶◀◤ —>',
+		'case': 'normal',
+		'replacements': '[["/[lL][oO][oO]/", "100"], ["/[xX]/", "%"], ["/(\b[sS][tT][rR][oO][nN][gG]\w*)/", "$U"], ["/[oO][oO][lL]/", "001"], ["/(\w)\.$/", "$1"], ["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"], ["/([sS])hit/", "$1▓▒▒"], ["/([fF])ucking/", "$1▒▓▒▒▒▒"], ["/([fF])ucker/", "$1▒▓▒▒▒"], ["/(^|\s)([aA])ss(\W|$)/", "$1$2▒▒$3"], ["/([fF])uck/", "$1▒▒▓"], ["/([bB])itch/", "$1▒▓▒▒"], ["/([hH])ell/", "$1▒▒▒"], ["([dD])amn", "$1▒▒▒"]]'
 	},
 	'the handmaid': {
 		'acronym': '♈',
@@ -588,7 +661,7 @@ CHARACTER_DETAILS = {
 		'color': 'A10000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/([A-Z][a-z]+\b)/", "$L"], ["/(\b)([A-Z][A-Z]+)(\b)/", "ª$2ª"], ["/(\b)([A-Z]\'[A-Z]+)(\b)/", "ª$2ª"], ["/.*/", "$L"], ["/ª([\w|\']+)ª/", "$U"], ["ª", ""], ["/([A-Z]\W[a-z]\W[A-Z])/", "$U"], ["/([A-Z]\'[a-z])/", "$U"], ["/(\w)\'(\w)/", "$1$2"], ["/(\w)\.$/", "$1"], ["/[oO]/", "Ø"]]'
 	},
 	'the summoner': {
 		'acronym': '♉',
@@ -596,7 +669,7 @@ CHARACTER_DETAILS = {
 		'color': 'A15000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"], [".", ","], ["/[iI]/", "1"]]'
 	},
 	'the psiioniic':{
 		'acronym': '♊',
@@ -604,7 +677,15 @@ CHARACTER_DETAILS = {
 		'color': 'A1A100',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"], ["/(\w)\'(\w)/", "$1$2"], ["/psi|psy/", "ψi"], ["/Psi|Psy/", "Ψi"], ["/PSI|PSY/", "Ψi"], ["/[iI]/", "$1$1"], ["/[sS]/", "2"]]'
+	},
+	'the helmsman':{
+		'acronym': '♊',
+		'name': 'The Helmsman',
+		'color': 'A1A100',
+		'quirk_prefix': '',
+		'case': 'upper',
+		'replacements': '[["/(\w)\'(\w)/", "$1$2"], ["/\s/", ""], ["/(\w\w)/", " $1"], ["/(\w\w)(\.$)/", "$1 .."], ["/(\w\w)(!$)/", "$1 !!"], ["/(\w\w)(\?$)/", "$1 ??"], ["/(\w\w)(\w$)/", "$1 $2$2"], ["/(\s\w)\.($|\s)/", "$10 ..$2"], ["/(\s\w\w)\.($|\s)/", "$1 ..$2"], ["/(\s\w)!($|\s)/", "$10 !!$2"], ["/(\s\w\w)!($|\s)/", "$1 !!$2"], ["/(\s\w)\?($|\s)/", "$10 ??$2"], ["/(\s\w\w)\?($|\s)/", "$1 ??$2"], ["/(\s\w)(\s)/", "$10$2"], ["/(\w\w)(\w)\./", "$1 $2$2 .."], ["/(\w\w)(\w)!/", "$1 $2$2 !!"], ["/(\w\w)(\w)\?/", "$1 $2$2 ??"], ["/(\w\w)(\w)/", "$1 $2$2"], ["/(^|\W)(\w)\./", "$1 $2$2 .."], ["/[oO]/", "0"], ["/[iI]/", "1"], ["/[eE]/", "3"], ["/[aA]/", "4"], ["/[gG]/", "6"], ["/[zZ]/", "2"], ["/[sS]/", "5"], ["/[tT]/", "7"], ["/[bB]/", "8"]]'
 	},
 	'the signless':{
 		'acronym': '♋',
@@ -612,7 +693,7 @@ CHARACTER_DETAILS = {
 		'color': '626262',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"]]'
 	},
 	'the disciple': {
 		'acronym': '♌',
@@ -620,7 +701,7 @@ CHARACTER_DETAILS = {
 		'color': '416600',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/[eE][eE]/", "33"], ["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"], ["/(\w)\'(\w)/", "$1$2"]]'
 	},
 	'the dolorosa':{
 		'acronym': '♍',
@@ -628,7 +709,7 @@ CHARACTER_DETAILS = {
 		'color': '008141',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"], ["/(\w)\'(\w)/", "$1$2"], ["/(\w)\.$/", "$1"], ["/(\w),(\s\w)/", "$1$2"]]'
 	},
 	'redglare': {
 		'acronym': '♎',
@@ -636,7 +717,7 @@ CHARACTER_DETAILS = {
 		'color': '008282',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/[aA]/", "4"], ["/[eE]", "3"], ["/[iI]/", "1"],  ["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", '$U'], ["/[\s|^](i)[\'|\W|$]/", '$U'], ["/(\w)\'(\w)/", "$1$2"]]'
 	},
 	'mindfang': {
 		'acronym': '♏',
@@ -644,15 +725,15 @@ CHARACTER_DETAILS = {
 		'color': '005682',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/[bB]/", "8"], ["/\(m\)/", "♏"], ["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"]]'
 	},
 	'darkleer': {
 		'acronym': '♐',
 		'name': 'E%ecutor Darkleer',
 		'color': '000056',
-		'quirk_prefix': '',
+		'quirk_prefix': '-+->',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/[lL][oO][oO]/", "100"],["/[xX]/", "%"], ["/(\b[sS][tT][rR][oO][nN][gG]\w*)/", "$U"], ["/(\b[sS][tT][rR][eE][nN][gG][tT][hH]\w*)/", "$U"], ["/[oO][oO][lL]/", "001"], ["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"]]'
 	},
 	'grand highblood': {
 		'acronym': '♑',
@@ -660,7 +741,7 @@ CHARACTER_DETAILS = {
 		'color': '2B0057',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"]]'
 	},
 	'dualscar': {
 		'acronym': '♒',
@@ -668,7 +749,7 @@ CHARACTER_DETAILS = {
 		'color': '6A006A',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/([A-Z][a-z]+\b)/", "$L"], ["/(\b)([A-Z][A-Z]+)(\b)/", "ª$2ª"], ["/(\b)([A-Z]\'[A-Z]+)(\b)/", "ª$2ª"], ["/.*/", "$L"], ["/ª([\w|\']+)ª/", "$U"], ["ª", ""], ["/([A-Z]\W[a-z]\W[A-Z])/", "$U"], ["/([A-Z]\'[a-z])/", "$U"], ["/(\w)\'(\w)/", "$1$2"], ["/([^|\s])v/", "$1w"], ["/([^|\s])V/", "$1W"], ["/\bv|w\b/", "α"], ["/w|v/", "φ"], ["α", "wv"], ["φ", "vw"], ["/\bV|W\b/", "Ά"], ["/W|V/", "Á"], ["Ά", "WV"], ["Á", "VW"], ["B", "8"], ["/(\w)vws(\s|\.|!|\?|$)/", "$1wvs$2"], ["/(\w)VWS(\s|\.|!|\?|$)/", "$1WVS$2"], ["/(\w)\.(\w)/", "$1$2"], ["/[\s|^]([:;]d)/", "$U"], ["/[\s|^](d[:;])", "$U"]]'
 	},
 	'the condesce': {
 		'acronym': '♓',
@@ -676,14 +757,14 @@ CHARACTER_DETAILS = {
 		'color': '77003C',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/([A-Z][a-z]+\b)/", "$L"], ["/(\b)([A-Z][A-Z]+)(\b)/", "ª$2ª"], ["/(\b)([A-Z]\'[A-Z]+)(\b)/", "ª$2ª"], ["/.*/", "$L"], ["/ª([\w|\']+)ª/", "$U"], ["ª", ""], ["/([A-Z]\W[a-z]\W[A-Z])/", "$U"], ["/([A-Z]\'[a-z])/", "$U"], ["/(\w)\'(\w)/", "$1$2"], ["/(\w)\.$/", "$1"], ["E", "-E"], ["H", ")("], ["/[\s|^](3[8x][odp])/", "$U"]]'
 	},
 	'spades slick': {
 		'acronym': '♠',
 		'name': 'Spades Slick',
 		'color': '000000',
 		'quirk_prefix': '',
-		'case': 'normal',
+		'case': 'lower',
 		'replacements': '[]'
 	},
 	'clubs deuce': {
@@ -691,7 +772,7 @@ CHARACTER_DETAILS = {
 		'name': 'Clubs Deuce',
 		'color': '000000',
 		'quirk_prefix': '',
-		'case': 'normal',
+		'case': 'upper',
 		'replacements': '[]'
 	},
 	'diamonds droog': {
@@ -700,15 +781,15 @@ CHARACTER_DETAILS = {
 		'color': '000000',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': '[]'
+		'replacements': '[["/^(\w)/", "$U"], ["/[!|\?|\.](\s\w)/", "$U"], ["/[\s|^](i)[\'|\W|$]/", "$U"]]'
 	},
 	'hearts boxcars': {
 		'acronym': '♥',
 		'name': 'Hearts Boxcars',
 		'color': '000000',
 		'quirk_prefix': '',
-		'case': 'normal',
-		'replacements': '[]'
+		'case': 'upper',
+		'replacements': '[["/(\w)\'(\w)/", "$1$2"], ["/(\w),(\s\w)/", "$1$2"], ["/(\w).(\s\w)/", "$1$2"], ["/(\w)\.$/", "$1"], ["/(^|\s)YOURE(\W|$)/", "$1YER$2"], ["/(^|\s)FOR(\W|$)/", "$1FER$2"], ["/(^|\s)YOURS(\W|$)/", "$1YERS$2"], ["/(^|\s)YOUR(\W|$)/", "$1YER$2"], ["/(^|\s)THEM(\W|$)/", "$1EM$2"]]'
 	}
 }
 

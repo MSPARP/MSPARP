@@ -155,6 +155,25 @@
 .butty:checked + .charheartsboxcars {background-position: 0px 0px,  0px -924px}
 
 
+.charlordenglish{background-position: 0px -28px,  -28px -252px }
+.butty:checked + .charlordenglish {background-position: 0px 0px,  -28px -252px}
+.chararadiadead{background-position: 0px -28px,  -56px -28px }
+.butty:checked + .chararadiadead {background-position: 0px 0px,  -56px -28px}
+.chararadiabot{background-position: 0px -28px,  -56px 0px }
+.butty:checked + .chararadiabot {background-position: 0px 0px,  -56px 0px}
+.chararadiasprite{background-position: 0px -28px,  -56px -56px }
+.butty:checked + .chararadiasprite {background-position: 0px 0px,  -56px -56px}
+.charsolluxblind{background-position: 0px -28px,  -56px -84px }
+.butty:checked + .charsolluxblind {background-position: 0px 0px,  -56px -84px}
+.charthehelmsman{background-position: 0px -28px,  -56px -112px }
+.butty:checked + .charthehelmsman {background-position: 0px 0px,  -56px -112px}
+.chargamzeesober{background-position: 0px -28px,  -56px -140px }
+.butty:checked + .chargamzeesober {background-position: 0px 0px,  -56px -140px}
+.chararhal{background-position: 0px -28px,  -28px -280px }
+.butty:checked + .chararhal {background-position: 0px 0px,  -28px -280px}
+.chararquiusprite{background-position: 0px -28px,  -28px -224px }
+.butty:checked + .chararquiusprite{background-position: 0px 0px,  -28px -224px}
+
 
 @media 
 (-webkit-min-device-pixel-ratio: 1.2), (min-device-pixel-ratio: 1.1),  
