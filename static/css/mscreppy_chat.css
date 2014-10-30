@@ -24,8 +24,8 @@ ul {
 ul li {background: url('../img/candycorn.png') 3px 2px no-repeat;padding-left:23px !important;}
 
 #conversation.search {
-	background: url('/static/img/horrorterrors.png') repeat, url('/static/img/spinner-creppy.gif') no-repeat;
-	background-position: center, center !important;
+	background: url('/static/img/spinner-creppy.gif') no-repeat, url('/static/img/horrorterrors.png') repeat;
+	background-position: center !important, center;
 }
 
 #userList #online li, #metaOptions li {background:none !important;padding-left:10px !important;}
