@@ -88,8 +88,8 @@ function applyQuirks(text) {
 	text = text.replace(/(\s¦¤¤¤?¦¦)/g, '');
 
 	// Prefix
-	if (user.character.quirk_prefix!='') {
-		text = user.character.quirk_prefix+' '+text;
+	if (user.character.quirk_prefix!='' || user.character.quirk_suffix!='') {
+		text = user.character.quirk_prefix+' '+text+' '+user.character.quirk_suffix;
 	}
 
 	return text
