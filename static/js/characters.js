@@ -214,7 +214,7 @@ var characters = {
 		'acronym': 'AT',
 		'name': 'adiosToreador',
 		'color': 'A15000',
-		'quote': "i THINK i AM PERFECTLY CAPABLE OF MANUFACTURING THESE ALLEGED \\"dope\\" HUMAN RHYMES",
+		'quote': "i THINK i AM PERFECTLY CAPABLE OF MANUFACTURING THESE ALLEGED \"dope\" HUMAN RHYMES",
 		'quirk_prefix': '',
 		'case': 'normal',
 		'replacements': [["/(?:^|¦¤¤¦¦)(.*?)(?:$|¦¤¤¤¦)/", "$U"], ["/^(\\w)/", "$L"], ["/([iI])\\b/", "$L"], ["/[\\.\\?!]/", ","], ["/(,\\s?\\w)/", "$L"], ["/[\\s|^|}](:O)/", "$L"], ["/[\\s|^|}](:[dp])/", "$U"]]
@@ -298,7 +298,7 @@ var characters = {
 		'quote': "ThIs sOuNdS AmAzInG, i cAn't sEe hOw i wOuLdN'T Be aLl kIcKiNg tHe wIcKeD ShIt oUt Of sUcH KiNdS Of oPpOrTuNiTiEs",
 		'quirk_prefix': '',
 		'case': 'alternating',
-		'replacements': [["/.*", "$L"], ["/([\\w\\s]|[\\w'\\w])([\\w'\\w]|[\\w\\s])?/", "$U"], ["/:O\\)/", ":o)"], ["/;O\\)/", ";o)"], ["/:O\\(", ":o("]]
+		'replacements': [["/.*/", "$L"], ["/([\\w\\s]|[\\w'\\w])([\\w'\\w]|[\\w\\s])?/", "$U"], ["/:O\\)/", ":o)"], ["/;O\\)/", ";o)"], ["/:O\\(", ":o("]]
 	},
 	'gamzee (sober)': {
 		'acronym': 'TC',
