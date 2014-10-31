@@ -159,7 +159,7 @@ var characters = {
 		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'normal',
-		'replacements': []
+		'replacements': [["'", " "]]
 	},
 	'aradia (dead)': {
 		'acronym': 'AA',
