@@ -67,7 +67,7 @@ $(document).ready(function() {
 	
 	
 	if (localStorage.nocreppy == 'nocreppy'){
-		    document.styleSheets.item(3).disabled=true;
+		    $("#creppyid").attr('disabled', true);
 			}
 	
 	if (localStorage.dfall == 'downfall'){
