@@ -171,7 +171,7 @@ $(document).ready(function() {
 	$('#nav').toggleClass('is-open');
 	});
 	
-	$('.menubutton.is-open ~ li a').click(function() {
+	$('#nav.is-open .menubutton ~ li a').click(function() {
 	$('#nav').toggleClass('is-open');
 	});
 	
