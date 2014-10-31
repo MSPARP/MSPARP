@@ -197,10 +197,6 @@ $(document).ready(function() {
 	$('#nav').toggleClass('is-open');
 	});
 	
-	$('#nav.is-open .menubutton ~ li a').click(function() {
-	$('#nav').toggleClass('is-open');
-	});
-	
 	$('label.picky-header input').click(function() {
 		var checks = $(this.parentNode.parentNode).next('div.picky-group').find('input');
 		if (this.checked) {
