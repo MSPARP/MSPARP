@@ -63,27 +63,44 @@ $(document).ready(function() {
 	var globals = [];
 	var bbset = 1;
 
-	$('body').addClass(localStorage.hdpi);
+	var storage = (function() {
+	  var uid = new Date;
+	  var result;
+	  try {
+		localStorage.setItem(uid, uid);
+		result = localStorage.getItem(uid) == uid;
+		localStorage.removeItem(uid);
+		return result && localStorage;
+	  } catch (exception) {}
+	}());
+	
+	if (storage){
+		$('body').addClass(localStorage.hdpi);
+	}
 	
 	$("meta[name=viewport]").attr('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
 	
-	if (localStorage.nocreppy == 'nocreppy'){
-		    $("#creppyid").attr('disabled', true);
-			}
-	
-	if (localStorage.dfall == 'downfall'){
-			$('input[name="toggledownfall"]').prop('checked',true);
-			}
-	
-	$('body').addClass(localStorage.dfall);
+	if (storage){
+		if (localStorage.nocreppy == 'nocreppy'){
+				$("#creppyid").attr('disabled', true);
+				}
+		
+		if (localStorage.dfall == 'downfall'){
+				$('input[name="toggledownfall"]').prop('checked',true);
+				}
+		
+		$('body').addClass(localStorage.dfall);
+	}
 	
 	$('input[name="toggledownfall"]').change(function() {
 			if($(this).is(':checked')) {
 				$('body').addClass('downfall');
-				localStorage.setItem('dfall', 'downfall');
+				if (storage){
+				localStorage.setItem('dfall', 'downfall');}
 			} else {
 				$('body').removeClass('downfall');
-				localStorage.setItem('dfall', '');
+				if (storage){
+				localStorage.setItem('dfall', '');}
 			}
 		}).change();
 	
