@@ -122,7 +122,7 @@ div.options button, input[type="button"], input[type="submit"], button, a.linkBu
  #nav li a:hover {color:#151623}
   #nav li a:active, #nav li a:focus {color:#151623}
  #nav li a:before, #nav li a.active:before, #nav li a:hover:before {content:' ';display:inline-block;width:25px;height:16px;background:url('../img/candycorn.png') 0px 0px no-repeat;}
-  #nav:hover, #nav.is-open {height:auto; background: #d4540b}
+  #nav.is-open {height:auto; background: #d4540b}
  
  }
 
