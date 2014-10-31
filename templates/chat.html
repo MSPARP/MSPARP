@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 {% block title%}{% endblock %}
 {% block header %}
-<link rel="stylesheet" type="text/css" href="/static/css/characters.css" />
-<link rel="stylesheet" href="/static/css/chat.css?2212">
-<link rel="stylesheet" id="creppyid" href="/static/css/mscreppy_chat.css">
+<link rel="stylesheet" type="text/css" href="/static/css/characters.css?41031" />
+<link rel="stylesheet" href="/static/css/chat.css?41031">
+<link rel="stylesheet" id="creppyid" href="/static/css/mscreppy_chat.css?41031">
 <link rel="stylesheet" media="screen" type="text/css" href="/static/colorpicker/css/colorpicker.css" />
 <script src="/static/js/jquery.min.js"></script>
 <script type="text/javascript" src="/static/colorpicker/js/colorpicker.js"></script>
-<script src="/static/js/characters.js?mc"></script>
-<script src="/static/js/quirks.js?fs"></script>
+<script src="/static/js/characters.js?41031"></script>
+<script src="/static/js/quirks.js?41031"></script>
 <script type="text/javascript">
 	var user = {{character_dict|tojson|safe}};
 	var chat = {{(chat)|tojson|safe}};
 	var chat_meta = {{chat_meta|tojson|safe}};
 	var latestNum = {{latest_num}};
 </script>
-<script src="/static/js/chat.js?2212"></script>
+<script src="/static/js/chat.js?41031"></script>
 {% endblock %}
 {% block content %}
 
