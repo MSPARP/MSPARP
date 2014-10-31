@@ -320,6 +320,7 @@ input[type="button"], input[type="submit"], button, a.linkButton {
 	font-family:'Courier New', courier, monospace;
 	font-weight:bold;
 	font-size:1.2em;
+	-webkit-appearance: none;
 }
 
 img {
