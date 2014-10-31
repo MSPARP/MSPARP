@@ -3,6 +3,7 @@ html {
     height: 100%;
 margin: 0px auto;
 padding:0px;
+-webkit-overflow-scrolling: touch;
 }
 
 body {
@@ -13,6 +14,7 @@ font-size: 12px;
 overflow:auto;
 margin: 0px auto;
 padding:0px;
+-webkit-overflow-scrolling: touch;
 }
 
 #container {
