@@ -450,7 +450,7 @@ margin-top:20px;
  #nav li a:hover {color:#525252}
   #nav li a:active, #nav li a:focus {color:#626262}
  #nav li a:before, #nav li a.active:before, #nav li a:hover:before {content:'· ';color:#626262}
- #nav:hover, #nav:active,#nav:focus {height:auto; background: #f5f5f5}
+ #nav.is-open, #nav:hover, #nav:active,#nav:focus {height:auto; background: #f5f5f5}
  
  }
  
