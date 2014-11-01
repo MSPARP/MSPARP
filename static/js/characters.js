@@ -299,7 +299,7 @@ var characters = {
 		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'alternating',
-		'replacements': [[":O", ":o"], ["DO:", "Do:"], [";O", ";o"]]
+		'replacements': [[":O", ":o"], ["O:", "o:"], [";O", ";o"]]
 	},
 	'gamzee (sober)': {
 		'acronym': 'TC',
@@ -309,7 +309,7 @@ var characters = {
 		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'alt-lines',
-		'replacements': []
+		'replacements': [[":O", ":o"], ["O:", "o:"], [";O", ";o"]]
 	},
 	'eridan': {
 		'acronym': 'CA',
@@ -429,7 +429,7 @@ var characters = {
 		'quirk_suffix': '>',
 		'quirk_prefix': 'SIGNS: <',
 		'case': 'upper',
-		'replacements': [[":O", ":o"], ["DO:", "Do:"], [";O", ";o"]]
+		'replacements': [[":O", ":o"], ["O:", "o:"], [";O", ";o"]]
 	},
 	'cronus': {
 		'acronym': 'CRONUS',
