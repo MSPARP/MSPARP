@@ -258,7 +258,7 @@ clip-path:url(../img/clip.svg#charnarrow);
   height: 20px;
   line-height: 20px;
   text-align: center;
-  padding: 0 10px 0 32px;
+  padding: 0 10px 0 22px;
   margin-left: 10px;
   color: #f5f5f5;
   border-radius: 20px;
@@ -267,6 +267,9 @@ clip-path:url(../img/clip.svg#charnarrow);
   background-position: 10px 50%;
   background-repeat: no-repeat;
 }
+
+#nav li a.new {font-style:italic;top:-3px;position:relative;}
+#nav li a.new:after {content:'NEW';vertical-align:super;font-size:80%}
 
 #nav li a:before {content:'> ';color:transparent}
 
