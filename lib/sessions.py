@@ -15,10 +15,13 @@ from messages import send_message
 CASE_OPTIONS = {
     'normal': 'Normal',
     'upper': 'UPPER CASE',
-    'lower': 'lower case',
+    'lower': 'adaptive lower',
     'title': 'Title Case',
     'inverted': 'iNVERTED',
-    'alternating': 'AlTeRnAtInG'
+    'alternating': 'AlTeRnAtInG CaSe'
+	'alt-lines': 'alternating LINES'
+	'proper': 'Proper grammar'
+	'first-caps': 'First letter caps'
 }
 
 META_DEFAULTS = {

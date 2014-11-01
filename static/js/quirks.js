@@ -1,41 +1,63 @@
+var lastAlternatingLine = false;
+
 function applyQuirks(text) {
+
+	// Global quirking tags
+		
+		text = text.replace(/\[[cC](?:[aA][pP][sS])?\](.*?)\[\/[cC](?:[aA][pP][sS])?\]/g, '¦¤¤¤¤¦ $1 ¦¤¤¤¦¦');
+		text = text.replace(/\[[wW](?:[hH][iI][sS][pP][eE][rR])?\](.*?)\[\/[wW](?:[hH][iI][sS][pP][eE][rR])?\]/g, '¦¤¤¤¦ $1 ¦¤¤¦¦');
+
 
 	// Case
 	switch (user.character['case']) {
 		case "lower":
+			text = text.replace(/([A-Z][a-z]+\b)/g, function(a,x){ return a.replace(x,x.toLowerCase()); });
+			text = text.replace(/(\b)([A-Z]'?[A-Z]+)(\b)/g, '¥$2¥');
 			text = text.toLowerCase();
+			text = text.replace(/¥([\w|']+)¥/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
+			text = text.replace(/¥/g, '');
+			text = text.replace(/([A-Z]\W[a-z]\W[A-Z])/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
+			text = text.replace(/^([a-z]\W[A-Z][A-Z]+)/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
+			text = text.replace(/[\.|!|\?]\W([a-z]\W[A-Z][A-Z]+)/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
+			text = text.replace(/([A-Z]'[a-z])/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
 			break;
 		case "upper":
 			text = text.toUpperCase();
+			text = text.replace(/¦¤¤¤¦(.*?)¦¤¤¦¦/g, function(a,x){ return a.replace(x,x.toLowerCase()); });
 			break;
 		case "title":
-			text = text.toLowerCase().replace(/\b\w/g, function(t) { return t.toUpperCase(); });
+			text = text.replace(/(^[a-z])/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
+			text = text.replace(/([\s|-][a-z])/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
 			break;
 		case "inverted":
-	        var buffer = text.replace(/[a-zA-Z]/g, function(t) {
-		        var out = t.toUpperCase();
-		        if (out==t) {
-			        return t.toLowerCase();
-		        } else {
-			        return out;
-		        }
-	        }).replace(/\bI\b/g, 'i').replace(/,\s*[A-Z]/g, function(t) { return t.toLowerCase(); });
-	        text = buffer.charAt(0).toLowerCase()+buffer.substr(1);
+	        text = text.replace(/(?:^|¦¤¤¦¦)(.*?)(?:$|¦¤¤¤¦)/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
+			text = text.replace(/^(\w)/, function(a,x){ return a.replace(x,x.toLowerCase()); });
+			text = text.replace(/([iI])\b/g, function(a,x){ return a.replace(x,x.toLowerCase()); });
+			text = text.replace(/([,\.]\s?\w)/g, function(a,x){ return a.replace(x,x.toLowerCase()); });
 			break;
 		case "alternating":
-	        var buffer = text.toLowerCase().split('');
-	        for(var i=0; i<buffer.length; i+=2){
-		        buffer[i] = buffer[i].toUpperCase();
-	        }
-	        text = buffer.join('');
+	        text = text.toLowerCase();
+			text = text.replace(/([\w\s]|[\w'\w])([\w'\w]|[\w\s])?/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
 			break;
+		case "alt-lines":
+			if (lastAlternatingLine) {
+				text = text.toUpperCase();
+			} else {
+				text = text.toLowerCase();
+			}
+			break;
+		case "proper":
+			text = text.replace(/^(\w)/, function(a,x){ return a.replace(x,x.toUpperCase()); });
+			text = text.replace(/[!|\?|\.](\s\w)/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
+			text = text.replace(/[\s|^](i)['|\W|$]/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
+			break;
+		case "first-caps":
+			text = text.toLowerCase();
+			text = text.replace(/^(\w)/, function(a,x){ return a.replace(x,x.toUpperCase()); });
+			text = text.replace(/[!|\?|\.](\s\w)(?![^<>]*>)/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
+			break;
+		
 	}
-	
-	// Global quirking tags
-	
-	text = text.replace(/\[[cC][aA][pP][sS]\](.*?)\[\/[cC][aA][pP][sS]\]/g, '¦¤¤¤¤¦ $1 ¦¤¤¤¦¦');
-	text = text.replace(/\[[wW][hH][iI][sS][pP][eE][rR]\](.*?)\[\/[wW][hH][iI][sS][pP][eE][rR]\]/g, '¦¤¤¤¦ $1 ¦¤¤¦¦');
-
 	
 	// Replacements
 

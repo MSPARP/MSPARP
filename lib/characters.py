@@ -156,7 +156,7 @@ CHARACTER_DETAILS = {
         'color': 'E00707',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'proper',
         'replacements': '[]'
 	},
     'calliope': {
@@ -201,7 +201,7 @@ CHARACTER_DETAILS = {
         'color': '0715CD',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'lower',
         'replacements': '[]'
 	},
     'rose': {
@@ -210,7 +210,7 @@ CHARACTER_DETAILS = {
         'color': 'B536DA',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'proper',
         'replacements': '[]'
 	},
     'dave': {
@@ -219,7 +219,7 @@ CHARACTER_DETAILS = {
         'color': 'E00707',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'lower',
         'replacements': '[]'	
 	},
     'jade': {
@@ -228,7 +228,7 @@ CHARACTER_DETAILS = {
         'color': '4AC925',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'lower',
         'replacements': '[]'
 	},
     'jane': {
@@ -237,7 +237,7 @@ CHARACTER_DETAILS = {
         'color': '00D5F2',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'proper',
         'replacements': '[]'
 	},
     'roxy': {
@@ -246,7 +246,7 @@ CHARACTER_DETAILS = {
         'color': 'FF6FF2',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'lower',
         'replacements': '[]'
 	},
     'dirk': {
@@ -255,7 +255,7 @@ CHARACTER_DETAILS = {
         'color': 'F2A400',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'proper',
         'replacements': '[]'
 	},
     'jake': {
@@ -264,7 +264,7 @@ CHARACTER_DETAILS = {
         'color': '1F9400',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'first-caps',
        'replacements': '[]'
 	},
     'aradia (dead)': {
@@ -282,7 +282,7 @@ CHARACTER_DETAILS = {
         'color': 'A10000',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'lower',
         'replacements': '[]'
 	},
     'aradiabot': {
@@ -309,7 +309,7 @@ CHARACTER_DETAILS = {
         'color': 'A1A100',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'lower',
         'replacements': '[]'
 	},
     'sollux (blind)': {
@@ -318,7 +318,7 @@ CHARACTER_DETAILS = {
         'color': 'A1A100',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'lower',
         'replacements': '[]'
 	},
     'karkat': {
@@ -336,7 +336,7 @@ CHARACTER_DETAILS = {
         'color': '416600',
         'quirk_suffix': '',
         'quirk_prefix': ':33 <',
-        'case': 'normal',
+        'case': 'lower',
         'replacements': '[]'
 	},
     'kanaya': {
@@ -363,7 +363,7 @@ CHARACTER_DETAILS = {
         'color': '005682',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'proper',
         'replacements': '[]'
 	},
     'equius': {
@@ -372,7 +372,7 @@ CHARACTER_DETAILS = {
         'color': '000056',
         'quirk_suffix': '',
         'quirk_prefix': 'D -->',
-        'case': 'normal',
+        'case': 'proper',
         'replacements': '[]'
 	},
     'gamzee': {
@@ -390,7 +390,7 @@ CHARACTER_DETAILS = {
         'color': '2B0057',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'alt-lines',
         'replacements': '[]'
     },
     'eridan': {
@@ -399,7 +399,7 @@ CHARACTER_DETAILS = {
         'color': '6A006A',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'lower',
         'replacements': '[]'
 	},
     'feferi': {
@@ -408,7 +408,7 @@ CHARACTER_DETAILS = {
         'color': '77003C',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'proper',
         'replacements': '[]'
 	},
     'damara': {
@@ -444,7 +444,7 @@ CHARACTER_DETAILS = {
         'color': 'FF0000',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'proper',
         'replacements': '[]'
 	},
     'meulin': {
@@ -462,7 +462,7 @@ CHARACTER_DETAILS = {
         'color':'008141',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'proper',
         'replacements': '[]'
 	},
     'latula': {
@@ -471,7 +471,7 @@ CHARACTER_DETAILS = {
         'color': '008282',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'lower',
         'replacements': '[]'
 	},
     'aranea': {
@@ -480,7 +480,7 @@ CHARACTER_DETAILS = {
         'color': '005682',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'proper',
         'replacements': '[]'
 	},
     'horuss': {
@@ -489,7 +489,7 @@ CHARACTER_DETAILS = {
         'color': '000056',
         'quirk_suffix': '',
         'quirk_prefix': '8=D <',
-        'case': 'normal',
+        'case': 'proper',
         'replacements': '[]'
 	},
     'kurloz': {
@@ -507,7 +507,7 @@ CHARACTER_DETAILS = {
         'color': '6A006A',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'lower',
         'replacements': '[]'
 	},
     'meenah': {
@@ -516,7 +516,7 @@ CHARACTER_DETAILS = {
         'color': '77003C',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'lower',
         'replacements': '[]'
 	},
     'dad': {
@@ -606,7 +606,7 @@ CHARACTER_DETAILS = {
         'color': '00D5F2',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'proper',
         'replacements': '[]'
 	},
     'jaspersprite': {
@@ -615,7 +615,7 @@ CHARACTER_DETAILS = {
         'color': 'F141EF',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'proper',
         'replacements': '[]'
 	},
 	# XXX GOTTA REMOVE THIS AT SOME POINT
@@ -635,7 +635,7 @@ CHARACTER_DETAILS = {
         'color': 'F2A400',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'lower',
 		'replacements': '[]'
 	},
     'jadesprite': {
@@ -644,7 +644,7 @@ CHARACTER_DETAILS = {
         'color': '1F9400',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'lower',
         'replacements': '[]'
 	},
     'aradiasprite': {
@@ -671,7 +671,7 @@ CHARACTER_DETAILS = {
         'color': 'B536DA',
         'quirk_suffix': '',
         'quirk_prefix': '3833 <',
-        'case': 'normal',
+        'case': 'proper',
         'replacements': '[]'
 	},
     'erisolsprite': {
@@ -680,7 +680,7 @@ CHARACTER_DETAILS = {
         'color': '4AC925',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'lower',
         'replacements': '[]'
 	},
     'arquiusprite': {
@@ -689,7 +689,7 @@ CHARACTER_DETAILS = {
         'color': 'e00707',
         'quirk_suffix': '',
         'quirk_prefix': '◥▶◀◤ —>',
-        'case': 'normal',
+        'case': 'proper',
         'replacements': '[]'
 	},
     'the handmaid': {
@@ -770,7 +770,7 @@ CHARACTER_DETAILS = {
         'color': '005682',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'proper',
         'replacements': '[]'
 	},
     'darkleer': {
@@ -806,7 +806,7 @@ CHARACTER_DETAILS = {
         'color': '77003C',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'lower',
         'replacements': '[]'
 	},
     'spades slick': {
@@ -833,7 +833,7 @@ CHARACTER_DETAILS = {
         'color': '000000',
         'quirk_suffix': '',
         'quirk_prefix': '',
-        'case': 'normal',
+        'case': 'proper',
         'replacements': '[]'
 	},
     'hearts boxcars': {

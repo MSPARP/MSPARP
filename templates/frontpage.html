@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block header %}
 <link rel="stylesheet" type="text/css" href="/static/css/em-reset.css" />
-<link rel="stylesheet" type="text/css" href="/static/css/home.css?41032" />
+<link rel="stylesheet" type="text/css" href="/static/css/home.css?41101" />
 <link rel="stylesheet" type="text/css" href="/static/css/characters.css?41031" />
-<link rel="stylesheet" id="creppyid" href="/static/css/mscreppy.css?41032" type="text/css"  />
+<link rel="stylesheet" id="creppyid" href="/static/css/mscreppy.css?41101" type="text/css"  />
 <link rel="stylesheet" media="screen" type="text/css" href="/static/colorpicker/css/colorpicker.css" />
 <script type="text/javascript" src="/static/colorpicker/js/colorpicker.js"></script>
 <script src="/static/js/characters.js?41031"></script>
@@ -127,6 +127,13 @@ You completely need javascript for this site. Turn it on or upgrade to a real br
 		<span class="pester-line" id="color-preview"><span id="acronym">??: </span><span id="quote">oh god how did this get here I am not good with computer</span></span>{% if error=="color" %}
                 <span class="error">You entered an invalid hex code. Try using the color picker.</span>{% endif %}
 	</div>
+	<a id="quirkexpbutton" onclick="$('#quirkexplain').toggle()">How to disable quirks per line & more</a><br>
+	<span id="quirkexplain" style="display:none">
+	· "Lower" no longer prevents you from YELLING and EMPHASIS<br>
+	· Begin a line with / to prevent quirks from applying<br>
+	· Use [caps][/caps] or [c][/c] to force caps<br>
+	· Use [whisper][/whisper] or [w][/w] for GC/CG/AT whispering<br>
+	</span>
 </div>
 
 <div class="options">

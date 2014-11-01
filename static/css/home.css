@@ -240,6 +240,7 @@ clip-path:url(../img/clip.svg#charnarrow);
 
 #navbar, #nav .menubutton  {display:none}	
 
+#replacementList li input {width:100px;}
 
 #nav li {
     display: inline-block;

@@ -157,6 +157,10 @@ body.withSidebar #conversation {
 	color: #000;
 }
 
+.sidebar #replacementList li input {
+	width:50px;
+}
+
 #controls {
 	position: fixed;
 	right: 8px;

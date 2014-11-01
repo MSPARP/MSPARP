@@ -46,6 +46,9 @@ animation: ringscroll 1340s linear infinite;
 
 input, select {background: #3c4152;border:1px solid #42485a; border-radius:1px;color:#d37d17}
 
+a {color: #e6e6e6}
+a:hover {color:#d4540b}
+
 .pester-line {background: #0c0d16;border:1px solid #1b1d32; border-radius:1px}
 
 div.logo .image {background:url('../img/logo_creppy.gif') 0px bottom no-repeat;background-size:contain;}
@@ -60,9 +63,6 @@ div.options button, input[type="button"], input[type="submit"], button, a.linkBu
     background:#d4540b;
 	color: #11121f;
 }
-
-
-
 
 #nav li a:before {content:' ';display:inline-block;width:21px;height:16px;vertical-align:middle;}
 
