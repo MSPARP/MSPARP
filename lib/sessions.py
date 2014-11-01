@@ -18,9 +18,9 @@ CASE_OPTIONS = {
     'lower': 'adaptive lower',
     'title': 'Title Case',
     'inverted': 'iNVERTED',
-    'alternating': 'AlTeRnAtInG CaSe'
-	'alt-lines': 'alternating LINES'
-	'proper': 'Proper grammar'
+    'alternating': 'AlTeRnAtInG CaSe',
+	'alt-lines': 'alternating LINES',
+	'proper': 'Proper grammar',
 	'first-caps': 'First letter caps'
 }
 
