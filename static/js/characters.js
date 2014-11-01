@@ -289,7 +289,7 @@ var characters = {
 		'quirk_suffix': '',
 		'quirk_prefix': 'D -->',
 		'case': 'proper',
-		'replacements': [["X", "%"], ["x", "%"], ["loo", "100"], ["ool", "001"], ["LOO", "100"], ["OOL", "001"], ["strong", "STRONG"], ["Strong", "STRONG"]]
+		'replacements': [["X", "%"], ["x", "%"], ["loo", "100"], ["Loo", "100"], ["ool", "001"], ["LOO", "100"], ["OOL", "001"], ["strong", "STRONG"], ["Strong", "STRONG"]]
 	},
 	'gamzee': {
 		'acronym': 'TC',
@@ -419,7 +419,7 @@ var characters = {
 		'quirk_suffix': '',
 		'quirk_prefix': '8=D <',
 		'case': 'proper',
-		'replacements': [["X", "%"], ["x", "%"], ["loo", "100"], ["ool", "001"], ["LOO", "100"], ["OOL", "001"], ["strong", "STRONG"], ["strength", "STRENGTH"], ["Strong", "STRONG"], ["Strength", "STRENGTH"]]
+		'replacements': [["X", "%"], ["x", "%"], ["loo", "100"], ["Loo", "100"], ["ool", "001"], ["LOO", "100"], ["OOL", "001"], ["strong", "STRONG"], ["strength", "STRENGTH"], ["Strong", "STRONG"], ["Strength", "STRENGTH"]]
 	},
 	'kurloz': {
 		'acronym': 'KURLOZ',
