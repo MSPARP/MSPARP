@@ -242,6 +242,9 @@ clip-path:url(../img/clip.svg#charnarrow);
 
 #replacementList li input {width:100px;}
 
+#quirkexpbutton {padding:6px;display:block;cursor:help}
+#quirkexplain {line-height:130%}
+
 #nav li {
     display: inline-block;
 	background-color:#626262;
