@@ -269,7 +269,7 @@ var characters = {
 		'quirk_suffix': '',
 		'quirk_prefix': '',
 		'case': 'upper',
-		'replacements': [["A", "4"], ["E", "3"], ["I", "1"], ["/(\\w)'(\\w)/", "$1$2"]]
+		'replacements': [["A", "4"], ["E", "3"], ["I", "1"], ["a", "4"], ["e", "3"], ["i", "1"], ["/(\\w)'(\\w)/", "$1$2"]]
 	},
 	'vriska': {
 		'acronym': 'AG',
