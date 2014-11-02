@@ -57,6 +57,9 @@ function applyQuirks(text) {
 			text = text.toLowerCase();
 			text = text.replace(/¥([\w|']+)¥/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
 			text = text.replace(/¥/g, '');
+			text = text.replace(/([A-Z]\W[a-z]\W[A-Z])/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
+			text = text.replace(/^([a-z]\W[A-Z][A-Z]+)/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
+			text = text.replace(/[\.|!|\?]\W([a-z]\W[A-Z][A-Z]+)/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
 			text = text.replace(/(?:^|\*)(\w)/, function(a,x){ return a.replace(x,x.toUpperCase()); });
 			text = text.replace(/(?:[^\.]|^[^\.])[!|\?|\.](\s\w)/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
 			break;
