@@ -48,13 +48,17 @@ function applyQuirks(text) {
 			break;
 		case "proper":
 			text = text.replace(/^(\w)/, function(a,x){ return a.replace(x,x.toUpperCase()); });
-			text = text.replace(/[!|\?|\.](\s\w)/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
+			text = text.replace(/(?:[^\.]|^[^\.])[!|\?|\.](\s\w)/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
 			text = text.replace(/[\s|^](i)['|\W|$]/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
 			break;
 		case "first-caps":
+			text = text.replace(/([A-Z][a-z]+\b)/g, function(a,x){ return a.replace(x,x.toLowerCase()); });
+			text = text.replace(/(\b)([A-Z]'?[A-Z]+)(\b)/g, '¥$2¥');
 			text = text.toLowerCase();
-			text = text.replace(/^(\w)/, function(a,x){ return a.replace(x,x.toUpperCase()); });
-			text = text.replace(/[!|\?|\.](\s\w)(?![^<>]*>)/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
+			text = text.replace(/¥([\w|']+)¥/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
+			text = text.replace(/¥/g, '');
+			text = text.replace(/(?:^|\*)(\w)/, function(a,x){ return a.replace(x,x.toUpperCase()); });
+			text = text.replace(/(?:[^\.]|^[^\.])[!|\?|\.](\s\w)/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
 			break;
 		
 	}
