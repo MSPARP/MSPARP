@@ -96,6 +96,24 @@
             $(this).css('opacity','0');
         }
     });
+	
+	var storage = (function() {
+	  var uid = new Date;
+	  var result;
+	  try {
+		localStorage.setItem(uid, uid);
+		result = localStorage.getItem(uid) == uid;
+		localStorage.removeItem(uid);
+		return result && localStorage;
+	  } catch (exception) {}
+	}());
+	
+	if (storage){
+		if (localStorage.creppy == 'creppy'){
+				$('head').append('<link rel="stylesheet" id="creppyid" href="/static/css/mscreppy_chat.css?41031" type="text/css" />');
+			}
+	}
+	
 </script>
 
 {% endblock %}

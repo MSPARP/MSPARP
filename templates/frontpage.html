@@ -3,11 +3,10 @@
 <link rel="stylesheet" type="text/css" href="/static/css/em-reset.css" />
 <link rel="stylesheet" type="text/css" href="/static/css/home.css?41102" />
 <link rel="stylesheet" type="text/css" href="/static/css/characters.css?41031" />
-<link rel="stylesheet" id="creppyid" href="/static/css/mscreppy.css?41101" type="text/css"  />
 <link rel="stylesheet" media="screen" type="text/css" href="/static/colorpicker/css/colorpicker.css" />
 <script type="text/javascript" src="/static/colorpicker/js/colorpicker.js"></script>
-<script src="/static/js/characters.js?41101b"></script>
-<script src="/static/js/home.js?41031"></script>
+<script src="/static/js/characters.js?41102b"></script>
+<script src="/static/js/home.js?41102"></script>
 {% endblock %}
 {% block content %}
 
@@ -89,8 +88,8 @@ You completely need javascript for this site. Turn it on or upgrade to a real br
 
 	<p id="numberUsers"><span class="bigtext">PARP server is <span id="serverstatus"><span class="ok">running</span></span>.</span><br><br> {{users_searching+users_chatting}} clients connected<br>{{users_chatting}} connections established, {{users_searching}} pending</p>
 	<br><div class="checkbox_outer"><label><input type="checkbox" class="boxy wrapbutton" name="wrapbutton"/><span class="checky"></span> wrap chat buttons under quirks</label></div><br>	
-	<div class="checkbox_outer"><label><input type="checkbox" class="boxy disablecreppy" name="disablecreppy"/><span class="checky"></span> disable MSCREPPY</label></div><br>	
-	<div class="checkbox_outer"><label><input type="checkbox" class="boxy toggledown" name="toggledownfall"/><span class="checky"></span> /toggledownfall</label></div><br>	
+	<div class="checkbox_outer"><label><input type="checkbox" class="boxy enablecreppy" name="enablecreppy"/><span class="checky"></span> relive MSCREPPY</label></div><br>	
+	<div class="checkbox_outer hidecreppy"><label><input type="checkbox" class="boxy toggledown" name="toggledownfall"/><span class="checky"></span> /toggledownfall</label></div><br>	
 </div><div class="noticeblock">
 <div class="online-notice">
 	<h1>Announcements</h1>

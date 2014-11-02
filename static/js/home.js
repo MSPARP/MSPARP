@@ -88,21 +88,28 @@ $(document).ready(function() {
 		}).change();
 		
 	if(storage){	
-		if (localStorage.nocreppy == 'nocreppy'){
-		    $("#creppyid").attr('disabled', false);
-			$('input[name="disablecreppy"]').prop('checked',true);
+		if (localStorage.creppy == 'creppy'){
+			$('head').append('<link rel="stylesheet" id="creppyid" href="/static/css/mscreppy.css?41101" type="text/css" />');
+			$('input[name="enablecreppy"]').prop('checked',true);
+			$('.hidecreppy').show();
 			}
+		else {
+			$('.hidecreppy').hide();
+		}
 	}
 		
-		$('input[name="disablecreppy"]').change(function() {
+		$('input[name="enablecreppy"]').change(function() {
 			if($(this).is(':checked')) {
-				$("#creppyid").attr('disabled', true);
+				$('head').append('<link rel="stylesheet" id="creppyid" href="/static/css/mscreppy.css?41101" type="text/css" />');
+				$('.hidecreppy').show();
 				if (storage){
-				localStorage.setItem('nocreppy', 'nocreppy');}
+				localStorage.setItem('creppy', 'creppy');}
 				} else {
-				$("#creppyid").attr('disabled', false);
+				$("#creppyid").prop('disabled', true);
+				$("#creppyid").remove();
+				$('.hidecreppy').hide();
 				if (storage){
-				localStorage.setItem('nocreppy', '');}
+				localStorage.setItem('creppy', '');}
 			}
 		}).change();
 		

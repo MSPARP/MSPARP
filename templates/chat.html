@@ -3,19 +3,18 @@
 {% block header %}
 <link rel="stylesheet" type="text/css" href="/static/css/characters.css?41031" />
 <link rel="stylesheet" href="/static/css/chat.css?41101">
-<link rel="stylesheet" id="creppyid" href="/static/css/mscreppy_chat.css?41031">
 <link rel="stylesheet" media="screen" type="text/css" href="/static/colorpicker/css/colorpicker.css" />
 <script src="/static/js/jquery.min.js"></script>
 <script type="text/javascript" src="/static/colorpicker/js/colorpicker.js"></script>
-<script src="/static/js/characters.js?41101b"></script>
-<script src="/static/js/quirks.js?41102"></script>
+<script src="/static/js/characters.js?41102b"></script>
+<script src="/static/js/quirks.js?41102b"></script>
 <script type="text/javascript">
 	var user = {{character_dict|tojson|safe}};
 	var chat = {{(chat)|tojson|safe}};
 	var chat_meta = {{chat_meta|tojson|safe}};
 	var latestNum = {{latest_num}};
 </script>
-<script src="/static/js/chat.js?41031"></script>
+<script src="/static/js/chat.js?41102"></script>
 {% endblock %}
 {% block content %}
 
@@ -55,7 +54,7 @@
 <form id="settings" class="sidebar">
 	<a href="#" class="close">[close]</a>
 	<h1>Settings</h1>
-	<div class="checkbox_outer"><label><input type="checkbox" class="boxy toggledown" name="toggledownfall"/><span class="checky"></span> /toggledownfall</label></div><br>	
+	<div class="checkbox_outer hidecreppy"><label><input type="checkbox" class="boxy toggledown" name="toggledownfall"/><span class="checky"></span> /toggledownfall</label></div><br>	
 	<p><select name="character">
 		{% for group in groups %}
 		<optgroup label="{{group}}">

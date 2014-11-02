@@ -81,9 +81,13 @@ $(document).ready(function() {
 	$("meta[name=viewport]").attr('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
 	
 	if (storage){
-		if (localStorage.nocreppy == 'nocreppy'){
-				$("#creppyid").attr('disabled', true);
-				}
+		if (localStorage.creppy == 'creppy'){
+				$('head').append('<link rel="stylesheet" id="creppyid" href="/static/css/mscreppy_chat.css?41031" type="text/css" />');
+				$('.hidecreppy').show();
+			}
+			else {
+				$('.hidecreppy').hide();
+			}
 		
 		if (localStorage.dfall == 'downfall'){
 				$('input[name="toggledownfall"]').prop('checked',true);
