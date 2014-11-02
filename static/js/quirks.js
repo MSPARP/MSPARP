@@ -63,6 +63,9 @@ function applyQuirks(text) {
 
 	for (var i=0; i < user.character.replacements.length; i++) {
 		var replacement = user.character.replacements[i];
+		if (replacement[1] == " ") {
+		replacement[1] = ""
+		}
 		if (replacement[0].match(/\/.*?\//)) {
 		str1 = replacement[0]
 		str1 = str1.replace(/^\/(.*?)\//g, '$1');
