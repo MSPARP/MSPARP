@@ -212,9 +212,14 @@ clip-path:url(../img/clip.svg#chararrow);
 -webkit-clip-path: polygon(0 50%, 96% 50%, 96% 0, 97% 0, 97% 25%, 98% 25%, 98% 50%, 99% 50%, 99% 75%, 100% 75%, 100% 150%, 0% 150%);
 }
 
-#charbar span {height:10px; display:inline-block;padding:0px;margin:0px;}
+#charbar span {height:10px; display:inline-block;padding:0px;margin-top:0px; -webkit-transition: width 1.5s; transition: width 1.5s; width:auto;}
+#charbar span.slidein {width:0px !important;}
 
-
+#isonlineblock {box-sizing:border-box;border-radius:3px;width:100%;margin-top:-30px;margin-bottom:13px;padding:10px;}
+#isonlineblock span {position: relative;margin:0;padding:0;}
+#isonlineblock .isonlinechar {display:inline-block;width:80px;font-size:0.8em;overflow:hidden;}
+#isonlineblock.leftcollapse {width:50%;}
+.isonlinetoggle {cursor:help}
 /* Character colour codes go here, feel free to change names  */
 #character1 { background:#000}
 #character2 { background:#f0ff00}
@@ -414,6 +419,8 @@ a.deleteReplacement {padding:7px}
 
  @media handheld, only screen and (max-width: 885px), only screen and (max-device-width: 885px) {
  
+ #isonlineblock {margin-top:0px;padding:0px}
+
  .leftblock {display:block;width:100%;}
 .rightblock {display:block;width:100%;}
 #saveOptions {width:auto;float:none}

@@ -66,7 +66,12 @@ $(document).ready(function() {
 				enablePicky('#picky-text');
 				$('#picky-icon').show();
 				$('#picky-text').hide();
-				}
+			}
+		if (localStorage.isonline == 'display'){
+				$('#isonlineblock').show()}
+				else{
+				$('#isonlineblock').hide()
+			}
 	}
 	
 	$('input[name="astext"]').change(function() {
@@ -169,19 +174,64 @@ $(document).ready(function() {
 		}
 	}
 	
+	$('.isonlinetoggle').click(function() {
+		if (storage){
+			if (localStorage.isonline == 'display'){
+				localStorage.setItem('isonline', '');
+				$('#isonlineblock').hide()}
+				else{
+				localStorage.setItem('isonline', 'display');
+				$('#isonlineblock').show()}
+		}
+		else
+		{
+		$('#isonlineblock').toggle()
+		}
+	});
+	
+	$('#isonlineblock .isonlinechar').ready(function() {
+		if($('input[name="picky"]').is(':checked')) {
+				$('#isonlineblock .isonlinechar').hide();
+				$('#isonlineblock .iofiltered').show();
+				var pickySync = $('#picky-icon input[class="butty"]')
+				for (i=0; i<pickySync.length; i++) {
+					if($(pickySync[i]).is(':checked')) {
+						$('#isonlineblock span[data-char="' + $(pickySync[i]).attr('name') + '"]').show();
+					}		
+				}
+			} else {
+				$('#isonlineblock .isonlinechar').show();
+				$('#isonlineblock .iofiltered').hide();
+			}
+	});
+	
+	function updateIsonline() {
+		$('#isonlineblock .isonlinechar').hide();
+		var pickySync = $('#picky-icon input[class="butty"]')
+		for (i=0; i<pickySync.length; i++) {
+			if($(pickySync[i]).is(':checked')) {
+				$('#isonlineblock span[data-char="' + $(pickySync[i]).attr('name') + '"]').show();
+			}	
+		}
+	}
+	
 	$('#picky-matches input').change(function() {
 		var pickySync = $('input[name="'+ $(this).attr('name') +'"]')
 		if($(this).is(':checked')) {
 			for (i=0; i<pickySync.length; i++) {
 				$(pickySync[i]).prop('checked', true);}
+				$('#isonlineblock span[data-char="' + $(this).attr('name') + '"]').show();
 		} else {
 			for (i=0; i<pickySync.length; i++) {
 				$(pickySync[i]).prop('checked', false);}
+				$('#isonlineblock span[data-char="' + $(this).attr('name') + '"]').hide();
 				}
 	}).change();
 	
 	$('input[name="picky"]').change(function() {
 		if($(this).is(':checked')) {
+		    $('#isonlineblock .isonlinechar').hide();
+			$('#isonlineblock .iofiltered').show();
 			$('#picky-matches').show();
 			if (storage){
 				if (localStorage.pstyle == 'text'){
@@ -189,6 +239,8 @@ $(document).ready(function() {
 					}
 				}
 		} else {
+			$('#isonlineblock .isonlinechar').show();
+			$('#isonlineblock .iofiltered').hide();
 			$('#picky-matches').hide();
 			$('#picky-matches input').removeAttr('checked').removeAttr('indeterminate');
 		}
@@ -218,6 +270,7 @@ $(document).ready(function() {
 			pickySync.val([]);
 			}
 		}
+		updateIsonline();
 	});
 
 	if (storage){

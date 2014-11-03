@@ -9,6 +9,7 @@ from sqlalchemy import and_
 from sqlalchemy.orm.exc import NoResultFound
 from webhelpers import paginate
 from socket import inet_aton
+from collections import defaultdict
 
 from lib import SEARCH_PERIOD, ARCHIVE_PERIOD, get_time, validate_chat_url
 from lib.archive import archive_chat, get_or_create_log
@@ -488,4 +489,26 @@ def configure():
 
 if __name__ == "__main__":
     app.run(port=8000, debug=True)
+
+# Character bar
+
+@app.route("/charinfo.json")
+def getusers():
+    if g.redis.exists("cache.usercounts"):
+        return g.redis.get("cache.usercounts")
+ 
+    chars = defaultdict(lambda: 0)
+ 
+    sessions = g.redis.zrange("chats-alive", 0, -1)
+ 
+    for x in sessions:
+        chat, cookie = x.split("/", 1)
+        char = g.redis.hget("session.%s.chat.%s" % (cookie, chat), "character")
+        if char is not None:
+            chars[char] += 1
+ 
+    g.redis.set("cache.usercounts", json.dumps(chars))
+    g.redis.expire("cache.usercounts", 30)
+ 
+    return jsonify(chars)
 

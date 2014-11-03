@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% block header %}
 <link rel="stylesheet" type="text/css" href="/static/css/em-reset.css" />
-<link rel="stylesheet" type="text/css" href="/static/css/home.css?41102" />
+<link rel="stylesheet" type="text/css" href="/static/css/home.css?41103" />
 <link rel="stylesheet" type="text/css" href="/static/css/characters.css?41031" />
 <link rel="stylesheet" media="screen" type="text/css" href="/static/colorpicker/css/colorpicker.css" />
 <script type="text/javascript" src="/static/colorpicker/js/colorpicker.js"></script>
 <script src="/static/js/characters.js?41102b"></script>
-<script src="/static/js/home.js?41102"></script>
+<script src="/static/js/home.js?41103"></script>
+<script src="/static/js/characterstats.js?41103"></script>
 {% endblock %}
 {% block content %}
 
@@ -16,14 +17,6 @@
 	<div class="image"><img src="/static/img/spacer.gif"></div>
 </div>
 <div id="charbar" >
-<!-- ### Character colours go here, something of this style; THIS IS NOT WORKING CODE 
-         should be a list of spans back-to-back with width set to % of users on a given hexcode
-
-{% for hexcode in charactersonline %}
-	<span style="width:{{usagepercent[hexcode]}}% background-color:{{hexcode}}"></span>
-			{% endfor %}
-
--->
 </div>
 <div id="navbar">
 </div>
@@ -97,6 +90,7 @@ You completely need javascript for this site. Turn it on or upgrade to a real br
 </div>
 </div></div><br>
 <div class="blockwrapper">
+<div id="isonlineblock" style="display:none"></div>
 <div class="leftblock">
 <div class="options">
 	<!-- <p class="welcometext">{{welcome_text|safe}}</p> -->
