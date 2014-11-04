@@ -276,7 +276,7 @@ clip-path:url(../img/clip.svg#charnarrow);
   background-repeat: no-repeat;
 }
 
-#nav li a.new {font-style:italic;top:-3px;position:relative;}
+#nav li a.new {font-style:italic;top:-3px;position:relative; background:transparent}
 #nav li a.new:after {content:'NEW';vertical-align:super;font-size:80%}
 
 #nav li a:before {content:'> ';color:transparent}
