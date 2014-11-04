@@ -26,7 +26,9 @@ $(document).ready(function() {
 				var name = charbarkeys[i];
 				var exists = characters[name].color;
 				charstotal = charstotal + chars[charbarkeys[i]];
-			} catch(e) {}
+			} catch(e) {
+				console.log("Error: " + e);
+			}
 		}
 		for (var i = 0; i < charbarkeys.length; ++i) {
 			var current = chars[charbarkeys[i]];
@@ -38,8 +40,9 @@ $(document).ready(function() {
 				escapedname = name.replace(/[\(\)\/\s]/, '');
 				colorspans = colorspans + '<span class="slidein" id="character' + escapedname + '" style="width:' + percent + '%; opacity:0.8;background-color:#' + characters[name].color +  '" title="' + uppername + '"></span>';
 				isonlinespans = isonlinespans + '<span class="isonlinechar" data-char="picky-' + name + '"><span class="charbut char' + escapedname + '" title="' + uppername+ '"></span> x '+ current + '</span>'
-				} catch(e)
-			{}
+				} catch(e) {
+					console.log("Error: " + e);
+				}
 		}
 
 		$('#charbar').html(colorspans);
