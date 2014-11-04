@@ -53,5 +53,20 @@ $(document).ready(function() {
 			   };
 			   window.setTimeout( slide_in, 100 ); 
 			});
+
+		if($('input[name="picky"]').is(':checked')) {
+				$('#isonlineblock .isonlinechar').hide();
+				$('#isonlineblock .iofiltered').show();
+				var pickySync = $('#picky-icon input[class="butty"]')
+				for (i=0; i<pickySync.length; i++) {
+					if($(pickySync[i]).is(':checked')) {
+						$('#isonlineblock span[data-char="' + $(pickySync[i]).attr('name') + '"]').show();
+					}		
+				}
+			} else {
+				$('#isonlineblock .isonlinechar').show();
+				$('#isonlineblock .iofiltered').hide();
+			}
+			
 	});
 });
