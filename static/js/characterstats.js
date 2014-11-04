@@ -37,7 +37,7 @@ $(document).ready(function() {
 			try {
 				uppername = name.replace(/^(\w)/, function(a,x){ return a.replace(x,x.toUpperCase()); });
 				uppername = uppername.replace(/\s(\w)/, function(a,x){ return a.replace(x,x.toUpperCase()); });
-				escapedname = name.replace(/[\(\)\/\s]/, '');
+				escapedname = name.replace(/[()/\s]/, '');
 				colorspans = colorspans + '<span class="slidein" id="character' + escapedname + '" style="width:' + percent + '%; opacity:0.8;background-color:#' + characters[name].color +  '" title="' + uppername + '"></span>';
 				isonlinespans = isonlinespans + '<span class="isonlinechar" data-char="picky-' + name + '"><span class="charbut char' + escapedname + '" title="' + uppername+ '"></span> x '+ current + '</span>'
 				} catch(e) {
@@ -67,6 +67,6 @@ $(document).ready(function() {
 				$('#isonlineblock .isonlinechar').show();
 				$('#isonlineblock .iofiltered').hide();
 			}
-			
+
 	});
 });
