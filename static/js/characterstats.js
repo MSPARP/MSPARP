@@ -19,6 +19,7 @@ $(document).ready(function() {
 	$.get("/charinfo.json", function(chars) {
 
 		var charbarkeys = Object.keys(chars);
+		var charlistkeys = Object.keys(characters);
 
 
 		for (var i = 0; i < charbarkeys.length; ++i) {
@@ -30,18 +31,20 @@ $(document).ready(function() {
 				console.log("Error: " + e);
 			}
 		}
-		for (var i = 0; i < charbarkeys.length; ++i) {
-			var current = chars[charbarkeys[i]];
-			var name = charbarkeys[i];
-			var percent = (current / charstotal) * 100;
-			try {
-				uppername = name.replace(/^(\w)/, function(a,x){ return a.replace(x,x.toUpperCase()); });
-				uppername = uppername.replace(/\s(\w)/, function(a,x){ return a.replace(x,x.toUpperCase()); });
-				escapedname = name.replace(/[()/\s]/, '');
-				colorspans = colorspans + '<span class="slidein" id="character' + escapedname + '" style="width:' + percent + '%; opacity:0.8;background-color:#' + characters[name].color +  '" title="' + uppername + '"></span>';
-				isonlinespans = isonlinespans + '<span class="isonlinechar" data-char="picky-' + name + '"><span class="charbut char' + escapedname + '" title="' + uppername+ '"></span> x '+ current + '</span>'
-				} catch(e) {
-					console.log("Error: " + e);
+		for (var i = 0; i < charlistkeys.length; ++i) {
+			var name = charlistkeys[i];
+			if (chars[charbarkeys[i]] !== undefined) {
+				var current = chars[charbarkeys[i]];
+				var percent = (current / charstotal) * 100;
+				try {
+					uppername = name.replace(/^(\w)/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
+					uppername = uppername.replace(/\s(\w)/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
+					escapedname = name.replace(/[()/\s]/g, '');
+					colorspans = colorspans + '<span class="slidein" id="character' + escapedname + '" style="width:' + percent + '%; opacity:0.8;background-color:#' + characters[name].color +  '" title="' + uppername + '"></span>';
+					isonlinespans = isonlinespans + '<span class="isonlinechar" data-char="picky-' + name + '"><span class="charbut char' + escapedname + '" title="' + uppername+ '"></span> x '+ current + '</span>'
+					} catch(e) {
+						console.log("Error: " + e);
+					}
 				}
 		}
 
