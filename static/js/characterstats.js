@@ -17,6 +17,10 @@ $(document).ready(function() {
 	var isonlinespans = '<h1> > Clients connected <span class="iofiltered">(filtered)</span></h1><br>';
 
 	$.get("/charinfo.json", function(chars) {
+
+		var charbarkeys = Object.keys(chars);
+
+
 		for (var i = 0; i < charbarkeys.length; ++i) {
 			try {
 				var name = charbarkeys[i];
