@@ -42,6 +42,7 @@ $(document).ready(function() {
 					escapedname = name.replace(/[()/\s]/g, '');
 					colorspans = colorspans + '<span class="slidein" id="character' + escapedname + '" style="width:' + percent + '%; opacity:0.7;background-color:#' + characters[name].color +  '" title="' + uppername + '"></span>';
 					isonlinespans = isonlinespans + '<span class="isonlinechar" data-char="picky-' + name + '"><span class="charbut char' + escapedname + '" title="' + uppername+ '"></span> x '+ current + '</span>'
+					$('.charbut.char' + escapedname).attr('title', uppername + ' (' + current + ' online)');
 					} catch(e) {
 						console.log("Error: " + e);
 					}
