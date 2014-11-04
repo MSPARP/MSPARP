@@ -4,7 +4,7 @@ except:
     import json
 import datetime, urllib
 import requests
-from flask import Flask, g, request, render_template, redirect, url_for, jsonify, abort
+from flask import Flask, g, request, render_template, redirect, url_for, jsonify, abort, make_response
 from sqlalchemy import and_
 from sqlalchemy.orm.exc import NoResultFound
 from webhelpers import paginate
@@ -495,20 +495,21 @@ if __name__ == "__main__":
 @app.route("/charinfo.json")
 def getusers():
     if g.redis.exists("cache.usercounts"):
-        return g.redis.get("cache.usercounts")
- 
+        resp = make_response(g.redis.get("cache.usercounts"))
+        resp.headers['Content-type'] = 'application/json'
+        return resp
+
     chars = defaultdict(lambda: 0)
- 
+
     sessions = g.redis.zrange("chats-alive", 0, -1)
- 
+
     for x in sessions:
         chat, cookie = x.split("/", 1)
         char = g.redis.hget("session.%s.chat.%s" % (cookie, chat), "character")
         if char is not None:
             chars[char] += 1
- 
+
     g.redis.set("cache.usercounts", json.dumps(chars))
     g.redis.expire("cache.usercounts", 30)
- 
-    return jsonify(chars)
 
+    return jsonify(chars)
