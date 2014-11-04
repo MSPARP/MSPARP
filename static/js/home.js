@@ -189,7 +189,7 @@ $(document).ready(function() {
 		}
 	});
 	
-	$('#isonlineblock .isonlinechar').ready(function() {
+	$(window).load(function() {
 		if($('input[name="picky"]').is(':checked')) {
 				$('#isonlineblock .isonlinechar').hide();
 				$('#isonlineblock .iofiltered').show();
