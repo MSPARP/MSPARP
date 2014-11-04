@@ -214,6 +214,8 @@ clip-path:url(../img/clip.svg#chararrow);
 
 #charbar span {height:10px; display:inline-block;padding:0px;margin-top:0px; -webkit-transition: width 1.5s; transition: width 1.5s; width:auto;}
 #charbar span.slidein {width:0px !important;}
+#charbar span {opacity:0 !important}
+#charbar.show span {opacity:0.7!important}
 
 #isonlineblock {box-sizing:border-box;border-radius:3px;width:100%;margin-top:-30px;margin-bottom:13px;padding:10px;}
 #isonlineblock span {position: relative;margin:0;padding:0;}

@@ -117,6 +117,28 @@ $(document).ready(function() {
 				localStorage.setItem('creppy', '');}
 			}
 		}).change();
+
+
+	if(storage){	
+		if (localStorage.charbar == 'enabled'){
+		    $('input[name="headerchar"]').prop('checked',true);
+			$('#charbar').addClass("show");
+			}
+		else {}
+	}
+		
+		$('input[name="headerchar"]').change(function() {
+			if($(this).is(':checked')) {
+				$('#charbar').addClass("show");
+				if (storage){
+				localStorage.setItem('charbar', 'enabled');}
+				} else {
+				$('#charbar').removeClass("show");;
+				if (storage){
+				localStorage.setItem('charbar', '');}
+			}
+		}).change();
+
 		
 	if (storage){	
 		if (localStorage.dfall == 'downfall'){
