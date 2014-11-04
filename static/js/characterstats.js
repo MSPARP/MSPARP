@@ -35,19 +35,21 @@ $(document).ready(function() {
 			var name = charlistkeys[i];
 			if (chars[charlistkeys[i]] !== undefined) {
 				var current = chars[charlistkeys[i]];
-				var percent = (current / charstotal) * 100;
-				try {
-					uppername = name.replace(/^(\w)/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
-					uppername = uppername.replace(/\s(\w)/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
-					escapedname = name.replace(/[()/\s]/g, '');
-					colorspans = colorspans + '<span class="slidein" id="character' + escapedname + '" style="width:' + percent + '%;background-color:#' + characters[name].color +  '" title="' + uppername + '"></span>';
-					isonlinespans = isonlinespans + '<span class="isonlinechar" data-char="picky-' + name + '"><span class="charbut char' + escapedname + '" title="' + uppername+ '"></span> x '+ current + '</span>'
-					$('.charbut.char' + escapedname).attr('title', uppername + ' (' + current + ' online)');
-					$('.charbut.char' + escapedname + ' + .chartip').html(uppername + ' (' + current + ' online)');
-					} catch(e) {
-						console.log("Error: " + e);
-					}
-				}
+			} else {
+				var current = 0;
+			}
+			var percent = (current / charstotal) * 100;
+			try {
+				uppername = name.replace(/^(\w)/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
+				uppername = uppername.replace(/\s(\w)/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
+				escapedname = name.replace(/[()/\s]/g, '');
+				colorspans = colorspans + '<span class="slidein" id="character' + escapedname + '" style="width:' + percent + '%;background-color:#' + characters[name].color +  '" title="' + uppername + '"></span>';
+				isonlinespans = isonlinespans + '<span class="isonlinechar" data-char="picky-' + name + '"><span class="charbut char' + escapedname + '" title="' + uppername+ '"></span> x '+ current + '</span>'
+				$('.charbut.char' + escapedname).attr('title', uppername + ' (' + current + ' online)');
+				$('.charbut.char' + escapedname + ' + .chartip').html(uppername + ' (' + current + ' online)');
+			} catch(e) {
+				console.log("Error: " + e);
+			}
 		}
 
 		$('#charbar').html(colorspans);
