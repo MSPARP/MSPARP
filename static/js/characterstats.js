@@ -40,7 +40,7 @@ $(document).ready(function() {
 					uppername = name.replace(/^(\w)/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
 					uppername = uppername.replace(/\s(\w)/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
 					escapedname = name.replace(/[()/\s]/g, '');
-					colorspans = colorspans + '<span class="slidein" id="character' + escapedname + '" style="width:' + percent + '%; opacity:0.8;background-color:#' + characters[name].color +  '" title="' + uppername + '"></span>';
+					colorspans = colorspans + '<span class="slidein" id="character' + escapedname + '" style="width:' + percent + '%; opacity:0.7;background-color:#' + characters[name].color +  '" title="' + uppername + '"></span>';
 					isonlinespans = isonlinespans + '<span class="isonlinechar" data-char="picky-' + name + '"><span class="charbut char' + escapedname + '" title="' + uppername+ '"></span> x '+ current + '</span>'
 					} catch(e) {
 						console.log("Error: " + e);
