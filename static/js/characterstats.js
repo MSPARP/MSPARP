@@ -33,7 +33,7 @@ $(document).ready(function() {
 		}
 		for (var i = 0; i < charlistkeys.length; ++i) {
 			var name = charlistkeys[i];
-			if (chars[charbarkeys[i]] !== undefined) {
+			if (chars[charlistkeys[i]] !== undefined) {
 				var current = chars[charbarkeys[i]];
 				var percent = (current / charstotal) * 100;
 				try {
