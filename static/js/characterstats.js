@@ -34,7 +34,7 @@ $(document).ready(function() {
 		for (var i = 0; i < charlistkeys.length; ++i) {
 			var name = charlistkeys[i];
 			if (chars[charlistkeys[i]] !== undefined) {
-				var current = chars[charbarkeys[i]];
+				var current = chars[charlistkeys[i]];
 				var percent = (current / charstotal) * 100;
 				try {
 					uppername = name.replace(/^(\w)/g, function(a,x){ return a.replace(x,x.toUpperCase()); });
