@@ -64,49 +64,49 @@ $(document).ready(function() {
 	var bbset = 1;
 
 	var storage = (function() {
-	  var uid = new Date;
-	  var result;
-	  try {
-		localStorage.setItem(uid, uid);
-		result = localStorage.getItem(uid) == uid;
-		localStorage.removeItem(uid);
-		return result && localStorage;
-	  } catch (exception) {}
+		var uid = new Date;
+		var result;
+		try {
+			localStorage.setItem(uid, uid);
+			result = localStorage.getItem(uid) == uid;
+			localStorage.removeItem(uid);
+			return result && localStorage;
+		} catch (exception) {}
 	}());
-	
-	if (storage){
-		$('body').addClass(localStorage.hdpi);
-	}
 	
 	$("meta[name=viewport]").attr('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
 	
-	if (storage){
+	if (storage) {
+
+		$('body').addClass(localStorage.hdpi);
+		
 		if (localStorage.creppy == 'creppy'){
-				$('head').append('<link rel="stylesheet" id="creppyid" href="/static/css/mscreppy_chat.css?41031" type="text/css" />');
-				$('.hidecreppy').show();
-			}
-			else {
-				$('.hidecreppy').hide();
-			}
+			$('head').append('<link rel="stylesheet" id="creppyid" href="/static/css/mscreppy_chat.css?41031" type="text/css" />');
+			$('.hidecreppy').show();
+		} else {
+			$('.hidecreppy').hide();
+		}
 		
 		if (localStorage.dfall == 'downfall'){
-				$('input[name="toggledownfall"]').prop('checked',true);
-				}
+			$('input[name="toggledownfall"]').prop('checked',true);
+		}
 		
 		$('body').addClass(localStorage.dfall);
 	}
 	
 	$('input[name="toggledownfall"]').change(function() {
-			if($(this).is(':checked')) {
-				$('body').addClass('downfall');
-				if (storage){
-				localStorage.setItem('dfall', 'downfall');}
-			} else {
-				$('body').removeClass('downfall');
-				if (storage){
-				localStorage.setItem('dfall', '');}
+		if($(this).is(':checked')) {
+			$('body').addClass('downfall');
+			if (storage) {
+				localStorage.setItem('dfall', 'downfall');
 			}
-		}).change();
+		} else {
+			$('body').removeClass('downfall');
+			if (storage) {
+				localStorage.setItem('dfall', '');
+			}
+		}
+	}).change();
 	
     $('#conversation p').each(function() {
         if (bbset == 1) {
