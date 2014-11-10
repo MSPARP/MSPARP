@@ -62,6 +62,7 @@ $(document).ready(function() {
 
 	var globals = [];
 	var bbset = 1;
+	var hidesystem = 0;
 
 	var storage = (function() {
 		var uid = new Date;
@@ -79,7 +80,7 @@ $(document).ready(function() {
 	if (storage) {
 
 		$('body').addClass(localStorage.hdpi);
-		
+
 		if (localStorage.creppy == 'creppy'){
 			$('head').append('<link rel="stylesheet" id="creppyid" href="/static/css/mscreppy_chat.css?41031" type="text/css" />');
 			$('.hidecreppy').show();
@@ -92,8 +93,40 @@ $(document).ready(function() {
 		}
 		
 		$('body').addClass(localStorage.dfall);
+
+        if (localStorage.getItem(chat+"hidesystem") === undefined || localStorage.getItem(chat+"hidesystem") === null) {
+            localStorage.setItem(chat+"hidesystem", hidesystem);
+        }
+
+        hidesystem = localStorage.getItem(chat+"hidesystem");
+
 	}
-	
+
+    if (hidesystem == 1) {
+        $('.hidesystem').attr('checked','checked');
+        $('.system').hide();
+        $('.globalann').hide();
+    }
+
+    $('.hidesystem').click(function() {
+        if (this.checked) {
+            if (storage) {
+                localStorage.setItem(chat+"hidesystem", 1);
+            }
+            hidesystem = 1;
+            $('.system').hide();
+            $('.globalann').hide();
+        } else {
+            if (storage) {
+                localStorage.setItem(chat+"hidesystem", 0);
+            }
+            hidesystem = 0;
+            $('.system').show();
+            $('.globalann').show();
+            conversation.scrollTop(conversation[0].scrollHeight);
+        }
+    });
+
 	$('input[name="toggledownfall"]').change(function() {
 		if($(this).is(':checked')) {
 			$('body').addClass('downfall');
@@ -192,6 +225,10 @@ $(document).ready(function() {
 				mp.addClass('highlight');
 			}
 			
+			if (hidesystem == 1 && msgClass == 'system') {
+				$('.system').hide();
+			}
+
 			if ($('#userList #user'+msg.counter).hasClass('globalmod')) {
 				mp.addClass('staffmessage').prepend('<span class="spiroicon"></span>');
 			}
