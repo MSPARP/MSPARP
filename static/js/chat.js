@@ -224,9 +224,15 @@ $(document).ready(function() {
 			if (highlightUser==msg.counter) {
 				mp.addClass('highlight');
 			}
-			
+
 			if (hidesystem == 1 && msgClass == 'system') {
 				$('.system').hide();
+			}
+
+			if (typeof hidden!=="undefined" && document[hidden]==true) {
+				if (hidesystem == 1 && msgClass == 'system') {} else {
+					document.title = "New message - "+ORIGINAL_TITLE;
+				}
 			}
 
 			if ($('#userList #user'+msg.counter).hasClass('globalmod')) {
@@ -298,9 +304,6 @@ $(document).ready(function() {
 					} else {
 						$('#topic').text('');
 					}
-				}
-				if (messages.length>0 && typeof hidden!=="undefined" && document[hidden]==true) {
-					document.title = "New message - "+ORIGINAL_TITLE;
 				}
 			}, "json").complete(function() {
 				if (chatState=='chat') {
