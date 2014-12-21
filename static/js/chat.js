@@ -88,12 +88,6 @@ $(document).ready(function() {
 			$('.hidecreppy').hide();
 		}
 		
-		// Let's hook the randomised sidebar in here 8ecause them's the 8r8ks
-			var rnjesus = Math.floor((Math.random() * 100) + 1);
-			if (rnjesus < 45){ $('.sidebar').addClass("kringle"); }
-			else if (rnjesus < 90){ $('.sidebar').addClass("manorah"); }
-			else { $('.sidebar').addClass("geromy"); }
-		
 		if (localStorage.dfall == 'downfall'){
 			$('input[name="toggledownfall"]').prop('checked',true);
 		}
@@ -107,6 +101,12 @@ $(document).ready(function() {
         hidesystem = localStorage.getItem(chat+"hidesystem");
 
 	}
+	
+	// Let's hook the randomised sidebar in here 8ecause them's the 8r8ks
+	var rnjesus = Math.floor((Math.random() * 100) + 1);
+	if (rnjesus < 45){ $('.sidebar').addClass("kringle"); }
+	else if (rnjesus < 90){ $('.sidebar').addClass("manorah"); }
+	else { $('.sidebar').addClass("geromy"); }
 
     if (hidesystem == 1) {
         $('.hidesystem').attr('checked','checked');
