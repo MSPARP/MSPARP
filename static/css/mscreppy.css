@@ -1,6 +1,6 @@
 body {
 background-color: #01020f;
-color: #d4540b;
+color: #d14734;
 }
 
 #container {
@@ -42,20 +42,20 @@ animation: ringscroll 1340s linear infinite;
 input, select {background: #3c4152;border:1px solid #42485a; border-radius:1px;color:#d37d17}
 
 a {color: #e6e6e6}
-a:hover {color:#d4540b}
+a:hover {color:#d14734}
 
 .pester-line {background: #0c0d16;border:1px solid #1b1d32; border-radius:1px}
 
-div.logo .image {background:url('../img/logo_creppy.gif') 0px bottom no-repeat;background-size:contain;}
+div.logo .image {background:url('../img/masterpiece_creppy.gif') 0px bottom no-repeat;background-size:contain;}
 
 .boxy + .checky {background-image: url('../img/controls_creppy.png');}
 
 
-.picky-header, h1 {color: #e6e6e6}
+.picky-header, h1 {color: #238d0b}
 
 
 div.options button, input[type="button"], input[type="submit"], button, a.linkButton, #charbar, #nav li, #nav li a,#nav, #navbar {
-    background:#d4540b;
+    background:#d14734;
 	color: #11121f;
 }
 
@@ -112,12 +112,12 @@ div.options button, input[type="button"], input[type="submit"], button, a.linkBu
 
 @media handheld, only screen and (max-width: 782px), only screen and (max-device-width: 782px) {
  
- #nav {border:1px solid #d4540b;z-index:30;width:200px}
+ #nav {border:1px solid #d14734;z-index:30;width:200px}
  #nav li a {color:#11121f}
  #nav li a:hover {color:#151623}
   #nav li a:active, #nav li a:focus {color:#151623}
  #nav li a:before, #nav li a.active:before, #nav li a:hover:before {content:' ';display:inline-block;width:25px;height:16px;background:url('../img/candycorn.png') 0px 0px no-repeat;}
-  #nav.is-open {height:auto; background: #d4540b}
+  #nav.is-open {height:auto; background: #d14734}
  
  }
 
@@ -126,7 +126,7 @@ div.options button, input[type="button"], input[type="submit"], button, a.linkBu
 (-webkit-min-device-pixel-ratio: 1.2), (min-device-pixel-ratio: 1.1),  
 (min-resolution: 106dpi), (min-resolution: 100dpi) and (-moz-images-in-menus: 1), (min-resolution: 100dpi) and (-moz-images-in-menus: 0) { 
 #container:not(.hdpi-disabled) .boxy + .checky {background-image: url('../img/controls_creppy.svg');}
-#container:not(.hdpi-disabled) div.logo .image {background:url('../img/logo_creppy.svg') 0px bottom no-repeat;background-size:contain;}
+#container:not(.hdpi-disabled) div.logo .image {background:url('../img/masterpiece_creppy.gif') 0px bottom no-repeat;background-size:contain;}
 #container:not(.hdpi-disabled) .options  h1:before, #container:not(.hdpi-disabled) #nav li a.active:before,
 #container:not(.hdpi-disabled) .options  h1:before, #container:not(.hdpi-disabled) #nav li a.active:before,
 #container:not(.hdpi-disabled) #nav li a:hover:before{background:url('../img/candycorn.svg') 0px 0px no-repeat;}

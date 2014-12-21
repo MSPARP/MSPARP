@@ -20,6 +20,7 @@ A:active {text-decoration: none}
 A:hover {text-decoration: underline}
 
 h1 {
+	color: #067dd1;
 	font-size: 14pt;
 	word-wrap: break-word;
 }

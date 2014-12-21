@@ -2,7 +2,7 @@
 
 body {
 background-color: #050613;
-color: #d4540b;
+color: #d14734;
 }
 
 
@@ -20,7 +20,7 @@ ul {
 ul li {background: url('../img/candycorn.png') 3px 2px no-repeat;padding-left:23px !important;}
 
 #conversation.search {
-	background: url('/static/img/spinner-creppy.gif') no-repeat, url('/static/img/horrorterrors.png') repeat;
+	background: url('/static/img/conksuck_spin.gif') no-repeat, url('/static/img/horrorterrors.png') repeat;
 	background-position: center, center !important;
 	-webkit-animation: none;
 }
@@ -35,10 +35,10 @@ ul li {background: url('../img/candycorn.png') 3px 2px no-repeat;padding-left:23
 	color: #d37d17;
 }
 
-h1 {color: #e6e6e6}
+h1 {color: #238d0b}
 
 a {color: #e6e6e6}
-a:hover {color:#d4540b}
+a:hover {color:#d14734}
 
 body{
   scrollbar-base-color: #3c4152;
@@ -81,7 +81,7 @@ background-color: #3c4152;
   {background: #3c4152;border:1px solid #42485a; border-radius:1px;color:#d37d17}
 
 #topicButton, button[type="submit"], #settingsCancelButton, #controls button, #controls #logLink {
-    background:#d4540b;
+    background:#d14734;
 	color: #11121f;
 	border:none;
 	border-radius:1px;
@@ -182,8 +182,9 @@ color:#d37d17;
 
 .boxy + .checky {background-image: url('../img/controls_creppy.png');}
 
-.globalicon {vertical-align:middle;margin-right:6px;display:inline-block;width:16px;height:16px; background: url('../img/controls_creppy.png') -16px -16px no-repeat;}
-.spiroicon {vertical-align:middle;margin-right:6px;display:inline-block;width:16px;height:16px; background: url('../img/controls_creppy.png') 0px -16px no-repeat;}
+.globalicon {background: url('/static/img/minisuck.png') no-repeat;}
+
+.spiroicon {background: url('/static/img/minisuck.png') no-repeat;}
 
 
 @media 
@@ -192,9 +193,9 @@ color:#d37d17;
 
 body:not(.hdpi-disabled) .boxy + .checky {background-image: url('../img/controls_creppy.svg');}
 
-body:not(.hdpi-disabled) .globalicon {background: url('../img/controls_creppy.svg') -16px -16px no-repeat;}
+body:not(.hdpi-disabled) .globalicon {background: url('/static/img/minisuck.png') no-repeat;}
 
-body:not(.hdpi-disabled) .spiroicon {background: url('../img/controls_creppy.svg') 0px -16px no-repeat;}
+body:not(.hdpi-disabled) .spiroicon {background: url('/static/img/minisuck.png') no-repeat;}
 
 body:not(.hdpi-disabled) ul li {background: url('../img/candycorn.svg') 3px 1px no-repeat;}
 
