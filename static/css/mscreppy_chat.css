@@ -28,16 +28,16 @@ ul li {background: url('../img/candycorn.png') 3px 2px no-repeat;padding-left:23
 #userList #online li, #metaOptions li {background:none !important;padding-left:10px !important;}
 
  optgroup {
-	color: #e6e6e6;
+	color: #238d0b;
 }
 
 #actionList li, optgroup option {
-	color: #d37d17;
+	color: #d34018;
 }
 
 h1 {color: #238d0b}
 
-a {color: #e6e6e6}
+a {color: #238d0b}
 a:hover {color:#d14734}
 
 body{
@@ -65,9 +65,9 @@ background-color: #3c4152;
 }
   
 .pager, #preview
-  {background: #1d1f2c;border:1px solid #2c3142; border-radius:1px;color:#d37d17}
+  {background: #1d1f2c;border:1px solid #2c3142; border-radius:1px;color:#d34018}
 
-.pager a {color:#e6e6e6}
+.pager a {color:#238d0b}
 
 .timestamp, #online:empty:after, .userID {color:#3c4152 !important} 
 
@@ -78,7 +78,7 @@ background-color: #3c4152;
 
 
 #textInput 
-  {background: #3c4152;border:1px solid #42485a; border-radius:1px;color:#d37d17}
+  {background: #3c4152;border:1px solid #42485a; border-radius:1px;color:#d34018}
 
 #topicButton, button[type="submit"], #settingsCancelButton, #controls button, #controls #logLink {
     background:#d14734;
@@ -94,17 +94,17 @@ background-attachment: fixed;
 animation: ringscroll 1340s linear infinite;
 -webkit-animation: ringscroll 1340s linear infinite;
 border:none;
-color:#d37d17;
+color:#d34018;
 }
 
 
 
-.sidebar input, .sidebar select {background: #3c4152;border:1px solid #42485a; border-radius:1px;color:#d37d17}
+.sidebar input, .sidebar select {background: #3c4152;border:1px solid #42485a; border-radius:1px;color:#d34018}
 
 
 /* override character colours */
 
-*[style*="color: #000000"], *[style*="color: rgb(0, 0, 0)"]{color: #d37d17 !important}
+*[style*="color: #000000"], *[style*="color: rgb(0, 0, 0)"]{color: #d34018 !important}
 *[style*="color: #000000"].system, *[style*="color: rgb(0, 0, 0)"].system{color: #3c4152 !important}
 *[style*="color: #000056"],*[style*="color: rgb(0, 0, 86)"]{color: #2323ed !important}
 *[style*="color: #2B0057"],*[style*="color: rgb(43, 0, 87)"]{color: #6d03de !important}
@@ -209,7 +209,7 @@ body:not(.hdpi-disabled) #metaOptions li {background:none !important;}
     cursor:default;
 }
 #topicButton:active, button[type="submit"]:active, #settingsCancelButton:active, #controls button:active, #controls #logLink:active {
-	background:#e6e6e6;
+	background:#238d0b;
 }
 #archiveConversation,  #conversation,#userList, #settings {
 background-size:291px 186px;

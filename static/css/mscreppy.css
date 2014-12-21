@@ -39,9 +39,9 @@ animation: ringscroll 1340s linear infinite;
 	100%{ background-position: 0 0; }
 }
 
-input, select {background: #3c4152;border:1px solid #42485a; border-radius:1px;color:#d37d17}
+input, select {background: #3c4152;border:1px solid #42485a; border-radius:1px;color:#d34018}
 
-a {color: #e6e6e6}
+a {color: #238d0b}
 a:hover {color:#d14734}
 
 .pester-line {background: #0c0d16;border:1px solid #1b1d32; border-radius:1px}
@@ -138,7 +138,7 @@ only screen and (max-width: 782px) and (-webkit-min-device-pixel-ratio: 1.1), on
  }
  
    @media handheld, only screen and (max-width: 885px) and (min-device-pixel-ratio: 1.3), only screen and (max-device-width: 885px) and (-webkit-min-device-pixel-ratio: 1.3) {
-   a.linkButton:active, #saveOptions input[type="submit"]:active, div.options button:active {background:#e6e6e6}
+   a.linkButton:active, #saveOptions input[type="submit"]:active, div.options button:active {background:#238d0b}
    #container {
 background-size:291px 186px;
 }
