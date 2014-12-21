@@ -3,11 +3,6 @@ background-color: #01020f;
 color: #d4540b;
 }
 
-body.downfall {
-animation: thunder 30s infinite;
--webkit-animation: thunder 30s infinite;
-}
-
 #container {
 background:none;
 background:url('../img/horrorterrors.png') repeat;

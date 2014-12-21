@@ -5,10 +5,6 @@ background-color: #050613;
 color: #d4540b;
 }
 
-body.downfall {
-animation: thunder 30s infinite;
--webkit-animation: thunder 30s infinite;
-}
 
 .colorpicker {z-index:55}
  

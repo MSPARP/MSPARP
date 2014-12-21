@@ -82,7 +82,7 @@ $(document).ready(function() {
 		$('body').addClass(localStorage.hdpi);
 
 		if (localStorage.creppy == 'creppy'){
-			$('head').append('<link rel="stylesheet" id="creppyid" href="/static/css/mscreppy_chat.css?41031" type="text/css" />');
+			$('head').append('<link rel="stylesheet" id="creppyid" href="/static/css/mscreppy_chat.css?41039" type="text/css" />');
 			$('.hidecreppy').show();
 		} else {
 			$('.hidecreppy').hide();

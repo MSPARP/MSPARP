@@ -94,7 +94,7 @@ $(document).ready(function() {
 		
 	if(storage){	
 		if (localStorage.creppy == 'creppy'){
-			$('head').append('<link rel="stylesheet" id="creppyid" href="/static/css/mscreppy.css?41101" type="text/css" />');
+			$('head').append('<link rel="stylesheet" id="creppyid" href="/static/css/mscreppy.css?41109" type="text/css" />');
 			$('input[name="enablecreppy"]').prop('checked',true);
 			$('.hidecreppy').show();
 			}
