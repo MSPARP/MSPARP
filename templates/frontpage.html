@@ -1,13 +1,14 @@
 {% extends "base.html" %}
 {% block header %}
 <link rel="stylesheet" type="text/css" href="/static/css/em-reset.css" />
-<link rel="stylesheet" type="text/css" href="/static/css/home.css?41103b" />
+<link rel="stylesheet" type="text/css" href="/static/css/home.css?41109" />
 <link rel="stylesheet" type="text/css" href="/static/css/characters.css?41031" />
 <link rel="stylesheet" media="screen" type="text/css" href="/static/colorpicker/css/colorpicker.css" />
 <script type="text/javascript" src="/static/colorpicker/js/colorpicker.js"></script>
 <script src="/static/js/characters.js?41102b"></script>
 <script src="/static/js/characterstats.js?41103"></script>
-<script src="/static/js/home.js?41103"></script>
+<script src="/static/js/home.js?41109"></script>
+<script src="/static/js/snow.js"></script>
 {% endblock %}
 {% block content %}
 
@@ -82,7 +83,7 @@ You completely need javascript for this site. Turn it on or upgrade to a real br
 	<p id="numberUsers"><span class="bigtext">PARP server is <span id="serverstatus"><span class="ok">running</span></span>.</span><br><br> <a class="isonlinetoggle" onclick="">{{users_searching+users_chatting}} clients connected</a><br>{{users_chatting}} connections established, {{users_searching}} pending</p>
 	<br><div class="checkbox_outer"><label><input type="checkbox" class="boxy wrapbutton" name="wrapbutton"/><span class="checky"></span> wrap chat buttons under quirks</label></div><br>	
 	<div class="checkbox_outer"><label><input type="checkbox" class="boxy enablecreppy" name="enablecreppy"/><span class="checky"></span> relive MSCREPPY</label></div>	<div class="checkbox_outer"><label><input type="checkbox" class="boxy showheaderchar" name="headerchar"/><span class="checky"></span> show character usage in header</label></div><br>
-	<div class="checkbox_outer hidecreppy"><label><input type="checkbox" class="boxy toggledown" name="toggledownfall"/><span class="checky"></span> /toggledownfall</label></div><br>	
+	<div class="checkbox_outer"><label><input type="checkbox" class="boxy toggledown" name="toggledownfall"/><span class="checky"></span> animate background</label></div><br>	
 </div><div class="noticeblock">
 <div class="online-notice">
 	<h1>Announcements</h1>

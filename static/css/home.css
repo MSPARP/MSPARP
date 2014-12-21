@@ -45,7 +45,7 @@ div.logo {
 	float:none;padding:0; margin: 0
 }
 
-div.logo .image {width:511px;padding:0; margin: 0;max-width:100%;background:url('../img/logo.gif') 0px bottom no-repeat;background-size:contain;}
+div.logo .image {width:511px;padding:0; margin: 0;max-width:100%;background:url('../img/masterpiece.gif') 0px bottom no-repeat;background-size:contain;}
 
 
 /* Typography */
@@ -54,7 +54,7 @@ a {
   text-decoration: none;
 }
 h1 {
-  color: #535353;
+  color: #067dd1;
   font-weight: bold;
   font-size: 1.2em;
 }
@@ -367,7 +367,7 @@ img {
 (min-resolution: 106dpi), (min-resolution: 100dpi) and (-moz-images-in-menus: 1), (min-resolution: 100dpi) and (-moz-images-in-menus: 0) { 
 #container:not(.hdpi-disabled) .boxy + .checky {background-image: url('../img/controls.svg');}
 
-#container:not(.hdpi-disabled) div.logo .image {background:url('../img/logo.svg') 0px bottom no-repeat;background-size:contain;}
+#container:not(.hdpi-disabled) div.logo .image {background:url('../img/masterpiece.gif') 0px bottom no-repeat;background-size:contain;}
 
 #container:not(.hdpi-disabled) #nav li.hdpion {display:inline-block}
 #container.hdpi-disabled #nav li.hdpioff {display:inline-block}

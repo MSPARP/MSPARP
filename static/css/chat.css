@@ -100,7 +100,7 @@ p:hover .timestamp {
 }
 
 #conversation.search {
-	background-image: url('/static/img/spinner-big.gif');
+	background-image: url('/static/img/conksuck_spin.gif');
 	background-repeat: no-repeat;
 	background-position: center !important;
 }
@@ -236,9 +236,9 @@ body.settings #settings, body.userList #userList {
 
 .globalicon, .spiroicon {vertical-align:middle;margin-right:6px;display:inline-block;width:16px;height:16px;}
 
-.globalicon {background: url('/static/img/sburb.png') no-repeat;}
+.globalicon {background: url('/static/img/minisuck.png') no-repeat;}
 
-.spiroicon {background: url('/static/img/spirograph.png') no-repeat;}
+.spiroicon {background: url('/static/img/minisuck.png') no-repeat;}
 
 /* Moderation */
 
@@ -375,12 +375,24 @@ body.mobile #conversation, body.mobile #userList, body.mobile #settings {
 
 body:not(.hdpi-disabled) .boxy + .checky {background-image: url('/static/img/controls.svg');}
 
-body:not(.hdpi-disabled) .globalicon {background: url('/static/img/sburb.svg') no-repeat;}
+body:not(.hdpi-disabled) .globalicon {background: url('/static/img/minisuck.png') no-repeat;}
 
-body:not(.hdpi-disabled) .spiroicon {background: url('/static/img/spirograph.svg') no-repeat;}
+body:not(.hdpi-disabled) .spiroicon {background: url('/static/img/minisuck.png') no-repeat;}
 
 body:not(.hdpi-disabled) #conversation.search {
 	background-size: 75px 75px;
 }
 
 }
+
+ @media (min-height: 558px){
+
+ .sidebar *{z-index:1;position:relative;}
+
+.sidebar.kringle:before { content: url('../img/kringlefucker.png');z-index:0;position:absolute;bottom:0px;right:0px; }
+
+.sidebar.manorah:before { content: url('../img/manorah.gif');z-index:0;position:absolute;bottom:0px;right:0px; }
+
+.sidebar.geromy:before { content: url('../img/geromy.png');z-index:0;position:absolute;bottom:0px;right:0px; }
+ 
+  }
