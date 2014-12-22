@@ -220,8 +220,3 @@ background-size:291px 186px;
  @media (min-height: 558px){
 
  .sidebar *{z-index:1;position:relative;}
-
-.sidebar:before { content: url('../img/mutini.gif');z-index:0;position:absolute;bottom:0px;right:0px; }
-
- 
-  }
