@@ -65,7 +65,7 @@ def chat(chat=None):
         latest_num = -1
     else:
         if g.redis.hexists("global-bans", request.headers['CF-Connecting-IP']):
-            return redirect("http://erigam.tk/")
+            return redirect("http://rp.terminallycapricio.us")
         if g.redis.zrank('ip-bans', chat+'/'+request.headers['CF-Connecting-IP']) is not None:
             return redirect("http://help.msparp.com/kb/faq.php?id=21")
         # Check if chat exists
