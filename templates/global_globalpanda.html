@@ -51,7 +51,7 @@
                         <input type="hidden" name="action" value="remove">
                         <tr>
                             <td>{{line}}</td>
-                            <td>{{lines[line]}}</td>
+                            <td>{{lines[line].decode("utf8")}}</td>
                             <td><button type="submit" class="btn btn-primary">Remove</button></td>
                         </tr>
                     </form>
