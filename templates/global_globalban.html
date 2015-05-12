@@ -26,13 +26,13 @@
             </tr>
         </thead>
         <tbody>
-    {% for x in bans %}
-			<form name='{{x}}' action='/admin/globalban' method='post'>
-                <input type="hidden" name="ip" value="{{x}}">
+    {% for ip, reason in bans.iteritems() %}
+			<form name='{{ip.decode("utf8")}}' action='/admin/globalban' method='post'>
+                <input type="hidden" name="ip" value="{{ip.decode("utf8")}}">
                 <input type="hidden" name="action" value="unban">
                 <tr>
-                    <td>{{x}}</td>
-                    <td>{{bans[x]}}</td>
+                    <td>{{ip.decode("utf8")}}</td>
+                    <td>{{reason.decode("utf8")}}</td>
                     <td><button type="submit" class="btn btn-primary">Unban</button></td>
                 </tr>
             </form>
