@@ -35,12 +35,17 @@ def archive_chat(redis, mysql, chat, backlog=0):
     lines = redis.lrange('chat.'+chat, 0, -1-backlog)
     for line in lines:
         # Create a new page if the line won't fit on this one.
-        #if len(latest_page.content.encode('utf8'))+len(line)>65535:
         if len(latest_page.content.encode('utf8'))+len(line)>65535:
             print "creating a new page"
             latest_page = latest_page = new_page(mysql, log, latest_page.number)
             print "page "+str(latest_page.number)
-        latest_page.content += unicode(line, encoding='utf8')+'\n'
+
+        # Decode the line on ignore strip out invalid utf8 characters
+        line = line.decode('utf8', 'ignore')
+
+        # Append the line to the new page
+        latest_page.content += line + '\n'
+
     log.time_saved = datetime.datetime.now()
     mysql.commit()
     # Don't delete from redis until we've successfully committed.
