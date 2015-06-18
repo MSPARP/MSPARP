@@ -43,7 +43,8 @@ def postMessage():
     chat = request.form['chat']
     if 'line' in request.form and g.user.meta['group']!='silent':
         # Remove linebreaks and truncate to 1500 characters.
-        line = request.form['line'].replace('\n', ' ')[:1500]
+        line = request.form['line'].replace('\n', ' ').encode('utf8')[:1500]
+        line = line.decode('utf8', 'ignore')
 
         # Panda checks
         if g.redis.hexists('punish-scene', request.headers['CF-Connecting-IP']):
