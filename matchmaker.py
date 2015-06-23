@@ -54,13 +54,15 @@ if __name__=='__main__':
             already_matched = set()
             for n in range(len(sessions)):
                 for m in range(n+1, len(sessions)):
-                    print sessions[n]['id'], sessions[m]['id']
+                    if 'DEBUG' in os.environ:
+                        print sessions[n]['id'], sessions[m]['id']
                     if (
                         sessions[n]['id'] not in already_matched
                         and sessions[m]['id'] not in already_matched
                     ):
                         compatible, selected_options = check_compatibility(sessions[n], sessions[m])
-                        print compatible, selected_options
+                        if 'DEBUG' in os.environ:
+                            print compatible, selected_options
                         if not compatible:
                             continue
                         chat = str(uuid.uuid4()).replace('-','')
