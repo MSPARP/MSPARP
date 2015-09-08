@@ -471,15 +471,15 @@ def doHealthCheck():
 
 @app.route("/faq")
 def faq():
-    return requests.get("http://www.dlh-digital.com/msparpfaq.html").text
+    return render_template("pages/msparpfaq.html")
 
 @app.route("/bbcode")
 def bbcode():
-    return requests.get("http://www.dlh-digital.com/bbcode.html").text
+    return render_template("pages/bbcode.html")
 
 @app.route("/userguide")
 def userguide():
-    return requests.get("http://www.dlh-digital.com/userguide.html").text
+    return render_template("pages/userguide.html")
 
 # Home
 

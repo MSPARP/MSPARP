@@ -1,0 +1,452 @@
+<!DOCTYPE HTML>
+
+
+<html><head>
+
+
+<title>MSPARP BBCODE FAQ</title>
+
+
+<style type="text/css">
+
+
+.FAQ {
+
+
+    cursor: hand;
+
+
+    cursor: pointer;
+
+
+    border: 3px solid #000056;
+
+
+    width: 65%;
+
+
+    margin-top: 10px;
+
+
+    padding: 10px;
+
+
+    color:#333
+
+
+}
+
+
+.ANS {
+
+
+    display:none;
+
+
+    margin-top:7px;
+
+
+    text-align: left;
+
+
+}
+
+
+ol {
+
+
+counter-reset: item;
+
+
+list-style-type: decimal;
+
+
+list-style-position: inside;
+
+
+}
+
+
+
+
+
+
+ol li:before {
+
+
+content: 'Q' counter(item, decimal) '. ';
+
+
+counter-increment: item;
+
+
+position: relative;
+
+
+: -10px;
+
+
+}
+
+
+</style>
+
+
+<script type="text/javascript">
+
+
+function toggle(Info) {
+
+
+var CState = document.getElementById(Info);
+
+
+CState.style.display = (CState.style.display != 'block')
+
+
+? 'block' : 'none';
+
+
+}
+
+
+</script>
+
+
+<script src='/google_analytics_auto.js'></script><script src='/google_analytics_auto.js'></script></head>
+
+
+<body>
+
+
+<center><h1>BBCODES</h1>
+
+
+<p>Here you will find a few examples of BBCODES you might use.</p>
+
+
+<ol>
+
+
+    <!-- START OF TEMP SECTION -->
+
+
+<DIV class="FAQ" onclick="toggle('faq1')">
+
+
+<li>To make text italicized, enclose it in [i][/i].</li>
+
+
+<div id="faq1" class="ANS"><br><div style="height: 2px; background-color: black; text-align: center">
+
+
+<span style="background-color: white; position: relative; top: -0.5em;">
+
+
+Example
+
+
+</span>
+
+
+</div>
+
+
+<br>[i]Hello there![/i] will show up as <i>Hello, world!</i></div>
+
+
+</DIV>
+
+
+<DIV class="FAQ" onclick="toggle('faq2')">
+
+
+<li>To underline text, enclose it in [u][/u]</li>
+
+
+<div id="faq2" class="ANS"><br><div style="height: 2px; background-color: black; text-align: center">
+ 
+
+
+<span style="background-color: white; position: relative; top: -0.5em;">
+
+
+Example
+
+
+</span>
+
+
+</div>
+
+
+<br>[u]Having fun yet?[/u] will show up as <u>Having fun yet?</u></div>
+
+
+</DIV>
+
+
+
+
+
+
+<DIV class="FAQ" onclick="toggle('faq3')">
+
+
+<li>For strike through text, enclose your words in: [s][/s].</li>
+
+
+<div id="faq3" class="ANS"><br><div style="height: 2px; background-color: black; text-align: center">
+
+
+<span style="background-color: white; position: relative; top: -0.5em;">
+
+
+Example
+
+
+</span>
+
+
+</div>
+
+
+<br>[s]Goodbye![/s] will show up as <s>Goodbye!</s></div>
+
+
+</DIV>
+
+
+
+
+
+
+<DIV class="FAQ" onclick="toggle('faq4')">
+
+
+<li>To change the color of a block of text, enclose it in [color=#000000][/color], where #000000 can be replaced with whatever color hexcode you want.</li>
+
+
+<div id="faq4" class="ANS"><br><div style="height: 2px; background-color: black; text-align: center">
+
+
+<span style="background-color: white; position: relative; top: -0.5em;">
+
+
+Example
+
+
+</span>
+
+
+</div>
+
+
+<br>[color=#ff0000]So many colors![/color] becomes <font color="#ff0000">So many colors!</font></div>
+
+
+</DIV>
+
+
+<!-- END OF TEMP SECTION -->
+
+
+<DIV class="FAQ" onclick="toggle('faq5')">
+
+
+<li>For a spoiler, which is a bit of hidden font that becomes visible when a player clicks on the enclosing box, enclose your words in: [spoiler] [/spoiler] .</li>
+
+
+<div id="faq5" class="ANS"><br><div style="height: 2px; background-color: black; text-align: center">
+
+
+<span style="background-color: white; position: relative; top: -0.5em;">
+
+
+Example
+
+
+</span>
+
+
+</div>
+
+
+<br>[spoiler] Do you dare click this box? [/spoiler] will show up as a dotted box.</div>
+
+
+</DIV>
+
+
+
+<DIV class="FAQ" onclick="toggle('faq6')">
+
+
+<li>To change your font, you simply put this in front of your font: [font=font name here] A list of font names can be found: <a href="http://learn-bbcode.blogspot.com/2007/09/choose-font-for-your-forum-post-bbcode.html">here</a>  Be sure that the "font" part is lowercase.</li>
+
+
+<div id="faq6" class="ANS"><br><div style="height: 2px; background-color: black; text-align: center">
+
+
+<span style="background-color: white; position: relative; top: -0.5em;">
+
+
+Example
+
+
+</span>
+
+
+</div>
+
+
+<br>[font=Comic Sans Ms] Woah!, will show up as <font face="Comic Sans Ms">Woah!</font></div>
+
+
+</DIV>
+
+<DIV class="FAQ" onclick="toggle('faq7')">
+
+
+<li>Want rainbow or gradient font?</li>
+
+
+<div id="faq7" class="ANS"><br><div style="height: 2px; background-color: black; text-align: center">
+
+
+<span style="background-color: white; position: relative; top: -0.5em;">
+
+
+Example
+
+
+</span>
+
+
+</div>
+
+
+<br> This generator will create a code for you: <a href="http://www.tektek.org/color/">here</a> </div>
+
+
+</DIV>
+
+
+<DIV class="FAQ" onclick="toggle('faq8')">
+
+
+<li>Text can have a different background color, too! Just enclose it in: [bgcolor=#000000][/bgcolor].  This works exactly the same as text color.</li>
+
+
+<div id="faq8" class="ANS"><br><div style="height: 2px; background-color: black; text-align: center">
+
+
+<span style="background-color: white; position: relative; top: -0.5em;">
+
+
+Example
+
+
+</span>
+
+
+</div>
+
+
+<br>[bgcolor=#68d192]This looks spiffy.[/bgcolor] becomes <font style="BACKGROUND-COLOR: #68d192">This looks spiffy.</font> </div>
+
+
+</DIV>
+
+<DIV class="FAQ" onclick="toggle('faq9')">
+
+
+<li>If you want a break in your text, simply put a [br] where you want the break to appear.</li>
+
+
+<div id="faq9" class="ANS"><br><div style="height: 2px; background-color: black; text-align: center">
+
+
+<span style="background-color: white; position: relative; top: -0.5em;">
+
+
+Example
+
+
+</span>
+
+
+</div>
+
+
+<br>This. [br] That., will appear as: <br> This <br> That. </div>
+
+
+</DIV>
+
+<DIV class="FAQ" onclick="toggle('faq10')">
+
+
+<li>If you want a subscript text, just put: [sub] [/sub] around the words. Same for superscript: [sup] [/sup].</li>
+
+
+<div id="faq10" class="ANS"><br><div style="height: 2px; background-color: black; text-align: center">
+
+
+<span style="background-color: white; position: relative; top: -0.5em;">
+
+
+Example
+
+
+</span>
+
+
+</div>
+
+
+<br>[sub] Z [/sub] Z [sup] Z [/sup] will appear as: <sub>Z</sub> Z <sub>Z</sub>
+
+</div>
+
+
+</DIV>
+
+<DIV class="FAQ" onclick="toggle('faq11')">
+
+
+<li>To make a shortened url, format it like this: [url=link here!] shortened name [/url]. </li>
+
+
+<div id="faq11" class="ANS"><br><div style="height: 2px; background-color: black; text-align: center">
+
+
+<span style="background-color: white; position: relative; top: -0.5em;">
+
+
+Example
+
+
+</span>
+
+
+</div>
+
+
+<br>[url=msparp.com] MSPARP [/url] , Would show up as <a href="http://www.msparp.com">MSPARP</a>.
+
+</div>
+
+
+</DIV>
+</ol>
+
+
+</center>
+
+
+</body>
+
+
+</html>
+
