@@ -39,7 +39,7 @@ def scenify(redis, cookie, chat, line):
         ["mindfang", "teh serkiest"],
         ["darkleer", "nyan nyan nyan! ~=[,,_,,]:3"],
         ["grand highblood", "exit lite. enter nite. take meh hand. where of to nevar navar land!"],
-        ["gbh", "ka[i][/i]nkri"],
+        ["ghb ", "ka[i][/i]nkri"],
         ["dualscar", "furry"],
         ["hic", "nicki"],
         ["condescension", "condensed milkies"],
@@ -95,7 +95,8 @@ def scenify(redis, cookie, chat, line):
         ["omg", "ZOMGZ!!11"],
         ["yo ", "im a gangzters"],
         ["nipple", "tinkle winkle"],
-        [" hey", "hay"],
+        ["hey", "hay"],
+        ["thay", "thems"],
         ["fuck off", "my pits smell like applesauce with cream cheese!"],
         ["omfg", "oh my freaking gog!! xD"],
         ["oh my god", "oh my gob"],
@@ -162,7 +163,7 @@ def scenify(redis, cookie, chat, line):
         ["faggot", "best pal"],
         ["fag ", "CHEESE WHEELS XD"],
         ["kek", "baka!"],
-        ["lel", "nya"],
+        ["lel", "nya"]
         ["suicide", "hug my stuffies"],
         ["nigga", "panda buddies <3"],
         ["a proxy", "a secrat thingy o-O"],
@@ -208,7 +209,7 @@ def scenify(redis, cookie, chat, line):
         ["heil", "glomp me,"],
         ["hail", "glomp me,"],
         ["fuhrer", ", furry :3"],
-        ["mein", " "],
+        ["mehin", " "],
         ["4chan", "mah pocky sticks"],
         ["ye ah", "you know. i never really thought about how fire alarms work. do they just smell the carrots when i shove them into my ears or is that just me?"]
     ]
