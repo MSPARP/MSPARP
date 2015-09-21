@@ -2,8 +2,9 @@ try:
     import ujson as json
 except:
     import json
-import datetime, urllib
-import requests
+import datetime
+import urllib
+import os
 from flask import Flask, g, request, render_template, redirect, url_for, jsonify, abort, make_response
 from sqlalchemy import and_
 from sqlalchemy.orm.exc import NoResultFound
@@ -22,6 +23,9 @@ from lib.sessions import CASE_OPTIONS
 from werkzeug.contrib.fixers import ProxyFix
 
 app = Flask(__name__)
+
+# Export config
+app.config['EXPORT_URL'] = os.environ.get("EXPORT_URL", "http://unsupportedlogs.msparp.com")
 
 app.wsgi_app = ProxyFix(app.wsgi_app, 2)
 
@@ -513,3 +517,16 @@ def getusers():
     g.redis.expire("cache.usercounts", 30)
 
     return jsonify(chars)
+
+# Exporting
+
+@app.route('/chat/<chat>/export')
+def export_log(chat=None):
+    if g.redis.sismember('exported-chats', chat):
+        return render_template('export_complete.html', chat=chat)
+
+    # Add to queue if chat log exists.
+    if g.mysql.query(Log).filter(Log.url == chat).scalar():
+        g.redis.sadd('export-queue', chat)
+
+    return render_template('export_progress.html', chat=chat)

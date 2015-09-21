@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %}Exporting chat {{chat}} - {% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block content %}
+<p>Export for {{chat}} has completed.</p>
+<p>You may retrive your log at <a href="{{config.EXPORT_URL}}/{{chat}}.zip">{{config['EXPORT_URL']}}/{{chat}}.zip</a>
+{% endblock %}

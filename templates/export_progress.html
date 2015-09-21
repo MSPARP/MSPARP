@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Exporting {{chat}} - {% endblock %}
+
+{% block header %}
+<meta http-equiv="refresh" content="5">
+{% endblock %}
+
+{% block content %}
+<p>Your request to export {{chat}} has been queued.</p>
+<p>Please refresh in a few minutes and your chat should be exported.</p>
+<p>This page will automatically refresh every minute.</p>
+{% endblock %}
