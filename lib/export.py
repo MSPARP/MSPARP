@@ -1,3 +1,4 @@
+import codecs
 import os
 import datetime
 import shutil
@@ -43,7 +44,7 @@ def export_chat(redis, sql, url):
 
     # Create export pages.
     for page in log.pages:
-        with open('tmp/' + log.url + '/' + str(page.number) + '.html', 'w') as f:
+        with codecs.open('tmp/' + log.url + '/' + str(page.number) + '.html', 'w', 'utf8') as f:
             paginator = paginate.Page([], page=page.number, items_per_page=1, item_count=log.page_count, url=PageURL(log.url))
 
             lines = page.content.split('\n')[0:-1]
@@ -55,7 +56,7 @@ def export_chat(redis, sql, url):
             f.write(log_template.render(
                 lines=lines,
                 paginator=paginator
-            ).encode("utf8"))
+            ))
 
     # Copy static assets
     shutil.copyfile('static/js/bbcode.js', 'tmp/' + log.url + '/bbcode.js')
