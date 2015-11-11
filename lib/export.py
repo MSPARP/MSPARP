@@ -58,13 +58,10 @@ def export_chat(redis, sql, url):
             ).encode("utf8"))
 
     # Copy static assets
-    if not os.path.exists('tmp/' + log.url + '/static'):
-        os.makedirs('tmp/' + log.url + '/static')
-
-    shutil.copyfile('static/js/bbcode.js', 'tmp/' + log.url + '/static/bbcode.js')
-    shutil.copyfile('static/js/jquery.min.js', 'tmp/' + log.url + '/static/jquery.min.js')
-    shutil.copyfile('static/css/msparp.css', 'tmp/' + log.url + '/static/msparp.css')
-    shutil.copyfile('static/css/chat.css', 'tmp/' + log.url + '/static/chat.css')
+    shutil.copyfile('static/js/bbcode.js', 'tmp/' + log.url + '/bbcode.js')
+    shutil.copyfile('static/js/jquery.min.js', 'tmp/' + log.url + '/jquery.min.js')
+    shutil.copyfile('static/css/msparp.css', 'tmp/' + log.url + '/msparp.css')
+    shutil.copyfile('static/css/chat.css', 'tmp/' + log.url + '/chat.css')
 
     # Create export zip.
     with zipfile.ZipFile('logs/' + log.url + ".zip", 'w', zipfile.ZIP_DEFLATED) as logzip:
