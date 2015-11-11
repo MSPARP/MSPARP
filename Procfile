@@ -6,3 +6,4 @@ archiver: python archiver.py
 matchmaker: python matchmaker.py
 reaper: python reaper.py
 initdb: python initdb.py
+exporter: python exporter.py
