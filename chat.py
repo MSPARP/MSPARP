@@ -230,6 +230,7 @@ def getMessages():
             # The pubsub channel sends us a JSON string, so we return that instead of using jsonify.
             resp = make_response(msg['data'])
             resp.headers['Content-type'] = 'application/json'
+            pubsub.close()
             return resp
 
 @app.route('/quit', methods=['POST'])
