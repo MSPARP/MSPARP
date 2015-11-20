@@ -660,6 +660,10 @@ $(document).ready(function() {
 			}
 		});
 
+		$("#exportButton").click(function() {
+			window.location.replace(document.location.origin + "/chat/"+chat+"/export");
+		});
+
 		// Activate mobile mode on small screens
 		if (navigator.userAgent.indexOf('Android')!=-1 || navigator.userAgent.indexOf('iPhone')!=-1 || window.innerWidth<=500) {
 			$(document.body).addClass('mobile');
