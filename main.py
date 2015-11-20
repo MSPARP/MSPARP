@@ -522,7 +522,7 @@ def getusers():
 
 @app.route('/chat/<chat>/export')
 def export_log(chat=None):
-    if g.redis.sismember('exported-chats', chat):
+    if g.redis.exists('chat.' + chat + '.exported'):
         return render_template('export_complete.html', chat=chat)
 
     # Add to queue if chat log exists.

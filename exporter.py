@@ -24,7 +24,8 @@ if __name__ == '__main__':
             for chat in redis.smembers('export-queue'):
                 export_chat(redis, sql, chat)
                 redis.srem('export-queue', chat)
-                redis.sadd('exported-chats', chat)
+                redis.set('chat.' + chat + '.exported', 1)
+                redis.expire('chat.' + chat + '.exported', 86400)  # 86400 seconds = 1 day
 
         current_time = datetime.datetime.now()
 
