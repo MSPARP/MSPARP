@@ -216,7 +216,7 @@ def view_log(chat=None):
 
     # Pages end with a line break, so the last line is blank.
     lines = log_page.content.split('\n')[0:-1]
-    lines = map(lambda _: parse_line(_, 0), lines)
+    lines = filter(lambda x: x is not None, map(lambda _: parse_line(_, 0), lines))
 
     for line in lines:
         line['datetime'] = datetime.datetime.fromtimestamp(line['timestamp'])

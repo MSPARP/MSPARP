@@ -108,10 +108,17 @@ def parse_line(line, id):
     parts = line.split(',', 4)
     if not isinstance(parts[4], unicode):
         parts[4] = unicode(parts[4], encoding='utf-8')
+
+    try:
+        timestamp = int(parts[0])
+        counter = int(parts[1])
+    except (ValueError, IndexError):
+        return None
+
     return {
         'id': id,
-        'timestamp': int(parts[0]),
-        'counter': int(parts[1]),
+        'timestamp': timestamp,
+        'counter': counter,
         'type': parts[2],
         'color': parts[3],
         'line': parts[4]
