@@ -51,7 +51,7 @@ def export_chat(redis, sql, url):
             lines = filter(lambda x: x is not None, map(lambda _: parse_line(_, 0), lines))
 
             for line in lines:
-                line['datetime'] = datetime.datetime.fromtimestamp(line['timestamp'])
+                line['datetime'] = datetime.datetime.fromtimestamp(line['timestamp']/1000.0)
 
             f.write(log_template.render(
                 lines=lines,
