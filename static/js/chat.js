@@ -661,7 +661,7 @@ $(document).ready(function() {
 		});
 
 		$("#exportButton").click(function() {
-			window.location.replace(document.location.origin + "/chat/"+chat+"/export");
+			window.open(document.location.origin + "/chat/"+chat+"/export");
 		});
 
 		// Activate mobile mode on small screens
