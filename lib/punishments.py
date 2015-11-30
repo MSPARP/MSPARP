@@ -163,7 +163,7 @@ def scenify(redis, cookie, chat, line):
         ["faggot", "best pal"],
         ["fag ", "CHEESE WHEELS XD"],
         ["kek", "baka!"],
-        ["lel", "nya"]
+        ["lel", "nya"],
         ["suicide", "hug my stuffies"],
         ["nigga", "panda buddies <3"],
         ["a proxy", "a secrat thingy o-O"],
