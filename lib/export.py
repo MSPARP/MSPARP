@@ -67,3 +67,6 @@ def export_chat(redis, sql, url):
     # Create export zip.
     with zipfile.ZipFile('logs/' + log.url + ".zip", 'w', zipfile.ZIP_DEFLATED) as logzip:
         zipdir('tmp/'+log.url, logzip, log.url)
+
+    # Cleanup the temporary files.
+    shutil.rmtree('tmp/' + log.url, ignore_errors=True)
