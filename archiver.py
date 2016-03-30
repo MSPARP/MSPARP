@@ -38,7 +38,7 @@ if __name__=='__main__':
 
             # Archive chats.
             for chat in redis.zrangebyscore('archive-queue', 0, get_time()):
-                archive_chat(redis, mysql, chat, 50)
+                archive_chat(redis, mysql, chat, 0)
                 online = redis.scard('chat.'+chat+'.online')
                 # Stop archiving if no-one is online any more.
                 if online == 0:
