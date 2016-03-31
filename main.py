@@ -28,7 +28,7 @@ app.teardown_request(disconnect_mysql)
 @app.route('/chat/<chat>')
 def chat(chat=None):
     if chat is None:
-        return redirect(url_for("home"))
+        return redirect(url_for("configure"))
     return redirect(url_for("view_log", chat=chat))
 
 @app.route('/logs/group/<chat>')
