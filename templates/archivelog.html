@@ -1,0 +1,85 @@
+{% macro pager() %}
+{% if paginator.page_count!=1 %}
+<div class="pager">
+{{paginator.pager(format='~20~')}}
+</div>
+{% endif %}
+{% endmacro %}
+{% set last_date = None %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MSPARP (BETA)</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1" content="width=device-width" />
+    <link rel="stylesheet" type="text/css" href="msparp.css" />
+    <link rel="stylesheet" type="text/css" href="chat.css" />
+    <script src="jquery.min.js"></script>
+    <script src="bbcode.js"></script>
+</head>
+<body>
+{{pager()}}
+
+<div id="archiveConversation">
+{% if lines|length == 0 %}
+    <p>There isn't a log for this chat - either it hasn't existed long enough to be archived or I've screwed up the archiving system yet again. Chats are archived about half an hour after the chat reaches 50 lines, so if you're still seeing this message after that then please send a series of <em>very angry</em> asks to tehdragonfly.tumblr.com.</p>
+{% else %}
+
+{% for line in lines %}
+    {% set current_date = line['datetime'].date() %}
+
+    {% if current_date!=last_date %}
+        <h1>{{current_date.strftime("%A %d %B %Y")}}</h1>
+        {% set last_date = current_date %}
+    {% endif %}
+
+	<p style="color: #{{line['color']}}" class="{% if line.counter==-1 %}system{% else %}user{{line['counter']}}{% endif %}">{{line['line']}}<span class="timestamp">{{line['datetime'].strftime('%X')}}</span></p>
+{% endfor %}
+
+{% endif %}
+</div>
+
+{{pager()}}
+{% raw %}
+<script>
+function linkify(inputText) {
+    var replacedText, replacePattern1, replacePattern2;
+
+    //URLs starting with http://, https://, or ftp://
+    replacePattern1 = /]?=?https?:\/\/[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gim;
+    replacedText = inputText.replace(replacePattern1,
+    function(m) {
+        if (m.substr(0,1) == "=" || m.substr(0,1) == "]") {
+            return m;
+        } else {
+            return "[url]"+m+"[/url]";
+        }
+    });
+
+    //Change email addresses to mailto:: links.
+    replacePattern2 = /(\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,6})/gim;
+    replacedText = replacedText.replace(replacePattern2, '[email]$1[/email]');
+
+    return replacedText;
+}
+
+$('#archiveConversation p').each(function() {
+    if ($(this).attr('class')) {
+        line = bbEncode(linkify($(this).html()));
+        $(this).html(line);
+    }
+});
+
+
+$('.spoiler').live('click', function() {
+    if ($(this).css('opacity') == '0') {
+        $(this).css('opacity','1');
+    } else {
+        $(this).css('opacity','0');
+    }
+});
+</script>
+{% endraw %}
+</body>
+</html>
