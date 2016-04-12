@@ -14,6 +14,7 @@ from werkzeug.contrib.fixers import ProxyFix
 app = Flask(__name__)
 
 # Export config
+app.config['PROPAGATE_EXCEPTIONS'] = True
 app.config['EXPORT_URL'] = os.environ.get("EXPORT_URL", "http://unsupportedlogs.msparp.com")
 
 app.wsgi_app = ProxyFix(app.wsgi_app, 2)
