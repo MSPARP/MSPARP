@@ -4,8 +4,6 @@ import re
 from random import randint
 
 def scenify(redis, cookie, chat, line):
-    word_regex = re.compile("[^a-zA-Z\s,.!?']+")
-    bbcode_regex = re.compile("\[.+?\]")
     replacements = [
         ["nigglet", "^o^ frienddsss"],
         ["jew", "panda"],
@@ -186,22 +184,16 @@ def scenify(redis, cookie, chat, line):
         ["own", "pwn"],
     ]
 
-    r = lambda: randint(0, 255)
-    color = '%02X%02X%02X' % (r(), r(), r())
-
-    # Lower case quirk.
-    line = line.lower()
-
-    # Strip BBCode and specific non word characters to prevent sneakyness.
-    line = bbcode_regex.sub("", line)
-    line = word_regex.sub("", line)
+    # Prepare and normalize the string for replacements.
+    line = re.sub("(\[.*\]|[^a-zA-Z\s,.!?'])", "", line)
 
     # Replacements.
     for replacement in replacements:
         line = line.replace(replacement[0].decode('utf-8', 'ignore'), replacement[1].decode('utf-8', 'ignore'))
 
     # Prefix
-    line = "[font=Comic Sans MS] [color=#%s] k1nqp4ndA: ◖(◕ω◕)◗ < %s".decode('utf-8', 'ignore') % (color, line)
+    r = lambda: randint(0, 255)
+    line = "[font=Comic Sans MS][color=#%02X%02X%02X]k1nqp4ndA: ◖(◕ω◕)◗ < %s".decode('utf-8', 'ignore') % (r(), r(), r(), line)
 
     # Redis stuffs.
     datakey = 'session.%s.chat.%s' % (cookie, chat)
